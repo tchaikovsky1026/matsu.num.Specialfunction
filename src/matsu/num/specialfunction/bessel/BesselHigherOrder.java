@@ -1,5 +1,5 @@
 /**
- * 2023.3.21
+ * 2023.12.5
  */
 package matsu.num.specialfunction.bessel;
 
@@ -10,15 +10,14 @@ import matsu.num.specialfunction.BesselFunction;
  * 高次のBessel関数, 2から100次までのベッセル関数をサポートする.
  * 
  * @author Matsuura Y.
- * @version 11.0
- *
+ * @version 17.0
  */
 final class BesselHigherOrder implements BesselFunction {
 
     /**
      * 次数の上限.
      */
-    static final int UPPER_LIMIT_OF_ORDER = 100;
+    private static final int UPPER_LIMIT_OF_ORDER = 100;
 
     private static final double[] invFactorial;
 
@@ -34,12 +33,17 @@ final class BesselHigherOrder implements BesselFunction {
     private final double invOfNFactorial;
 
     /**
-     * @throws IllegalArgumentException 次数がサポートされていない場合
+     * 与えた次数のベッセル関数を生成する.
+     * 
+     * <p>
+     * 2から100の間でない場合はアサーションエラー.
+     * </p>
+     * 
+     * @param n 次数
      */
-    private BesselHigherOrder(int n) {
+    public BesselHigherOrder(int n) {
         if (!(2 <= n || n <= UPPER_LIMIT_OF_ORDER)) {
-            throw new IllegalArgumentException(String.format(
-                    "サポートされていない次数:n=%d", n));
+            throw new AssertionError("Bug: 到達不能");
         }
 
         this.n = n;
@@ -165,14 +169,8 @@ final class BesselHigherOrder implements BesselFunction {
         return y1;
     }
 
-    /**
-     * 
-     * @param n 次数
-     * @return 次数nのベッセル関数計算インスタンス
-     * @throws IllegalArgumentException 次数がサポートされていない場合
-     */
-    public static BesselFunction instanceOf(int n) {
-        return new BesselHigherOrder(n);
+    @Override
+    public String toString() {
+        return BesselFunctionToString.toString(this);
     }
-
 }

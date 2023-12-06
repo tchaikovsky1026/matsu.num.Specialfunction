@@ -1,5 +1,5 @@
 /*
- * 2023.3.22
+ * 2023.12.6
  */
 package matsu.num.specialfunction.icbeta;
 
@@ -8,13 +8,15 @@ import matsu.num.specialfunction.GammaFunction;
 import matsu.num.specialfunction.IncompleteBetaFunction;
 
 /**
- * 不完全ベータ関数の計算(およそ倍精度未満), 片方のパラメータが小さい場合. <br>
- * Min(a,b)が11以下を扱う. <br>
- * <br>
- * ある閾値を境に, I(a,b,x)とI(b,a,1-x)のどちらを計算するかを切り替える. 
+ * 不完全ベータ関数の計算(およそ倍精度未満). <br>
+ * Min(a,b)が11以下を扱う.
+ * 
+ * <p>
+ * ある閾値を境に, I(a,b,x)とI(b,a,1-x)のどちらを計算するかを切り替える.
+ * </p>
  *
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 final class ICBetaAtLowParam extends SkeletalICBeta implements IncompleteBetaFunction {
 
@@ -23,10 +25,21 @@ final class ICBetaAtLowParam extends SkeletalICBeta implements IncompleteBetaFun
     private final double lnBetaAB;
     private final double oddsThreshold;
 
-    private ICBetaAtLowParam(double a, double b) {
-        if (!(Math.min(a, b) <= ICBetaFactory.AB_THRESHOLD_FIRST)) {
-            throw new AssertionError(String.format(
-                    "Bug:Math.min(a, b)<=threshold_1stでない:(a,b)=(%.16G,%.16G)", a, b));
+    /**
+     * パラメータが対応外ならアサーションエラー
+     * 
+     * @param a
+     * @param b
+     */
+    ICBetaAtLowParam(double a, double b) {
+        super();
+        if (!(ICBetaFactory.LOWER_LIMIT_OF_PARAMETER_AB <= Math.min(a, b)
+                && Math.max(a, b) <= ICBetaFactory.UPPER_LIMIT_OF_PARAMETER_AB
+                && Math.min(a, b) <= ICBetaFactory.AB_THRESHOLD_FIRST)) {
+            throw new AssertionError(
+                    String.format(
+                            "Bug:パラメータが範囲外もしくは, Math.min(a, b)<=threshold_1stでない:(a,b)=(%s,%s)",
+                            a, b));
         }
 
         this.a = a;
@@ -66,20 +79,10 @@ final class ICBetaAtLowParam extends SkeletalICBeta implements IncompleteBetaFun
     }
 
     /*
-     x^a y^b / B(a,b) を返す. 
+     * x^a y^b / B(a,b) を返す.
      */
     private double coeffToICBeta(double x, double y) {
         return Exponentiation.exp(this.a * Exponentiation.log(x) + this.b * Exponentiation.log(y) - this.lnBetaAB);
-    }
-
-    /**
-     * 
-     * @param a a
-     * @param b b
-     * @return インスタンス
-     */
-    public static IncompleteBetaFunction instanceOf(double a, double b) {
-        return new ICBetaAtLowParam(a, b);
     }
 
 }

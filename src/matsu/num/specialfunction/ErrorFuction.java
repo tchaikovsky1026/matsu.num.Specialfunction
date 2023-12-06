@@ -1,31 +1,36 @@
 /**
- * 2023.1.10
+ * 2023.12.5
  */
 package matsu.num.specialfunction;
 
 import matsu.num.specialfunction.err.ErrorFunctionCalculation;
 
 /**
- * 誤差関数(error function)の計算(おおよそ倍精度). <br>
- * 誤差関数は <br>
+ * 誤差関数(error function)の計算(おおよそ倍精度).
+ * 
+ * <p>
+ * 誤差関数は次式で定義される1変数関数である. <br>
  * erf(<i>x</i>) = &int;<sub>0</sub><sup><i>x</i></sup>
- * exp(-<i>t</i><sup>2</sup>) d<i>t</i> <br>
- * で定義される1変数関数である.
+ * exp(-<i>t</i><sup>2</sup>) d<i>t</i>
+ * </p>
  *
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 public final class ErrorFuction {
 
     private ErrorFuction() {
+        //インスタンス化不可
         throw new AssertionError();
     }
 
     /**
-     * erf(<i>x</i>) を計算する. <br>
+     * erf(<i>x</i>)
+     * を返す.
+     * 
      * <ul>
-     * <li><i>x</i> &asymp; +&infin; &rarr; 1.0. </li>
-     * <li><i>x</i> &asymp; -&infin; &rarr; -1.0. </li>
+     * <li><i>x</i> &asymp; +&infin; &rarr; 1.0.</li>
+     * <li><i>x</i> &asymp; -&infin; &rarr; -1.0.</li>
      * </ul>
      *
      * @param x x, 引数
@@ -36,10 +41,13 @@ public final class ErrorFuction {
     }
 
     /**
-     * 相補誤差関数 erfc(<i>x</i>) = 1 - erf(<i>x</i>) を計算する. <br>
+     * 相補誤差関数
+     * erfc(<i>x</i>) = 1 - erf(<i>x</i>)
+     * を返す.
+     * 
      * <ul>
-     * <li><i>x</i> &asymp; +&infin; &rarr; 0.0. </li>
-     * <li><i>x</i> &asymp; -&infin; &rarr; 2.0. </li>
+     * <li><i>x</i> &asymp; +&infin; &rarr; 0.0.</li>
+     * <li><i>x</i> &asymp; -&infin; &rarr; 2.0.</li>
      * </ul>
      *
      * @param x x, 引数
@@ -50,11 +58,13 @@ public final class ErrorFuction {
     }
 
     /**
-     * スケーリング相補誤差関数 erfcx(<i>x</i>) = exp(<i>x</i><sup>2</sup>)erfc(<i>x</i>)
-     * を計算する. <br>
+     * スケーリング相補誤差関数
+     * erfcx(<i>x</i>) = exp(<i>x</i><sup>2</sup>) erfc(<i>x</i>)
+     * を返す.
+     * 
      * <ul>
-     * <li><i>x</i> &asymp; +&infin; &rarr; 0.0. </li>
-     * <li><i>x</i> &asymp; -&infin; &rarr; +&infin;. </li>
+     * <li><i>x</i> &asymp; +&infin; &rarr; 0.0.</li>
+     * <li><i>x</i> &asymp; -&infin; &rarr; +&infin;.</li>
      * </ul>
      *
      * @param x x, 引数

@@ -21,6 +21,8 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
 @RunWith(Enclosed.class)
 public class ICGammaAtLowParamTest {
 
+    public static final Class<?> TEST_CLASS = ICGammaAtLowParam.class;
+
     @RunWith(Enclosed.class)
     public static class テスト_A_0_1 {
 
@@ -55,7 +57,7 @@ public class ICGammaAtLowParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtLowParam.instanceOf(0.1);
+                igf = new ICGammaAtLowParam(0.1);
             }
 
             @Theory
@@ -70,7 +72,7 @@ public class ICGammaAtLowParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtLowParam.instanceOf(0.1);
+                igf = new ICGammaAtLowParam(0.1);
             }
 
             @Test
@@ -138,7 +140,7 @@ public class ICGammaAtLowParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtLowParam.instanceOf(1);
+                igf = new ICGammaAtLowParam(1);
             }
 
             @Theory
@@ -153,7 +155,7 @@ public class ICGammaAtLowParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtLowParam.instanceOf(1);
+                igf = new ICGammaAtLowParam(1);
             }
 
             @Test
@@ -214,7 +216,7 @@ public class ICGammaAtLowParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtLowParam.instanceOf(5);
+                igf = new ICGammaAtLowParam(5);
             }
 
             @Theory
@@ -229,7 +231,7 @@ public class ICGammaAtLowParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtLowParam.instanceOf(5);
+                igf = new ICGammaAtLowParam(5);
             }
 
             @Test
@@ -288,7 +290,7 @@ public class ICGammaAtLowParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtLowParam.instanceOf(10);
+                igf = new ICGammaAtLowParam(10);
             }
 
             @Theory
@@ -303,7 +305,7 @@ public class ICGammaAtLowParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtLowParam.instanceOf(10);
+                igf = new ICGammaAtLowParam(10);
             }
 
             @Test
@@ -335,6 +337,16 @@ public class ICGammaAtLowParamTest {
             public void test_正の無限大検証_Q() {
                 assertThat(igf.rigammaQ(Double.POSITIVE_INFINITY), is(0.0));
             }
+        }
+    }
+
+    public static class toString表示 {
+
+        @Test
+        public void test_toSTring() {
+            System.out.println(TEST_CLASS.getName());
+            System.out.println(new ICGammaAtLowParam(5));
+            System.out.println();
         }
     }
 }

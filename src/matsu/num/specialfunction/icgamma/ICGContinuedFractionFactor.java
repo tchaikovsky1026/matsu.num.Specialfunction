@@ -1,5 +1,5 @@
 /**
- * 2023.3.21
+ * 2023.12.6
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -7,13 +7,9 @@ package matsu.num.specialfunction.icgamma;
  * 不完全ガンマ関数の計算における連分数ファクターを扱う.
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 final class ICGContinuedFractionFactor {
-
-    private ICGContinuedFractionFactor() {
-        throw new AssertionError();
-    }
 
     private static final int MIN_ROOP_FOR_F = 10;
     private static final int MAX_ROOP_FOR_F = 70;
@@ -22,12 +18,17 @@ final class ICGContinuedFractionFactor {
     private static final double EPSILON_A_FOR_FACTOR_F = 1E-30;
     private static final double EPSILON_R_FOR_FACTOR_F = 1E-12;
 
+    private ICGContinuedFractionFactor() {
+        //インスタンス化不可
+        throw new AssertionError();
+    }
+
     /**
-     * (正則化していない)不完全ガンマ関数γ(a,x)を求めるとき, 
+     * (正則化していない)不完全ガンマ関数γ(a,x)を求めるとき,
      * γ(a,x) = [x^a e^{-x}/a ] * f(a,x) とすると,
      * f(a,x)は連分数で計算できる.
-     * そのf(a,x)を返す. 
-     *  
+     * そのf(a,x)を返す.
+     * 
      * @param x
      * @param a
      * @return f(a,x)
@@ -96,10 +97,10 @@ final class ICGContinuedFractionFactor {
     }
 
     /**
-     * (正則化していない)不完全ガンマ関数Γ(a,x)を求めるとき, 
+     * (正則化していない)不完全ガンマ関数Γ(a,x)を求めるとき,
      * Γ(a,x) = [x^(a-1) e^{-x}] * F(a,x) とすると,
      * F(a,x)は連分数で計算できる.
-     * そのF(a,x)を返す. 
+     * そのF(a,x)を返す.
      * 
      * @param x
      * @param a

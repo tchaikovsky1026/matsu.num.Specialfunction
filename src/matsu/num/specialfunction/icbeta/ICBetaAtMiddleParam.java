@@ -1,5 +1,5 @@
 /*
- * 2023.3.22
+ * 2023.12.6
  */
 package matsu.num.specialfunction.icbeta;
 
@@ -8,14 +8,16 @@ import matsu.num.specialfunction.GammaFunction;
 import matsu.num.specialfunction.IncompleteBetaFunction;
 
 /**
- * 不完全ベータ関数の計算(およそ倍精度未満), 小さい方のパラメータが中程度の場合. <br>
- * Min(a,b)が11から40000を扱う. <br>
- * <br>
+ * 不完全ベータ関数の計算(およそ倍精度未満). <br>
+ * Min(a,b)が11から40000を扱う.
+ * 
+ * <p>
  * ある閾値を境に, I(a,b,x)とI(b,a,1-x)のどちらを計算するかを切り替える. <br>
- * 分布の裾は連分数システム, 分布の中央の場合は漸化式により裾までシフトしてから連分数で計算. 
+ * 分布の裾は連分数システム, 分布の中央の場合は漸化式により裾までシフトしてから連分数で計算.
+ * </p>
  *
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 final class ICBetaAtMiddleParam extends SkeletalICBeta implements IncompleteBetaFunction {
 
@@ -32,26 +34,36 @@ final class ICBetaAtMiddleParam extends SkeletalICBeta implements IncompleteBeta
     private final double combinedAB;
 
     /*
-     x^a y^b / B(a,b) を計算するとき, 
-     直接的計算では対数でO(a log(a))のオーダーの値が生じるので丸め誤差が怖いことになる. 
-     したがって, スターリング近似により或る程度式変形をしておいて, xを代入して計算するようにする. 
-     
-     log(x^a y^b / B(a,b) = a log((a+b)x/a) + b log((a+b)y/b) + (1/2)log(ab/(a+b)) 
-                            - (1/2)log(2π) + f(a+b) - f(a) - f(b)
-     f(a)はlogΓ(a)のスターリング近似の残差であり, 
-     f(a) = logΓ(a) - (a - 1/2)log(a) + a - (1/2)log(2π)
-     である.
+     * x^a y^b / B(a,b) を計算するとき,
+     * 直接的計算では対数でO(a log(a))のオーダーの値が生じるので丸め誤差が怖いことになる.
+     * したがって, スターリング近似により或る程度式変形をしておいて, xを代入して計算するようにする.
+     * 
+     * log(x^a y^b / B(a,b) = a log((a+b)x/a) + b log((a+b)y/b) +
+     * (1/2)log(ab/(a+b))
+     * - (1/2)log(2π) + f(a+b) - f(a) - f(b)
+     * f(a)はlogΓ(a)のスターリング近似の残差であり,
+     * f(a) = logΓ(a) - (a - 1/2)log(a) + a - (1/2)log(2π)
+     * である.
      */
     /**
      * (1/2)log(ab/(a+b)) - (1/2)log(2π) + f(a+b) - f(a) - f(b)
      */
     private final double residualLogFactor;
 
-    private ICBetaAtMiddleParam(double a, double b) {
-        if (!(ICBetaFactory.AB_THRESHOLD_FIRST <= Math.min(a, b)
+    /**
+     * パラメータが範囲外ならアサーションエラー
+     * 
+     * @param a
+     * @param b
+     */
+    ICBetaAtMiddleParam(double a, double b) {
+        super();
+        if (!(Math.max(a, b) <= ICBetaFactory.UPPER_LIMIT_OF_PARAMETER_AB
+                && ICBetaFactory.AB_THRESHOLD_FIRST <= Math.min(a, b)
                 && Math.min(a, b) <= ICBetaFactory.AB_THRESHOLD_SECOND)) {
-            throw new AssertionError(String.format(
-                    "Bug:threshold_1st<=Math.min(a, b)<=threshold_2ndでない:(a,b)=(%.16G,%.16G)", a, b));
+            throw new AssertionError(
+                    String.format(
+                            "Bug:パラメータが範囲外もしくはthreshold_1st<=Math.min(a, b)<=threshold_2ndでない:(a,b)=(%s,%s)", a, b));
         }
 
         this.a = a;
@@ -121,22 +133,11 @@ final class ICBetaAtMiddleParam extends SkeletalICBeta implements IncompleteBeta
     }
 
     /*
-     x^a y^b / B(a,b) を返す. 
+     * x^a y^b / B(a,b) を返す.
      */
     private double coeffToICBeta(double x, double y) {
         return Exponentiation.exp(
                 this.a * Exponentiation.log(x / this.muX) + this.b * Exponentiation.log(y / this.muY)
                         + this.residualLogFactor);
     }
-
-    /**
-     * 
-     * @param a a
-     * @param b b
-     * @return インスタンス
-     */
-    public static IncompleteBetaFunction instanceOf(double a, double b) {
-        return new ICBetaAtMiddleParam(a, b);
-    }
-
 }

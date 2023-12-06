@@ -21,6 +21,8 @@ import matsu.num.specialfunction.BesselFunction;
 @RunWith(Enclosed.class)
 public class BesselHigherOrderTest {
 
+    public static final Class<?> TEST_CLASS = BesselHigherOrder.class;
+
     @RunWith(Enclosed.class)
     public static class ベッセルの5次に関する {
 
@@ -44,12 +46,13 @@ public class BesselHigherOrderTest {
 
                 @Before
                 public void before_5次のベッセルを作成() {
-                    besselN = BesselHigherOrder.instanceOf(5);
+                    besselN = new BesselHigherOrder(5);
                 }
 
                 @Theory
                 public void test_検証(double[] dataPair) {
-                    assertThat(besselN.besselJ(dataPair[0]),
+                    assertThat(
+                            besselN.besselJ(dataPair[0]),
                             is(closeTo(dataPair[1], (1 + Math.abs(dataPair[1])) * 1E-12)));
                 }
             }
@@ -60,7 +63,7 @@ public class BesselHigherOrderTest {
 
                 @Before
                 public void before_5次のベッセルを作成() {
-                    besselN = BesselHigherOrder.instanceOf(5);
+                    besselN = new BesselHigherOrder(5);
                 }
 
                 @Test
@@ -95,12 +98,13 @@ public class BesselHigherOrderTest {
 
                 @Before
                 public void before_5次のベッセルを作成() {
-                    besselN = BesselHigherOrder.instanceOf(5);
+                    besselN = new BesselHigherOrder(5);
                 }
 
                 @Theory
                 public void test_検証(double[] dataPair) {
-                    assertThat(besselN.besselY(dataPair[0]),
+                    assertThat(
+                            besselN.besselY(dataPair[0]),
                             is(closeTo(dataPair[1], (1 + Math.abs(dataPair[1])) * 1E-12)));
                 }
             }
@@ -111,7 +115,7 @@ public class BesselHigherOrderTest {
 
                 @Before
                 public void before_5次のベッセルを作成() {
-                    besselN = BesselHigherOrder.instanceOf(5);
+                    besselN = new BesselHigherOrder(5);
                 }
 
                 @Test
@@ -129,6 +133,16 @@ public class BesselHigherOrderTest {
                     assertThat(besselN.besselY(Double.POSITIVE_INFINITY), is(0.0));
                 }
             }
+        }
+    }
+
+    public static class toString表示 {
+
+        @Test
+        public void test_toString() {
+            System.out.println(TEST_CLASS.getName());
+            System.out.println(new BesselHigherOrder(5));
+            System.out.println();
         }
     }
 

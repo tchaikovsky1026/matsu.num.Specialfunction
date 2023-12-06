@@ -1,5 +1,5 @@
 /**
- * 2023.3.21
+ * 2023.12.5
  */
 package matsu.num.specialfunction.bessel;
 
@@ -9,31 +9,42 @@ import matsu.num.specialfunction.BesselFunction;
  * Bessel関数のファクトリ.
  *
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 public final class BesselFunctionFactory {
 
+    /**
+     * 次数の上限(含む).
+     */
+    private static final int UPPER_LIMIT_OF_ORDER = 100;
+
     private BesselFunctionFactory() {
+        //インスタンス化不可
         throw new AssertionError();
     }
 
     /**
-     * 指定した次数のBessel関数計算インスタンスを返す. <br>
-     * 次数<i>n</i>は, 0 &le; <i>n</i> &le; 100 でなければならない.
+     * 指定した次数のBessel関数計算インスタンスを返す.
+     * 
+     * <p>
+     * サポートされている次数は {@code 0 <= order <= 100} である.
+     * </p>
      *
      * @param order n, 次数
      * @return n次のBessel関数を計算するインスタンス
-     * @throws IllegalArgumentException 引数がサポート外の場合
+     * @throws IllegalArgumentException 次数がサポート外の場合
      */
     public static BesselFunction instanceOf(int order) {
+        if (!(0 <= order && order <= UPPER_LIMIT_OF_ORDER)) {
+            throw new IllegalArgumentException("次数が不適である");
+        }
         switch (order) {
         case 0:
             return Bessel0thOrder.instance();
         case 1:
             return Bessel1stOrder.instance();
         default:
-            return BesselHigherOrder.instanceOf(order);
+            return new BesselHigherOrder(order);
         }
     }
-
 }

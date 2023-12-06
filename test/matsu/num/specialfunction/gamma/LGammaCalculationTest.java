@@ -74,7 +74,8 @@ public class LGammaCalculationTest {
 
                 @Test
                 public void test_正の無限大は正の無限大() {
-                    assertThat(LGammaCalculation.instance().lgamma(Double.POSITIVE_INFINITY),
+                    assertThat(
+                            LGammaCalculation.instance().lgamma(Double.POSITIVE_INFINITY),
                             is(Double.POSITIVE_INFINITY));
                 }
             }
@@ -136,7 +137,8 @@ public class LGammaCalculationTest {
 
                 @Test
                 public void test_正の無限大は正の無限大() {
-                    assertThat(LGammaCalculation.instance().lgamma(Double.POSITIVE_INFINITY),
+                    assertThat(
+                            LGammaCalculation.instance().lgamma(Double.POSITIVE_INFINITY),
                             is(Double.POSITIVE_INFINITY));
                 }
             }
@@ -178,7 +180,8 @@ public class LGammaCalculationTest {
 
                 @Theory
                 public void test_検証(double[] dataPair) {
-                    assertThat(LGammaCalculation.instance().lgammaStirlingResidual(dataPair[0]),
+                    assertThat(
+                            LGammaCalculation.instance().lgammaStirlingResidual(dataPair[0]),
                             is(closeTo(dataPair[1], 1E-12)));
                 }
             }
@@ -237,12 +240,44 @@ public class LGammaCalculationTest {
                         { 11.5, 1, 2.442347035369210 },
                         { 12, 1, 2.484906649787990 },
                         { 12.5, 1, 2.525728644308250 },
-                        { 13, 1, 2.564949357461540 }
+                        { 13, 1, 2.564949357461540 },
+
+                        { 0.5, 11, 15.7196355336425 },
+                        { 1, 11, 17.5023078458739 },
+                        { 1.5, 11, 18.8551297495717 },
+                        { 2, 11, 19.9872144956619 },
+                        { 2.5, 11, 20.9753932857718 },
+                        { 3, 11, 21.8590166725635 },
+                        { 3.5, 11, 22.6617922393420 },
+                        { 4, 11, 23.3994617135106 },
+                        { 4.5, 11, 24.0831779202732 },
+                        { 5, 11, 24.7212175534929 },
+                        { 5.5, 11, 25.3199405474221 },
+                        { 6, 11, 25.8843683632986 },
+                        { 6.5, 11, 26.4185528360902 },
+                        { 7, 11, 26.9258222381268 },
+                        { 7.5, 11, 27.4089515401181 },
+                        { 8, 11, 27.8702838469676 },
+                        { 8.5, 11, 28.3118192516601 },
+                        { 9, 11, 28.7352812844542 },
+                        { 9.5, 11, 29.1421675537335 },
+                        { 10, 11, 29.5337889806720 },
+                        { 10.5, 11, 29.9113006412714 },
+                        { 11, 11, 30.2757263254014 },
+                        { 11.5, 11, 30.6279783192415 },
+                        { 12, 11, 30.9688735059613 },
+                        { 12.5, 11, 31.2991465930827 },
+                        { 13, 11, 31.6194610721025 },
+                        { 13.5, 11, 31.9304183699246 },
+                        { 14, 11, 32.2325655449889 },
+                        { 14.5, 11, 32.5264018020308 },
+                        { 15, 11, 32.8123840402418 }
                 };
 
                 @Theory
                 public void test_検証(double[] dataPair) {
-                    assertThat(LGammaCalculation.instance().lgammaDiff(dataPair[0], dataPair[1]),
+                    assertThat(
+                            LGammaCalculation.instance().lgammaDiff(dataPair[0], dataPair[1]),
                             is(closeTo(dataPair[2], 1E-12)));
                 }
             }
@@ -267,6 +302,34 @@ public class LGammaCalculationTest {
                 @Test
                 public void test_xが0でyが正のとき負の無限大() {
                     assertThat(LGammaCalculation.instance().lgammaDiff(0, 1), is(Double.NEGATIVE_INFINITY));
+                }
+
+                @Test
+                public void test_x_yが0付近で有限値() {
+                    assertThat(
+                            Double.isFinite(
+                                    LGammaCalculation.instance().lgammaDiff(Double.MIN_VALUE, 0)),
+                            is(true));
+                    assertThat(
+                            Double.isFinite(
+                                    LGammaCalculation.instance().lgammaDiff(Double.MIN_VALUE, Double.MIN_VALUE)),
+                            is(true));
+                    assertThat(
+                            Double.isFinite(
+                                    LGammaCalculation.instance().lgammaDiff(Double.MIN_VALUE, 2 * Double.MIN_VALUE)),
+                            is(true));
+                    assertThat(
+                            Double.isFinite(
+                                    LGammaCalculation.instance().lgammaDiff(2 * Double.MIN_VALUE, Double.MIN_VALUE)),
+                            is(true));
+                    assertThat(
+                            Double.isFinite(
+                                    LGammaCalculation.instance().lgammaDiff(Double.MIN_NORMAL, Double.MIN_VALUE)),
+                            is(true));
+                    assertThat(
+                            Double.isFinite(
+                                    LGammaCalculation.instance().lgammaDiff(Double.MIN_VALUE, Double.MIN_NORMAL)),
+                            is(true));
                 }
             }
         }
@@ -310,7 +373,8 @@ public class LGammaCalculationTest {
 
                 @Theory
                 public void test_検証(double[] dataPair) {
-                    assertThat(LGammaCalculation.instance().lbeta(dataPair[0], dataPair[1]),
+                    assertThat(
+                            LGammaCalculation.instance().lbeta(dataPair[0], dataPair[1]),
                             is(closeTo(dataPair[2], 1E-12)));
                 }
             }
@@ -325,7 +389,8 @@ public class LGammaCalculationTest {
                 @Test
                 public void test_xが正の無限大でNaN() {
                     assertThat(LGammaCalculation.instance().lbeta(Double.POSITIVE_INFINITY, 1), is(Double.NaN));
-                    assertThat(LGammaCalculation.instance().lbeta(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+                    assertThat(
+                            LGammaCalculation.instance().lbeta(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
                             is(Double.NaN));
                 }
 

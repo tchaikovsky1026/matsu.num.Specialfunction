@@ -1,5 +1,5 @@
 /**
- * 2023.3.20
+ * 2023.12.5
  */
 package matsu.num.specialfunction.lambert;
 
@@ -11,7 +11,7 @@ import matsu.num.commons.Exponentiation;
  * ランベルト関数の計算を扱う.
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 public final class LambertCalculationMinus1Branch {
 
@@ -25,6 +25,7 @@ public final class LambertCalculationMinus1Branch {
 
     private static final double NEGATIVE_INVERSE_E = -1 / Math.E;
     private static final double EXTREME_THRESHOLD = 1E-11;
+    private static final double ALGORITHM_THRESHOLD = -0.270670566;
 
     /**
      * -1分枝の計算. {@literal 0 >= z >= -1/e}で意味を持つ.
@@ -33,25 +34,26 @@ public final class LambertCalculationMinus1Branch {
      * @return wm(z)
      */
     public double wm(double z) {
-        if (!(z >= NEGATIVE_INVERSE_E && z <= 0)) {
+        if (!(z >= NEGATIVE_INVERSE_E && z <= 0d)) {
             return Double.NaN;
         }
-        if (z > -Double.MIN_NORMAL) {
+        if (z == 0d) {
             return Double.NEGATIVE_INFINITY;
         }
 
+        //zが-1/eに非常に近い場合は, 2次近似で代用する.
         double z_p_invE = z - NEGATIVE_INVERSE_E;
         if (z_p_invE < EXTREME_THRESHOLD) {
             return -1 - Exponentiation.sqrt((2 * Math.E) * z_p_invE);
         }
-        final double z_w2 = -0.270670566;
-        if (z < z_w2) {
-            /*
-             -1/e+threshold < z < -0.27では, 
-             w exp(w) = z
-             に対してハレー法を用いる.
-             x -= f/(f' - f''f/(2f')) 
-             */
+
+        /*
+         * z < -0.27では,
+         * ｆ（w） = w exp(w) - z = 0
+         * に対してハレー法を用いる.
+         * w_new = w_old - f/(f' - f''f/(2f'))
+         */
+        if (z < ALGORITHM_THRESHOLD) {
             double w0 = -1 - Exponentiation.sqrt((2 * Math.E) * z_p_invE);
             final int iteration_z0 = 3;
             for (int i = 0; i < iteration_z0; i++) {
@@ -59,11 +61,12 @@ public final class LambertCalculationMinus1Branch {
             }
             return w0;
         }
+
         /*
-         0 >= z >= -0.27では, 
-         w + log w = log(z)
-         に対してハレー法を用いる.
-         x -= f/(f' - f''f/(2f')) 
+         * -0.27 <= z <= 0 では,
+         * f(w) = w + log w - log(z) = 0
+         * に対してハレー法を用いる.
+         * w_new = w_old - f/(f' - f''f/(2f'))
          */
         double logMinusZ = Exponentiation.log(-z);
         if (logMinusZ == Double.POSITIVE_INFINITY) {
@@ -78,7 +81,8 @@ public final class LambertCalculationMinus1Branch {
     }
 
     /**
-     * z = O(1)における, w exp(w) = zに関する, ハレー法の更新量.
+     * f(w) = w exp(w) - z = 0
+     * に関するハレー法の更新量.
      */
     private double deltaW_wExpW(double w, double z) {
         double L = (w - z * Exponentiation.exp(-w)) / (1 + w);
@@ -86,7 +90,8 @@ public final class LambertCalculationMinus1Branch {
     }
 
     /**
-     * z>c>1における, w + log w = log(z)に関する, ハレー法の更新量.
+     * f(w) = w + log w - log(z) = 0
+     * に関するハレー法の更新量.
      */
     private double deltaW_log_negative(double w, double logMinusZ) {
         double logMinusW = Exponentiation.log(-w);

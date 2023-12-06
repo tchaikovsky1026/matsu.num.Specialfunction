@@ -63,6 +63,11 @@ final class Bessel0thOrder implements BesselFunction {
         }
     }
 
+    @Override
+    public String toString() {
+        return BesselFunctionToString.toString(this);
+    }
+
     private static double besselJ_Under_1(double x) {
         double DN0 = 1.0;
         double DN2 = -0.25000000000000183;

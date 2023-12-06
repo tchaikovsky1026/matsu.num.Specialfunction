@@ -1,5 +1,5 @@
 /**
- * 2023.3.20
+ * 2023.12.5
  */
 package matsu.num.specialfunction.gamma;
 
@@ -11,7 +11,7 @@ import matsu.num.commons.Exponentiation;
  * ディガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 public final class DigammaCalculation {
 
@@ -24,16 +24,19 @@ public final class DigammaCalculation {
     }
 
     /**
-     * ディガンマ関数 <i>&psi;</i>(<i>x</i>) =
-     * (d/d<i>x</i>)log<sub>e</sub>&Gamma;(<i>x</i>) を計算する.
-     * @param x 
+     * ディガンマ関数
+     * <i>&psi;</i>(<i>x</i>) =
+     * (d/d<i>x</i>) log<sub>e</sub>&Gamma;(<i>x</i>)
+     * を計算する.
+     * 
+     * @param x
      * @return dgamma(x)
      */
     public double digamma(double x) {
         /*
-         x < 0: NaN
-         x = 0: -inf
-         x = +inf: +inf
+         * x < 0: NaN
+         * x = 0: -inf
+         * x = +inf: +inf
          */
         if (!(x >= 0)) {
             return Double.NaN;

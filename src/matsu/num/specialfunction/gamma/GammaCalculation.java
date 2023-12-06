@@ -1,5 +1,5 @@
 /**
- * 2023.3.20
+ * 2023.12.5
  */
 package matsu.num.specialfunction.gamma;
 
@@ -11,7 +11,7 @@ import matsu.num.commons.Exponentiation;
  * ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 public final class GammaCalculation {
 
@@ -102,9 +102,9 @@ public final class GammaCalculation {
      */
     public double gamma(double x) {
         /*
-         x < 0: NaN
-         x = 0: +inf
-         x = +inf: +inf
+         * x < 0: NaN
+         * x = 0: +inf
+         * x = +inf: +inf
          */
         if (!(x >= 0)) {
             return Double.NaN;
@@ -162,13 +162,14 @@ public final class GammaCalculation {
 
     /**
      * 整数引数のガンマ関数 &Gamma;(<i>n</i>) を計算する.
-     * @param n 
+     * 
+     * @param n
      * @return gamma(n)
      */
     public double gamma(int n) {
         /*
-         n < 0: NaN.
-         n = 0 or n >> 1:  +inf
+         * n < 0: NaN.
+         * n = 0 or n >> 1: +inf
          */
         if (n >= 1 && n <= GAMMA_MAX) {
             return intGammaTable[n - 1];

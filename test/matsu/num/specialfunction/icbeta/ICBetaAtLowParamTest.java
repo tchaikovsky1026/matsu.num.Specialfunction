@@ -21,6 +21,8 @@ import matsu.num.specialfunction.IncompleteBetaFunction;
 @RunWith(Enclosed.class)
 public class ICBetaAtLowParamTest {
 
+    public static final Class<?> TEST_CLASS = ICBetaAtLowParam.class;
+
     @RunWith(Enclosed.class)
     public static class テスト_A_0_1_B_2 {
 
@@ -56,7 +58,7 @@ public class ICBetaAtLowParamTest {
 
             @Before
             public void before_不完全ベータ関数の作成() {
-                ibf = IncompleteBetaFunction.instanceOf(0.1, 2);
+                ibf = new ICBetaAtLowParam(0.1, 2);
             }
 
             @Theory
@@ -71,7 +73,7 @@ public class ICBetaAtLowParamTest {
 
             @Before
             public void before_不完全ベータ関数の作成() {
-                ibf = IncompleteBetaFunction.instanceOf(0.1, 2);
+                ibf = new ICBetaAtLowParam(0.1, 2);
             }
 
             @Test
@@ -131,7 +133,7 @@ public class ICBetaAtLowParamTest {
 
             @Before
             public void before_不完全ベータ関数の作成() {
-                ibf = IncompleteBetaFunction.instanceOf(1, 15);
+                ibf = new ICBetaAtLowParam(1, 15);
             }
 
             @Theory
@@ -146,7 +148,7 @@ public class ICBetaAtLowParamTest {
 
             @Before
             public void before_不完全ベータ関数の作成() {
-                ibf = IncompleteBetaFunction.instanceOf(1, 15);
+                ibf = new ICBetaAtLowParam(1, 15);
             }
 
             @Test
@@ -178,6 +180,16 @@ public class ICBetaAtLowParamTest {
             public void test_1検証_betaR() {
                 assertThat(ibf.ribetaR(1.0), is(1.0));
             }
+        }
+    }
+
+    public static class toString表示 {
+        @Test
+        public void test_toString() {
+            System.out.println(TEST_CLASS.getName());
+            System.out.println(new ICBetaAtLowParam(1, 15));
+            System.out.println();
+
         }
     }
 }

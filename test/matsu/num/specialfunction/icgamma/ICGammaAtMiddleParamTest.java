@@ -21,6 +21,8 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
 @RunWith(Enclosed.class)
 public class ICGammaAtMiddleParamTest {
 
+    public static final Class<?> TEST_CLASS = ICGammaAtMiddleParam.class;
+
     @RunWith(Enclosed.class)
     public static class テスト_A_20 {
 
@@ -41,7 +43,7 @@ public class ICGammaAtMiddleParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtMiddleParam.instanceOf(20);
+                igf = new ICGammaAtMiddleParam(20);
             }
 
             @Theory
@@ -56,7 +58,7 @@ public class ICGammaAtMiddleParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtMiddleParam.instanceOf(20);
+                igf = new ICGammaAtMiddleParam(20);
             }
 
             @Test
@@ -88,6 +90,16 @@ public class ICGammaAtMiddleParamTest {
             public void test_正の無限大検証_Q() {
                 assertThat(igf.rigammaQ(Double.POSITIVE_INFINITY), is(0.0));
             }
+        }
+    }
+
+    public static class toString表示 {
+
+        @Test
+        public void test_toSTring() {
+            System.out.println(TEST_CLASS.getName());
+            System.out.println(new ICGammaAtMiddleParam(20));
+            System.out.println();
         }
     }
 }

@@ -21,6 +21,8 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
 @RunWith(Enclosed.class)
 public class ICGammaAtHighParamTest {
 
+    public static final Class<?> TEST_CLASS = ICGammaAtHighParam.class;
+
     @RunWith(Enclosed.class)
     public static class テスト_A_50000 {
 
@@ -44,7 +46,7 @@ public class ICGammaAtHighParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtHighParam.instanceOf(50000);
+                igf = new ICGammaAtHighParam(50000);
             }
 
             @Theory
@@ -59,7 +61,7 @@ public class ICGammaAtHighParamTest {
 
             @Before
             public void before_不完全ガンマ関数の作成() {
-                igf = ICGammaAtHighParam.instanceOf(500000);
+                igf = new ICGammaAtHighParam(500000);
             }
 
             @Test
@@ -91,6 +93,16 @@ public class ICGammaAtHighParamTest {
             public void test_正の無限大検証_Q() {
                 assertThat(igf.rigammaQ(Double.POSITIVE_INFINITY), is(0.0));
             }
+        }
+    }
+
+    public static class toString表示 {
+
+        @Test
+        public void test_toSTring() {
+            System.out.println(TEST_CLASS.getName());
+            System.out.println(new ICGammaAtHighParam(50000));
+            System.out.println();
         }
     }
 }

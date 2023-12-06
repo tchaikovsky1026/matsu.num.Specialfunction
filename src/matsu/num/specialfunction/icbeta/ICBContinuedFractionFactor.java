@@ -1,5 +1,5 @@
 /**
- * 2023.3.22
+ * 2023.12.6
  */
 package matsu.num.specialfunction.icbeta;
 
@@ -7,7 +7,7 @@ package matsu.num.specialfunction.icbeta;
  * 不完全ベータ関数の計算における連分数ファクターを扱う.
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 final class ICBContinuedFractionFactor {
 
@@ -19,6 +19,7 @@ final class ICBContinuedFractionFactor {
     private static final double EPSILON_R_FOR_FACTOR_F = 1E-14;
 
     private ICBContinuedFractionFactor() {
+        //インスタンス化不可
         throw new AssertionError();
     }
 
@@ -27,8 +28,8 @@ final class ICBContinuedFractionFactor {
      * B(a,b,x) = x^a (1-x)^b F(a,b,x) <br>
      * と表すと, F(a,b,x)は連分数で計算できる. <br>
      * ただし, <br>
-     *  {@literal x < a/(a+b) (a or b = O(1)) } <br>
-     *  {@literal x << a/(a+b) (a and b >> 1) } <br>
+     * {@literal x < a/(a+b) (a or b = O(1)) } <br>
+     * {@literal x << a/(a+b) (a and b >> 1) } <br>
      * で使用可能.
      * 
      * @param x

@@ -1,5 +1,5 @@
 /**
- * 2023.3.20
+ * 2023.12.5
  */
 package matsu.num.specialfunction.gamma;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
  * トリガンマ関数の計算に関する.
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 public final class TrigammaCalculation {
 
@@ -22,16 +22,19 @@ public final class TrigammaCalculation {
     }
 
     /**
-     * トリガンマ関数 <i>&psi;</i>'(<i>x</i>) = (d/d<i>x</i>)<i>&psi;</i>(<i>x</i>)
+     * トリガンマ関数
+     * <i>&psi;</i>'(<i>x</i>) =
+     * (d/d<i>x</i>) <i>&psi;</i>(<i>x</i>)
      * を計算する.
-     * @param x 
+     * 
+     * @param x
      * @return trigamma(x)
      */
     public double trigamma(double x) {
         /*
-         x < 0; NaN
-         x = 0: +inf
-         x = +inf: 0
+         * x < 0; NaN
+         * x = 0: +inf
+         * x = +inf: 0
          */
 
         if (!(x >= 0)) {

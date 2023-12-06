@@ -21,6 +21,8 @@ import matsu.num.specialfunction.BesselFunction;
 @RunWith(Enclosed.class)
 public class Bessel0thOrderTest {
 
+    public static final Class<?> TEST_CLASS = Bessel0thOrder.class;
+
     @RunWith(Enclosed.class)
     public static class 第1種ベッセルに関するテスト {
 
@@ -126,4 +128,13 @@ public class Bessel0thOrderTest {
         }
     }
 
+    public static class toString表示 {
+
+        @Test
+        public void test_toString() {
+            System.out.println(TEST_CLASS.getName());
+            System.out.println(Bessel0thOrder.instance());
+            System.out.println();
+        }
+    }
 }

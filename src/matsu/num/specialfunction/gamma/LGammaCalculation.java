@@ -1,5 +1,5 @@
 /**
- * 2023.3.20
+ * 2023.12.6
  */
 package matsu.num.specialfunction.gamma;
 
@@ -11,7 +11,7 @@ import matsu.num.commons.Exponentiation;
  * 対数ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 public final class LGammaCalculation {
 
@@ -33,7 +33,9 @@ public final class LGammaCalculation {
      */
     public double lgamma(double x) {
         /*
-         * x < 0: NaN x = 0: +inf x = +inf: +inf
+         * x < 0: NaN
+         * x = 0: +inf
+         * x = +inf: +inf
          */
 
         if (!(x >= 0)) {
@@ -90,13 +92,17 @@ public final class LGammaCalculation {
         if (!(Math.abs(x) <= 0.5)) {
             return lgamma(1 + x);
         }
+
+        //logΓ(1+x) = logΓ(2+x) - log(1+x)
         return lgamma2p_smallkernel(x) - Exponentiation.log1p(x);
     }
 
     /**
      * log<sub>e</sub>&Gamma;(<i>x</i>) のStiring近似残差
-     * [log<sub>e</sub>&Gamma;(<i>x</i>) - [(<i>x</i> -
-     * 1/2)log<sub>e</sub>(<i>x</i>) - <i>x</i> + (log(2&pi;))/2]] を計算する.
+     * [log<sub>e</sub>&Gamma;(<i>x</i>) -
+     * (<i>x</i> - 1/2) log<sub>e</sub>(<i>x</i>)
+     * + <i>x</i> - (1/2) log(2&pi;)]
+     * を計算する.
      * 
      * @param x
      * @return f(x)
@@ -107,11 +113,19 @@ public final class LGammaCalculation {
         }
 
         final int intX = (int) x;
+
+        /* x >= 10の場合はlogΓ(x)の漸近展開から計算 */
         if (intX >= 10) {
             return lgammaStirlingResidual_largekernel(x);
         }
 
-        int n = 1 + (((13 - intX) >> 2) << 2); // 4*(int)[((10-intX)+3)/4]
+        /*
+         * x < 10の場合, 漸化式により引数を大きい側にシフトする.
+         * 
+         */
+        //4k+1の形であらわされ, かつ n + intX >= 10　となる最小のnを求めている.
+        int n = 13 - (intX & 0xFFFFFFFC);
+
         double xpN = x + n;
         double invXpN = 1 / xpN;
         double invXpN2 = invXpN * invXpN;
@@ -122,21 +136,23 @@ public final class LGammaCalculation {
         switch (n) {
         case 13:
             shift_exp *= (((x + 9) * (x + 10)) * ((x + 11) * (x + 12))) * invXpN4;
-            // fall-through
+            //$FALL-THROUGH$
         case 9:
             shift_exp *= (((x + 5) * (x + 6)) * ((x + 7) * (x + 8))) * invXpN4;
-            // fall-through
+            //$FALL-THROUGH$
         case 5:
             shift_exp *= ((x + 1) * (x + 2)) * ((x + 3) * (x + 4)) * invXpN4;
             return base - Exponentiation.log(shift_exp);
         default:
-            throw new AssertionError(String.format("バグ:到達不能:n=%d", n));
+            throw new AssertionError(String.format("bug:到達不能:n=%d", n));
         }
     }
 
     /**
-     * log<sub>e</sub>&Gamma;(<i>x</i>) の差分 [log<sub>e</sub>&Gamma;(<i>x</i> +
-     * <i>y</i>) - log<sub>e</sub>&Gamma;(<i>x</i>)] を計算する.
+     * log<sub>e</sub>&Gamma;(<i>x</i>) の差分
+     * [log<sub>e</sub>&Gamma;(<i>x</i> + <i>y</i>)
+     * - log<sub>e</sub>&Gamma;(<i>x</i>)]
+     * を計算する.
      * 
      * @param x
      * @param y
@@ -145,9 +161,12 @@ public final class LGammaCalculation {
      */
     public double lgammaDiff(double x, double y) {
         /*
-         * x < 0 or x + y < 0: NaN x = +inf: NaN x = 0 and x + y = 0: NaN
+         * x < 0 or x + y < 0: NaN
+         * x = +inf: NaN
+         * x = 0 and x + y = 0: NaN
          */
 
+        //y = NaNの場合は通過できるように条件式を設定
         if (y < 0) {
             return -lgammaDiff(x + y, -y);
         }
@@ -159,7 +178,7 @@ public final class LGammaCalculation {
         if (x >= 10) {
             // xが大きい場合は, スターリング近似の式変形を行い, 丸め誤差が出にくいようにする.
             double x_p_Y = x + y;
-            return (x - 0.5) * Exponentiation.log1p(y / x) + y * Exponentiation.log(x_p_Y) - y
+            return (x - 0.5) * Exponentiation.log1p(y / x) + y * (Exponentiation.log(x_p_Y) - 1)
                     + lgammaStirlingResidual_largekernel(x_p_Y) - lgammaStirlingResidual_largekernel(x);
         } else {
             return lgamma(x + y) - lgamma(x);
@@ -168,44 +187,70 @@ public final class LGammaCalculation {
     }
 
     /**
-     * ベータ関数の自然対数 [log<sub>e</sub>B(<i>x</i>,<i>y</i>) =
-     * log<sub>e</sub>&Gamma;(<i>x</i>) + log<sub>e</sub>&Gamma;(<i>y</i>) -
-     * log<sub>e</sub>&Gamma;(<i>x</i>+<i>y</i>)] を計算する.
+     * ベータ関数の自然対数
+     * 
+     * [
+     * log<sub>e</sub>B(<i>x</i>,<i>y</i>) =
+     * log<sub>e</sub>&Gamma;(<i>x</i>)
+     * + log<sub>e</sub>&Gamma;(<i>y</i>)
+     * - log<sub>e</sub>&Gamma;(<i>x</i>+<i>y</i>)
+     * ]
+     * 
+     * を計算する.
      * 
      * @param x
      * @param y
      * @return lbeta(x,y)
-     *
      */
     public double lbeta(double x, double y) {
         /*
-         * x < 0 or y < 0: NaN x = +inf or y = +inf: NaN x = 0 and y > c: +inf x = 0 and
-         * y = 0: +inf
+         * x < 0 or y < 0: NaN
+         * x = +inf or y = +inf: NaN
+         * x = 0 and y > c: +inf
+         * x = 0 and y = 0: +inf
          */
 
+        //NaNの場合は通過できるように条件式を設定
         if (x < y) {
-            return lbeta(y, x);
+            return this.lbeta(y, x);
         }
+
+        //x >= yの状態で, ここに入る
         if (!(Double.isFinite(x) && Double.isFinite(y))) {
             return Double.NaN;
         }
-        double lgammaDiff = lgammaDiff(x, y);
-        return Double.isFinite(lgammaDiff) ? lgamma(y) - lgammaDiff : Double.POSITIVE_INFINITY;
-    }
 
-    /**
-     * (x-0.5)log(x)-x+0.5*log(2π) を返す. x≧O(1)の場合.
-     */
-    private static double lgammaStirling(double x) {
-        double xLogX = (x - 0.5) * Exponentiation.log(x);
-        if (!Double.isFinite(xLogX)) {
+        //x = y = 0d
+        if (x == 0d) {
             return Double.POSITIVE_INFINITY;
         }
-        return xLogX + (HALF_LN2PI - x);
+
+        //x >= y >= 10
+        // x,yが十分大きい場合(+infを含む)のフォローのため, 
+        // infになり得るすべての項が負になるように設計している
+        if (y >= 10) {
+            return HALF_LN2PI - (x - 0.5) * Exponentiation.log1p(y / x)
+                    - y * Exponentiation.log(1 + x / y)
+                    - 0.5 * Exponentiation.log(y)
+                    + lgammaStirlingResidual_largekernel(x)
+                    + lgammaStirlingResidual_largekernel(y)
+                    - lgammaStirlingResidual_largekernel(x + y);
+        }
+
+        //x > 0d ならば第2項は有限なので, y = 0dでも正しい値(+inf)を返せる. 
+        return lgamma(y) - lgammaDiff(x, y);
     }
 
     /**
-     * logΓ(x)-(x-0.5)log(x)+x-0.5*log(2π) を返す. x ≧ 10の場合に使える.
+     * (x-0.5)log(x)-x+0.5*log(2π) を返す. x >= 10で呼ばれる.
+     */
+    private static double lgammaStirling(double x) {
+        return (x - 0.5) * (Exponentiation.log(x) - 1) - 0.5 + HALF_LN2PI;
+    }
+
+    /**
+     * logΓ(x)-(x-0.5)log(x)+x-0.5*log(2π) を返す.
+     * {@literal x >= 10}の場合に使える.
      */
     private static double lgammaStirlingResidual_largekernel(double x) {
         final double LGL1 = 0.08333333333333333064945661182049641;
@@ -228,7 +273,8 @@ public final class LGammaCalculation {
     }
 
     /**
-     * logΓ(2+x) を返す. |x|≦0.5 で使える.
+     * logΓ(2+x) を返す.
+     * {@literal |x| <= 0.5} で使える.
      */
     private static double lgamma2p_smallkernel(double x) {
         if (x < -0.0625) {

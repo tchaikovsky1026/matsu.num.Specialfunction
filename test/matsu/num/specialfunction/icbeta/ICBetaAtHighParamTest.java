@@ -21,6 +21,8 @@ import matsu.num.specialfunction.IncompleteBetaFunction;
 @RunWith(Enclosed.class)
 public class ICBetaAtHighParamTest {
 
+    public static final Class<?> TEST_CLASS = ICBetaAtHighParam.class;
+
     @RunWith(Enclosed.class)
     public static class テスト_A_50000_B_100000 {
 
@@ -55,7 +57,7 @@ public class ICBetaAtHighParamTest {
 
             @Before
             public void before_不完全ベータ関数の作成() {
-                ibf = IncompleteBetaFunction.instanceOf(50000, 100000);
+                ibf = new ICBetaAtHighParam(50000, 100000);
             }
 
             @Theory
@@ -70,7 +72,7 @@ public class ICBetaAtHighParamTest {
 
             @Before
             public void before_不完全ベータ関数の作成() {
-                ibf = IncompleteBetaFunction.instanceOf(50000, 100000);
+                ibf = new ICBetaAtHighParam(50000, 100000);
             }
 
             @Test
@@ -102,6 +104,16 @@ public class ICBetaAtHighParamTest {
             public void test_1検証_betaR() {
                 assertThat(ibf.ribetaR(1.0), is(1.0));
             }
+        }
+    }
+
+    public static class toString表示 {
+        @Test
+        public void test_toString() {
+            System.out.println(TEST_CLASS.getName());
+            System.out.println(new ICBetaAtHighParam(50000, 100000));
+            System.out.println();
+
         }
     }
 }

@@ -1,5 +1,5 @@
 /**
- * 2023.3.20
+ * 2023.12.5
  */
 package matsu.num.specialfunction.err;
 
@@ -8,10 +8,10 @@ import java.util.Objects;
 import matsu.num.commons.Exponentiation;
 
 /**
- * 誤差関数の計算を扱う.
+ * 誤差関数の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 public final class ErrorFunctionCalculation {
 
@@ -24,15 +24,16 @@ public final class ErrorFunctionCalculation {
     }
 
     /**
-     * 誤差関数 erf(<i>x</i>) を計算する.
+     * 誤差関数
+     * erf(<i>x</i>).
      * 
      * @param x x
      * @return erf(x)
      */
     public double erf(double x) {
         /*
-         x = +inf: 1
-         x = -inf: -1
+         * x = +inf: 1
+         * x = -inf: -1
          */
         double absX = Math.abs(x);
         double valueForAbsX;
@@ -45,15 +46,16 @@ public final class ErrorFunctionCalculation {
     }
 
     /**
-     * 相補誤差関数 erfc(<i>x</i>) = 1 - erf(<i>x</i>) を計算する.
+     * 相補誤差関数
+     * erfc(<i>x</i>) = 1 - erf(<i>x</i>).
      * 
      * @param x x
      * @return erfc(x)
      */
     public double erfc(double x) {
         /*
-         x = +inf: 0
-         x = -inf: 2
+         * x = +inf: 0
+         * x = -inf: 2
          */
         if (x >= 1) {
             return Exponentiation.exp(-x * x) * erfcx_over1(x);
@@ -62,16 +64,17 @@ public final class ErrorFunctionCalculation {
     }
 
     /**
-     * スケーリング相補誤差関数 erfcx(<i>x</i>) =
-     * exp(<i>x</i><sup>2</sup>)erfc(<i>x</i>) を計算する.
+     * スケーリング相補誤差関数
+     * erfcx(<i>x</i>) =
+     * exp(<i>x</i><sup>2</sup>)erfc(<i>x</i>).
      * 
      * @param x x
      * @return erfcx(x)
      */
     public double erfcx(double x) {
         /*
-         x = +inf: 0
-         x = -inf: +inf
+         * x = +inf: 0
+         * x = -inf: +inf
          */
         if (x >= 1) {
             return erfcx_over1(x);
@@ -79,6 +82,9 @@ public final class ErrorFunctionCalculation {
         return Exponentiation.exp(x * x) * (1 - erf(x));
     }
 
+    /**
+     * {@literal 0 <= x <= 1} における erf(x).
+     */
     private static double erf_0To1(double x) {
         double DN1 = 1.1283791670955126;
         double DN3 = 0.08827220707874833;
@@ -107,6 +113,9 @@ public final class ErrorFunctionCalculation {
         return nume / denomi;
     }
 
+    /**
+     * {@literal x >= 1} における erf(x).
+     */
     private static double erfcx_over1(double x) {
         double t = 1 / x;
         double t2 = t * t;

@@ -1,23 +1,23 @@
 /**
- * 2023.3.22
+ * 2023.12.6
  */
 package matsu.num.specialfunction.icgamma;
 
 import matsu.num.specialfunction.IncompleteGammaFunction;
 
 /**
- * 不完全ガンマ関数のファクトリ. 
+ * 不完全ガンマ関数のファクトリ.
  *
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
 public final class ICGammaFactory {
 
     //パラメータAの下限.
-    private static final double LOWER_LIMIT_OF_PARAMETER_A = 1E-2;
+    static final double LOWER_LIMIT_OF_PARAMETER_A = 1E-2;
 
     //パラメータAの上限.
-    private static final double UPPER_LIMIT_OF_PARAMETER_A = 1E28;
+    static final double UPPER_LIMIT_OF_PARAMETER_A = 1E28;
 
     static final double K_THRESHOLD_SECOND = 11;
     static final double K_THRESHOLD_THIRD = 40000;
@@ -36,19 +36,20 @@ public final class ICGammaFactory {
      */
     public static IncompleteGammaFunction instanceOf(double a) {
         if (!(LOWER_LIMIT_OF_PARAMETER_A <= a && a <= UPPER_LIMIT_OF_PARAMETER_A)) {
-            throw new IllegalArgumentException(String.format(
-                    "パラメータ不正:a=%.16G", a));
+            throw new IllegalArgumentException(
+                    String.format(
+                            "パラメータ不正:a=%s", a));
         }
 
         if (a <= K_THRESHOLD_SECOND) {
-            return ICGammaAtLowParam.instanceOf(a);
+            return new ICGammaAtLowParam(a);
         }
 
         if (a <= K_THRESHOLD_THIRD) {
-            return ICGammaAtMiddleParam.instanceOf(a);
+            return new ICGammaAtMiddleParam(a);
         }
 
-        return ICGammaAtHighParam.instanceOf(a);
+        return new ICGammaAtHighParam(a);
     }
 
 }

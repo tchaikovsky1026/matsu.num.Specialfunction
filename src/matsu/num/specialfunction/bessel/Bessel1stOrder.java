@@ -1,5 +1,5 @@
 /**
- * 2023.3.21
+ * 2023.12.5
  */
 package matsu.num.specialfunction.bessel;
 
@@ -14,8 +14,7 @@ import matsu.num.specialfunction.GammaFunction;
  * 1次のBessel関数.
  * 
  * @author Matsuura Y.
- * @version 11.0
- *
+ * @version 17.0
  */
 final class Bessel1stOrder implements BesselFunction {
 
@@ -60,6 +59,11 @@ final class Bessel1stOrder implements BesselFunction {
         } else {
             return besselY1_Over_1(x);
         }
+    }
+
+    @Override
+    public String toString() {
+        return BesselFunctionToString.toString(this);
     }
 
     private static double besselJ1_Under_1(double x) {

@@ -1,5 +1,5 @@
 /**
- * 2023.3.21
+ * 2023.12.6
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -8,20 +8,23 @@ import matsu.num.specialfunction.GammaFunction;
 import matsu.num.specialfunction.IncompleteGammaFunction;
 
 /**
- * 不完全ガンマ関数の計算の実装(およそ倍精度未満), 小さなパラメータに対して. <br>
- * 11以下のパラメータを対象とする. <br>
- * <br>
+ * 不完全ガンマ関数の計算の実装(およそ倍精度未満). <br>
+ * 0.01以上11以下のパラメータを対象とする.
+ * 
+ * <p>
  * 閾値を境にxが小さい場合と大きい場合で別の連分数システムで計算する. <br>
- * 閾値は, {@code max(a, X_THRESHOLD_MAX)} 
+ * 閾値は, {@code max(a, X_THRESHOLD_MAX)}
+ * </p>
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 17.0
  */
-final class ICGammaAtLowParam extends SkeletalICGamma implements IncompleteGammaFunction {
+final class ICGammaAtLowParam
+        extends SkeletalICGamma implements IncompleteGammaFunction {
 
     /*
-     xの値によって2種の計算方法を用いる. 
-     その閾値はaによって決まり, aと7の大きいほうの値を用いる.
+     * xの値によって2種の計算方法を用いる.
+     * その閾値はaによって決まり, aと7の大きいほうの値を用いる.
      */
     private static final double X_THRESHOLD_MAX = 7;
 
@@ -31,11 +34,20 @@ final class ICGammaAtLowParam extends SkeletalICGamma implements IncompleteGamma
     //計算方法を切り替える閾値
     private final double xThreshold;
 
-    private ICGammaAtLowParam(double a) {
-        if (!(a <= ICGammaFactory.K_THRESHOLD_SECOND)) {
-            throw new AssertionError(String.format(
-                    "Bug:a<=11でない:a=%.16G", a));
+    /**
+     * 0.01以上11以下でない場合, アサーションエラー.
+     * 
+     * @param a パラメータ
+     */
+    ICGammaAtLowParam(double a) {
+        super();
+        if (!(ICGammaFactory.LOWER_LIMIT_OF_PARAMETER_A <= a
+                && a <= ICGammaFactory.K_THRESHOLD_SECOND)) {
+            throw new AssertionError(
+                    String.format(
+                            "Bug: 1E-2 <= a <= 11でない: a =%s", a));
         }
+
         this.a = a;
         this.logGammaAp1 = GammaFunction.lgamma(a + 1);
         this.xThreshold = Math.max(a, X_THRESHOLD_MAX);
@@ -53,7 +65,7 @@ final class ICGammaAtLowParam extends SkeletalICGamma implements IncompleteGamma
             double lcp = ICGContinuedFractionFactor.factorLCP(x, thisA) * coeffToLCP(x);
             return lcp / (1 - lcp);
         }
-        double ucp = ICGContinuedFractionFactor.factorUCP(x, thisA) * coeffToLCP(x) * (thisA / x);
+        double ucp = ICGContinuedFractionFactor.factorUCP(x, thisA) * this.coeffToLCP(x) * (thisA / x);
         return (1 - ucp) / ucp;
     }
 
@@ -66,15 +78,6 @@ final class ICGammaAtLowParam extends SkeletalICGamma implements IncompleteGamma
             return 0;
         }
         return Exponentiation.exp(this.a * Exponentiation.log(x) - x - this.logGammaAp1);
-    }
-
-    /**
-     * 
-     * @param a パラメータ
-     * @return インスタンス
-     */
-    public static IncompleteGammaFunction instanceOf(double a) {
-        return new ICGammaAtLowParam(a);
     }
 
 }
