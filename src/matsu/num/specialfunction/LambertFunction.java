@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.17
+ * 2024.6.18
  */
 package matsu.num.specialfunction;
 
@@ -23,9 +23,14 @@ import matsu.num.specialfunction.lambert.LambertCalculationPrincipalBranch;
  * </p>
  *
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public final class LambertFunction {
+
+    private static final LambertCalculationMinus1Branch LAMBERT_MINUS1 =
+            new LambertCalculationMinus1Branch();
+    private static final LambertCalculationPrincipalBranch LAMBERT_PRINCIPAL =
+            new LambertCalculationPrincipalBranch();
 
     private LambertFunction() {
         //インスタンス化不可
@@ -47,7 +52,7 @@ public final class LambertFunction {
      * @return <i>W</i><sub>0</sub>(<i>z</i>)
      */
     public static double wp(double z) {
-        return LambertCalculationPrincipalBranch.instance().wp(z);
+        return LAMBERT_PRINCIPAL.wp(z);
     }
 
     /**
@@ -65,6 +70,6 @@ public final class LambertFunction {
      * @return <i>W</i><sub>-1</sub>(<i>z</i>)
      */
     public static double wm(double z) {
-        return LambertCalculationMinus1Branch.instance().wm(z);
+        return LAMBERT_MINUS1.wm(z);
     }
 }

@@ -5,11 +5,9 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.18
  */
 package matsu.num.specialfunction.err;
-
-import java.util.Objects;
 
 import matsu.num.commons.Exponentiation;
 
@@ -17,16 +15,11 @@ import matsu.num.commons.Exponentiation;
  * 誤差関数の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public final class ErrorFunctionCalculation {
 
-    private static final ErrorFunctionCalculation INSTANCE = new ErrorFunctionCalculation();
-
-    private ErrorFunctionCalculation() {
-        if (Objects.nonNull(INSTANCE)) {
-            throw new AssertionError();
-        }
+    public ErrorFunctionCalculation() {
     }
 
     /**
@@ -264,13 +257,4 @@ public final class ErrorFunctionCalculation {
             }
         }
     }
-
-    /**
-     * 
-     * @return インスタンス
-     */
-    public static ErrorFunctionCalculation instance() {
-        return INSTANCE;
-    }
-
 }

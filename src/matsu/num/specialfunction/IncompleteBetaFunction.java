@@ -44,11 +44,27 @@ import matsu.num.specialfunction.icbeta.ICBetaFactory;
  * <i>t</i><sup><i>a</i>-1</sup>
  * (1 - <i>t</i>)<sup><i>b</i>-1</sup> d<i>t</i>
  * </p>
+ * 
+ * <p>
+ * サポートされているパラメータ <i>a</i>, <i>b</i> は以下である. <br>
+ * {@code 1E-2 <= a <= 1E+14} <br>
+ * {@code 1E-2 <= b <= 1E+14}
+ * </p>
  *
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public interface IncompleteBetaFunction {
+
+    /**
+     * パラメータ <i>a</i>, <i>b</i> の下限を表す定数.
+     */
+    public static final double LOWER_LIMIT_OF_PARAMETER_AB = 1E-2;
+
+    /**
+     * パラメータ <i>a</i>, <i>b</i> の上限を表す定数.
+     */
+    public static final double UPPER_LIMIT_OF_PARAMETER_AB = 1E14;
 
     /**
      * このインスタンスが扱うパラメータ <i>a</i> の値を返す.
@@ -126,18 +142,30 @@ public interface IncompleteBetaFunction {
     public abstract double ribetaOdds(double oddsX);
 
     /**
-     * 指定したパラメータの不完全ベータ関数計算インスタンスを返す.
-     * 
      * <p>
-     * 扱えるパラメータ (<i>a</i>, <i>b</i>) は,
-     * {@code 1.0E-2 <= (a,b) <= 1.0E+14} である. <br>
-     * 大きなパラメータ <i>a</i>, <i>b</i> に対しては, 精度が低下する.
+     * 指定したパラメータ (<i>a</i>, <i>b</i>) がサポートされているかを判定する.
      * </p>
+     * 
+     * @param a パラメータ <i>a</i>
+     * @param b パラメータ <i>b</i>
+     * @return パラメータが適合する場合はtrue
+     */
+    public static boolean acceptsParameter(double a, double b) {
+        return ICBetaFactory.acceptsParameter(a, b);
+    }
+
+    /**
+     * 指定したパラメータの不完全ベータ関数計算インスタンスを返す.
      *
+     * <p>
+     * パラメータの正当性は {@link #acceptsParameter(double, double)} により検証され,
+     * 不適の場合は例外がスローされる.
+     * </p>
+     * 
      * @param a パラメータ <i>a</i>
      * @param b パラメータ <i>b</i>
      * @return パラメータ (<i>a</i>, <i>b</i>) の不完全ベータ関数計算インスタンス
-     * @throws IllegalArgumentException パラメータが仕様の範囲外の場合
+     * @throws IllegalArgumentException パラメータがサポート外の場合
      */
     public static IncompleteBetaFunction instanceOf(double a, double b) {
         return ICBetaFactory.instanceOf(a, b);

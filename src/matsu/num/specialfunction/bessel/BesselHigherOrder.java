@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.17
  */
 package matsu.num.specialfunction.bessel;
 
@@ -16,14 +16,9 @@ import matsu.num.specialfunction.BesselFunction;
  * 高次のBessel関数, 2から100次までのベッセル関数をサポートする.
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 final class BesselHigherOrder implements BesselFunction {
-
-    /**
-     * 次数の上限.
-     */
-    private static final int UPPER_LIMIT_OF_ORDER = 100;
 
     private static final double[] invFactorial;
 
@@ -41,17 +36,9 @@ final class BesselHigherOrder implements BesselFunction {
     /**
      * 与えた次数のベッセル関数を生成する.
      * 
-     * <p>
-     * 2から100の間でない場合はアサーションエラー.
-     * </p>
-     * 
      * @param n 次数
      */
-    public BesselHigherOrder(int n) {
-        if (!(2 <= n || n <= UPPER_LIMIT_OF_ORDER)) {
-            throw new AssertionError("Bug: 到達不能");
-        }
-
+    BesselHigherOrder(int n) {
         this.n = n;
         this.invOfNFactorial = invFactorial[n];
     }

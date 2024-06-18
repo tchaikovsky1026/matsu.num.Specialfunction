@@ -5,26 +5,19 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.18
  */
 package matsu.num.specialfunction.gamma;
-
-import java.util.Objects;
 
 /**
  * トリガンマ関数の計算に関する.
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public final class TrigammaCalculation {
 
-    private static final TrigammaCalculation INSTANCE = new TrigammaCalculation();
-
-    private TrigammaCalculation() {
-        if (Objects.nonNull(INSTANCE)) {
-            throw new AssertionError();
-        }
+    public TrigammaCalculation() {
     }
 
     /**
@@ -172,13 +165,5 @@ public final class TrigammaCalculation {
             final double value12 = TGS12 + x * TGS13;
             return (value0 + x4 * value4) + x8 * (value8 + x4 * value12);
         }
-    }
-
-    /**
-     * 
-     * @return インスタンス.
-     */
-    public static TrigammaCalculation instance() {
-        return INSTANCE;
     }
 }

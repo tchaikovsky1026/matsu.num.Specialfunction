@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.17
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -24,7 +24,7 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
  * </p>
  *
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 final class ICGammaAtHighParam extends SkeletalICGamma implements IncompleteGammaFunction {
 
@@ -65,12 +65,7 @@ final class ICGammaAtHighParam extends SkeletalICGamma implements IncompleteGamm
      */
     ICGammaAtHighParam(double a) {
         super();
-        if (!(ICGammaFactory.K_THRESHOLD_THIRD <= a
-                && a <= ICGammaFactory.UPPER_LIMIT_OF_PARAMETER_A)) {
-            throw new AssertionError(
-                    String.format(
-                            "Bug: 40000 <= a <= 1E28でない: a = %s", a));
-        }
+
         this.a = a;
         this.sqrtA = Exponentiation.sqrt(a);
         this.xLowerThreshold = a - this.sqrtA;

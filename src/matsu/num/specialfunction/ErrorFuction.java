@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.17
+ * 2024.6.18
  */
 package matsu.num.specialfunction;
 
@@ -22,9 +22,11 @@ import matsu.num.specialfunction.err.ErrorFunctionCalculation;
  * </p>
  *
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public final class ErrorFuction {
+
+    private static final ErrorFunctionCalculation ERR = new ErrorFunctionCalculation();
 
     private ErrorFuction() {
         //インスタンス化不可
@@ -44,7 +46,7 @@ public final class ErrorFuction {
      * @return erf(<i>x</i>)
      */
     public static double erf(double x) {
-        return ErrorFunctionCalculation.instance().erf(x);
+        return ERR.erf(x);
     }
 
     /**
@@ -61,7 +63,7 @@ public final class ErrorFuction {
      * @return erfc(<i>x</i>)
      */
     public static double erfc(double x) {
-        return ErrorFunctionCalculation.instance().erfc(x);
+        return ERR.erfc(x);
     }
 
     /**
@@ -78,6 +80,6 @@ public final class ErrorFuction {
      * @return erfcx(<i>x</i>)
      */
     public static double erfcx(double x) {
-        return ErrorFunctionCalculation.instance().erfcx(x);
+        return ERR.erfcx(x);
     }
 }

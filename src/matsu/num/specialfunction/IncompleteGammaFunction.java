@@ -50,10 +50,25 @@ import matsu.num.specialfunction.icgamma.ICGammaFactory;
  * <i>t</i><sup><i>a</i>-1</sup> exp(-<i>t</i>) d<i>t</i>
  * </p>
  * 
+ * <p>
+ * サポートされているパラメータ <i>a</i> は以下である. <br>
+ * {@code 1E-2 <= a <= 1E+14}
+ * </p>
+ * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public interface IncompleteGammaFunction {
+
+    /**
+     * パラメータ <i>a</i> の下限を表す定数.
+     */
+    public static final double LOWER_LIMIT_OF_PARAMETER_A = 1E-2;
+
+    /**
+     * パラメータ <i>a</i> の上限を表す定数.
+     */
+    public static final double UPPER_LIMIT_OF_PARAMETER_A = 1E28;
 
     /**
      * このインスタンスが扱うパラメータ <i>a</i> の値を返す.
@@ -111,16 +126,28 @@ public interface IncompleteGammaFunction {
     public abstract double rigammaOdds(double x);
 
     /**
+     * <p>
+     * 指定したパラメータ <i>a</i> がサポートされているかを判定する.
+     * </p>
+     * 
+     * @param a パラメータ <i>a</i>
+     * @return パラメータが適合する場合はtrue
+     */
+    public static boolean acceptsParameter(double a) {
+        return ICGammaFactory.acceptsParameter(a);
+    }
+
+    /**
      * 指定したパラメータの不完全ガンマ関数計算インスタンスを返す.
      * 
      * <p>
-     * 扱える <i>a</i> は, {@code 1.0E-2 <= a <= 1.0E+28} である. <br>
-     * 大きなパラメータ <i>a</i> に対しては, 精度が低下する.
+     * パラメータの正当性は {@link #acceptsParameter(double)} により検証され,
+     * 不適の場合は例外がスローされる.
      * </p>
      *
      * @param a パラメータ <i>a</i>
      * @return パラメータ <i>a</i> の不完全ガンマ関数計算インスタンス
-     * @throws IllegalArgumentException パラメータが仕様の範囲外の場合
+     * @throws IllegalArgumentException パラメータがサポート外の場合
      */
     public static IncompleteGammaFunction instanceOf(double a) {
         return ICGammaFactory.instanceOf(a);

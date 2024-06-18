@@ -1,16 +1,12 @@
 package matsu.num.specialfunction.lambert;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-
-import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import matsu.num.specialfunction.LambertFunction;
+import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
  * {@link LambertCalculationPrincipalBranch}クラス(主枝の計算)のテスト.
@@ -18,10 +14,16 @@ import matsu.num.specialfunction.LambertFunction;
  * @author Matsuura Y.
  */
 @RunWith(Enclosed.class)
-public class LambertCalculationPrincipalBranchTest {
+final class LambertCalculationPrincipalBranchTest {
+
+    private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
+            new DoubleRelativeAssertion(1E-15);
+
+    private static final LambertCalculationPrincipalBranch LAMBERT_P =
+            new LambertCalculationPrincipalBranch();
 
     @RunWith(Theories.class)
-    public static class 正常値セオリー {
+    public static class Wp値のテスト {
 
         @DataPoints
         public static double[][] dataPairs = {
@@ -36,29 +38,16 @@ public class LambertCalculationPrincipalBranchTest {
                 { 9, 1.6790164197855981954459 },
                 { 10, 1.745528002740699383074 },
                 { 20, 2.205003278024059970493 },
-                { Double.MAX_VALUE, 703.22703310477018687 }
+                { Double.MAX_VALUE, 703.22703310477018687 },
+                { Math.nextDown(-1 / Math.E), Double.NaN },
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
         };
 
         @Theory
         public void test_検証(double[] dataPair) {
-            assertThat(LambertFunction.wp(dataPair[0]),
-                    is(closeTo(dataPair[1], (1 + Math.abs(dataPair[1])) * 1E-15)));
+            DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
+                    dataPair[1],
+                    LAMBERT_P.wp(dataPair[0]));
         }
     }
-
-    public static class 特殊値のテスト {
-
-        @Test
-        public void test_m1ByE未満はNaN() {
-            assertThat(LambertFunction.wp(Math.nextDown(-1 / Math.E)), is(Double.NaN));
-
-        }
-
-        @Test
-        public void test_正の無限大は正の無限大() {
-            assertThat(LambertFunction.wp(Double.POSITIVE_INFINITY), is(Double.POSITIVE_INFINITY));
-        }
-
-    }
-
 }

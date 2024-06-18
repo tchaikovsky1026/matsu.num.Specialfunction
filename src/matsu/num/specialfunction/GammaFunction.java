@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.17
+ * 2024.6.18
  */
 package matsu.num.specialfunction;
 
@@ -27,9 +27,14 @@ import matsu.num.specialfunction.gamma.TrigammaCalculation;
  * </p>
  *
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public final class GammaFunction {
+
+    private static final LGammaCalculation LGAMMA = new LGammaCalculation();
+    private static final GammaCalculation GAMMA = new GammaCalculation(LGAMMA);
+    private static final DigammaCalculation DIGAMMA = new DigammaCalculation();
+    private static final TrigammaCalculation TRIGAMMA = new TrigammaCalculation();
 
     /**
      * Euler-Mascheroni 定数: <br>
@@ -58,7 +63,7 @@ public final class GammaFunction {
      * @return log<sub>e</sub>&Gamma;(<i>x</i>)
      */
     public static double lgamma(double x) {
-        return LGammaCalculation.instance().lgamma(x);
+        return LGAMMA.lgamma(x);
     }
 
     /**
@@ -74,7 +79,31 @@ public final class GammaFunction {
      * @return log<sub>e</sub>&Gamma;(1 + <i>x</i>)
      */
     public static double lgamma1p(double x) {
-        return LGammaCalculation.instance().lgamma1p(x);
+        return LGAMMA.lgamma1p(x);
+    }
+
+    /**
+     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似
+     * 
+     * [
+     * (<i>x</i> - 1/2) log<sub>e</sub>(<i>x</i>)
+     * - <i>x</i>
+     * + (1/2) log(2&pi;)
+     * ]
+     * 
+     * の値を返す.
+     * 
+     * <ul>
+     * <li><i>x</i> &lt; 0 &rarr; NaN</li>
+     * <li><i>x</i> &asymp; 0 &rarr; +&infin;</li>
+     * <li><i>x</i> &asymp; +&infin; &rarr; +&infin;</li>
+     * </ul>
+     *
+     * @param x <i>x</i>, 引数
+     * @return log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似
+     */
+    public static double lgammaStirling(double x) {
+        return LGAMMA.lgammaStirling(x);
     }
 
     /**
@@ -99,7 +128,7 @@ public final class GammaFunction {
      * @return log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似残差
      */
     public static double lgammaStirlingResidual(double x) {
-        return LGammaCalculation.instance().lgammaStirlingResidual(x);
+        return LGAMMA.lgammaStirlingResidual(x);
     }
 
     /**
@@ -126,7 +155,7 @@ public final class GammaFunction {
      *             log<sub>e</sub>&Gamma;(<i>x</i>)
      */
     public static double lgammaDiff(double x, double y) {
-        return LGammaCalculation.instance().lgammaDiff(x, y);
+        return LGAMMA.lgammaDiff(x, y);
     }
 
     /**
@@ -154,7 +183,7 @@ public final class GammaFunction {
      * @return log<sub>e</sub>B(<i>x</i>, <i>y</i>)
      */
     public static double lbeta(double x, double y) {
-        return LGammaCalculation.instance().lbeta(x, y);
+        return LGAMMA.lbeta(x, y);
     }
 
     /**
@@ -170,7 +199,7 @@ public final class GammaFunction {
      * @return &Gamma;(<i>x</i>)
      */
     public static double gamma(double x) {
-        return GammaCalculation.instance().gamma(x);
+        return GAMMA.gamma(x);
     }
 
     /**
@@ -186,7 +215,7 @@ public final class GammaFunction {
      * @return &Gamma;(<i>n</i>)
      */
     public static double gamma(int n) {
-        return GammaCalculation.instance().gamma(n);
+        return GAMMA.gamma(n);
     }
 
     /**
@@ -207,7 +236,7 @@ public final class GammaFunction {
      * @return <i>&psi;</i>(<i>x</i>)
      */
     public static double digamma(double x) {
-        return DigammaCalculation.instance().digamma(x);
+        return DIGAMMA.digamma(x);
     }
 
     /**
@@ -228,7 +257,7 @@ public final class GammaFunction {
      * @return <i>&psi;</i>'(<i>x</i>)
      */
     public static double trigamma(double x) {
-        return TrigammaCalculation.instance().trigamma(x);
+        return TRIGAMMA.trigamma(x);
     }
 
 }

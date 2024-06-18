@@ -5,28 +5,21 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.18
  */
 package matsu.num.specialfunction.lambert;
-
-import java.util.Objects;
 
 import matsu.num.commons.Exponentiation;
 
 /**
- * ランベルト関数の計算を扱う.
+ * ランベルト関数の-1分枝の計算を扱う.
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public final class LambertCalculationMinus1Branch {
 
-    private static final LambertCalculationMinus1Branch INSTANCE = new LambertCalculationMinus1Branch();
-
-    private LambertCalculationMinus1Branch() {
-        if (Objects.nonNull(INSTANCE)) {
-            throw new AssertionError();
-        }
+    public LambertCalculationMinus1Branch() {
     }
 
     private static final double NEGATIVE_INVERSE_E = -1 / Math.E;
@@ -104,13 +97,5 @@ public final class LambertCalculationMinus1Branch {
 
         double L = (w + logMinusW - logMinusZ) / (1 + w);
         return -w * L / (1 + L / (2 * (1 + w)));
-    }
-
-    /**
-     * 
-     * @return インスタンス.
-     */
-    public static LambertCalculationMinus1Branch instance() {
-        return INSTANCE;
     }
 }

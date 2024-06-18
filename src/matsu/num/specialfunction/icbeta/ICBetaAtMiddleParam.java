@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.17
  */
 package matsu.num.specialfunction.icbeta;
 
@@ -23,7 +23,7 @@ import matsu.num.specialfunction.IncompleteBetaFunction;
  * </p>
  *
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 final class ICBetaAtMiddleParam extends SkeletalICBeta implements IncompleteBetaFunction {
 
@@ -64,13 +64,6 @@ final class ICBetaAtMiddleParam extends SkeletalICBeta implements IncompleteBeta
      */
     ICBetaAtMiddleParam(double a, double b) {
         super();
-        if (!(Math.max(a, b) <= ICBetaFactory.UPPER_LIMIT_OF_PARAMETER_AB
-                && ICBetaFactory.AB_THRESHOLD_FIRST <= Math.min(a, b)
-                && Math.min(a, b) <= ICBetaFactory.AB_THRESHOLD_SECOND)) {
-            throw new AssertionError(
-                    String.format(
-                            "Bug:パラメータが範囲外もしくはthreshold_1st<=Math.min(a, b)<=threshold_2ndでない:(a,b)=(%s,%s)", a, b));
-        }
 
         this.a = a;
         this.b = b;

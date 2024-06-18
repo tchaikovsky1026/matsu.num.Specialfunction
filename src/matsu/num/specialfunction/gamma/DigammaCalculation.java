@@ -5,11 +5,9 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.18
  */
 package matsu.num.specialfunction.gamma;
-
-import java.util.Objects;
 
 import matsu.num.commons.Exponentiation;
 
@@ -17,16 +15,11 @@ import matsu.num.commons.Exponentiation;
  * ディガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public final class DigammaCalculation {
 
-    private static final DigammaCalculation INSTANCE = new DigammaCalculation();
-
-    private DigammaCalculation() {
-        if (Objects.nonNull(INSTANCE)) {
-            throw new AssertionError();
-        }
+    public DigammaCalculation() {
     }
 
     /**
@@ -170,13 +163,4 @@ public final class DigammaCalculation {
             return (value0 + x4 * value4) + x8 * (value8 + x4 * value12);
         }
     }
-
-    /**
-     * 
-     * @return インスタンス.
-     */
-    public static DigammaCalculation instance() {
-        return INSTANCE;
-    }
-
 }

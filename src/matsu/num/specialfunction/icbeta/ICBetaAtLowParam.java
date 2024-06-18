@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.17
  */
 package matsu.num.specialfunction.icbeta;
 
@@ -22,7 +22,7 @@ import matsu.num.specialfunction.IncompleteBetaFunction;
  * </p>
  *
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 final class ICBetaAtLowParam extends SkeletalICBeta implements IncompleteBetaFunction {
 
@@ -39,14 +39,6 @@ final class ICBetaAtLowParam extends SkeletalICBeta implements IncompleteBetaFun
      */
     ICBetaAtLowParam(double a, double b) {
         super();
-        if (!(ICBetaFactory.LOWER_LIMIT_OF_PARAMETER_AB <= Math.min(a, b)
-                && Math.max(a, b) <= ICBetaFactory.UPPER_LIMIT_OF_PARAMETER_AB
-                && Math.min(a, b) <= ICBetaFactory.AB_THRESHOLD_FIRST)) {
-            throw new AssertionError(
-                    String.format(
-                            "Bug:パラメータが範囲外もしくは, Math.min(a, b)<=threshold_1stでない:(a,b)=(%s,%s)",
-                            a, b));
-        }
 
         this.a = a;
         this.b = b;
@@ -90,5 +82,4 @@ final class ICBetaAtLowParam extends SkeletalICBeta implements IncompleteBetaFun
     private double coeffToICBeta(double x, double y) {
         return Exponentiation.exp(this.a * Exponentiation.log(x) + this.b * Exponentiation.log(y) - this.lnBetaAB);
     }
-
 }

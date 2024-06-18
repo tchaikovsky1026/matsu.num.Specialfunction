@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.17
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -23,7 +23,7 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 final class ICGammaAtLowParam
         extends SkeletalICGamma implements IncompleteGammaFunction {
@@ -41,18 +41,10 @@ final class ICGammaAtLowParam
     private final double xThreshold;
 
     /**
-     * 0.01以上11以下でない場合, アサーションエラー.
-     * 
      * @param a パラメータ
      */
     ICGammaAtLowParam(double a) {
         super();
-        if (!(ICGammaFactory.LOWER_LIMIT_OF_PARAMETER_A <= a
-                && a <= ICGammaFactory.K_THRESHOLD_SECOND)) {
-            throw new AssertionError(
-                    String.format(
-                            "Bug: 1E-2 <= a <= 11でない: a =%s", a));
-        }
 
         this.a = a;
         this.logGammaAp1 = GammaFunction.lgamma(a + 1);

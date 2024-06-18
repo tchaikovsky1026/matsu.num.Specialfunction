@@ -5,11 +5,9 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.6.18
  */
 package matsu.num.specialfunction.gamma;
-
-import java.util.Objects;
 
 import matsu.num.commons.Exponentiation;
 
@@ -17,18 +15,13 @@ import matsu.num.commons.Exponentiation;
  * 対数ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public final class LGammaCalculation {
 
-    private static final LGammaCalculation INSTANCE = new LGammaCalculation();
-
     private static final double HALF_LN2PI = 0.5 * Math.log(2 * Math.PI);
 
-    private LGammaCalculation() {
-        if (Objects.nonNull(INSTANCE)) {
-            throw new AssertionError();
-        }
+    public LGammaCalculation() {
     }
 
     /**
@@ -101,6 +94,24 @@ public final class LGammaCalculation {
 
         //logΓ(1+x) = logΓ(2+x) - log(1+x)
         return lgamma2p_smallkernel(x) - Exponentiation.log1p(x);
+    }
+
+    /**
+     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似
+     * 
+     * [
+     * (<i>x</i> - 1/2) log<sub>e</sub>(<i>x</i>)
+     * - <i>x</i>
+     * + (1/2) log(2&pi;)
+     * ]
+     * 
+     * の値を返す.
+     *
+     * @param x <i>x</i>, 引数
+     * @return log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似
+     */
+    public double lgammaStirling(double x) {
+        return (x - 0.5) * (Exponentiation.log(x) - 1) - 0.5 + HALF_LN2PI;
     }
 
     /**
@@ -248,13 +259,6 @@ public final class LGammaCalculation {
     }
 
     /**
-     * (x-0.5)log(x)-x+0.5*log(2π) を返す. x >= 10で呼ばれる.
-     */
-    private static double lgammaStirling(double x) {
-        return (x - 0.5) * (Exponentiation.log(x) - 1) - 0.5 + HALF_LN2PI;
-    }
-
-    /**
      * logΓ(x)-(x-0.5)log(x)+x-0.5*log(2π) を返す.
      * {@literal x >= 10}の場合に使える.
      */
@@ -336,12 +340,5 @@ public final class LGammaCalculation {
 
             return value0 + x4 * value4 + x8 * (value8 + x4 * value12);
         }
-    }
-
-    /**
-     * @return インスタンス
-     */
-    public static LGammaCalculation instance() {
-        return INSTANCE;
     }
 }

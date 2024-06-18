@@ -20,11 +20,27 @@ import matsu.num.specialfunction.bessel.BesselFunctionFactory;
  * 0 &le; <i>x</i>
  * を扱う.
  * </p>
+ * 
+ * <p>
+ * サポートされている次数は
+ * 0 &le; <i>n</i> &le; 100
+ * である.
+ * </p>
  *
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.1
  */
 public interface BesselFunction {
+
+    /**
+     * 次数 <i>n</i> の下限を表す定数.
+     */
+    public static final int LOWER_LIMIT_OF_ORDER = 0;
+
+    /**
+     * 次数 <i>n</i> の上限を表す定数.
+     */
+    public static final int UPPER_LIMIT_OF_ORDER = 100;
 
     /**
      * このインスタンスの扱うBessel関数の次数 (<i>n</i>) を返す.
@@ -63,11 +79,25 @@ public interface BesselFunction {
     public double besselY(double x);
 
     /**
+     * <p>
+     * 指定したパラメータ (次数) がサポートされているかを判定する.
+     * </p>
+     * 
+     * @param order 次数 <i>n</i>
+     * @return パラメータが適合する場合はtrue
+     */
+    public static boolean acceptsParameter(int order) {
+        return BesselFunctionFactory.acceptsParameter(order);
+    }
+
+    /**
+     * <p>
      * 指定した次数のBessel関数計算インスタンスを返す.
+     * </p>
      * 
      * <p>
-     * サポートされている次数は以下である. <br>
-     * {@code 0 <= order <= 100}
+     * パラメータの正当性は {@link #acceptsParameter(int)} により検証され,
+     * 不適の場合は例外がスローされる.
      * </p>
      *
      * @param order <i>n</i>, 次数
