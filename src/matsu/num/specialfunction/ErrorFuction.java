@@ -17,7 +17,8 @@ import matsu.num.specialfunction.err.ErrorFunctionCalculation;
  * 
  * <p>
  * 誤差関数は次式で定義される1変数関数である. <br>
- * erf(<i>x</i>) = &int;<sub>0</sub><sup><i>x</i></sup>
+ * erf(<i>x</i>) = (2/&radic;<i>&pi;</i>) 
+ * &int;<sub>0</sub><sup><i>x</i></sup>
  * exp(-<i>t</i><sup>2</sup>) d<i>t</i>
  * </p>
  *
