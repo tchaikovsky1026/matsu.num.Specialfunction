@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.18
+ * 2024.6.19
  */
 package matsu.num.specialfunction;
 
@@ -28,6 +28,14 @@ import matsu.num.specialfunction.gamma.TrigammaCalculation;
  *
  * @author Matsuura Y.
  * @version 18.1
+ * @see <a href="https://en.wikipedia.org/wiki/Gamma_function" target= "_brank">
+ *          Wikipedia: Gamma function</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Stirling%27s_approximation"
+ *          target= "_brank">
+ *          Wikipedia: Stirling&#x27;s approximation</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Polygamma_function" target=
+ *          "_brank">
+ *          Wikipedia: Polygamma function</a>
  */
 public final class GammaFunction {
 

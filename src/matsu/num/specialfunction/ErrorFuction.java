@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.18
+ * 2024.6.19
  */
 package matsu.num.specialfunction;
 
@@ -17,13 +17,16 @@ import matsu.num.specialfunction.err.ErrorFunctionCalculation;
  * 
  * <p>
  * 誤差関数は次式で定義される1変数関数である. <br>
- * erf(<i>x</i>) = (2/&radic;<i>&pi;</i>) 
+ * erf(<i>x</i>) = (2/&radic;<i>&pi;</i>)
  * &int;<sub>0</sub><sup><i>x</i></sup>
  * exp(-<i>t</i><sup>2</sup>) d<i>t</i>
  * </p>
  *
  * @author Matsuura Y.
  * @version 18.1
+ * @see <a href="https://en.wikipedia.org/wiki/Error_function" target=
+ *          "_brank">
+ *          Wikipedia: Error function</a>
  */
 public final class ErrorFuction {
 

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.17
+ * 2024.6.19
  */
 package matsu.num.specialfunction;
 
@@ -53,6 +53,10 @@ import matsu.num.specialfunction.icbeta.ICBetaFactory;
  *
  * @author Matsuura Y.
  * @version 18.1
+ * @see <a href=
+ *          "https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function"
+ *          target= "_brank">
+ *          Wikipedia: Beta function#Incomplete beta function</a>
  */
 public interface IncompleteBetaFunction {
 

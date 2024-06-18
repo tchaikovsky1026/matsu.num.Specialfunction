@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.18
+ * 2024.6.19
  */
 package matsu.num.specialfunction;
 
@@ -24,6 +24,9 @@ import matsu.num.specialfunction.lambert.LambertCalculationPrincipalBranch;
  *
  * @author Matsuura Y.
  * @version 18.1
+ * @see <a href="https://en.wikipedia.org/wiki/Lambert_W_function" target=
+ *          "_brank">
+ *          Wikipedia: Lambert <i>W</i> function</a>
  */
 public final class LambertFunction {
 

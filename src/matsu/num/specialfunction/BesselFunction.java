@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.17
+ * 2024.6.19
  */
 package matsu.num.specialfunction;
 
@@ -29,6 +29,9 @@ import matsu.num.specialfunction.bessel.BesselFunctionFactory;
  *
  * @author Matsuura Y.
  * @version 18.1
+ * @see <a href="https://en.wikipedia.org/wiki/Bessel_function" target=
+ *          "_brank">
+ *          Wikipedia: Bessel function</a>
  */
 public interface BesselFunction {
 
