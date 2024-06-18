@@ -1,5 +1,11 @@
-/**
- * 2023.12.6
+/*
+ * Copyright (c) 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
+/*
+ * 2024.6.17
  */
 package matsu.num.specialfunction;
 
@@ -10,7 +16,7 @@ import matsu.num.specialfunction.icbeta.ICBetaFactory;
  * 正則化不完全ベータ関数の計算として提供する.
  * 
  * <p>
- * 不完全ベータ関数は, パラメータを <i>a, b</i> &gt; 0 として, <br>
+ * 不完全ベータ関数は, パラメータを <i>a</i>, <i>b</i> &gt; 0 として, <br>
  * 
  * B(<i>a</i>, <i>b</i>, <i>x</i>) =
  * &int;<sub>0</sub><sup><i>x</i></sup>
@@ -40,40 +46,42 @@ import matsu.num.specialfunction.icbeta.ICBetaFactory;
  * </p>
  *
  * @author Matsuura Y.
- * @version 17.0
+ * @version 18.0
  */
 public interface IncompleteBetaFunction {
 
     /**
      * このインスタンスが扱うパラメータ <i>a</i> の値を返す.
      *
-     * @return a
+     * @return パラメータ <i>a</i>
      */
     public abstract double a();
 
     /**
      * このインスタンスが扱うパラメータ <i>b</i> の値を返す.
      *
-     * @return b
+     * @return パラメータ <i>b</i>
      */
     public abstract double b();
 
     /**
-     * 正則化不完全ベータ関数を返す.
+     * 正則化不完全ベータ関数
+     * <i>I</i>(<i>a</i>, <i>b</i>, <i>x</i>)
+     * の値を返す.
      * 
      * <ul>
-     * <li><i>x</i> &lt; 0 or <i>x</i> &gt; 1 &rarr; NaN</li>
+     * <li><i>x</i> &lt; 0 または <i>x</i> &gt; 1 &rarr; NaN</li>
      * </ul>
      *
-     * @param x x,引数
-     * @return I(a, b, x)
+     * @param x <i>x</i>, 引数
+     * @return <i>I</i>(<i>a</i>, <i>b</i>, <i>x</i>)
      */
     public abstract double ribeta(double x);
 
     /**
      * パラメータを反転した正則化不完全ベータ関数
      * <i>I</i>(<i>b</i>, <i>a</i>, <i>x</i>)
-     * を返す.
+     * の値を返す.
      * 
      * <ul>
      * <li><i>x</i> &lt; 0, <i>x</i> &gt; 1 &rarr; NaN</li>
@@ -85,8 +93,9 @@ public interface IncompleteBetaFunction {
      * が成立する.
      * </p>
      *
-     * @param x x,引数
-     * @return I(b, a, x) = 1 - I(a, b, 1 - x)
+     * @param x <i>x</i>, 引数
+     * @return <i>I</i>(<i>b</i>, <i>a</i>, <i>x</i>) =
+     *             1 - <i>I</i>(<i>a</i>, <i>b</i>, 1 - <i>x</i>)
      */
     public abstract double ribetaR(double x);
 
@@ -95,7 +104,7 @@ public interface IncompleteBetaFunction {
      * <i>I</i>(<i>a</i>, <i>b</i>, <i>x</i>)
      * /
      * (1 - <i>I</i>(<i>a</i>, <i>b</i>, <i>x</i>))
-     * を返す. <br>
+     * の値を返す. <br>
      * ただし, 引数として <i>x</i> ではなく
      * <i>x</i> のオッズ
      * <i>o</i><sub><i>x</i></sub> =
@@ -103,16 +112,16 @@ public interface IncompleteBetaFunction {
      * を与える.
      * 
      * <ul>
-     * <li><i>o</i><sub><i>x</i></sub> &lt; 0 &rarr; NaN.
+     * <li><i>o</i><sub><i>x</i></sub> &lt; 0 &rarr; NaN
      * </li>
-     * <li><i>o</i><sub><i>x</i></sub> &asymp; +&infin; &rarr; +&infin;.
+     * <li><i>o</i><sub><i>x</i></sub> &asymp; +&infin; &rarr; +&infin;
      * </li>
      * </ul>
      *
-     * @param oddsX x のオッズ x / (1 - x)
-     * @return I(a, b, x) / (1 - I(a, b, x)) =
-     *             I(a, b, o<sub>x</sub> / (1 + o<sub>x</sub>))
-     *             / I(b, a, 1 / (1 + o<sub>x</sub>))
+     * @param oddsX <i>o</i><sub><i>x</i></sub> =
+     *            <i>x</i> / (1 - <i>x</i>), <i>x</i> のオッズ
+     * @return <i>I</i>(<i>a</i>, <i>b</i>, <i>x</i>) /
+     *             (1 - <i>I</i>(<i>a</i>, <i>b</i>, <i>x</i>))
      */
     public abstract double ribetaOdds(double oddsX);
 
@@ -120,14 +129,14 @@ public interface IncompleteBetaFunction {
      * 指定したパラメータの不完全ベータ関数計算インスタンスを返す.
      * 
      * <p>
-     * 扱えるパラメータ <i>a</i>, <i>b</i> は,
+     * 扱えるパラメータ (<i>a</i>, <i>b</i>) は,
      * {@code 1.0E-2 <= (a,b) <= 1.0E+14} である. <br>
-     * 大きなパラメータ a, b に対しては, 精度が低下する.
+     * 大きなパラメータ <i>a</i>, <i>b</i> に対しては, 精度が低下する.
      * </p>
      *
-     * @param a パラメータ a
-     * @param b パラメータ b
-     * @return パラメータ a, bの不完全ベータ関数計算インスタンス
+     * @param a パラメータ <i>a</i>
+     * @param b パラメータ <i>b</i>
+     * @return パラメータ (<i>a</i>, <i>b</i>) の不完全ベータ関数計算インスタンス
      * @throws IllegalArgumentException パラメータが仕様の範囲外の場合
      */
     public static IncompleteBetaFunction instanceOf(double a, double b) {

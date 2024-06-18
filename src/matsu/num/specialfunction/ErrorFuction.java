@@ -1,12 +1,19 @@
-/**
- * 2023.12.5
+/*
+ * Copyright (c) 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
+/*
+ * 2024.6.17
  */
 package matsu.num.specialfunction;
 
 import matsu.num.specialfunction.err.ErrorFunctionCalculation;
 
 /**
- * 誤差関数(error function)の計算(おおよそ倍精度).
+ * 誤差関数 (error function) の計算
+ * (おおよそ倍精度).
  * 
  * <p>
  * 誤差関数は次式で定義される1変数関数である. <br>
@@ -15,7 +22,7 @@ import matsu.num.specialfunction.err.ErrorFunctionCalculation;
  * </p>
  *
  * @author Matsuura Y.
- * @version 17.0
+ * @version 18.0
  */
 public final class ErrorFuction {
 
@@ -26,15 +33,15 @@ public final class ErrorFuction {
 
     /**
      * erf(<i>x</i>)
-     * を返す.
+     * の値を返す.
      * 
      * <ul>
-     * <li><i>x</i> &asymp; +&infin; &rarr; 1.0.</li>
-     * <li><i>x</i> &asymp; -&infin; &rarr; -1.0.</li>
+     * <li><i>x</i> &asymp; +&infin; &rarr; 1</li>
+     * <li><i>x</i> &asymp; -&infin; &rarr; -1</li>
      * </ul>
      *
-     * @param x x, 引数
-     * @return erf(x)
+     * @param x <i>x</i>, 引数
+     * @return erf(<i>x</i>)
      */
     public static double erf(double x) {
         return ErrorFunctionCalculation.instance().erf(x);
@@ -43,15 +50,15 @@ public final class ErrorFuction {
     /**
      * 相補誤差関数
      * erfc(<i>x</i>) = 1 - erf(<i>x</i>)
-     * を返す.
+     * の値を返す.
      * 
      * <ul>
-     * <li><i>x</i> &asymp; +&infin; &rarr; 0.0.</li>
-     * <li><i>x</i> &asymp; -&infin; &rarr; 2.0.</li>
+     * <li><i>x</i> &asymp; +&infin; &rarr; 0</li>
+     * <li><i>x</i> &asymp; -&infin; &rarr; 2</li>
      * </ul>
      *
-     * @param x x, 引数
-     * @return erfc(x)
+     * @param x <i>x</i>, 引数
+     * @return erfc(<i>x</i>)
      */
     public static double erfc(double x) {
         return ErrorFunctionCalculation.instance().erfc(x);
@@ -60,18 +67,17 @@ public final class ErrorFuction {
     /**
      * スケーリング相補誤差関数
      * erfcx(<i>x</i>) = exp(<i>x</i><sup>2</sup>) erfc(<i>x</i>)
-     * を返す.
+     * の値を返す.
      * 
      * <ul>
      * <li><i>x</i> &asymp; +&infin; &rarr; 0.0.</li>
      * <li><i>x</i> &asymp; -&infin; &rarr; +&infin;.</li>
      * </ul>
      *
-     * @param x x, 引数
-     * @return erfcx(x)
+     * @param x <i>x</i>, 引数
+     * @return erfcx(<i>x</i>)
      */
     public static double erfcx(double x) {
         return ErrorFunctionCalculation.instance().erfcx(x);
     }
-
 }

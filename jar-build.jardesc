@@ -13,5 +13,8 @@
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
         <folder path="/matsu.num.Specialfunction/javadoc-file"/>
         <javaElement handleIdentifier="=matsu.num.Specialfunction/src"/>
+        <file path="/matsu.num.Specialfunction/history.txt"/>
+        <file path="/matsu.num.Specialfunction/LICENSE.txt"/>
+        <file path="/matsu.num.Specialfunction/README.md"/>
     </selectedElements>
 </jardesc>

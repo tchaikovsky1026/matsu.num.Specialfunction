@@ -1,5 +1,11 @@
-/**
- * 2023.12.5
+/*
+ * Copyright (c) 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
+/*
+ * 2024.4.4
  */
 package matsu.num.specialfunction.gamma;
 
@@ -11,7 +17,7 @@ import matsu.num.commons.Exponentiation;
  * ディガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 17.0
+ * @version 18.0
  */
 public final class DigammaCalculation {
 
@@ -44,7 +50,7 @@ public final class DigammaCalculation {
 
         if (x >= 10) {
             //10以上は漸近展開を使う.
-            return digammaStiringResidual_largekernel(x) + digammaStiring(x);
+            return digammaStirlingResidual_largekernel(x) + digammaStirling(x);
         }
 
         //10以下はx=2における級数展開を使う.
@@ -77,16 +83,16 @@ public final class DigammaCalculation {
      * ディガンマ関数のスターリング近似: log(x) - 0.5/x
      *
      * @param x
-     * @return digammaStiring(x)
+     * @return digammaStirling(x)
      */
-    private double digammaStiring(double x) {
+    private double digammaStirling(double x) {
         return Exponentiation.log(x) - 0.5 / x;
     }
 
     /**
      * x≧10 のときの ψ(x)-log(x)+0.5/x
      */
-    private double digammaStiringResidual_largekernel(double x) {
+    private double digammaStirlingResidual_largekernel(double x) {
         //スターリングの公式によりψ(x)の値を求める
         final double DGL2 = -0.08333333333328739357470911184372542;
         final double DGL4 = 0.008333333267783087213545265242688808;

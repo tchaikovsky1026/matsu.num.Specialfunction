@@ -1,5 +1,11 @@
-/**
- * 2023.12.5
+/*
+ * Copyright (c) 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
+/*
+ * 2024.4.4
  */
 package matsu.num.specialfunction.err;
 
@@ -11,7 +17,7 @@ import matsu.num.commons.Exponentiation;
  * 誤差関数の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 17.0
+ * @version 18.0
  */
 public final class ErrorFunctionCalculation {
 

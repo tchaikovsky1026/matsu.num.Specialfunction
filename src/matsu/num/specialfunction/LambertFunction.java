@@ -1,5 +1,11 @@
-/**
- * 2023.12.5
+/*
+ * Copyright (c) 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
+/*
+ * 2024.6.17
  */
 package matsu.num.specialfunction;
 
@@ -17,7 +23,7 @@ import matsu.num.specialfunction.lambert.LambertCalculationPrincipalBranch;
  * </p>
  *
  * @author Matsuura Y.
- * @version 17.0
+ * @version 18.0
  */
 public final class LambertFunction {
 
@@ -30,15 +36,15 @@ public final class LambertFunction {
      * Lambert関数の主枝
      * <i>W</i><sub>0</sub>(<i>z</i>) =
      * arg<sub><i>w</i> &ge; -1</sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
-     * を計算する.
+     * の値を計算する.
      * 
      * <ul>
-     * <li><i>z</i> &lt; -1/e &rarr; NaN.</li>
-     * <li><i>z</i> &asymp; +&infin; &rarr; +&infin;.</li>
+     * <li><i>z</i> &lt; -1/e &rarr; NaN</li>
+     * <li><i>z</i> &asymp; +&infin; &rarr; +&infin;</li>
      * </ul>
      *
-     * @param z z, 引数
-     * @return W<sub>0</sub>(z)
+     * @param z <i>z</i>, 引数
+     * @return <i>W</i><sub>0</sub>(<i>z</i>)
      */
     public static double wp(double z) {
         return LambertCalculationPrincipalBranch.instance().wp(z);
@@ -48,15 +54,15 @@ public final class LambertFunction {
      * Lambert関数の分枝
      * <i>W</i><sub>-1</sub>(<i>z</i>) =
      * arg<sub><i>w</i> &le; -1</sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
-     * を計算する.
+     * の値を計算する.
      * 
      * <ul>
-     * <li><i>z</i> &lt; -1/e または <i>z</i> &gt; 0 &rarr; NaN.</li>
-     * <li><i>z</i> &asymp; 0 &rarr; -&infin;.</li>
+     * <li><i>z</i> &lt; -1/e または <i>z</i> &gt; 0 &rarr; NaN</li>
+     * <li><i>z</i> &asymp; 0 &rarr; -&infin;</li>
      * </ul>
      *
-     * @param z z, 引数
-     * @return W<sub>-1</sub>(z)
+     * @param z <i>z</i>, 引数
+     * @return <i>W</i><sub>-1</sub>(<i>z</i>)
      */
     public static double wm(double z) {
         return LambertCalculationMinus1Branch.instance().wm(z);

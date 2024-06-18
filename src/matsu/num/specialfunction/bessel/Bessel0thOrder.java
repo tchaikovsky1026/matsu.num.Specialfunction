@@ -1,5 +1,11 @@
-/**
- * 2023.3.21
+/*
+ * Copyright (c) 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
+/*
+ * 2024.4.4
  */
 package matsu.num.specialfunction.bessel;
 
@@ -14,7 +20,7 @@ import matsu.num.specialfunction.GammaFunction;
  * 0次のBessel関数.
  * 
  * @author Matsuura Y.
- * @version 11.0
+ * @version 18.0
  *
  */
 final class Bessel0thOrder implements BesselFunction {

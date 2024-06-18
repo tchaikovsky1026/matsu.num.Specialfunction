@@ -1,5 +1,11 @@
-/**
- * 2023.12.6
+/*
+ * Copyright (c) 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
+/*
+ * 2024.4.4
  */
 package matsu.num.specialfunction.gamma;
 
@@ -11,7 +17,7 @@ import matsu.num.commons.Exponentiation;
  * 対数ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 17.0
+ * @version 18.0
  */
 public final class LGammaCalculation {
 
@@ -98,7 +104,7 @@ public final class LGammaCalculation {
     }
 
     /**
-     * log<sub>e</sub>&Gamma;(<i>x</i>) のStiring近似残差
+     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似残差
      * [log<sub>e</sub>&Gamma;(<i>x</i>) -
      * (<i>x</i> - 1/2) log<sub>e</sub>(<i>x</i>)
      * + <i>x</i> - (1/2) log(2&pi;)]
