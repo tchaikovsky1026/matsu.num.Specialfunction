@@ -50,7 +50,7 @@ public interface BesselFunction {
      *
      * @return 次数 <i>n</i>
      */
-    public int order();
+    public abstract int order();
 
     /**
      * 第1種Bessel関数 <i>J<sub>n</sub></i>(<i>x</i>) の値を返す.
@@ -64,7 +64,7 @@ public interface BesselFunction {
      * @param x <i>x</i>, 引数
      * @return <i>J</i><sub><i>n</i></sub>(<i>x</i>)
      */
-    public double besselJ(double x);
+    public abstract double besselJ(double x);
 
     /**
      * 第2種Bessel関数 <i>Y<sub>n</sub></i>(<i>x</i>) の値を返す.
@@ -79,7 +79,7 @@ public interface BesselFunction {
      * @param x <i>x</i>, 引数
      * @return <i>Y</i><sub><i>n</i></sub>(<i>x</i>)
      */
-    public double besselY(double x);
+    public abstract double besselY(double x);
 
     /**
      * <p>
