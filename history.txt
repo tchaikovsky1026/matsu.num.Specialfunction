@@ -1,3 +1,6 @@
+18.4:
+ModifiedBesselのリファクタリング, 階乗計算の最適化.
+
 18.3:
 機能追加(ModifiedBesselFunctionにスケーリングを加える)
 安定性の向上(ModifiedBesselFunction).

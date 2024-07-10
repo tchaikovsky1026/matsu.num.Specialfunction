@@ -25,8 +25,14 @@ import matsu.num.specialfunction.GammaFunction;
  * 将来のバージョンでおそらく非推奨になる.
  * </p>
  * 
+ * <p>
+ * 0次MBesselの計算戦略は次の通りである. <br>
+ * bessel_Iは, 小さいxではべき級数表示を, 大きいxでは漸近級数を使う. <br>
+ * bessel_Kは, 小さいxではべき級数表示を, 大きいxでは漸近級数の連分数表示を使う.
+ * </p>
+ * 
  * @author Matsuura Y.
- * @version 18.3
+ * @version 18.4
  */
 final class NaiveMBessel0 extends ModifiedBessel0thOrder {
 
@@ -34,44 +40,50 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
     private static final double SQRT_PI_OVER_2 = Math.sqrt(Math.PI / 2);
 
     /**
-     * I(x)についてアルゴリズムを切り替えるxの閾値.
-     * 下側はべき級数, 上側は漸近級数.
+     * I(x)についてアルゴリズムを切り替えるxの閾値. <br>
+     * 下側はべき級数, 上側は漸近級数. <br>
+     * 漸近級数ではexp(-x)成分を排除する必要があるため, この閾値は大きくとる.
      */
-    private static final double BOUNDARY_X_FOR_BESSEL_I = 24d;
+    private static final double BOUNDARY_X_SELECTING_POWER_OR_ASYMPTOTIC_FOR_BESSEL_I = 24d;
 
     /**
-     * K(x)についてアルゴリズムを切り替えるxの閾値.
-     * 下側はべき級数, 上側は漸近級数の連分数展開.
+     * K(x)についてアルゴリズムを切り替えるxの閾値. <br>
+     * 下側はべき級数, 上側は漸近級数の連分数表示.
      */
-    private static final double BOUNDARY_X_FOR_BESSEL_K = 2d;
+    private static final double BOUNDARY_X_SELECTING_POWER_OR_ASYMPTOTIC_FOR_BESSEL_K = 2d;
 
     /**
-     * I(x)の下側xのべき級数の項数.
+     * I(x)のべき級数の項数.
      */
-    private static final int K_MAX_FOR_BESSEL_I_UNDER = 40;
+    private static final int K_MAX_FOR_BESSEL_I_BY_POWER = 40;
+
     /**
-     * I(x)の上側xの漸近級数の項数.
+     * I(x)の漸近級数の項数.
      */
-    private static final int K_MAX_FOR_BESSEL_I_OVER = 15;
+    private static final int K_MAX_FOR_BESSEL_I_BY_ASYMPTOTIC = 15;
+
     /**
-     * K(x)の下側xのべき級数の項数.
+     * K(x)のべき級数の項数.
      */
-    private static final int K_MAX_FOR_BESSEL_K_UNDER = 15;
+    private static final int K_MAX_FOR_BESSEL_K_BY_POWER = 15;
+
     /**
-     * K(x)の上側xの連分数の項数.
+     * K(x)の漸近級数の連分数の項数.
      */
-    private static final int K_MAX_FOR_BESSEL_K_OVER = 50;
+    private static final int K_MAX_FOR_BESSEL_K_BY_ASYMPTOTIC_FRACTION = 50;
 
     /**
      * {@literal x >= boundaryXForK} におけるK(x)の漸近展開部分を連分数に変換した結果.
      */
-    private static final NormalContinuedFractionFunction cfFuncOfMBesselKOver =
-            calcMBesselK_Over(K_MAX_FOR_BESSEL_K_OVER);
+    private static final NormalContinuedFractionFunction ASYMPTOTIC_FRACTION_FOR_BESSEK_K =
+            createAsymptoticFraction_forBesselK(K_MAX_FOR_BESSEL_K_BY_ASYMPTOTIC_FRACTION);
 
     /**
-     * [H_0, ..., H_kMax]
+     * [H_0, ..., H_kMax],
+     * Kのべき級数の計算で使用する.
      */
-    private static final double[] harmonicNumbers = calcHarmonicNumbers(K_MAX_FOR_BESSEL_K_UNDER);
+    private static final double[] HARMONIC_NUMBERS =
+            calcHarmonicNumbers(K_MAX_FOR_BESSEL_K_BY_POWER);
 
     NaiveMBessel0() {
         super();
@@ -83,10 +95,10 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
             return Double.NaN;
         }
 
-        if (x < BOUNDARY_X_FOR_BESSEL_I) {
-            return mBesselI_Under(x);
+        if (x < BOUNDARY_X_SELECTING_POWER_OR_ASYMPTOTIC_FOR_BESSEL_I) {
+            return besselI_byPower(x);
         } else {
-            double scaling_I = scaling_mBesselI_Over(x);
+            double scaling_I = scaling_besselI_byAsymptotic(x);
             if (scaling_I == 0d) {
                 return Double.POSITIVE_INFINITY;
             }
@@ -100,10 +112,10 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
             return Double.NaN;
         }
 
-        if (x < BOUNDARY_X_FOR_BESSEL_K) {
-            return mBesselK_Under(x);
+        if (x < BOUNDARY_X_SELECTING_POWER_OR_ASYMPTOTIC_FOR_BESSEL_K) {
+            return besselK_byPower(x);
         } else {
-            return scaling_mBesselK_Over(x) * Exponentiation.exp(-x);
+            return scaling_besselK_byAsymptoticFraction(x) * Exponentiation.exp(-x);
         }
     }
 
@@ -112,10 +124,10 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
         if (!(x >= 0)) {
             return Double.NaN;
         }
-        if (x < BOUNDARY_X_FOR_BESSEL_I) {
-            return mBesselI_Under(x) * Exponentiation.exp(-x);
+        if (x < BOUNDARY_X_SELECTING_POWER_OR_ASYMPTOTIC_FOR_BESSEL_I) {
+            return besselI_byPower(x) * Exponentiation.exp(-x);
         } else {
-            return scaling_mBesselI_Over(x);
+            return scaling_besselI_byAsymptotic(x);
         }
     }
 
@@ -124,24 +136,23 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
         if (!(x >= 0)) {
             return Double.NaN;
         }
-        if (x < BOUNDARY_X_FOR_BESSEL_K) {
-            return mBesselK_Under(x) * Exponentiation.exp(x);
+        if (x < BOUNDARY_X_SELECTING_POWER_OR_ASYMPTOTIC_FOR_BESSEL_K) {
+            return besselK_byPower(x) * Exponentiation.exp(x);
         } else {
-            return scaling_mBesselK_Over(x);
+            return scaling_besselK_byAsymptoticFraction(x);
         }
     }
 
     /**
-     * 下側xのI(x)
+     * べき級数による I(x)
      */
-    private static double mBesselI_Under(double x) {
-        //べき級数により計算する
+    private static double besselI_byPower(double x) {
 
         final double halfX = x / 2d;
         final double squareHalfX = halfX * halfX;
 
         double value = 0;
-        for (int k = K_MAX_FOR_BESSEL_I_UNDER + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_BESSEL_I_BY_POWER + 1; k >= 1; k--) {
             value *= squareHalfX / (k * k);
             value += 1d;
         }
@@ -150,20 +161,19 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
     }
 
     /**
-     * 上側xにおける, I(x)exp(-x)
+     * 漸近級数による I(x)exp(-x)
      */
-    private static double scaling_mBesselI_Over(double x) {
+    private static double scaling_besselI_byAsymptotic(double x) {
 
-        //漸近展開により計算する
         double asymptotic = SQRT_INV_2PI / Exponentiation.sqrt(x);
 
-        final double inv8X = 0.125 / x;
+        final double t = 0.125 / x;
 
         double value = 0;
-        for (int k = K_MAX_FOR_BESSEL_I_OVER + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_BESSEL_I_BY_ASYMPTOTIC + 1; k >= 1; k--) {
             int k2m1 = 2 * k - 1;
 
-            value *= (double) (k2m1 * k2m1) / k * inv8X;
+            value *= (double) (k2m1 * k2m1) / k * t;
             value += 1d;
         }
 
@@ -171,9 +181,9 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
     }
 
     /**
-     * 下側xのK(x)
+     * べき級数による K(x)
      */
-    private static double mBesselK_Under(double x) {
+    private static double besselK_byPower(double x) {
 
         final double halfX = x / 2d;
         final double squareHalfX = halfX * halfX;
@@ -184,19 +194,20 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
         }
 
         double value = 0;
-        for (int k = K_MAX_FOR_BESSEL_K_UNDER + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_BESSEL_K_BY_POWER + 1; k >= 1; k--) {
             value *= squareHalfX / (k * k);
-            value += harmonicNumbers[k - 1] - gamma_plus_logHalfX;
+            value += HARMONIC_NUMBERS[k - 1] - gamma_plus_logHalfX;
         }
 
         return value;
     }
 
     /**
-     * 上側xにおける, K(x)exp(x)
+     * 漸近級数の連分数表示による K(x)exp(x)
      */
-    private static double scaling_mBesselK_Over(double x) {
-        return SQRT_PI_OVER_2 / Exponentiation.sqrt(x) * cfFuncOfMBesselKOver.value(0.125 / x);
+    private static double scaling_besselK_byAsymptoticFraction(double x) {
+        return SQRT_PI_OVER_2 / Exponentiation.sqrt(x)
+                * ASYMPTOTIC_FRACTION_FOR_BESSEK_K.value(0.125 / x);
     }
 
     /**
@@ -215,15 +226,16 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
     }
 
     /**
-     * {@literal x >= 2} におけるK(x)の漸近展開部分を連分数に変換した結果を返す. <br>
-     * 
-     * 1 + ((1^2)/(1))*(1/8x) + + ((1^2)*(3^2)/(1*2))*(1/8x)^2 + ... <br>
-     * に相当.
+     * {@literal x >= boundaryXForK} におけるK(x)の漸近展開部分を連分数に変換したもの. <br>
+     * t = 1/(8x) を引数として, <br>
+     * 1 + ((1^2)/(1))*t + ((1^2)*(3^2)/(1*2))*t^2 + ... <br>
+     * を計算する仕組みである.
      * 
      * @param kMax 使用する項の数
      * @return 連分数
      */
-    private static NormalContinuedFractionFunction calcMBesselK_Over(int kMax) {
+    private static NormalContinuedFractionFunction
+            createAsymptoticFraction_forBesselK(int kMax) {
 
         IntUnaryOperator nume = k -> -((2 * k + 1) * (2 * k + 1));
         IntUnaryOperator denomi = k -> (k + 1);

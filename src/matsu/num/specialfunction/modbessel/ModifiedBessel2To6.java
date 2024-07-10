@@ -12,31 +12,39 @@ package matsu.num.specialfunction.modbessel;
 import matsu.num.commons.Exponentiation;
 
 /**
- * 次数2から6の変形Bessel関数を扱う. <br>
+ * 次数2から6の変形Bessel関数. <br>
+ * このクラスでは第1種変形Besselを実装し, クラスが完成する. <br>
  * 第1種変形Besselでは,
  * {@literal x <= 24} はべき級数表示を, それ以上では漸近級数を用いる.
  * 
  * @author Matsuura Y.
- * @version 18.3
+ * @version 18.4
  */
 final class ModifiedBessel2To6 extends ModifiedBesselHigherOrder {
 
     private static final double SQRT_INV_2PI = 1d / Math.sqrt(2 * Math.PI);
 
     /**
-     * I(x)についてアルゴリズムを切り替えるxの閾値.
-     * 下側はべき級数, 上側は漸近級数.
+     * I(x)についてアルゴリズムを切り替えるxの閾値. <br>
+     * 下側はべき級数, 上側は漸近級数. <br>
+     * 漸近級数ではexp(-x)成分を排除する必要があるため, この閾値は大きくとる.
      */
-    private static final double BOUNDARY_X_FOR_BESSEL_I = 24d;
+    private static final double BOUNDARY_X_SELECTING_POWER_OR_ASYMPTOTIC = 24d;
 
     /**
-     * I(x)の下側xのべき級数の項数.
+     * I(x)のべき級数の項数.
      */
-    private static final int K_MAX_FOR_POWER = 40;
+    private static final int K_MAX_BY_POWER = 40;
+
     /**
-     * I(x)の上側xの漸近級数の項数.
+     * I(x)の漸近級数の項数.
      */
-    private static final int K_MAX_FOR_ASYMPTOTIC = 20;
+    private static final int K_MAX_BY_ASYMPTOTIC = 20;
+
+    /**
+     * 次数をnとして, 1/n!
+     */
+    private final double inverseFactorial;
 
     /**
      * @param order 次数
@@ -45,10 +53,11 @@ final class ModifiedBessel2To6 extends ModifiedBesselHigherOrder {
      */
     ModifiedBessel2To6(int order, ModifiedBessel0thOrder mbessel0, ModifiedBessel1stOrder mbessel1) {
         super(order, mbessel0, mbessel1);
-
         if (!(2 <= order && order <= 6)) {
             throw new AssertionError("次数が2から6でない");
         }
+
+        this.inverseFactorial = InverseFactorialSupplier.get(order);
     }
 
     @Override
@@ -56,11 +65,11 @@ final class ModifiedBessel2To6 extends ModifiedBesselHigherOrder {
         if (!(x >= 0)) {
             return Double.NaN;
         }
-        if (x <= BOUNDARY_X_FOR_BESSEL_I) {
-            return this.besselI_byPower(x);
+        if (x <= BOUNDARY_X_SELECTING_POWER_OR_ASYMPTOTIC) {
+            return this.byPower(x);
         }
 
-        double scaling = this.scaling_besselI_byAsymptotic(x);
+        double scaling = this.scaling_byAsymptotic(x);
         if (scaling == 0d) {
             return Double.POSITIVE_INFINITY;
         }
@@ -72,56 +81,50 @@ final class ModifiedBessel2To6 extends ModifiedBesselHigherOrder {
         if (!(x >= 0)) {
             return Double.NaN;
         }
-        if (x <= BOUNDARY_X_FOR_BESSEL_I) {
-            return this.besselI_byPower(x) * Exponentiation.exp(-x);
+        if (x <= BOUNDARY_X_SELECTING_POWER_OR_ASYMPTOTIC) {
+            return this.byPower(x) * Exponentiation.exp(-x);
         }
 
-        return this.scaling_besselI_byAsymptotic(x);
+        return this.scaling_byAsymptotic(x);
     }
 
     /**
-     * べき級数によりIを計算する.
-     * 
-     * @param x x
+     * べき級数による I(x)
      */
-    private double besselI_byPower(double x) {
+    private double byPower(double x) {
 
         //級数部分
         final double halfX = x / 2d;
         final double squareHalfX = halfX * halfX;
 
         double coeff = 0;
-        for (int k = K_MAX_FOR_POWER + 1; k >= 1; k--) {
+        for (int k = K_MAX_BY_POWER + 1; k >= 1; k--) {
             coeff *= squareHalfX / (k * (k + this.order));
             coeff += 1d;
         }
 
         //x<<1におけるI_n(x)の振る舞い
-        double limit = 1;
-        for (int i = 0; i < this.order; i++) {
-            limit *= halfX / (i + 1);
-        }
+        //(x/2)^n/n!
+        double limit = Exponentiation.pow(halfX, this.order) * this.inverseFactorial;
 
         return coeff * limit;
     }
 
     /**
-     * 漸近級数によりIを計算する.
-     * 
-     * @param x x
+     * 漸近級数による I(x)exp(-x)
      */
-    private double scaling_besselI_byAsymptotic(double x) {
+    private double scaling_byAsymptotic(double x) {
 
         double asymptotic = SQRT_INV_2PI / Exponentiation.sqrt(x);
 
-        final double inv8X = 0.125 / x;
+        final double t = 0.125 / x;
         final int squareOrder4 = 4 * this.order * this.order;
 
         double value = 0;
-        for (int k = K_MAX_FOR_ASYMPTOTIC + 1; k >= 1; k--) {
+        for (int k = K_MAX_BY_ASYMPTOTIC + 1; k >= 1; k--) {
             int k2m1 = 2 * k - 1;
 
-            value *= (double) (k2m1 * k2m1 - squareOrder4) / k * inv8X;
+            value *= (double) (k2m1 * k2m1 - squareOrder4) / k * t;
             value += 1d;
         }
 

@@ -13,19 +13,18 @@ import matsu.num.commons.Exponentiation;
 
 /**
  * 高次(2次以上)の変形Bessel関数を表す. <br>
- * 第2種変形Besselについては前進漸化式を使用することが決まっているので実装されている.
+ * 前進漸化式による第2種変形Besselの計算が実装されている.
  * 
  * @author Matsuura Y.
- * @version 18.3
+ * @version 18.4
  */
 abstract class ModifiedBesselHigherOrder extends SkeletalModifiedBessel {
 
     /**
-     * Kで計算するか, scalingKで計算するかを切り替える閾値.
-     * 下側では生の値, 上側ではスケーリング値を使う.
-     * 
+     * 前進漸化式によるK(x)について, 生値で進めるか, スケーリング値で進めるかを切り替えるxの閾値. <br>
+     * 下側は生値, 上側はスケーリング値.
      */
-    private static final double BOUNDARY_X_SELECTING_RAW_OR_SCALING = 2d;
+    private static final double BOUNDARY_X_SELECTING_RAW_OR_SCALING_FOR_BESSEL_K = 2d;
 
     protected final int order;
 
@@ -58,11 +57,10 @@ abstract class ModifiedBesselHigherOrder extends SkeletalModifiedBessel {
             return Double.NaN;
         }
 
-        if (x < BOUNDARY_X_SELECTING_RAW_OR_SCALING) {
-            return this.valueKRecursion(x, this.mbessel0.besselK(x), this.mbessel1.besselK(x));
+        if (x < BOUNDARY_X_SELECTING_RAW_OR_SCALING_FOR_BESSEL_K) {
+            return this.besselK_byForwardRecursion(x);
         } else {
-            return this.valueKRecursion(x, this.mbessel0.besselKc(x), this.mbessel1.besselKc(x))
-                    * Exponentiation.exp(-x);
+            return this.besselKc_byForwardRecursion(x) * Exponentiation.exp(-x);
         }
     }
 
@@ -71,7 +69,21 @@ abstract class ModifiedBesselHigherOrder extends SkeletalModifiedBessel {
         if (!(x >= 0)) {
             return Double.NaN;
         }
-        return this.valueKRecursion(x, this.mbessel0.besselKc(x), this.mbessel1.besselKc(x));
+        return this.besselKc_byForwardRecursion(x);
+    }
+
+    /**
+     * 前進漸化式に従って K(x) を求める.
+     */
+    private double besselK_byForwardRecursion(double x) {
+        return this.byForwardRecursion(x, this.mbessel0.besselK(x), this.mbessel1.besselK(x));
+    }
+
+    /**
+     * 前進漸化式に従って K(x)exp(x) を求める.
+     */
+    private double besselKc_byForwardRecursion(double x) {
+        return this.byForwardRecursion(x, this.mbessel0.besselKc(x), this.mbessel1.besselKc(x));
     }
 
     /**
@@ -81,21 +93,21 @@ abstract class ModifiedBesselHigherOrder extends SkeletalModifiedBessel {
      * @param value0 n = 0での値
      * @param value1 n = 1での値
      */
-    private double valueKRecursion(double x, double value0, double value1) {
+    private double byForwardRecursion(double x, double value0, double value1) {
 
-        double v_n_minus_1 = value0;
-        double v_n = value1;
+        double v_nu_minus_1 = value0;
+        double v_nu = value1;
 
         for (int n = 1; n < this.order; n++) {
-            double v_n_plus_1 = v_n_minus_1 + (2 * n / x) * v_n;
+            double v_nu_plus_1 = v_nu_minus_1 + (2 * n / x) * v_nu;
 
-            if (!Double.isFinite(v_n_plus_1)) {
+            if (!Double.isFinite(v_nu_plus_1)) {
                 return Double.POSITIVE_INFINITY;
             }
 
-            v_n_minus_1 = v_n;
-            v_n = v_n_plus_1;
+            v_nu_minus_1 = v_nu;
+            v_nu = v_nu_plus_1;
         }
-        return v_n;
+        return v_nu;
     }
 }
