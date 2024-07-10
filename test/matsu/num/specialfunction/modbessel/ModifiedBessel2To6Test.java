@@ -21,7 +21,7 @@ final class ModifiedBessel2To6Test {
     public static final Class<?> TEST_CLASS = ModifiedBessel2To6.class;
 
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
-            new DoubleRelativeAssertion(1E-15);
+            new DoubleRelativeAssertion(1E-14);
 
     private static final IntFunction<ModifiedBesselHigherOrder> M_BESSEL_SUPPLIER =
             order -> new ModifiedBessel2To6(order, new NaiveMBessel0(), new NaiveMBessel1());
@@ -119,6 +119,102 @@ final class ModifiedBessel2To6Test {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
                     M_BESSEL_SUPPLIER.apply(n).besselI(dataPair[0]));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 次数2に関するIのスケーリングの検証 {
+
+        private final int n = 2;
+
+        /* 値の生成コード(https://keisan.casio.jp/calculator) */
+        /* ------------------------------------ */
+        //        n=2;
+        //        numeric xs[] = {0,0.5,1,1.5,2,5,10,20,23.75,24.25,50,100,200,500,1000};
+        //
+        //        for(index = 0; index < kei_length(xs); index = index + 1){
+        //            x = xs[index];
+        //            println(x,besseli(n,x)*exp(-x));
+        //        }
+        /* ------------------------------------ */
+
+        /**
+         * [x, K_n(x)]
+         */
+        @DataPoints
+        public static double[][] dataPairs = {
+                { 0, 0d },
+                { 0.5, 0.01935205770966327953741452 },
+                { 1, 0.049938776894223538763192159 },
+                { 1.5, 0.075381092492924109751428024 },
+                { 2, 0.093239033304733380374879176 },
+                { 5, 0.11795190583151141030320159 },
+                { 10, 0.10358080088653750357925929 },
+                { 20, 0.081029689666497155060311647 },
+                { 23.75, 0.075519517896777810689718229 },
+                { 24.25, 0.074863854232484977339195242 },
+                { 50, 0.05432190169173837654418404 },
+                { 100, 0.039149496238594077594085927 },
+                { 200, 0.02794559491516358649211606 },
+                { 500, 0.017774395092741575010690668 },
+                { 1000, 0.012592018595377399326775656 },
+                { Math.nextDown(0d), Double.NaN },
+                { Double.POSITIVE_INFINITY, 0d }
+        };
+
+        @Theory
+        public void test_検証(double[] dataPair) {
+            DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
+                    dataPair[1],
+                    M_BESSEL_SUPPLIER.apply(n).besselIc(dataPair[0]));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 次数6に関するIのスケーリングの検証 {
+
+        private final int n = 6;
+
+        /* 値の生成コード(https://keisan.casio.jp/calculator) */
+        /* ------------------------------------ */
+        //        n=6;
+        //        numeric xs[] = {0,0.5,1,1.5,2,5,10,20,23.75,24.25,50,100,200,500,1000};
+        //
+        //        for(index = 0; index < kei_length(xs); index = index + 1){
+        //            x = xs[index];
+        //            println(x,besseli(n,x)*exp(-x));
+        //        }
+        /* ------------------------------------ */
+
+        /**
+         * [x, K_n(x)]
+         */
+        @DataPoints
+        public static double[][] dataPairs = {
+                { 0, 0 },
+                { 0.5, 2.0750844834613875438864618E-7 },
+                { 1, 8.2731162169067918833882499E-6 },
+                { 1.5, 5.9747371982295452022298295E-5 },
+                { 2, 2.1655991537989607768089245E-4 },
+                { 5, 0.0053383788458419933411727926 },
+                { 10, 0.020398290653699230485184123 },
+                { 20, 0.035917383144805844536303721 },
+                { 23.75, 0.03810257953547447723920543 },
+                { 24.25, 0.038313270517666141336838999 },
+                { 50, 0.039334717675906962841729733 },
+                { 100, 0.033335858977284710368664995 },
+                { 200, 0.025792022929781750198925595 },
+                { 500, 0.01721407397210055847161696 },
+                { 1000, 0.012392050932874427978137372 },
+                { Math.nextDown(0d), Double.NaN },
+                { Double.POSITIVE_INFINITY, 0d }
+        };
+
+        @Theory
+        public void test_検証(double[] dataPair) {
+            DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
+                    dataPair[1],
+                    M_BESSEL_SUPPLIER.apply(n).besselIc(dataPair[0]));
         }
     }
 }

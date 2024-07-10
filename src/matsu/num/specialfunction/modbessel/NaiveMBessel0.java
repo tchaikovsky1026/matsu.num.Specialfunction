@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.8
+ * 2024.7.10
  */
 package matsu.num.specialfunction.modbessel;
 
@@ -26,18 +26,52 @@ import matsu.num.specialfunction.GammaFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.2
+ * @version 18.3
  */
 final class NaiveMBessel0 extends ModifiedBessel0thOrder {
 
-    /**
-     * {@literal x >= 2} におけるK(x)の漸近展開部分を連分数に変換した結果.
-     */
-    private static final NormalContinuedFractionFunction cfFuncOfMBesselK_Over2;
+    private static final double SQRT_INV_2PI = 1d / Math.sqrt(2 * Math.PI);
+    private static final double SQRT_PI_OVER_2 = Math.sqrt(Math.PI / 2);
 
-    static {
-        cfFuncOfMBesselK_Over2 = calcMBesselK_Over2(50);
-    }
+    /**
+     * I(x)についてアルゴリズムを切り替えるxの閾値.
+     * 下側はべき級数, 上側は漸近級数.
+     */
+    private static final double BOUNDARY_X_FOR_BESSEL_I = 24d;
+
+    /**
+     * K(x)についてアルゴリズムを切り替えるxの閾値.
+     * 下側はべき級数, 上側は漸近級数の連分数展開.
+     */
+    private static final double BOUNDARY_X_FOR_BESSEL_K = 2d;
+
+    /**
+     * I(x)の下側xのべき級数の項数.
+     */
+    private static final int K_MAX_FOR_BESSEL_I_UNDER = 40;
+    /**
+     * I(x)の上側xの漸近級数の項数.
+     */
+    private static final int K_MAX_FOR_BESSEL_I_OVER = 15;
+    /**
+     * K(x)の下側xのべき級数の項数.
+     */
+    private static final int K_MAX_FOR_BESSEL_K_UNDER = 15;
+    /**
+     * K(x)の上側xの連分数の項数.
+     */
+    private static final int K_MAX_FOR_BESSEL_K_OVER = 50;
+
+    /**
+     * {@literal x >= boundaryXForK} におけるK(x)の漸近展開部分を連分数に変換した結果.
+     */
+    private static final NormalContinuedFractionFunction cfFuncOfMBesselKOver =
+            calcMBesselK_Over(K_MAX_FOR_BESSEL_K_OVER);
+
+    /**
+     * [H_0, ..., H_kMax]
+     */
+    private static final double[] harmonicNumbers = calcHarmonicNumbers(K_MAX_FOR_BESSEL_K_UNDER);
 
     NaiveMBessel0() {
         super();
@@ -48,10 +82,15 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
         if (!(x >= 0)) {
             return Double.NaN;
         }
-        if (x < 24) {
-            return mBesselI_Under_24(x);
+
+        if (x < BOUNDARY_X_FOR_BESSEL_I) {
+            return mBesselI_Under(x);
         } else {
-            return mBesselI_Over_24(x);
+            double scaling_I = scaling_mBesselI_Over(x);
+            if (scaling_I == 0d) {
+                return Double.POSITIVE_INFINITY;
+            }
+            return scaling_I * Exponentiation.exp(x);
         }
     }
 
@@ -60,22 +99,49 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
         if (!(x >= 0)) {
             return Double.NaN;
         }
-        if (x < 2) {
-            return mBesselK_Under_2(x);
+
+        if (x < BOUNDARY_X_FOR_BESSEL_K) {
+            return mBesselK_Under(x);
         } else {
-            return mBesselK_Over_2(x);
+            return scaling_mBesselK_Over(x) * Exponentiation.exp(-x);
         }
     }
 
-    private static double mBesselI_Under_24(double x) {
+    @Override
+    public double besselIc(double x) {
+        if (!(x >= 0)) {
+            return Double.NaN;
+        }
+        if (x < BOUNDARY_X_FOR_BESSEL_I) {
+            return mBesselI_Under(x) * Exponentiation.exp(-x);
+        } else {
+            return scaling_mBesselI_Over(x);
+        }
+    }
+
+    @Override
+    public double besselKc(double x) {
+        if (!(x >= 0)) {
+            return Double.NaN;
+        }
+        if (x < BOUNDARY_X_FOR_BESSEL_K) {
+            return mBesselK_Under(x) * Exponentiation.exp(x);
+        } else {
+            return scaling_mBesselK_Over(x);
+        }
+    }
+
+    /**
+     * 下側xのI(x)
+     */
+    private static double mBesselI_Under(double x) {
         //べき級数により計算する
 
         final double halfX = x / 2d;
         final double squareHalfX = halfX * halfX;
 
-        final int kMax = 40;
         double value = 0;
-        for (int k = kMax + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_BESSEL_I_UNDER + 1; k >= 1; k--) {
             value *= squareHalfX / (k * k);
             value += 1d;
         }
@@ -83,21 +149,18 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
         return value;
     }
 
-    private static double mBesselI_Over_24(double x) {
+    /**
+     * 上側xにおける, I(x)exp(-x)
+     */
+    private static double scaling_mBesselI_Over(double x) {
 
         //漸近展開により計算する
-        double asymptotic = Exponentiation.exp(x) / Exponentiation.sqrt(2 * Math.PI * x);
-        if (!Double.isFinite(asymptotic)) {
-            return Double.POSITIVE_INFINITY;
-        }
+        double asymptotic = SQRT_INV_2PI / Exponentiation.sqrt(x);
 
         final double inv8X = 0.125 / x;
 
-        //扱うxの範囲において, 漸近級数の項が増大を始める値:過剰
-        //x=24ならｋMax=15でよい
-        final int kMax = 15;
         double value = 0;
-        for (int k = kMax + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_BESSEL_I_OVER + 1; k >= 1; k--) {
             int k2m1 = 2 * k - 1;
 
             value *= (double) (k2m1 * k2m1) / k * inv8X;
@@ -107,7 +170,10 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
         return value * asymptotic;
     }
 
-    private static double mBesselK_Under_2(double x) {
+    /**
+     * 下側xのK(x)
+     */
+    private static double mBesselK_Under(double x) {
 
         final double halfX = x / 2d;
         final double squareHalfX = halfX * halfX;
@@ -117,11 +183,8 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
             return Double.POSITIVE_INFINITY;
         }
 
-        final int kMax = 15;
-        final double[] harmonicNumbers = calcHarmonicNumbers(kMax);
-
         double value = 0;
-        for (int k = kMax + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_BESSEL_K_UNDER + 1; k >= 1; k--) {
             value *= squareHalfX / (k * k);
             value += harmonicNumbers[k - 1] - gamma_plus_logHalfX;
         }
@@ -129,14 +192,11 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
         return value;
     }
 
-    private static double mBesselK_Over_2(double x) {
-        //漸近展開により計算する
-        double asymptotic = Exponentiation.exp(-x) * Exponentiation.sqrt(Math.PI / 2 / x);
-        if (!Double.isFinite(asymptotic)) {
-            return 0d;
-        }
-
-        return asymptotic * cfFuncOfMBesselK_Over2.value(0.125 / x);
+    /**
+     * 上側xにおける, K(x)exp(x)
+     */
+    private static double scaling_mBesselK_Over(double x) {
+        return SQRT_PI_OVER_2 / Exponentiation.sqrt(x) * cfFuncOfMBesselKOver.value(0.125 / x);
     }
 
     /**
@@ -163,7 +223,7 @@ final class NaiveMBessel0 extends ModifiedBessel0thOrder {
      * @param kMax 使用する項の数
      * @return 連分数
      */
-    private static NormalContinuedFractionFunction calcMBesselK_Over2(int kMax) {
+    private static NormalContinuedFractionFunction calcMBesselK_Over(int kMax) {
 
         IntUnaryOperator nume = k -> -((2 * k + 1) * (2 * k + 1));
         IntUnaryOperator denomi = k -> (k + 1);

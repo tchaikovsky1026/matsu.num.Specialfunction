@@ -22,13 +22,25 @@ import matsu.num.specialfunction.modbessel.ModifiedBesselFunctionFactory;
  * </p>
  * 
  * <p>
+ * <i>I<sub>n</sub></i>(<i>x</i>), <i>K<sub>n</sub></i>(<i>x</i>)
+ * は <i>x</i> &gg; 1 でそれぞれ exp(<i>x</i>), exp(-<i>x</i>)
+ * のように振る舞うため, オーバーフローやアンダーフローを起こしやすい. <br>
+ * そこで, このインターフェースでは,
+ * <i>I<sub>n</sub></i>(<i>x</i>), <i>K<sub>n</sub></i>(<i>x</i>)
+ * に加えて, スケーリングした変形Bessel関数
+ * <i>I<sub>n</sub></i>(<i>x</i>) exp(-<i>x</i>) と
+ * <i>K<sub>n</sub></i>(<i>x</i>) exp(<i>x</i>)
+ * を算出する機能を提供する.
+ * </p>
+ * 
+ * <p>
  * サポートされている次数は
  * 0 &le; <i>n</i> &le; 100
  * である.
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.2
+ * @version 18.3
  * @see <a href=
  *          "https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions"
  *          target= "_brank">
@@ -81,6 +93,39 @@ public interface ModifiedBesselFunction {
      * @return <i>K</i><sub><i>n</i></sub>(<i>x</i>)
      */
     public abstract double besselK(double x);
+
+    /**
+     * スケーリングした第1種変形Bessel関数
+     * <i>I<sub>n</sub></i>(<i>x</i>) exp(-<i>x</i>)
+     * の値を返す.
+     *
+     * <ul>
+     * <li><i>x</i> &lt; 0 &rarr; NaN
+     * </li>
+     * <li><i>x</i> &asymp; +&infin; &rarr; 0</li>
+     * </ul>
+     *
+     * @param x <i>x</i>, 引数
+     * @return <i>I</i><sub><i>n</i></sub>(<i>x</i>) exp(-<i>x</i>)
+     */
+    public abstract double besselIc(double x);
+
+    /**
+     * スケーリングした第2種変形Bessel関数
+     * <i>K<sub>n</sub></i>(<i>x</i>) exp(<i>x</i>)
+     * の値を返す.
+     *
+     * <ul>
+     * <li><i>x</i> &lt; 0 &rarr; NaN
+     * </li>
+     * <li><i>x</i> &asymp; 0 &rarr; +&infin;</li>
+     * <li><i>x</i> &asymp; +&infin; &rarr; 0</li>
+     * </ul>
+     *
+     * @param x <i>x</i>, 引数
+     * @return <i>K</i><sub><i>n</i></sub>(<i>x</i>) exp(<i>x</i>)
+     */
+    public abstract double besselKc(double x);
 
     /**
      * <p>

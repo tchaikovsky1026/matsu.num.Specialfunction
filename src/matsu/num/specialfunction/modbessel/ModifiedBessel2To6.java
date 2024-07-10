@@ -16,11 +16,27 @@ import matsu.num.commons.Exponentiation;
  * 第1種変形Besselでは,
  * {@literal x <= 24} はべき級数表示を, それ以上では漸近級数を用いる.
  * 
- * 
  * @author Matsuura Y.
- * @version 18.2
+ * @version 18.3
  */
 final class ModifiedBessel2To6 extends ModifiedBesselHigherOrder {
+
+    private static final double SQRT_INV_2PI = 1d / Math.sqrt(2 * Math.PI);
+
+    /**
+     * I(x)についてアルゴリズムを切り替えるxの閾値.
+     * 下側はべき級数, 上側は漸近級数.
+     */
+    private static final double BOUNDARY_X_FOR_BESSEL_I = 24d;
+
+    /**
+     * I(x)の下側xのべき級数の項数.
+     */
+    private static final int K_MAX_FOR_POWER = 40;
+    /**
+     * I(x)の上側xの漸近級数の項数.
+     */
+    private static final int K_MAX_FOR_ASYMPTOTIC = 20;
 
     /**
      * @param order 次数
@@ -40,27 +56,42 @@ final class ModifiedBessel2To6 extends ModifiedBesselHigherOrder {
         if (!(x >= 0)) {
             return Double.NaN;
         }
-        if (x <= 24) {
-            return this.besselIByPower(x, 40);
+        if (x <= BOUNDARY_X_FOR_BESSEL_I) {
+            return this.besselI_byPower(x);
         }
 
-        return this.besselIByAsymptotic(x, 20);
+        double scaling = this.scaling_besselI_byAsymptotic(x);
+        if (scaling == 0d) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return scaling * Exponentiation.exp(x);
+    }
+
+    @Override
+    public double besselIc(double x) {
+        if (!(x >= 0)) {
+            return Double.NaN;
+        }
+        if (x <= BOUNDARY_X_FOR_BESSEL_I) {
+            return this.besselI_byPower(x) * Exponentiation.exp(-x);
+        }
+
+        return this.scaling_besselI_byAsymptotic(x);
     }
 
     /**
      * べき級数によりIを計算する.
      * 
      * @param x x
-     * @param kMax べき級数の項数
      */
-    private double besselIByPower(double x, int kMax) {
+    private double besselI_byPower(double x) {
 
         //級数部分
         final double halfX = x / 2d;
         final double squareHalfX = halfX * halfX;
 
         double coeff = 0;
-        for (int k = kMax + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_POWER + 1; k >= 1; k--) {
             coeff *= squareHalfX / (k * (k + this.order));
             coeff += 1d;
         }
@@ -78,22 +109,19 @@ final class ModifiedBessel2To6 extends ModifiedBesselHigherOrder {
      * 漸近級数によりIを計算する.
      * 
      * @param x x
-     * @param kMax 漸近級数の項数
      */
-    private double besselIByAsymptotic(double x, int kMax) {
+    private double scaling_besselI_byAsymptotic(double x) {
 
-        double asymptotic = Exponentiation.exp(x) / Exponentiation.sqrt(2 * Math.PI * x);
-        if (!Double.isFinite(asymptotic)) {
-            return Double.POSITIVE_INFINITY;
-        }
+        double asymptotic = SQRT_INV_2PI / Exponentiation.sqrt(x);
 
         final double inv8X = 0.125 / x;
+        final int squareOrder4 = 4 * this.order * this.order;
 
         double value = 0;
-        for (int k = kMax + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_ASYMPTOTIC + 1; k >= 1; k--) {
             int k2m1 = 2 * k - 1;
 
-            value *= (double) (k2m1 * k2m1 - 4 * this.order * this.order) / k * inv8X;
+            value *= (double) (k2m1 * k2m1 - squareOrder4) / k * inv8X;
             value += 1d;
         }
 

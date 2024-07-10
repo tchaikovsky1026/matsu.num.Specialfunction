@@ -17,12 +17,38 @@ import matsu.num.commons.Exponentiation;
  * {@literal x <= n^2/2} は後退漸化式を, それ以上では漸近級数を用いる.
  * 
  * @author Matsuura Y.
- * @version 18.2
+ * @version 18.3
  */
 final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
 
+    private static final double SQRT_INV_2PI = 1d / Math.sqrt(2 * Math.PI);
+
+    /**
+     * I(x)についてアルゴリズムを切り替えるxの閾値(下側).
+     * 下側はべき級数, 上側は後退漸化式.
+     */
+    private static final double BOUNDARY_X_FOR_POWER = 1d;
+
+    /**
+     * I(x)の下側xのべき級数の項数.
+     */
+    private static final int K_MAX_FOR_POWER = 9;
+
+    /**
+     * I(x)の上側xの漸近級数の項数.
+     */
+    private static final int K_MAX_FOR_ASYMPTOTIC = 20;
+
+    /**
+     * I(x)についてアルゴリズムを切り替えるxの閾値(上側).
+     * 下側は後退漸化式, 上側は漸近級数.
+     */
+    private final double boundaryXForAsymptotic;
+
+    /**
+     * 後退漸化式の考慮するべき次数.
+     */
     private final int upperN;
-    private final double boundaryOfAsymptotic;
 
     /**
      * @param order 次数
@@ -36,7 +62,7 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
         }
 
         this.upperN = this.calcUpperN();
-        this.boundaryOfAsymptotic = this.calcBoundaryOfAsymptotic();
+        this.boundaryXForAsymptotic = this.calcBoundaryForAsymptotic();
     }
 
     @Override
@@ -45,15 +71,36 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
             return Double.NaN;
         }
 
-        if (x <= 1) {
-            return this.besselIByPower(x, 9);
+        if (x <= BOUNDARY_X_FOR_POWER) {
+            return this.besselIByPower(x);
         }
 
-        if (x <= this.boundaryOfAsymptotic) {
-            return this.besselIByBackRecursion(x, this.upperN);
+        if (x <= this.boundaryXForAsymptotic) {
+            return this.scaling_besselI_byBackRecursion(x) * Exponentiation.exp(x);
         }
 
-        return this.besselIByAsymptotic(x, 20);
+        double scaling = this.scaling_besselI_byAsymptotic(x);
+        if (scaling == 0d) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return scaling * Exponentiation.exp(x);
+    }
+
+    @Override
+    public double besselIc(double x) {
+        if (!(x >= 0)) {
+            return Double.NaN;
+        }
+
+        if (x <= BOUNDARY_X_FOR_POWER) {
+            return this.besselIByPower(x) * Exponentiation.exp(-x);
+        }
+
+        if (x <= this.boundaryXForAsymptotic) {
+            return this.scaling_besselI_byBackRecursion(x);
+        }
+
+        return this.scaling_besselI_byAsymptotic(x);
     }
 
     /**
@@ -62,15 +109,14 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
      * @param x x
      * @param kMax べき級数の項数
      */
-    private double besselIByPower(double x, int kMax) {
+    private double besselIByPower(double x) {
 
         //級数部分
-        //x<<1で1である
         final double halfX = x / 2d;
         final double squareHalfX = halfX * halfX;
 
         double coeff = 0;
-        for (int k = kMax + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_POWER + 1; k >= 1; k--) {
             coeff *= squareHalfX / (k * (k + this.order));
             coeff += 1d;
         }
@@ -90,14 +136,14 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
      * @param x x
      * @param kMax べき級数の項数
      */
-    private double besselIByBackRecursion(double x, int upperN) {
+    private double scaling_besselI_byBackRecursion(double x) {
 
         final double init = 1E-280;
 
         double i_nu_plus_1 = 0d;
         double i_nu = init;
 
-        for (int nu = upperN; nu > this.order; nu--) {
+        for (int nu = this.upperN; nu > this.order; nu--) {
             double i_nu_m_1 = i_nu_plus_1 + (2 * nu / x) * i_nu;
 
             i_nu_plus_1 = i_nu;
@@ -124,7 +170,7 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
             i_nu = i_nu_m_1;
         }
 
-        return this.mbessel1.besselI(x) / i_nu * i_order;
+        return this.mbessel1.besselIc(x) / i_nu * i_order;
     }
 
     /**
@@ -133,17 +179,14 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
      * @param x x
      * @param kMax 漸近級数の項数
      */
-    private double besselIByAsymptotic(double x, int kMax) {
+    private double scaling_besselI_byAsymptotic(double x) {
 
-        double asymptotic = Exponentiation.exp(x) / Exponentiation.sqrt(2 * Math.PI * x);
-        if (!Double.isFinite(asymptotic)) {
-            return Double.POSITIVE_INFINITY;
-        }
+        double asymptotic = SQRT_INV_2PI / Exponentiation.sqrt(x);
 
         final double inv8X = 0.125 / x;
 
         double value = 0;
-        for (int k = kMax + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_ASYMPTOTIC; k >= 1; k--) {
             int k2m1 = 2 * k - 1;
 
             value *= (double) (k2m1 * k2m1 - 4 * this.order * this.order) / k * inv8X;
@@ -162,7 +205,7 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
         return (int) (4.6 * this.order) + 3;
     }
 
-    private double calcBoundaryOfAsymptotic() {
+    private double calcBoundaryForAsymptotic() {
         return this.order * this.order * 0.5;
     }
 

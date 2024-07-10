@@ -1,3 +1,7 @@
+18.3:
+機能追加(ModifiedBesselFunctionにスケーリングを加える)
+安定性の向上(ModifiedBesselFunction).
+
 18.2b:
 機能追加(ModifiedBesselFunction関数の計算の実現).
 BesselFunctionのリファクタリング.
