@@ -7,7 +7,6 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import matsu.num.specialfunction.BesselFunction;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
@@ -23,7 +22,7 @@ final class Bessel1stOrderTest {
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
             new DoubleRelativeAssertion(1E-12);
 
-    private static final BesselFunction BESSEL_1 = Bessel1stOrder.instance();
+    private static final Bessel1stOrder BESSEL_1 = new Bessel1stOrder();
 
     @RunWith(Theories.class)
     public static class 第1種ベッセルに関するテスト {

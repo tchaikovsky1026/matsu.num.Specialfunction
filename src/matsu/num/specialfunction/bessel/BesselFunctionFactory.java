@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.17
+ * 2024.7.8
  */
 package matsu.num.specialfunction.bessel;
 
@@ -17,9 +17,12 @@ import matsu.num.specialfunction.BesselFunction;
  * Bessel関数のファクトリ.
  *
  * @author Matsuura Y.
- * @version 18.1
+ * @version 18.2
  */
 public final class BesselFunctionFactory {
+
+    private static final BesselFunction BESSEL_0 = new Bessel0thOrder();
+    private static final BesselFunction BESSEL_1 = new Bessel1stOrder();
 
     /**
      * Higher orderを生成する閾値.
@@ -59,11 +62,11 @@ public final class BesselFunctionFactory {
 
         switch (order) {
         case 0:
-            return Bessel0thOrder.instance();
+            return BESSEL_0;
         case 1:
-            return Bessel1stOrder.instance();
+            return BESSEL_1;
         default:
-            return new BesselHigherOrder(order);
+            return new BesselHigherOrder(order, BESSEL_0, BESSEL_1);
         }
     }
 }

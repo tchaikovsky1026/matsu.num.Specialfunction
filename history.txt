@@ -1,3 +1,7 @@
+18.2b:
+機能追加(ModifiedBesselFunction関数の計算の実現).
+BesselFunctionのリファクタリング.
+
 18.1:
 機能追加(パラメータ検証メソッドを実装,lgammaStirling).
 テストのリファクタリング.

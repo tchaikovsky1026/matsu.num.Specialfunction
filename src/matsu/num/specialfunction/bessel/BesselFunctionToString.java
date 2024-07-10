@@ -18,7 +18,9 @@ import matsu.num.specialfunction.BesselFunction;
  * 
  * @author Matsuura Y.
  * @version 18.0
+ * @deprecated このクラスは使われていない. ver 19以降に削除予定である.
  */
+@Deprecated
 final class BesselFunctionToString {
 
     private BesselFunctionToString() {

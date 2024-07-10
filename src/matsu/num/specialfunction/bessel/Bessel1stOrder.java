@@ -5,11 +5,9 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.7.8
  */
 package matsu.num.specialfunction.bessel;
-
-import java.util.Objects;
 
 import matsu.num.commons.Exponentiation;
 import matsu.num.commons.Trigonometry;
@@ -20,11 +18,9 @@ import matsu.num.specialfunction.GammaFunction;
  * 1次のBessel関数.
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 18.2
  */
-final class Bessel1stOrder implements BesselFunction {
-
-    private static final BesselFunction INSTANCE = new Bessel1stOrder();
+final class Bessel1stOrder extends SkeletalBessel implements BesselFunction {
 
     private static final double EULER_MASCHERONI_GAMMA = GammaFunction.EULER_MASCHERONI_GAMMA;
     private static final double INV_2_PI = 1.0 / (2 * Math.PI);
@@ -32,10 +28,8 @@ final class Bessel1stOrder implements BesselFunction {
     private static final double SQRT_2_OVER_PI = Math.sqrt(2.0 / Math.PI);
     private static final double LN_2 = Math.log(2);
 
-    private Bessel1stOrder() {
-        if (Objects.nonNull(INSTANCE)) {
-            throw new AssertionError();
-        }
+    Bessel1stOrder() {
+        super();
     }
 
     @Override
@@ -65,11 +59,6 @@ final class Bessel1stOrder implements BesselFunction {
         } else {
             return besselY1_Over_1(x);
         }
-    }
-
-    @Override
-    public String toString() {
-        return BesselFunctionToString.toString(this);
     }
 
     private static double besselJ1_Under_1(double x) {
@@ -403,13 +392,4 @@ final class Bessel1stOrder implements BesselFunction {
             }
         }
     }
-
-    /**
-     * 
-     * @return インスタンス
-     */
-    public static BesselFunction instance() {
-        return INSTANCE;
-    }
-
 }
