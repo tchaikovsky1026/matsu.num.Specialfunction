@@ -5,25 +5,25 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.10
+ * 2024.7.11
  */
 package matsu.num.specialfunction.modbessel;
 
 import matsu.num.commons.Exponentiation;
 
 /**
- * 次数7以上の変形Bessel関数を扱う. <br>
+ * 次数2以上の変形Bessel関数を扱う. <br>
  * このクラスでは第1種変形Besselを実装し, クラスが完成する. <br>
  * 第1種変形Besselでは,
- * {@literal x <= n^2/2} は後退漸化式を, それ以上では漸近級数を用いる.
+ * {@literal x <= 24} はべき級数を,
+ * {@literal 24 <= x <= n^2/2} は後退漸化式を,
+ * それ以上では漸近級数を用いる. <br>
+ * ただし, 次数6以下の場合は後退漸化式の領域は存在しない.
  * 
  * @author Matsuura Y.
- * @version 18.4
- * @deprecated このクラスは使われていない.
- *                 {@link ModifiedBesselOver2} に置き換えられる.
+ * @version 18.5
  */
-@Deprecated
-final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
+final class ModifiedBesselOver2 extends ModifiedBesselHigherOrder {
 
     private static final double SQRT_INV_2PI = 1d / Math.sqrt(2 * Math.PI);
 
@@ -31,12 +31,12 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
      * I(x)についてアルゴリズムを切り替えるxの下側の閾値. <br>
      * 下側はべき級数, 上側は後退漸化式.
      */
-    private static final double BOUNDARY_X_SELECTING_POWER_OR_BACK_RECURSION = 1d;
+    private static final double BOUNDARY_X_SELECTING_POWER_OR_BACK_RECURSION = 24d;
 
     /**
      * I(x)のべき級数の項数.
      */
-    private static final int K_MAX_BY_POWER = 9;
+    private static final int K_MAX_BY_POWER = 40;
 
     /**
      * I(x)の漸近級数の項数.
@@ -64,10 +64,10 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
      * @param mbessel0 mbessel0
      * @param mbessel1 mbessel1
      */
-    ModifiedBesselOver7(int order, ModifiedBessel0thOrder mbessel0, ModifiedBessel1stOrder mbessel1) {
+    ModifiedBesselOver2(int order, ModifiedBessel0thOrder mbessel0, ModifiedBessel1stOrder mbessel1) {
         super(order, mbessel0, mbessel1);
-        if (!(order >= 7)) {
-            throw new AssertionError("次数が7以上でない");
+        if (!(order >= 2)) {
+            throw new AssertionError("次数が2以上でない");
         }
 
         this.upperN_byBackRecursion =
@@ -193,12 +193,14 @@ final class ModifiedBesselOver7 extends ModifiedBesselHigherOrder {
 
         double asymptotic = SQRT_INV_2PI / Exponentiation.sqrt(x);
 
+        final int squareOrder4 = 4 * this.order * this.order;
+
         final double t = 0.125 / x;
         double value = 0;
         for (int k = K_MAX_BY_ASYMPTOTIC; k >= 1; k--) {
             int k2m1 = 2 * k - 1;
 
-            value *= (double) (k2m1 * k2m1 - 4 * this.order * this.order) / k * t;
+            value *= (double) (k2m1 * k2m1 - squareOrder4) / k * t;
             value += 1d;
         }
 

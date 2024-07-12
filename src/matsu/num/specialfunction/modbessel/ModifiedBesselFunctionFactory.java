@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.9
+ * 2024.7.10
  */
 package matsu.num.specialfunction.modbessel;
 
@@ -17,7 +17,7 @@ import matsu.num.specialfunction.ModifiedBesselFunction;
  * 変形Bessel関数のファクトリを扱う.
  * 
  * @author Matsuura Y.
- * @version 18.2
+ * @version 18.5
  */
 public final class ModifiedBesselFunctionFactory {
 
@@ -55,14 +55,8 @@ public final class ModifiedBesselFunctionFactory {
             return M_BESSEL_0;
         case 1:
             return M_BESSEL_1;
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-            return new ModifiedBessel2To6(order, M_BESSEL_0, M_BESSEL_1);
         default:
-            return new ModifiedBesselOver7(order, M_BESSEL_0, M_BESSEL_1);
+            return new ModifiedBesselOver2(order, M_BESSEL_0, M_BESSEL_1);
         }
     }
 }

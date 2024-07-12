@@ -9,10 +9,9 @@
  */
 package matsu.num.specialfunction.modbessel;
 
-import java.util.function.IntUnaryOperator;
-
 import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.GammaFunction;
+import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
 
 /**
  * <p>
@@ -68,15 +67,10 @@ final class NaiveMBessel1 extends ModifiedBessel1stOrder {
     private static final int K_MAX_FOR_BESSEL_K_BY_POWER = 15;
 
     /**
-     * K(x)の漸近級数の連分数の項数.
-     */
-    private static final int K_MAX_FOR_BESSEL_K_BY_ASYMPTOTIC_FRACTION = 50;
-
-    /**
      * {@literal x >= boundaryXForK} におけるK(x)の漸近展開部分を連分数に変換した結果.
      */
-    private static final NormalContinuedFractionFunction ASYMPTOTIC_FRACTION_FOR_BESSEK_K =
-            createAsymptoticFraction_forBesselK(K_MAX_FOR_BESSEL_K_BY_ASYMPTOTIC_FRACTION);
+    private static final DoubleContinuedFractionFunction ASYMPTOTIC_FRACTION_FOR_BESSEK_K =
+            NaiveMBesselContinuedFraction.createK1Asymptotic();
 
     /**
      * 
@@ -226,22 +220,5 @@ final class NaiveMBessel1 extends ModifiedBessel1stOrder {
         }
 
         return harmonicNumbers;
-    }
-
-    /**
-     * {@literal x >= boundaryXForK} におけるK(x)の漸近展開部分を連分数に変換したもの. <br>
-     * t = 1/(8x) を引数として, <br>
-     * 1 + ((1^2-4)/(1))*t + ((1^2-4)*(3^2-4)/(1*2))*t^2 + ... <br>
-     * を計算する仕組みである.
-     * 
-     * @param kMax 使用する項の数
-     * @return 連分数
-     */
-    private static NormalContinuedFractionFunction createAsymptoticFraction_forBesselK(int kMax) {
-
-        IntUnaryOperator nume = k -> -((2 * k + 1) * (2 * k + 1) - 4);
-        IntUnaryOperator denomi = k -> (k + 1);
-
-        return new NormalContinuedFractionFunction(kMax, nume, denomi);
     }
 }
