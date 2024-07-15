@@ -21,8 +21,8 @@ import matsu.num.specialfunction.ModifiedBesselFunction;
  */
 public final class ModifiedBesselFunctionFactory {
 
-    private static final ModifiedBessel0thOrder M_BESSEL_0 = new NaiveMBessel0();
-    private static final ModifiedBessel1stOrder M_BESSEL_1 = new NaiveMBessel1();
+    private static final ModifiedBessel0thOrder M_BESSEL_0 = new MBessel0Optimized();
+    private static final ModifiedBessel1stOrder M_BESSEL_1 = new MBessel1Optimized();
 
     /**
      * <p>

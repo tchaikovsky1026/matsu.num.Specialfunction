@@ -20,8 +20,7 @@ import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
  * 
  * <p>
  * このクラスは0次変形Bessel関数の素朴な (原理に忠実な) 実装を扱う. <br>
- * 計算効率などは全く考慮されていないことに注意すべき. <br>
- * 将来のバージョンでおそらく非推奨になる.
+ * 計算効率などは全く考慮されていないことに注意すべき.
  * </p>
  * 
  * <p>
@@ -32,7 +31,9 @@ import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
  * 
  * @author Matsuura Y.
  * @version 18.4
+ * @deprecated {@link MBessel0Optimized} が提供されたため, 使用されていない.
  */
+@Deprecated
 final class NaiveMBessel0 extends ModifiedBessel0thOrder {
 
     private static final double SQRT_INV_2PI = 1d / Math.sqrt(2 * Math.PI);

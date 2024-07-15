@@ -10,9 +10,11 @@ import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
  * {@link NaiveMBessel0}クラスのテスト.
+ * 元クラスは非推奨.
  * 
  * @author Matsuura Y.
  */
+@SuppressWarnings("deprecation")
 @RunWith(Enclosed.class)
 final class NaiveMBessel0Test {
 

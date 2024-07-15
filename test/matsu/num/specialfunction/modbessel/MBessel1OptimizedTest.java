@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
+/*
+ * 2024.7.14
+ */
 package matsu.num.specialfunction.modbessel;
 
 import org.junit.experimental.runners.Enclosed;
@@ -9,21 +18,20 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link NaiveMBessel1}クラスのテスト.
- * 元クラスは非推奨.
+ * {@link MBessel1Optimized}クラスのテスト.
  * 
  * @author Matsuura Y.
+ * @version
  */
-@SuppressWarnings("deprecation")
 @RunWith(Enclosed.class)
-final class NaiveMBessel1Test {
+final class MBessel1OptimizedTest {
 
-    public static final Class<?> TEST_CLASS = NaiveMBessel1.class;
+    public static final Class<?> TEST_CLASS = MBessel1Optimized.class;
 
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
-            new DoubleRelativeAssertion(1E-12);
+            new DoubleRelativeAssertion(1E-15);
 
-    private static final ModifiedBessel1stOrder M_BESSEL_1 = new NaiveMBessel1();
+    private static final ModifiedBessel1stOrder M_BESSEL_1 = new MBessel1Optimized();
 
     @RunWith(Theories.class)
     public static class 第1種変形ベッセルの値に関するテスト {

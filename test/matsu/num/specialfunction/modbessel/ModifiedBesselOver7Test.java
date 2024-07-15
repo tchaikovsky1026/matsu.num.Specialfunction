@@ -16,7 +16,7 @@ import matsu.num.specialfunction.DoubleRelativeAssertion;
  * 
  * @author Matsuura Y.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation","removal"})
 @RunWith(Enclosed.class)
 final class ModifiedBesselOver7Test {
 

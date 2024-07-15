@@ -22,7 +22,10 @@ import matsu.num.specialfunction.fraction.RationalType;
  * 
  * @author Matsuura Y.
  * @version 18.5
+ * @deprecated {@link NaiveMBessel0}, {@link NaiveMBessel1}
+ *                 が使用されていないので, 使用されていない.
  */
+@Deprecated
 final class NaiveMBesselContinuedFraction {
 
     /*

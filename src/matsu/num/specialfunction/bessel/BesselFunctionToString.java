@@ -20,7 +20,7 @@ import matsu.num.specialfunction.BesselFunction;
  * @version 18.0
  * @deprecated このクラスは使われていない. ver 19以降に削除予定である.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 final class BesselFunctionToString {
 
     private BesselFunctionToString() {

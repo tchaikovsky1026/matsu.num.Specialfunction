@@ -24,7 +24,7 @@ final class ModifiedBesselOver2Test {
             new DoubleRelativeAssertion(1E-14);
 
     private static final IntFunction<ModifiedBesselHigherOrder> M_BESSEL_SUPPLIER =
-            order -> new ModifiedBesselOver2(order, new NaiveMBessel0(), new NaiveMBessel1());
+            order -> new ModifiedBesselOver2(order, new MBessel0Optimized(), new MBessel1Optimized());
 
     @RunWith(Theories.class)
     public static class 次数2に関するIの値の検証 {

@@ -33,7 +33,7 @@ final class ModifiedBesselHigherOrderTest {
     private static final class ModifiedBesselHigherOrderImpl extends ModifiedBesselHigherOrder {
 
         ModifiedBesselHigherOrderImpl(int order) {
-            super(order, new NaiveMBessel0(), new NaiveMBessel1());
+            super(order, new MBessel0Optimized(), new MBessel1Optimized());
         }
 
         @Override

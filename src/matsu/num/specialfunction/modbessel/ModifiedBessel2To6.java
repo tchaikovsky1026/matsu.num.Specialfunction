@@ -21,8 +21,9 @@ import matsu.num.commons.Exponentiation;
  * @version 18.4
  * @deprecated このクラスは使われていない.
  *                 {@link ModifiedBesselOver2} に置き換えられる.
+ *                 残す必要も無いため, 19以降で削除されるだろう.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 final class ModifiedBessel2To6 extends ModifiedBesselHigherOrder {
 
     private static final double SQRT_INV_2PI = 1d / Math.sqrt(2 * Math.PI);
