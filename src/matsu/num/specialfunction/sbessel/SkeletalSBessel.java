@@ -7,20 +7,23 @@
 /*
  * 2024.7.16
  */
-package matsu.num.specialfunction.bessel;
+package matsu.num.specialfunction.sbessel;
 
-import matsu.num.specialfunction.BesselFunction;
+import matsu.num.specialfunction.SphericalBesselFunction;
 
 /**
- * Bessel関数の骨格実装. <br>
+ * SphericalBessel関数の骨格実装. <br>
  * {@link #toString()} の実装を提供する.
  * 
  * @author Matsuura Y.
  * @version 18.7
  */
-abstract class SkeletalBessel implements BesselFunction {
+abstract class SkeletalSBessel implements SphericalBesselFunction {
 
-    protected SkeletalBessel() {
+    /**
+     * 唯一のコンストラクタ.
+     */
+    protected SkeletalSBessel() {
         super();
     }
 
@@ -30,7 +33,7 @@ abstract class SkeletalBessel implements BesselFunction {
      * <p>
      * 概ね, 次のような表現であろう.
      * ただし, バージョン間の互換性は担保されていない. <br>
-     * {@code Bessel(%order)}
+     * {@code SphericalBessel(%order)}
      * </p>
      * 
      * @return 文字列表現
@@ -38,6 +41,6 @@ abstract class SkeletalBessel implements BesselFunction {
     @Override
     public String toString() {
         return String.format(
-                "Bessel(%s)", this.order());
+                "SphericalBessel(%s)", this.order());
     }
 }

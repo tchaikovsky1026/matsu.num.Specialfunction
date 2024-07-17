@@ -42,7 +42,7 @@ final class MBessel0OptimizedTest {
          */
         @DataPoints
         public static double[][] dataPairs = {
-                { 0, 1, Double.POSITIVE_INFINITY },
+                { 0, 1 },
                 { 0.01, 1.000025000156250434028 },
                 { 0.5, 1.063483370741323519263 },
                 { 1, 1.266065877752008335598 },

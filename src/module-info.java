@@ -7,7 +7,7 @@
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.6
+ * @version 18.7
  */
 module matsu.num.Specialfunction {
     requires matsu.num.Commons;
