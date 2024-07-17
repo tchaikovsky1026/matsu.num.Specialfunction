@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.11
+ * 2024.7.17
  */
 package matsu.num.specialfunction.modbessel;
 
@@ -21,7 +21,7 @@ import matsu.num.commons.Exponentiation;
  * ただし, 次数6以下の場合は後退漸化式の領域は存在しない.
  * 
  * @author Matsuura Y.
- * @version 18.5
+ * @version 18.6
  */
 final class ModifiedBesselOver2 extends ModifiedBesselHigherOrder {
 
@@ -172,8 +172,8 @@ final class ModifiedBesselOver2 extends ModifiedBesselHigherOrder {
 
         for (int nu = this.order; nu > 1; nu--) {
             double i_nu_m_1 = i_nu_plus_1 + (2 * nu / x) * i_nu;
-            if (Double.isInfinite(i_nu_m_1)) {
-                return Double.POSITIVE_INFINITY;
+            if (!Double.isFinite(i_nu_m_1)) {
+                return 0d;
             }
 
             i_nu_plus_1 = i_nu;

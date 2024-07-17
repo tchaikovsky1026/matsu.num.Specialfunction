@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.8
+ * 2024.7.17
  */
 package matsu.num.specialfunction.bessel;
 
@@ -16,7 +16,7 @@ import matsu.num.specialfunction.BesselFunction;
  * 高次のBessel関数, 2から100次までのベッセル関数をサポートする.
  * 
  * @author Matsuura Y.
- * @version 18.2
+ * @version 18.6
  */
 final class BesselHigherOrder extends SkeletalBessel implements BesselFunction {
 
@@ -114,8 +114,8 @@ final class BesselHigherOrder extends SkeletalBessel implements BesselFunction {
             double jn = j1;
             for (int j = order_n; j > 0; j--) {
                 double j0 = j1 * j * doubleInvX - j2;
-                if (Double.isInfinite(j0)) {
-                    return 0;
+                if (!Double.isFinite(j0)) {
+                    return 0d;
                 }
                 j2 = j1;
                 j1 = j0;

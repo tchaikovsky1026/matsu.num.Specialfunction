@@ -1,5 +1,6 @@
 18.6:
 ModifiedBesselの高度化(0次,1次変形Besselの提供をMinimax近似により最適化されたものに変更)
+18.6.1:バグ修正(変形Bessel関数)
 
 18.5:
 ModifiedBesselのリファクタリング(高次のIを共通化, 0次と1次の連分数計算の高度化)
