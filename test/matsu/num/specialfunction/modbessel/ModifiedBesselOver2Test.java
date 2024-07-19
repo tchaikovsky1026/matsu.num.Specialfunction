@@ -43,7 +43,7 @@ final class ModifiedBesselOver2Test {
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, I_n(x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -91,7 +91,7 @@ final class ModifiedBesselOver2Test {
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, I_n(x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -286,7 +286,7 @@ final class ModifiedBesselOver2Test {
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -334,7 +334,7 @@ final class ModifiedBesselOver2Test {
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -382,7 +382,7 @@ final class ModifiedBesselOver2Test {
         /* ------------------------------------ */
 
         /**
-         * [x, I_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -431,7 +431,7 @@ final class ModifiedBesselOver2Test {
         /* ------------------------------------ */
 
         /**
-         * [x, I_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -479,7 +479,7 @@ final class ModifiedBesselOver2Test {
         /* ------------------------------------ */
 
         /**
-         * [x, I_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {

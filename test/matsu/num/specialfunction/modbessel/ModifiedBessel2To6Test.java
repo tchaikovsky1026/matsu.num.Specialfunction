@@ -45,7 +45,7 @@ final class ModifiedBessel2To6Test {
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, I_n(x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -93,7 +93,7 @@ final class ModifiedBessel2To6Test {
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, I_n(x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -141,7 +141,7 @@ final class ModifiedBessel2To6Test {
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -189,7 +189,7 @@ final class ModifiedBessel2To6Test {
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {

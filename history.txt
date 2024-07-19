@@ -1,3 +1,7 @@
+18.8:
+機能追加(ModifiedSphericalBesselFunctionの実現)
+リファクタリング(MBessel,I(x)の安定性向上)
+
 18.7:
 機能追加(SpericalBesselFunctionの実現)
 

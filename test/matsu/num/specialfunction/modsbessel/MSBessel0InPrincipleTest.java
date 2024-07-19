@@ -1,4 +1,4 @@
-package matsu.num.specialfunction.modbessel;
+package matsu.num.specialfunction.modsbessel;
 
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
@@ -9,22 +9,22 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link MBessel0Optimized}クラスのテスト.
+ * {@link MSBessel0InPrinciple} クラスのテスト
  * 
  * @author Matsuura Y.
  */
 @RunWith(Enclosed.class)
-final class MBessel0OptimizedTest {
+final class MSBessel0InPrincipleTest {
 
-    public static final Class<?> TEST_CLASS = MBessel0Optimized.class;
+    public static final Class<?> TEST_CLASS = MSBessel0InPrinciple.class;
 
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
             new DoubleRelativeAssertion(1E-15);
 
-    private static final ModifiedBessel0thOrder M_BESSEL_0 = new MBessel0Optimized();
+    private static final MSBessel0 M_BESSEL_0 = new MSBessel0InPrinciple();
 
     @RunWith(Theories.class)
-    public static class 第1種変形ベッセルの値に関するテスト {
+    public static class 第1種変形球ベッセルの値に関するテスト {
 
         /* 値の生成コード(https://keisan.casio.jp/calculator) */
         /* ------------------------------------ */
@@ -33,29 +33,29 @@ final class MBessel0OptimizedTest {
         //
         //        for(index = 0; index < kei_length(xs); index = index + 1){
         //            x = xs[index];
-        //            println(x,besseli(n,x));
+        //            println(x,sphericalbesseli(n,x));
         //        }
         /* ------------------------------------ */
 
         /**
-         * [x, I_n(x)]
+         * [x, i_n(x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
                 { 0, 1 },
-                { 0.01, 1.000025000156250434028 },
-                { 0.5, 1.063483370741323519263 },
-                { 1, 1.266065877752008335598 },
-                { 1.5, 1.646723189772890844876 },
-                { 3, 4.880792585865024085611 },
-                { 6, 67.23440697647797532619 },
-                { 10, 2815.71662846625447147 },
-                { 15, 339649.37329791387952170163 },
-                { 23.75, 1697885300.7852367601621023 },
-                { 24.25, 2770016089.3283488970557653 },
-                { 30, 781672297823.97748971738982 },
-                { 200, 2.0396871734097246195416731E+85 },
-                { 500, 2.5048094765700780965514121E+215 },
+                { 0.01, 1.000016666750000198412974 },
+                { 0.5, 1.0421906109874947232448513 },
+                { 1, 1.1752011936438014568823819 },
+                { 1.5, 1.419519636729878331222925 },
+                { 3, 3.3392916424699672996581979 },
+                { 6, 33.618859561713204687497011 },
+                { 10, 1101.3232874703393377236525 },
+                { 15, 108967.24574906015789937844 },
+                { 23.75, 434310506.4757089719090023 },
+                { 24.25, 701292908.87556162253026285 },
+                { 30, 178107909692.07436911650781 },
+                { 200, 1.8064934420314373145443693E+84 },
+                { 500, 1.4035922178528374107397703E+214 },
                 { 1000, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
                 { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
@@ -65,12 +65,12 @@ final class MBessel0OptimizedTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    M_BESSEL_0.besselI(dataPair[0]));
+                    M_BESSEL_0.sbesselI(dataPair[0]));
         }
     }
 
     @RunWith(Theories.class)
-    public static class 第2種変形ベッセルの値に関するテスト {
+    public static class 第2種変形球ベッセルの値に関するテスト {
 
         /* 値の生成コード(https://keisan.casio.jp/calculator) */
         /* ------------------------------------ */
@@ -79,30 +79,30 @@ final class MBessel0OptimizedTest {
         //
         //        for(index = 0; index < kei_length(xs); index = index + 1){
         //            x = xs[index];
-        //            println(x,besselk(n,x));
+        //            println(x,sphericalbesselk(n,x));
         //        }
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, k_n(x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
                 { 0, Double.POSITIVE_INFINITY },
-                { 0.01, 4.7212447301610949651358777 },
-                { 0.5, 0.92441907122766586178192417 },
-                { 1, 0.42102443824070833333562738 },
-                { 1.5, 0.213805562647525736721621 },
-                { 1.875, 0.13290483903459228511813344 },
-                { 2.125, 0.097764257654025402892179078 },
-                { 5, 0.003691098334042594274735261 },
-                { 10, 1.7780062316167651811301193E-5 },
-                { 20, 5.7412378153365242927167021E-10 },
-                { 50, 3.4101677497894955139206755E-23 },
-                { 100, 4.6566282291759020189390053E-45 },
-                { 200, 1.2256819797765334516600541E-88 },
-                { 500, 3.9923216091177928773566356E-219 },
-                { 1000, 0d },
+                { 0.01, 99.004983374916805357390598 },
+                { 0.5, 1.2130613194252668472075991 },
+                { 1, 0.36787944117144232159552377 },
+                { 1.5, 0.14875344009895321928885365 },
+                { 1.875, 0.081789315650628513757634388 },
+                { 2.125, 0.056203749772573937880412681 },
+                { 5, 0.0013475893998170934193272097 },
+                { 10, 4.5399929762484851535591516E-6 },
+                { 20, 1.0305768112192789139829702E-10 },
+                { 50, 3.8574996959278355660346856E-24 },
+                { 100, 3.7200759760208359629596958E-46 },
+                { 200, 6.9194826336836876532434073E-90 },
+                { 500, 1.4249152813482571063098315E-220 },
+                { 1000, 0 },
                 { Math.nextDown(0d), Double.NaN },
                 { Double.POSITIVE_INFINITY, 0d }
         };
@@ -111,12 +111,12 @@ final class MBessel0OptimizedTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    M_BESSEL_0.besselK(dataPair[0]));
+                    M_BESSEL_0.sbesselK(dataPair[0]));
         }
     }
 
     @RunWith(Theories.class)
-    public static class 第1種変形ベッセルのスケーリングに関するテスト {
+    public static class 第1種変形球ベッセルのスケーリングに関するテスト {
 
         /* 値の生成コード(https://keisan.casio.jp/calculator) */
         /* ------------------------------------ */
@@ -125,30 +125,30 @@ final class MBessel0OptimizedTest {
         //
         //        for(index = 0; index < kei_length(xs); index = index + 1){
         //            x = xs[index];
-        //            println(x,besseli(n,x)*exp(-x));
+        //            println(x,sphericalbesseli(n,x)*exp(-x));
         //        }
         /* ------------------------------------ */
 
         /**
-         * [x, I_n(x)]
+         * [x, i_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
                 { 0, 1 },
-                { 0.01, 0.99007458514970749900835349 },
-                { 0.5, 0.64503527044915006810799663 },
-                { 1, 0.46575960759364043650190153 },
-                { 1.5, 0.36743360905415833923824151 },
-                { 3, 0.24300035416182539847261285 },
-                { 6, 0.16665743263981657556308574 },
-                { 10, 0.12783333716342860732305029 },
-                { 15, 0.10389953144882272143099359 },
-                { 23.75, 0.082302760738626168148462948 },
-                { 24.25, 0.08144062641694107412221072 },
-                { 30, 0.073145946482237293928923418 },
-                { 200, 0.028227159949111915670340626 },
-                { 500, 0.017845706500153167236536198 },
-                { 1000, 0.012617240455891256585716131 },
+                { 0.01, 0.99006633466223488895929479 },
+                { 0.5, 0.63212055882855767840447623 },
+                { 1, 0.43233235838169365405300025 },
+                { 1.5, 0.31673764387737868567355253 },
+                { 3, 0.16625354130388894026282581 },
+                { 6, 0.083332821315637222649186776 },
+                { 10, 0.049999999896942318878072109 },
+                { 15, 0.033333333333330214125677053 },
+                { 23.75, 0.021052631578947368421003164 },
+                { 24.25, 0.020618556701030927835033724 },
+                { 30, 0.016666666666666666666666667 },
+                { 200, 0.0025 },
+                { 500, 0.001 },
+                { 1000, 5.E-4 },
                 { Math.nextDown(0d), Double.NaN },
                 { Double.POSITIVE_INFINITY, 0d }
         };
@@ -157,12 +157,12 @@ final class MBessel0OptimizedTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    M_BESSEL_0.besselIc(dataPair[0]));
+                    M_BESSEL_0.sbesselIc(dataPair[0]));
         }
     }
 
     @RunWith(Theories.class)
-    public static class 第2種変形ベッセルのスケーリングに関するテスト {
+    public static class 第2種変形球ベッセルのスケーリングに関するテスト {
 
         /* 値の生成コード(https://keisan.casio.jp/calculator) */
         /* ------------------------------------ */
@@ -171,30 +171,30 @@ final class MBessel0OptimizedTest {
         //
         //        for(index = 0; index < kei_length(xs); index = index + 1){
         //            x = xs[index];
-        //            println(x,besselk(n,x)*exp(x));
+        //            println(x,sphericalbesselk(n,x)*exp(x));
         //        }
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, k_n(x)exp(x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
                 { 0, Double.POSITIVE_INFINITY },
-                { 0.01, 4.7686940285444619045571969 },
-                { 0.5, 1.5241093857739095300229151 },
-                { 1, 1.1444630798068950146990413 },
-                { 1.5, 0.9582100532948964964167549 },
-                { 1.875, 0.86664841556116527156024605 },
-                { 2.125, 0.8185701073400160042879117 },
-                { 5, 0.54780756431351898686820157 },
-                { 10, 0.39163193443659866573392106 },
-                { 20, 0.27854487665718222393316378 },
-                { 50, 0.17680715585742933811176212 },
-                { 100, 0.12517562165912657889155812 },
-                { 200, 0.088567458339296658233884474 },
-                { 500, 0.056035915417234515428362612 },
-                { 1000, 0.039628321600754217114725922 },
+                { 0.01, 100 },
+                { 0.5, 2 },
+                { 1, 1 },
+                { 1.5, 0.66666666666666666666666667 },
+                { 1.875, 0.53333333333333333333333333 },
+                { 2.125, 0.47058823529411764705882353 },
+                { 5, 0.2 },
+                { 10, 0.1 },
+                { 20, 0.05 },
+                { 50, 0.02 },
+                { 100, 0.01 },
+                { 200, 0.005 },
+                { 500, 0.002 },
+                { 1000, 0.001 },
                 { Math.nextDown(0d), Double.NaN },
                 { Double.POSITIVE_INFINITY, 0d }
         };
@@ -203,7 +203,7 @@ final class MBessel0OptimizedTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    M_BESSEL_0.besselKc(dataPair[0]));
+                    M_BESSEL_0.sbesselKc(dataPair[0]));
         }
     }
 }

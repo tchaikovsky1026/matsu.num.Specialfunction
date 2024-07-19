@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" output="subpj_src_out" path="subpj_src">
+	<classpathentry kind="src" output="testout" path="test">
 		<attributes>
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="testout" path="test">
+	<classpathentry kind="src" output="subpj_src_out" path="subpj_src">
 		<attributes>
 			<attribute name="test" value="true"/>
 		</attributes>

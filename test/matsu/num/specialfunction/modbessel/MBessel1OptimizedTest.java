@@ -140,7 +140,7 @@ final class MBessel1OptimizedTest {
         /* ------------------------------------ */
 
         /**
-         * [x, I_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -172,7 +172,7 @@ final class MBessel1OptimizedTest {
     }
 
     @RunWith(Theories.class)
-    public static class 第2種変形ベッセルのスケーリングに関するテスト_小引数 {
+    public static class 第2種変形ベッセルのスケーリングに関するテスト {
 
         /* 値の生成コード(https://keisan.casio.jp/calculator) */
         /* ------------------------------------ */
@@ -186,7 +186,7 @@ final class MBessel1OptimizedTest {
         /* ------------------------------------ */
 
         /**
-         * [x, K_n(x)]
+         * [x, K_n(x)exp(x)]
          */
         @DataPoints
         public static double[][] dataPairs = {

@@ -189,7 +189,7 @@ final class ModifiedBesselOver7Test {
         /* ------------------------------------ */
 
         /**
-         * [x, I_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -237,7 +237,7 @@ final class ModifiedBesselOver7Test {
         /* ------------------------------------ */
 
         /**
-         * [x, I_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {
@@ -284,7 +284,7 @@ final class ModifiedBesselOver7Test {
         /* ------------------------------------ */
 
         /**
-         * [x, I_n(x)]
+         * [x, I_n(x)exp(-x)]
          */
         @DataPoints
         public static double[][] dataPairs = {

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.14
+ * 2024.7.18
  */
 package matsu.num.specialfunction.modbessel;
 
@@ -24,7 +24,7 @@ import matsu.num.commons.Exponentiation;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.6
+ * @version 18.8
  */
 final class MBessel1Optimized extends ModifiedBessel1stOrder {
 
@@ -54,6 +54,17 @@ final class MBessel1Optimized extends ModifiedBessel1stOrder {
      */
     private static final int K_MAX_FOR_BESSEL_I_BY_ASYMPTOTIC = 15;
 
+    /**
+     * 漸近級数によるI(x)で,
+     * exp(x)のオーバーフローを回避するために導入するシフト.
+     */
+    private static final double SHIFT_X_FOR_BESSEL_I = 20;
+
+    /**
+     * exp(shift_x)
+     */
+    private static final double EXP_OF_SHIFT_X_FOR_BESSEL_I = Math.exp(SHIFT_X_FOR_BESSEL_I);
+
     MBessel1Optimized() {
         super();
     }
@@ -70,7 +81,14 @@ final class MBessel1Optimized extends ModifiedBessel1stOrder {
             if (scaling == 0d) {
                 return Double.POSITIVE_INFINITY;
             }
-            return scaling * Exponentiation.exp(x);
+
+            /*
+             * 漸近級数によるI(x)で,
+             * I(x)はオーバーフローしないがexp(x)がオーバーフローする場合に対応するため,
+             * xを負の方向にシフトする.
+             */
+            return (scaling * EXP_OF_SHIFT_X_FOR_BESSEL_I) *
+                    Exponentiation.exp(x - SHIFT_X_FOR_BESSEL_I);
         }
     }
 
