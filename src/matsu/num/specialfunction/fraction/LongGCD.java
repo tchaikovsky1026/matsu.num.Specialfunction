@@ -15,7 +15,10 @@ package matsu.num.specialfunction.fraction;
  * 
  * @author Matsuura Y.
  * @version 18.5
+ * @deprecated このモジュールで取り扱う有理数はlong型では十分でないので,
+ *                 このクラスは不使用である.
  */
+@Deprecated
 public final class LongGCD {
 
     private LongGCD() {

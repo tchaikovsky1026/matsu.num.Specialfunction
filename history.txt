@@ -1,3 +1,7 @@
+18.9:
+Besselのリファクタリングとパッケージ構造の変更
+(内部準備:NaiveなBesselの実装)
+
 18.8:
 機能追加(ModifiedSphericalBesselFunctionの実現)
 リファクタリング(MBessel,I(x)の安定性向上)

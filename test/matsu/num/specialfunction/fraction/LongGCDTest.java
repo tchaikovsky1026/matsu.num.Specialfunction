@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
  * 
  * @author Matsuura Y.
  */
+@SuppressWarnings("deprecation")
 @RunWith(Enclosed.class)
 final class LongGCDTest {
 

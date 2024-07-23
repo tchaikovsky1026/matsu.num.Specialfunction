@@ -9,7 +9,7 @@
  */
 package matsu.num.specialfunction;
 
-import matsu.num.specialfunction.modbessel.ModifiedBesselFunctionFactory;
+import matsu.num.specialfunction.bessel.modbessel.ModifiedBesselFunctionFactory;
 
 /**
  * <p>
