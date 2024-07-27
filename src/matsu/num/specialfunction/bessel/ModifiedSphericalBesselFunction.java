@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.23
+ * 2024.7.27
  */
 package matsu.num.specialfunction.bessel;
 
@@ -48,6 +48,7 @@ import matsu.num.specialfunction.bessel.modsbessel.MSBesselFunctionFactory;
  *          Wikipedia: ベッセル関数#変形球ベッセル関数</a>
  */
 public interface ModifiedSphericalBesselFunction {
+    
     /**
      * 次数 <i>n</i> の下限を表す定数.
      */
@@ -141,7 +142,7 @@ public interface ModifiedSphericalBesselFunction {
 
     /**
      * <p>
-     * 指定した次数の片影球Bessel関数計算インスタンスを返す.
+     * 指定した次数の変形球Bessel関数計算インスタンスを返す.
      * </p>
      * 
      * <p>
