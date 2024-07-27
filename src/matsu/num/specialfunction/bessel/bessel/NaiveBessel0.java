@@ -32,7 +32,9 @@ import matsu.num.specialfunction.fraction.ComplexNumber;
  * 
  * @author Matsuura Y.
  * @version 18.9
+ * @deprecated {@link Bessel0Optimized} が提供されたため, 使用されていない.
  */
+@Deprecated
 final class NaiveBessel0 extends Bessel0th {
 
     /**

@@ -23,7 +23,10 @@ import matsu.num.specialfunction.fraction.RationalType;
  * 
  * @author Matsuura Y.
  * @version 18.9
+ * @deprecated {@link NaiveBessel0}, {@link NaiveBessel1}
+ *                 が使用されていないので, 使用されていない.
  */
+@Deprecated
 final class NaiveBesselContinuedFraction {
 
     /*
@@ -92,7 +95,7 @@ final class NaiveBesselContinuedFraction {
 
         return new ComplexContinuedFractionFunction(H0_inPrinciple().asDoubleFunction());
     }
-    
+
     /**
      * H<sup>(2)</sup><sub>1</sub>(x)の漸近展開部分を連分数に変換したもの. <br>
      * t = i/(8x) を引数として, <br>

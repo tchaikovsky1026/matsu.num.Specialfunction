@@ -9,7 +9,7 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 import matsu.num.specialfunction.DoubleRelativeAssertion;
-import matsu.num.specialfunction.ModifiedSphericalBesselFunction;
+import matsu.num.specialfunction.bessel.ModifiedSphericalBesselFunction;
 
 /**
  * {@link MSBesselOver2} クラスのテスト.

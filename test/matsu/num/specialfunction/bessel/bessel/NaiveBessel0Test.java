@@ -13,6 +13,7 @@ import matsu.num.specialfunction.DoubleRelativeAssertion;
  *
  * @author Matsuura Y.
  */
+@SuppressWarnings("deprecation")
 @RunWith(Enclosed.class)
 final class NaiveBessel0Test {
 

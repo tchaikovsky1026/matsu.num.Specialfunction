@@ -9,9 +9,9 @@
  */
 package matsu.num.specialfunction.bessel.modsbessel;
 
-import static matsu.num.specialfunction.ModifiedSphericalBesselFunction.*;
+import static matsu.num.specialfunction.bessel.ModifiedSphericalBesselFunction.*;
 
-import matsu.num.specialfunction.ModifiedSphericalBesselFunction;
+import matsu.num.specialfunction.bessel.ModifiedSphericalBesselFunction;
 
 /**
  * 変形球Bessel関数のファクトリ.

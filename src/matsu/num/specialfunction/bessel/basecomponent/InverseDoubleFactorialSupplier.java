@@ -5,32 +5,32 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.7.27
  */
 package matsu.num.specialfunction.bessel.basecomponent;
 
-import matsu.num.specialfunction.ModifiedSphericalBesselFunction;
-import matsu.num.specialfunction.SphericalBesselFunction;
+import matsu.num.specialfunction.bessel.ModifiedSphericalBesselFunction;
+import matsu.num.specialfunction.bessel.SphericalBesselFunction;
 
 /**
  * 変形球Bessel関数の計算で使うための, 1/(2n+1)!! の計算方法を提供する.
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 19.0
  */
 public final class InverseDoubleFactorialSupplier {
 
     /**
      * 次数の下限を表す定数.
      */
-    public static final int LOWER_LIMIT_OF_ORDER = Math.min(
+    private static final int LOWER_LIMIT_OF_ORDER = Math.min(
             SphericalBesselFunction.LOWER_LIMIT_OF_ORDER,
             ModifiedSphericalBesselFunction.LOWER_LIMIT_OF_ORDER);
 
     /**
      * 次数の上限を表す定数.
      */
-    public static final int UPPER_LIMIT_OF_ORDER = Math.max(
+    private static final int UPPER_LIMIT_OF_ORDER = Math.max(
             SphericalBesselFunction.UPPER_LIMIT_OF_ORDER,
             ModifiedSphericalBesselFunction.UPPER_LIMIT_OF_ORDER);
 
@@ -67,5 +67,4 @@ public final class InverseDoubleFactorialSupplier {
 
         return INV_FACTORIALS[order];
     }
-
 }

@@ -9,7 +9,7 @@
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
-import matsu.num.specialfunction.ModifiedBesselFunction;
+import matsu.num.specialfunction.bessel.ModifiedBesselFunction;
 
 /**
  * {@link ModifiedBesselFunction} の骨格実装. <br>

@@ -21,7 +21,8 @@
         	sourcepath="src" 
 
         	additionalparam="--module-path '../dist-num'" 
-        	packagenames="matsu.num.specialfunction"
+        	packagenames="matsu.num.specialfunction,
+        	matsu.num.specialfunction.bessel"
         />
         
         <!-- 

@@ -9,9 +9,9 @@
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
-import static matsu.num.specialfunction.ModifiedBesselFunction.*;
+import static matsu.num.specialfunction.bessel.ModifiedBesselFunction.*;
 
-import matsu.num.specialfunction.ModifiedBesselFunction;
+import matsu.num.specialfunction.bessel.ModifiedBesselFunction;
 
 /**
  * 変形Bessel関数のファクトリを扱う.

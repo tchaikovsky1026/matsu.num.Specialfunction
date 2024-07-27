@@ -9,7 +9,7 @@
  */
 package matsu.num.specialfunction.bessel.bessel;
 
-import matsu.num.specialfunction.BesselFunction;
+import matsu.num.specialfunction.bessel.BesselFunction;
 
 /**
  * Bessel関数の骨格実装. <br>

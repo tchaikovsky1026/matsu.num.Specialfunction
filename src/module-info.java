@@ -7,10 +7,11 @@
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 19.0
  */
 module matsu.num.Specialfunction {
     requires matsu.num.Commons;
 
     exports matsu.num.specialfunction;
+    exports matsu.num.specialfunction.bessel;
 }

@@ -8,8 +8,8 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import matsu.num.specialfunction.BesselFunction;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
+import matsu.num.specialfunction.bessel.BesselFunction;
 
 /**
  * {@link BesselHigherImplY}クラスのテスト.
@@ -27,8 +27,8 @@ final class BesselOver2Test {
     private static final IntFunction<BesselFunction> BESSEL_SUPPLIER =
             n -> new BesselOver2(
                     n,
-                    new Bessel0thOrderOptimizedLegacy(),
-                    new Bessel1stOrderLegacyOptimized());
+                    new Bessel0Optimized(),
+                    new Bessel1Optimized());
 
     @RunWith(Theories.class)
     public static class ベッセルの2次に関するbesselJのテスト {

@@ -5,24 +5,24 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.7.24
  */
 package matsu.num.specialfunction.bessel.bessel;
 
-import static matsu.num.specialfunction.BesselFunction.*;
+import static matsu.num.specialfunction.bessel.BesselFunction.*;
 
-import matsu.num.specialfunction.BesselFunction;
+import matsu.num.specialfunction.bessel.BesselFunction;
 
 /**
  * Bessel関数のファクトリ.
  *
  * @author Matsuura Y.
- * @version 18.9
+ * @version 19.0
  */
 public final class BesselFunctionFactory {
 
-    private static final Bessel0th BESSEL_0 = new Bessel0thOrderOptimizedLegacy();
-    private static final Bessel1st BESSEL_1 = new Bessel1stOrderLegacyOptimized();
+    private static final Bessel0th BESSEL_0 = new Bessel0Optimized();
+    private static final Bessel1st BESSEL_1 = new Bessel1Optimized();
 
     /**
      * Higher orderを生成する閾値.

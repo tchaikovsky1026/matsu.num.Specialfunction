@@ -236,5 +236,4 @@ final class ModifiedBesselOver2 extends ModifiedBesselHigherOrder {
     private double calcBoundaryX_selectingBackRecursionOrAsymptotic() {
         return this.order * this.order * 0.5;
     }
-
 }
