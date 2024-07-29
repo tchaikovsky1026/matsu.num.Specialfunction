@@ -22,15 +22,13 @@ package matsu.num.specialfunction.fraction;
  *                 このクラスは不使用である.
  */
 @Deprecated
-public final class LongRationalElement
-        implements MathFieldElement<RationalType, LongRationalElement> {
+public final class LongRational
+        extends MathField<LongRational> {
 
-    private static final LongRationalElement ZERO =
-            new LongRationalElement(0, 1);
-    private static final LongRationalElement ONE =
-            new LongRationalElement(1, 1);
-
-    private static final RationalType TYPE = RationalType.INSTANCE;
+    private static final LongRational ZERO =
+            new LongRational(0, 1);
+    private static final LongRational ONE =
+            new LongRational(1, 1);
 
     private final long numerator;
     private final long denominator;
@@ -42,14 +40,10 @@ public final class LongRationalElement
      * @param numerator
      * @param denominator
      */
-    private LongRationalElement(long numerator, long denominator) {
+    private LongRational(long numerator, long denominator) {
+        super(DoubleInterpretable.INSTANCE);
         this.numerator = numerator;
         this.denominator = denominator;
-    }
-
-    @Override
-    public RationalType type() {
-        return TYPE;
     }
 
     /**
@@ -75,7 +69,7 @@ public final class LongRationalElement
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof LongRationalElement target)) {
+        if (!(obj instanceof LongRational target)) {
             return false;
         }
 
@@ -97,16 +91,16 @@ public final class LongRationalElement
     }
 
     @Override
-    public LongRationalElement plus(LongRationalElement augend) {
+    public LongRational plus(LongRational augend) {
         return this.plus_kernel(augend.numerator, augend.denominator);
     }
 
     @Override
-    public LongRationalElement minus(LongRationalElement subtrahend) {
+    public LongRational minus(LongRational subtrahend) {
         return this.plus_kernel(-subtrahend.numerator, subtrahend.denominator);
     }
 
-    private LongRationalElement plus_kernel(long otherNume, long otherDenomi) {
+    private LongRational plus_kernel(long otherNume, long otherDenomi) {
         long gcd = LongGCD.gcd(this.denominator, otherDenomi);
 
         long thisDenomi_dividedByGcd = this.denominator / gcd;
@@ -117,20 +111,20 @@ public final class LongRationalElement
         nume2 += thisDenomi_dividedByGcd * otherNume;
 
         // 足し算の結果発生する約分を処理するため, staticファクトリを呼ぶ
-        return LongRationalElement.of(nume2, denomi2);
+        return LongRational.of(nume2, denomi2);
     }
 
     @Override
-    public LongRationalElement times(LongRationalElement multiplicand) {
+    public LongRational times(LongRational multiplicand) {
         return this.times_kernel(multiplicand.numerator, multiplicand.denominator);
     }
 
     @Override
-    public LongRationalElement dividedBy(LongRationalElement divisor) {
+    public LongRational dividedBy(LongRational divisor) {
         return this.times_kernel(divisor.denominator, divisor.numerator);
     }
 
-    private LongRationalElement times_kernel(long otherNume, long otherDenomi) {
+    private LongRational times_kernel(long otherNume, long otherDenomi) {
         if (otherDenomi == 0) {
             throw new ArithmeticException("ゼロ除算");
         }
@@ -150,16 +144,16 @@ public final class LongRationalElement
         long denomi2 = thisDenomi2 * otherDenomi2;
         long nume2 = thisNume2 * otherNume2;
 
-        return new LongRationalElement(nume2, denomi2);
+        return new LongRational(nume2, denomi2);
     }
 
     @Override
-    public LongRationalElement negated() {
-        return new LongRationalElement(-this.numerator, this.denominator);
+    public LongRational negated() {
+        return new LongRational(-this.numerator, this.denominator);
     }
 
     @Override
-    public double doubleValue() {
+    protected double toDouble() {
         return ((double) this.numerator) / this.denominator;
     }
 
@@ -176,7 +170,7 @@ public final class LongRationalElement
      * @return 有理数
      * @throws ArithmeticException 分母が0の場合
      */
-    public static LongRationalElement of(long numerator, long denominator) {
+    public static LongRational of(long numerator, long denominator) {
         if (denominator == 0) {
             throw new ArithmeticException("分母が0である");
         }
@@ -184,7 +178,7 @@ public final class LongRationalElement
         if (denominator < 0) {
             gcd = -gcd;
         }
-        return new LongRationalElement(numerator / gcd, denominator / gcd);
+        return new LongRational(numerator / gcd, denominator / gcd);
     }
 
     /**
@@ -192,18 +186,18 @@ public final class LongRationalElement
      * 
      * @author Matsuura Y.
      */
-    public static final class ConstantSupplier implements MathFieldElement.ConstantSupplier<LongRationalElement> {
+    public static final class ConstantSupplier implements MathField.ConstantSupplier<LongRational> {
 
         public static final ConstantSupplier INSTANCE = new ConstantSupplier();
 
         @Override
-        public LongRationalElement zero() {
-            return LongRationalElement.ZERO;
+        public LongRational zero() {
+            return LongRational.ZERO;
         }
 
         @Override
-        public LongRationalElement one() {
-            return LongRationalElement.ONE;
+        public LongRational one() {
+            return LongRational.ONE;
         }
     }
 }

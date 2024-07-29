@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import matsu.num.specialfunction.DoubleRelativeAssertion;
-import matsu.num.specialfunction.fraction.BigRationalElement.ConstantSupplier;
 
 /**
  * {@link ComplexContinuedFractionFunction} クラスのテスト.
@@ -33,15 +32,13 @@ final class ComplexContinuedFractionFunctionTest {
 
         @Before
         public void before_関数の準備() {
-            IntFunction<BigRationalElement> supplier =
-                    k -> BigRationalElement.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
+            IntFunction<BigRational> supplier =
+                    k -> BigRational.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
 
-            ContinuedFractionFunction<
-                    RationalType, BigRationalElement> function =
-                            ContinuedFractionFunction.from(
-                                    SIZE,
-                                    RationalType.INSTANCE, supplier,
-                                    ConstantSupplier.INSTANCE);
+            ContinuedFractionFunction<BigRational> function =
+                    ContinuedFractionFunction.from(
+                            SIZE, supplier,
+                            BigRational.constantSupplier());
             continuedFractionFunction =
                     new ComplexContinuedFractionFunction(function.asDoubleFunction());
         }

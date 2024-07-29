@@ -2,10 +2,9 @@ package matsu.num.specialfunction.bessel.subpj.modbessel.simulation;
 
 import java.util.function.IntFunction;
 
-import matsu.num.specialfunction.fraction.BigRationalElement;
+import matsu.num.specialfunction.fraction.BigRational;
 import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
 import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
-import matsu.num.specialfunction.fraction.RationalType;
 
 /**
  * 変形Bessel関数の漸近形における連分数部分を扱う. <br>
@@ -16,11 +15,10 @@ import matsu.num.specialfunction.fraction.RationalType;
  */
 final class FractionFunctionForAsymtotic {
 
-    private final ContinuedFractionFunction<
-            RationalType, BigRationalElement> continuedFraction;
+    private final ContinuedFractionFunction<BigRational> continuedFraction;
 
-    private FractionFunctionForAsymtotic(ContinuedFractionFunction<
-            RationalType, BigRationalElement> continuedFraction) {
+    private FractionFunctionForAsymtotic(
+            ContinuedFractionFunction<BigRational> continuedFraction) {
         super();
         this.continuedFraction = continuedFraction;
     }
@@ -30,26 +28,25 @@ final class FractionFunctionForAsymtotic {
     }
 
     public static FractionFunctionForAsymtotic from(int numeratorOfOrder, int denominatorOfOrder, int kMax) {
-        final BigRationalElement sqOrder4 =
-                BigRationalElement.of(
+        final BigRational sqOrder4 =
+                BigRational.of(
                         4 * numeratorOfOrder * numeratorOfOrder,
                         denominatorOfOrder * denominatorOfOrder);
 
-        IntFunction<BigRationalElement> func =
+        IntFunction<BigRational> func =
                 k -> {
-                    final BigRationalElement sq_k2_p_1 =
-                            BigRationalElement.of((2 * k + 1) * (2 * k + 1), 1);
-                    final BigRationalElement k_p_1 =
-                            BigRationalElement.of(k + 1, 1);
+                    final BigRational sq_k2_p_1 =
+                            BigRational.of((2 * k + 1) * (2 * k + 1), 1);
+                    final BigRational k_p_1 =
+                            BigRational.of(k + 1, 1);
 
                     return sq_k2_p_1.minus(sqOrder4).dividedBy(k_p_1);
                 };
 
-        ContinuedFractionFunction<
-                RationalType, BigRationalElement> continuedFraction = ContinuedFractionFunction.from(
-                        kMax,
-                        RationalType.INSTANCE, func,
-                        BigRationalElement.ConstantSupplier.INSTANCE);
+        ContinuedFractionFunction<BigRational> continuedFraction =
+                ContinuedFractionFunction.from(
+                        kMax, func,
+                        BigRational.constantSupplier());
 
         return new FractionFunctionForAsymtotic(continuedFraction);
     }

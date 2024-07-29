@@ -12,7 +12,6 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
 import matsu.num.specialfunction.DoubleRelativeAssertion;
-import matsu.num.specialfunction.fraction.BigRationalElement.ConstantSupplier;
 
 /**
  * {@link ContinuedFractionFunction}クラスのテスト.
@@ -30,8 +29,7 @@ final class ContinuedFractionFunctionTest {
     public static class サイズ0のテスト {
 
         private static int SIZE = 0;
-        private ContinuedFractionFunction<
-                RationalType, BigRationalElement> continuedFractionFunction;
+        private ContinuedFractionFunction<BigRational> continuedFractionFunction;
 
         @Before
         public void before_関数の準備() {
@@ -40,14 +38,13 @@ final class ContinuedFractionFunctionTest {
             //サイズ0なので, 定数関数f(t) = 1が作られる.
 
             //log(1+x)/x = 1 - (1/2)x + (1/3)x^2 + ...
-            IntFunction<BigRationalElement> supplier =
-                    k -> BigRationalElement.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
+            IntFunction<BigRational> supplier =
+                    k -> BigRational.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
 
             continuedFractionFunction =
                     ContinuedFractionFunction.from(
-                            SIZE,
-                            RationalType.INSTANCE, supplier,
-                            BigRationalElement.ConstantSupplier.INSTANCE);
+                            SIZE, supplier,
+                            BigRational.constantSupplier());
         }
 
         @Test
@@ -60,7 +57,7 @@ final class ContinuedFractionFunctionTest {
         @Test
         public void test_関数のテスト() {
 
-            BigRationalElement rx = BigRationalElement.of(
+            BigRational rx = BigRational.of(
                     BigInteger.valueOf(4), BigInteger.valueOf(3));
 
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
@@ -72,8 +69,7 @@ final class ContinuedFractionFunctionTest {
     public static class サイズ1のテスト {
 
         private static int SIZE = 1;
-        private ContinuedFractionFunction<
-                RationalType, BigRationalElement> continuedFractionFunction;
+        private ContinuedFractionFunction<BigRational> continuedFractionFunction;
 
         @Before
         public void before_関数の準備() {
@@ -82,14 +78,13 @@ final class ContinuedFractionFunctionTest {
             //サイズ1なので, 定数関数f(t) = 1/(1 + (1/2)x)が作られる.
 
             //log(1+x)/x = 1 - (1/2)x + (1/3)x^2 + ...
-            IntFunction<BigRationalElement> supplier =
-                    k -> BigRationalElement.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
+            IntFunction<BigRational> supplier =
+                    k -> BigRational.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
 
             continuedFractionFunction =
                     ContinuedFractionFunction.from(
-                            SIZE,
-                            RationalType.INSTANCE, supplier,
-                            BigRationalElement.ConstantSupplier.INSTANCE);
+                            SIZE, supplier,
+                            BigRational.constantSupplier());
         }
 
         @Test
@@ -102,7 +97,7 @@ final class ContinuedFractionFunctionTest {
         @Test
         public void test_関数のテスト() {
 
-            BigRationalElement rx = BigRationalElement.of(
+            BigRational rx = BigRational.of(
                     BigInteger.valueOf(4), BigInteger.valueOf(3));
             double x = rx.doubleValue();
 
@@ -115,20 +110,18 @@ final class ContinuedFractionFunctionTest {
     public static class 偶数個の係数によるテスト {
 
         private static int SIZE = 50;
-        private ContinuedFractionFunction<
-                RationalType, BigRationalElement> continuedFractionFunction;
+        private ContinuedFractionFunction<BigRational> continuedFractionFunction;
 
         @Before
         public void before_関数の準備() {
             //log(1+x)/x = 1 - (1/2)x + (1/3)x^2 + ...
-            IntFunction<BigRationalElement> supplier =
-                    k -> BigRationalElement.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
+            IntFunction<BigRational> supplier =
+                    k -> BigRational.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
 
             continuedFractionFunction =
                     ContinuedFractionFunction.from(
-                            SIZE,
-                            RationalType.INSTANCE, supplier,
-                            BigRationalElement.ConstantSupplier.INSTANCE);
+                            SIZE, supplier,
+                            BigRational.constantSupplier());
         }
 
         @Test
@@ -146,7 +139,7 @@ final class ContinuedFractionFunctionTest {
             int nume_min = 10;
             int nume_max = 30;
             for (int nume = nume_min; nume <= nume_max; nume++) {
-                BigRationalElement rx = BigRationalElement.of(
+                BigRational rx = BigRational.of(
                         BigInteger.valueOf(nume), BigInteger.valueOf(denomi));
                 double x = rx.doubleValue();
 
@@ -160,20 +153,18 @@ final class ContinuedFractionFunctionTest {
     public static class 奇数個の係数によるテスト {
 
         private static int SIZE = 49;
-        private ContinuedFractionFunction<
-                RationalType, BigRationalElement> continuedFractionFunction;
+        private ContinuedFractionFunction<BigRational> continuedFractionFunction;
 
         @Before
         public void before_関数の準備() {
             //log(1+x)/x = 1 - (1/2)x + (1/3)x^2 + ...
-            IntFunction<BigRationalElement> supplier =
-                    k -> BigRationalElement.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
+            IntFunction<BigRational> supplier =
+                    k -> BigRational.of(BigInteger.valueOf(-(k + 1)), BigInteger.valueOf(k + 2));
 
             continuedFractionFunction =
                     ContinuedFractionFunction.from(
-                            SIZE,
-                            RationalType.INSTANCE, supplier,
-                            ConstantSupplier.INSTANCE);
+                            SIZE, supplier,
+                            BigRational.constantSupplier());
         }
 
         @Test
@@ -191,7 +182,7 @@ final class ContinuedFractionFunctionTest {
             int nume_min = 10;
             int nume_max = 30;
             for (int nume = nume_min; nume <= nume_max; nume++) {
-                BigRationalElement rx = BigRationalElement.of(
+                BigRational rx = BigRational.of(
                         BigInteger.valueOf(nume), BigInteger.valueOf(denomi));
                 double x = rx.doubleValue();
 

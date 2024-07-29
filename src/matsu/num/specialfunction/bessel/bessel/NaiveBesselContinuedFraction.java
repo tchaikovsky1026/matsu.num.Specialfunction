@@ -5,24 +5,23 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.23
+ * 2024.7.29
  */
 package matsu.num.specialfunction.bessel.bessel;
 
 import java.util.List;
 import java.util.function.IntFunction;
 
-import matsu.num.specialfunction.fraction.BigRationalElement;
+import matsu.num.specialfunction.fraction.BigRational;
 import matsu.num.specialfunction.fraction.ComplexContinuedFractionFunction;
 import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
 import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
-import matsu.num.specialfunction.fraction.RationalType;
 
 /**
  * Bessel関数の計算で使う, 連分数の生成機能.
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 19.1
  * @deprecated {@link NaiveBessel0}, {@link NaiveBessel1}
  *                 が使用されていないので, 使用されていない.
  */
@@ -115,16 +114,15 @@ final class NaiveBesselContinuedFraction {
     /**
      * 原理的, 直接的なH<sub>0</sub>の連分数.
      */
-    private static ContinuedFractionFunction<RationalType, BigRationalElement> H0_inPrinciple() {
+    private static ContinuedFractionFunction<BigRational> H0_inPrinciple() {
         final int kMax = 50;
 
-        IntFunction<BigRationalElement> func =
-                k -> BigRationalElement.of(((2 * k + 1) * (2 * k + 1)), k + 1);
+        IntFunction<BigRational> func =
+                k -> BigRational.of(((2 * k + 1) * (2 * k + 1)), k + 1);
 
         return ContinuedFractionFunction.from(
-                kMax,
-                RationalType.INSTANCE, func,
-                BigRationalElement.ConstantSupplier.INSTANCE);
+                kMax, func,
+                BigRational.constantSupplier());
     }
 
     /**
@@ -137,16 +135,15 @@ final class NaiveBesselContinuedFraction {
     /**
      * 原理的, 直接的なH<sub>1</sub>の連分数.
      */
-    private static ContinuedFractionFunction<RationalType, BigRationalElement> H1_inPrinciple() {
+    private static ContinuedFractionFunction<BigRational> H1_inPrinciple() {
 
         final int kMax = 50;
-        IntFunction<BigRationalElement> func =
-                k -> BigRationalElement.of(((2 * k + 1) * (2 * k + 1) - 4), k + 1);
+        IntFunction<BigRational> func =
+                k -> BigRational.of(((2 * k + 1) * (2 * k + 1) - 4), k + 1);
 
         return ContinuedFractionFunction.from(
-                kMax,
-                RationalType.INSTANCE, func,
-                BigRationalElement.ConstantSupplier.INSTANCE);
+                kMax, func,
+                BigRational.constantSupplier());
     }
 
     /**
@@ -165,7 +162,7 @@ final class NaiveBesselContinuedFraction {
     private static final class H0Output {
 
         public static void main(String[] args) {
-            ContinuedFractionFunction<RationalType, BigRationalElement> fraction =
+            ContinuedFractionFunction<BigRational> fraction =
                     H0_inPrinciple();
 
             System.out.println("K_0 output");
@@ -207,7 +204,7 @@ final class NaiveBesselContinuedFraction {
     private static final class H1Output {
 
         public static void main(String[] args) {
-            ContinuedFractionFunction<RationalType, BigRationalElement> fraction =
+            ContinuedFractionFunction<BigRational> fraction =
                     H1_inPrinciple();
 
             System.out.println("H_1 output");

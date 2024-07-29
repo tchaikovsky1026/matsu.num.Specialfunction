@@ -5,10 +5,9 @@ import java.util.function.IntFunction;
 import matsu.num.approximation.DoubleFiniteClosedInterval;
 import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
-import matsu.num.specialfunction.fraction.BigRationalElement;
+import matsu.num.specialfunction.fraction.BigRational;
 import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
 import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
-import matsu.num.specialfunction.fraction.RationalType;
 
 /**
  * <p>
@@ -126,17 +125,16 @@ final class BesselK0Asymptotic_accurate implements RawCoefficientCalculableFunct
      * <br>
      * が乗算される.
      */
-    private static ContinuedFractionFunction<RationalType, BigRationalElement> k0_upper4() {
+    private static ContinuedFractionFunction<BigRational> k0_upper4() {
 
         final int kMax = 60;
 
-        IntFunction<BigRationalElement> func =
-                k -> BigRationalElement.of(-((2 * k + 9) * (2 * k + 9)), k + 5);
+        IntFunction<BigRational> func =
+                k -> BigRational.of(-((2 * k + 9) * (2 * k + 9)), k + 5);
 
         return ContinuedFractionFunction.from(
-                kMax,
-                RationalType.INSTANCE, func,
-                BigRationalElement.ConstantSupplier.INSTANCE);
+                kMax, func,
+                BigRational.constantSupplier());
     }
 
 }

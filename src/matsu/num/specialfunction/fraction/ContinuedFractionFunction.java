@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.12
+ * 2024.7.29
  */
 package matsu.num.specialfunction.fraction;
 
@@ -16,11 +16,11 @@ import java.util.ListIterator;
 import java.util.Objects;
 import java.util.function.IntFunction;
 
-import matsu.num.specialfunction.fraction.MathFieldElement.ConstantSupplier;
+import matsu.num.specialfunction.fraction.MathField.ConstantSupplier;
 
 /**
  * <p>
- * 任意の体に対する連分数関数を扱うクラス.
+ * 任意の体構造に対する連分数関数を扱うクラス.
  * </p>
  * 
  * <p>
@@ -40,14 +40,11 @@ import matsu.num.specialfunction.fraction.MathFieldElement.ConstantSupplier;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.5
- * @param <T> この連分数が扱う体構造を表す
- * @param <ET> この連分数が扱う体の元を表す
+ * @version 19.1
+ * @param <ET> このクラスが扱う体構造の元を表す型パラメータ
  */
-public final class ContinuedFractionFunction<
-        T extends MathFieldType<T>, ET extends MathFieldElement<T, ET>> {
+public final class ContinuedFractionFunction<ET extends MathField<ET>> {
 
-    private final T fieldType;
     private final List<ET> cfCoeff;
 
     private final ET one;
@@ -65,19 +62,9 @@ public final class ContinuedFractionFunction<
      *            イミュータブルかつ,ラップ元が漏洩していない状態にしなければならない
      */
     private ContinuedFractionFunction(
-            T fieldType, ConstantSupplier<ET> constantSupplier, List<ET> cfCoeff) {
-        this.fieldType = fieldType;
+            ConstantSupplier<ET> constantSupplier, List<ET> cfCoeff) {
         this.cfCoeff = cfCoeff;
         this.one = constantSupplier.one();
-    }
-
-    /**
-     * この連分数関数が扱う体構造を返す.
-     * 
-     * @return 体構造
-     */
-    public T fieldType() {
-        return this.fieldType;
     }
 
     /**
@@ -101,8 +88,12 @@ public final class ContinuedFractionFunction<
     }
 
     /**
-     * 連分数の係数を返す.
-     * ただし, 最初の1は含まず.
+     * 連分数の係数
+     * [<i>a</i><sub>0</sub>, <i>a</i><sub>1</sub>,
+     * ... ,
+     * <i>a</i><sub><i>n</i> - 1</sub>]
+     * を返す. <br>
+     * 最初の1は含まない.
      * 
      * @return 係数
      */
@@ -116,7 +107,9 @@ public final class ContinuedFractionFunction<
      * </p>
      * 
      * <p>
-     * このインスタンスが扱う体構造が {@code double} と互換性がない場合,
+     * このインスタンスが扱う体構造
+     * (クラスの型パラメータの {@link MathField#fieldProperty()})
+     * が {@code double} と互換性がない場合,
      * 例外をスローする.
      * </p>
      * 
@@ -124,9 +117,6 @@ public final class ContinuedFractionFunction<
      * @throws UnsupportedOperationException 体構造が {@code double} と互換性がない場合
      */
     public DoubleContinuedFractionFunction asDoubleFunction() {
-        if (!this.fieldType.canBeInterpretedAsDouble()) {
-            throw new UnsupportedOperationException("この体構造はdoubleと互換性がない");
-        }
 
         //ダブルチェックイディオム
         DoubleContinuedFractionFunction out = this.doubleCF;
@@ -138,7 +128,7 @@ public final class ContinuedFractionFunction<
             if (Objects.nonNull(out)) {
                 return out;
             }
-            //doubleへの変換は必ず成功する
+            //ここで例外が発生する可能性がある
             double[] coeff = this.coeffsAsDouble();
             out = new DoubleContinuedFractionFunction(coeff);
             this.doubleCF = out;
@@ -148,6 +138,8 @@ public final class ContinuedFractionFunction<
 
     /**
      * double表示された連分数の係数を返す.
+     * 
+     * @throws UnsupportedOperationException doubleと互換性がない場合
      */
     private double[] coeffsAsDouble() {
         double[] out = new double[this.cfCoeff.size()];
@@ -165,24 +157,21 @@ public final class ContinuedFractionFunction<
      * [1, c_0, c_0c_1, c_0c_1c_2, ...] <br>
      * であるときの [c_0, c_1, ...] を渡すことで, 等価な連分数表現を計算する仕組みを生成する.
      * 
-     * @param <T> この連分数が扱う体構造を表す
      * @param <ET> この連分数が扱う体の元を表す
      * @param size サイズ, 0以上でなければならない
-     * @param fieldType 体構造
      * @param ratioSupplier [c_0, c_1, ...]の生成
      * @param constantSupplier 体構造の定数生成器
      * @return 連分数
      * @throws IllegalArgumentException サイズが負の場合, 展開に失敗した場合
      * @throws NullPointerException nullが含まれる場合
      */
-    public static <T extends MathFieldType<T>, ET extends MathFieldElement<T, ET>>
-            ContinuedFractionFunction<T, ET> from(
-                    int size,
-                    T fieldType, IntFunction<ET> ratioSupplier,
+    public static <ET extends MathField<ET>>
+            ContinuedFractionFunction<ET> from(
+                    int size, IntFunction<ET> ratioSupplier,
                     ConstantSupplier<ET> constantSupplier) {
 
         return ContinuedFractionFunction.of(
-                fieldType, constantSupplier,
+                constantSupplier,
                 new CFCalculator<>(size, ratioSupplier, constantSupplier).cfCoeff);
     }
 
@@ -193,34 +182,31 @@ public final class ContinuedFractionFunction<
      * <i>a</i><sub><i>n</i> - 1</sub>]
      * の連分数を計算する仕組みを生成する.
      * 
-     * @param <T> この連分数が扱う体構造を表す
      * @param <ET> この連分数が扱う体の元を表す
-     * @param fieldType 体構造
      * @param constantSupplier 体構造の定数生成器
      * @param cfCoeff 連分数の係数
      * @return 連分数
      * @throws NullPointerException nullが含まれる場合
      */
-    public static <T extends MathFieldType<T>, ET extends MathFieldElement<T, ET>>
-            ContinuedFractionFunction<T, ET> of(
-                    T fieldType, ConstantSupplier<ET> constantSupplier, List<ET> cfCoeff) {
+    public static <ET extends MathField<ET>>
+            ContinuedFractionFunction<ET> of(
+                    ConstantSupplier<ET> constantSupplier, List<ET> cfCoeff) {
 
         List<ET> list = new ArrayList<>(cfCoeff);
         if (list.stream().anyMatch(Objects::isNull)) {
             throw new NullPointerException("リストにnullが含まれる");
         }
 
-        return new ContinuedFractionFunction<T, ET>(
-                Objects.requireNonNull(fieldType),
+        return new ContinuedFractionFunction<ET>(
                 Objects.requireNonNull(constantSupplier),
                 Collections.unmodifiableList(list));
     }
 
-    private static final class CFCalculator<ET extends MathFieldElement<?, ET>> {
+    private static final class CFCalculator<ET extends MathField<ET>> {
 
         private final int size;
         private final IntFunction<ET> ratioSupplier;
-        private final MathFieldElement.ConstantSupplier<ET> constantSupplier;
+        private final MathField.ConstantSupplier<ET> constantSupplier;
 
         final List<ET> cfCoeff;
 
@@ -301,6 +287,5 @@ public final class ContinuedFractionFunction<
 
             return out;
         }
-
     }
 }

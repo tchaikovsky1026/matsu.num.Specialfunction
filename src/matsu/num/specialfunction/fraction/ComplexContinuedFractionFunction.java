@@ -5,17 +5,17 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.23
+ * 2024.7.29
  */
 package matsu.num.specialfunction.fraction;
 
 /**
  * 複素数にも対応した連分数関数. <br>
  * {@link DoubleContinuedFractionFunction}
- * の引数を複素数に拡張したもの.
+ * の引数を複素数に拡張したものであり, すなわち係数は実数である.
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 19.1
  * @see DoubleContinuedFractionFunction
  */
 public final class ComplexContinuedFractionFunction {
@@ -57,8 +57,8 @@ public final class ComplexContinuedFractionFunction {
     }
 
     /**
-     * 連分数の係数を返す.
-     * ただし, 最初の1は含まず.
+     * 連分数の係数を返す. <br>
+     * 最初の1は含まない.
      * 
      * @return 係数
      */

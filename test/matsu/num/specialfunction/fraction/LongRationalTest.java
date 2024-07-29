@@ -11,14 +11,15 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 /**
- * {@link BigRationalElement} クラスのテスト.
+ * {@link LongRational} クラスのテスト.
  * 
  * @author Matsuura Y.
  */
+@SuppressWarnings("deprecation")
 @RunWith(Enclosed.class)
-final class BigRationalElementTest {
+final class LongRationalTest {
 
-    public static final Class<?> TEST_CLASS = BigRationalElement.class;
+    public static final Class<?> TEST_CLASS = LongRational.class;
 
     @RunWith(Theories.class)
     public static class 生成のテスト {
@@ -36,11 +37,11 @@ final class BigRationalElementTest {
         @Theory
         public void test_検証(long[][] pair) {
             long[] input = pair[0];
-            BigRationalElement result = BigRationalElement.of(input[0], input[1]);
+            LongRational result = LongRational.of(input[0], input[1]);
 
             long[] expected = pair[1];
-            assertThat(result.numerator().longValue(), is(expected[0]));
-            assertThat(result.denominator().longValue(), is(expected[1]));
+            assertThat(result.numerator(), is(expected[0]));
+            assertThat(result.denominator(), is(expected[1]));
         }
     }
 
@@ -48,12 +49,12 @@ final class BigRationalElementTest {
 
         @Test(expected = ArithmeticException.class)
         public void test_分母0で例外() {
-            BigRationalElement.of(1, 0);
+            LongRational.of(1, 0);
         }
 
         @Test(expected = ArithmeticException.class)
         public void test_分子分母0で例外() {
-            BigRationalElement.of(0, 0);
+            LongRational.of(0, 0);
         }
     }
 
@@ -71,11 +72,11 @@ final class BigRationalElementTest {
         @Theory
         public void test_検証(long[][] pair) {
             long[] input = pair[0];
-            BigRationalElement result = BigRationalElement.of(input[0], input[1]).negated();
+            LongRational result = LongRational.of(input[0], input[1]).negated();
 
             long[] expected = pair[1];
-            assertThat(result.numerator().longValue(), is(expected[0]));
-            assertThat(result.denominator().longValue(), is(expected[1]));
+            assertThat(result.numerator(), is(expected[0]));
+            assertThat(result.denominator(), is(expected[1]));
         }
     }
 
@@ -93,12 +94,12 @@ final class BigRationalElementTest {
         public void test_生成の検証(long[][] pair) {
             long[] operand1 = pair[0];
             long[] operand2 = pair[1];
-            BigRationalElement result = BigRationalElement.of(operand1[0], operand1[1])
-                    .plus(BigRationalElement.of(operand2[0], operand2[1]));
+            LongRational result = LongRational.of(operand1[0], operand1[1])
+                    .plus(LongRational.of(operand2[0], operand2[1]));
 
             long[] expected = pair[2];
-            assertThat(result.numerator().longValue(), is(expected[0]));
-            assertThat(result.denominator().longValue(), is(expected[1]));
+            assertThat(result.numerator(), is(expected[0]));
+            assertThat(result.denominator(), is(expected[1]));
         }
     }
 
@@ -116,12 +117,12 @@ final class BigRationalElementTest {
         public void test_生成の検証(long[][] pair) {
             long[] operand1 = pair[0];
             long[] operand2 = pair[1];
-            BigRationalElement result = BigRationalElement.of(operand1[0], operand1[1])
-                    .minus(BigRationalElement.of(operand2[0], operand2[1]));
+            LongRational result = LongRational.of(operand1[0], operand1[1])
+                    .minus(LongRational.of(operand2[0], operand2[1]));
 
             long[] expected = pair[2];
-            assertThat(result.numerator().longValue(), is(expected[0]));
-            assertThat(result.denominator().longValue(), is(expected[1]));
+            assertThat(result.numerator(), is(expected[0]));
+            assertThat(result.denominator(), is(expected[1]));
         }
     }
 
@@ -139,12 +140,12 @@ final class BigRationalElementTest {
         public void test_生成の検証(long[][] pair) {
             long[] operand1 = pair[0];
             long[] operand2 = pair[1];
-            BigRationalElement result = BigRationalElement.of(operand1[0], operand1[1])
-                    .times(BigRationalElement.of(operand2[0], operand2[1]));
+            LongRational result = LongRational.of(operand1[0], operand1[1])
+                    .times(LongRational.of(operand2[0], operand2[1]));
 
             long[] expected = pair[2];
-            assertThat(result.numerator().longValue(), is(expected[0]));
-            assertThat(result.denominator().longValue(), is(expected[1]));
+            assertThat(result.numerator(), is(expected[0]));
+            assertThat(result.denominator(), is(expected[1]));
         }
     }
 
@@ -164,12 +165,12 @@ final class BigRationalElementTest {
         public void test_生成の検証(long[][] pair) {
             long[] operand1 = pair[0];
             long[] operand2 = pair[1];
-            BigRationalElement result = BigRationalElement.of(operand1[0], operand1[1])
-                    .dividedBy(BigRationalElement.of(operand2[0], operand2[1]));
+            LongRational result = LongRational.of(operand1[0], operand1[1])
+                    .dividedBy(LongRational.of(operand2[0], operand2[1]));
 
             long[] expected = pair[2];
-            assertThat(result.numerator().longValue(), is(expected[0]));
-            assertThat(result.denominator().longValue(), is(expected[1]));
+            assertThat(result.numerator(), is(expected[0]));
+            assertThat(result.denominator(), is(expected[1]));
         }
     }
 }

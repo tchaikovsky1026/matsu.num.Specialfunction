@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.12
+ * 2024.7.29
  */
 package matsu.num.specialfunction.fraction;
 
@@ -31,7 +31,7 @@ package matsu.num.specialfunction.fraction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.5
+ * @version 19.1
  */
 public final class DoubleContinuedFractionFunction {
 
@@ -69,8 +69,12 @@ public final class DoubleContinuedFractionFunction {
     }
 
     /**
-     * 連分数の係数を返す.
-     * ただし, 最初の1は含まず.
+     * 連分数の係数
+     * [<i>a</i><sub>0</sub>, <i>a</i><sub>1</sub>,
+     * ... ,
+     * <i>a</i><sub><i>n</i> - 1</sub>]
+     * を返す. <br>
+     * 最初の1は含まない.
      * 
      * @return 係数
      */

@@ -5,28 +5,23 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.11
+ * 2024.7.29
  */
 package matsu.num.specialfunction.fraction;
 
 /**
  * <p>
- * 体構造を表す. <br>
+ * 体の性質を表現する. <br>
  * このインターフェースは内部状態を持たない.
  * </p>
  * 
- * <p>
- * 体とは, 四則演算が定義され, ...
- * </p>
- * 
  * @author Matsuura Y.
- * @version 18.5
- * @param <T> 二項演算が可能な相手を表す型, すなわち自分自身の型
+ * @version 19.1
  */
-public interface MathFieldType<T extends MathFieldType<T>> {
+public interface MathFieldProperty {
 
     /**
-     * このタイプが {@code double} 値として解釈可能かどうかを返す.
+     * 体が {@code double} 値として解釈可能かどうかを返す.
      * 
      * @return 解釈可能な場合はtrue
      */

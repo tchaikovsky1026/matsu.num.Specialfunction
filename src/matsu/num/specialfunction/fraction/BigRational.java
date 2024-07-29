@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.12
+ * 2024.7.29
  */
 package matsu.num.specialfunction.fraction;
 
@@ -14,24 +14,29 @@ import java.math.BigInteger;
 import java.math.MathContext;
 
 /**
- * {@link BigInteger} 型で分子分母が表現された有理数構造の元.
+ * {@link BigInteger} 型で分子分母が表現された有理数体の元.
  * 
  * <p>
- * 分母は必ず正の数により表現される.
+ * 常に約分され, 既約分数である. <br>
+ * 分母は必ず正の数により表現される. <br>
+ * 0 は 0/1 である.
+ * </p>
+ * 
+ * <p>
+ * このインスタンスは分子分母の整数値に基づく equality を提供する. <br>
+ * さらに, 既約分数の一意性により, これは有理数の equality に一致する.
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.5
+ * @version 19.1
  */
-public final class BigRationalElement
-        implements MathFieldElement<RationalType, BigRationalElement> {
+public final class BigRational
+        extends MathField<BigRational> {
 
-    private static final BigRationalElement ZERO =
-            new BigRationalElement(BigInteger.ZERO, BigInteger.ONE);
-    private static final BigRationalElement ONE =
-            new BigRationalElement(BigInteger.ONE, BigInteger.ONE);
-
-    private static final RationalType TYPE = RationalType.INSTANCE;
+    private static final BigRational ZERO =
+            new BigRational(BigInteger.ZERO, BigInteger.ONE);
+    private static final BigRational ONE =
+            new BigRational(BigInteger.ONE, BigInteger.ONE);
 
     private final BigInteger numerator;
     private final BigInteger denominator;
@@ -43,14 +48,10 @@ public final class BigRationalElement
      * @param numerator
      * @param denominator
      */
-    private BigRationalElement(BigInteger numerator, BigInteger denominator) {
+    private BigRational(BigInteger numerator, BigInteger denominator) {
+        super(DoubleInterpretable.INSTANCE);
         this.numerator = numerator;
         this.denominator = denominator;
-    }
-
-    @Override
-    public RationalType type() {
-        return TYPE;
     }
 
     /**
@@ -71,12 +72,18 @@ public final class BigRationalElement
         return this.denominator;
     }
 
+    /**
+     * 与えられたインスタンスが自身と等価であるかを判定する.
+     * 
+     * @param obj 比較相手
+     * @return 等価なら true
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof BigRationalElement target)) {
+        if (!(obj instanceof BigRational target)) {
             return false;
         }
 
@@ -84,6 +91,11 @@ public final class BigRationalElement
                 && this.denominator.equals(target.denominator);
     }
 
+    /**
+     * このインスタンスのハッシュコードを返す.
+     * 
+     * @return ハッシュコード
+     */
     @Override
     public int hashCode() {
         int result = this.numerator.hashCode();
@@ -92,22 +104,33 @@ public final class BigRationalElement
         return result;
     }
 
+    /**
+     * このインスタンスの文字列表現を返す.
+     * 
+     * @return 文字列表現
+     */
     @Override
     public String toString() {
         return String.format("%s / %s", this.numerator, this.denominator);
     }
 
+    /**
+     * @throws NullPointerException {@inheritDoc }
+     */
     @Override
-    public BigRationalElement plus(BigRationalElement augend) {
+    public BigRational plus(BigRational augend) {
         return this.plus_kernel(augend.numerator, augend.denominator);
     }
 
+    /**
+     * @throws NullPointerException {@inheritDoc }
+     */
     @Override
-    public BigRationalElement minus(BigRationalElement subtrahend) {
+    public BigRational minus(BigRational subtrahend) {
         return this.plus_kernel(subtrahend.numerator.negate(), subtrahend.denominator);
     }
 
-    private BigRationalElement plus_kernel(BigInteger otherNume, BigInteger otherDenomi) {
+    private BigRational plus_kernel(BigInteger otherNume, BigInteger otherDenomi) {
         BigInteger gcd = this.denominator.gcd(otherDenomi);
 
         BigInteger thisDenomi_dividedByGcd = this.denominator.divide(gcd);
@@ -118,20 +141,28 @@ public final class BigRationalElement
         nume2 = nume2.add(thisDenomi_dividedByGcd.multiply(otherNume));
 
         // 足し算の結果発生する約分を処理するため, staticファクトリを呼ぶ
-        return BigRationalElement.of(nume2, denomi2);
+        return BigRational.of(nume2, denomi2);
     }
 
+    /**
+     * @throws NullPointerException {@inheritDoc }
+     */
     @Override
-    public BigRationalElement times(BigRationalElement multiplicand) {
+    public BigRational times(BigRational multiplicand) {
         return this.times_kernel(multiplicand.numerator, multiplicand.denominator);
     }
 
+    /**
+     * @throws ArithmeticException {@inheritDoc }
+     * @throws NullPointerException {@inheritDoc }
+     */
     @Override
-    public BigRationalElement dividedBy(BigRationalElement divisor) {
+    public BigRational dividedBy(BigRational divisor) {
+        //ゼロ除算の発生の可能性
         return this.times_kernel(divisor.denominator, divisor.numerator);
     }
 
-    private BigRationalElement times_kernel(BigInteger otherNume, BigInteger otherDenomi) {
+    private BigRational times_kernel(BigInteger otherNume, BigInteger otherDenomi) {
         if (otherDenomi.equals(BigInteger.ZERO)) {
             throw new ArithmeticException("ゼロ除算");
         }
@@ -151,16 +182,16 @@ public final class BigRationalElement
         BigInteger denomi2 = thisDenomi2.multiply(otherDenomi2);
         BigInteger nume2 = thisNume2.multiply(otherNume2);
 
-        return new BigRationalElement(nume2, denomi2);
+        return new BigRational(nume2, denomi2);
     }
 
     @Override
-    public BigRationalElement negated() {
-        return new BigRationalElement(this.numerator.negate(), this.denominator);
+    public BigRational negated() {
+        return new BigRational(this.numerator.negate(), this.denominator);
     }
 
     @Override
-    public double doubleValue() {
+    protected double toDouble() {
         return new BigDecimal(numerator)
                 .divide(new BigDecimal(denominator), MathContext.DECIMAL128).doubleValue();
     }
@@ -178,7 +209,7 @@ public final class BigRationalElement
      * @return 有理数
      * @throws ArithmeticException 分母が0の場合
      */
-    public static BigRationalElement of(BigInteger numerator, BigInteger denominator) {
+    public static BigRational of(BigInteger numerator, BigInteger denominator) {
         if (denominator.equals(BigInteger.ZERO)) {
             throw new ArithmeticException("分母が0である");
         }
@@ -186,7 +217,7 @@ public final class BigRationalElement
         if (denominator.compareTo(BigInteger.ZERO) < 0) {
             gcd = gcd.negate();
         }
-        return new BigRationalElement(numerator.divide(gcd), denominator.divide(gcd));
+        return new BigRational(numerator.divide(gcd), denominator.divide(gcd));
     }
 
     /**
@@ -203,28 +234,39 @@ public final class BigRationalElement
      * @return 有理数
      * @throws ArithmeticException 分母が0の場合
      */
-    public static BigRationalElement of(long numerator, long denominator) {
-        return BigRationalElement.of(
+    public static BigRational of(long numerator, long denominator) {
+        return BigRational.of(
                 BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
     }
 
     /**
-     * 有理数構造の定数サプライヤ.
+     * このクラスと関連する定数サプライヤを返す.
      * 
-     * @author Matsuura Y.
+     * @return 定数サプライヤ.
      */
-    public static final class ConstantSupplier implements MathFieldElement.ConstantSupplier<BigRationalElement> {
+    public static MathField.ConstantSupplier<BigRational> constantSupplier() {
+        return BigRational.ConstantSupplier.INSTANCE;
+    }
 
-        public static final ConstantSupplier INSTANCE = new ConstantSupplier();
+    /**
+     * {@link BigRational} と関連する定数サプライヤ.
+     */
+    private static final class ConstantSupplier
+            implements MathField.ConstantSupplier<BigRational> {
 
-        @Override
-        public BigRationalElement zero() {
-            return BigRationalElement.ZERO;
+        static final ConstantSupplier INSTANCE = new ConstantSupplier();
+
+        ConstantSupplier() {
         }
 
         @Override
-        public BigRationalElement one() {
-            return BigRationalElement.ONE;
+        public BigRational zero() {
+            return BigRational.ZERO;
+        }
+
+        @Override
+        public BigRational one() {
+            return BigRational.ONE;
         }
     }
 }
