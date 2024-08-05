@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.19
+ * 2024.8.5
  */
 package matsu.num.specialfunction;
 
@@ -27,7 +27,7 @@ import matsu.num.specialfunction.gamma.TrigammaCalculation;
  * </p>
  *
  * @author Matsuura Y.
- * @version 18.1
+ * @version 19.2
  * @see <a href="https://en.wikipedia.org/wiki/Gamma_function" target= "_brank">
  *          Wikipedia: Gamma function</a>
  * @see <a href="https://en.wikipedia.org/wiki/Stirling%27s_approximation"
@@ -48,11 +48,7 @@ public final class GammaFunction {
      * Euler-Mascheroni 定数: <br>
      * {@code  0.5772156649015329}
      */
-    public static final double EULER_MASCHERONI_GAMMA;
-
-    static {
-        EULER_MASCHERONI_GAMMA = 0.5772156649015329;
-    }
+    public static final double EULER_MASCHERONI_GAMMA = 0.5772156649015329;
 
     private GammaFunction() {
         throw new AssertionError();
@@ -91,14 +87,11 @@ public final class GammaFunction {
     }
 
     /**
-     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似
-     * 
-     * [
+     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似 <br>
+     * <i>S</i>(<i>x</i>) =
      * (<i>x</i> - 1/2) log<sub>e</sub>(<i>x</i>)
      * - <i>x</i>
-     * + (1/2) log(2&pi;)
-     * ]
-     * 
+     * + (1/2) log(2&pi;) <br>
      * の値を返す.
      * 
      * <ul>
@@ -108,23 +101,17 @@ public final class GammaFunction {
      * </ul>
      *
      * @param x <i>x</i>, 引数
-     * @return log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似
+     * @return <i>S</i>(<i>x</i>)
      */
     public static double lgammaStirling(double x) {
         return LGAMMA.lgammaStirling(x);
     }
 
     /**
-     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似残差
-     * 
-     * [
-     * log<sub>e</sub>&Gamma;(<i>x</i>)
-     * - (<i>x</i> - 1/2) log<sub>e</sub>(<i>x</i>)
-     * + <i>x</i>
-     * - (1/2) log(2&pi;)
-     * ]
-     * 
-     * の値を返す.
+     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似残差: <br>
+     * log<sub>e</sub>&Gamma;(<i>x</i>) - <i>S</i>(<i>x</i>) <br>
+     * を返す. <br>
+     * (<i>S</i>(<i>x</i>) は log<sub>e</sub>&Gamma;(<i>x</i>) の Stirling近似)
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN</li>
@@ -133,7 +120,8 @@ public final class GammaFunction {
      * </ul>
      *
      * @param x <i>x</i>, 引数
-     * @return log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似残差
+     * @return log<sub>e</sub>&Gamma;(<i>x</i>) - <i>S</i>(<i>x</i>)
+     * @see #lgammaStirling(double)
      */
     public static double lgammaStirlingResidual(double x) {
         return LGAMMA.lgammaStirlingResidual(x);

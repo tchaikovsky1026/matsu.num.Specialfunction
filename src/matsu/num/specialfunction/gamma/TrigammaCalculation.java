@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.18
+ * 2024.8.5
  */
 package matsu.num.specialfunction.gamma;
 
@@ -13,9 +13,11 @@ package matsu.num.specialfunction.gamma;
  * トリガンマ関数の計算に関する.
  * 
  * @author Matsuura Y.
- * @version 18.1
+ * @version 19.2
  */
 public final class TrigammaCalculation {
+
+    private static final double BOUNDARY_X_FOR_ASYMPTOTIC = 2.5;
 
     public TrigammaCalculation() {
     }
@@ -40,130 +42,179 @@ public final class TrigammaCalculation {
             return Double.NaN;
         }
 
-        if (x >= 6) {
-            //漸近展開により計算.
-            double shiftX = x;
-            double shiftValue = 0;
-            if (x < 10) {
-                final double x1 = shiftX + 1;
-                final double x2 = shiftX + 2;
-                final double x3 = shiftX + 3;
-                final double x_sq = shiftX * shiftX;
-                final double x1_sq = x1 * x1;
-                final double x2_sq = x2 * x2;
-                final double x3_sq = x3 * x3;
-
-                shiftX += 4;
-                shiftValue = ((x_sq + x1_sq) / (x_sq * x1_sq) + (x2_sq + x3_sq) / (x2_sq * x3_sq));
-            }
-            return trigamma_largekernel(shiftX) + shiftValue;
+        if (x >= BOUNDARY_X_FOR_ASYMPTOTIC) {
+            //2.5以上は漸近展開を使う.
+            return trigammaStirRes_largeX(x) + trigammaStirling(x);
         }
 
-        //x = 2における級数展開を使う.
-        double shiftValue = 0;
-        double shiftX = x;
-        if (x < 2) {
-            while (shiftX < 1.5) {
-                shiftValue += 1 / (shiftX * shiftX);
-                shiftX += 1;
-            }
-        } else {
-            while (shiftX > 3.5) {
-                final double x1 = shiftX - 1;
-                final double x2 = shiftX - 2;
-                final double x1_sq = x1 * x1;
-                final double x2_sq = x2 * x2;
-                shiftValue -= (x1_sq + x2_sq) / (x1_sq * x2_sq);
-                shiftX -= 2;
-            }
-            if (shiftX > 2.5) {
-                shiftX -= 1;
-                shiftValue -= 1 / (shiftX * shiftX);
-            }
+        assert x <= 2.5;
+        switch ((int) (x * 2)) {
+        case 0: {
+            // x = -0d でもうまくいく
+            double xp1 = x + 1;
+            double shift = 1d / (x * x) + 1 / (xp1 * xp1);
+            return trigamma2p_smallX(x) + shift;
         }
-        return trigamma_smallkernel(shiftX - 2) + shiftValue;
+        case 1, 2: {
+            double shift = 1d / (x * x);
+            return trigamma2p_smallX(x - 1) + shift;
+        }
+        default: {
+            return trigamma2p_smallX(x - 2);
+        }
+        }
     }
 
     /**
-     * x ≧ 10で使える, 漸近展開によるψ'(x)を求める
+     * {@literal -0.5 <= x <= 0.5} のときの, psi1(2+x)
      */
-    private static double trigamma_largekernel(double x) {
+    private static double trigamma2p_smallX(double x) {
+        assert x >= -0.5;
+        assert x <= 0.5;
 
-        final double TGL1 = 1;
-        final double TGL3 = 0.1666666666661263898063145225541032;
-        final double TGL5 = -0.03333333256159259717377900029417934;
-        final double TGL7 = 0.02380916504019969425899586054297418;
-        final double TGL9 = -0.03326016771059407656862087319537770;
-        final double TGL11 = 0.06889111178216503522310709071736891;
+        return x <= 0d
+                ? trigamma2p_smallX_m0_5_to_0(x)
+                : trigamma2p_smallX_0_to_0_5(x);
+    }
+
+    private static double trigamma2p_smallX_m0_5_to_0(double x) {
+        assert x >= -0.5;
+        assert x <= 0;
+
+        final double C0 = 0.6449340668482265;
+        final double C1 = -0.40411380631910854;
+        final double C2 = 0.24696970114416059;
+        final double C3 = -0.14771101997597313;
+        final double C4 = 0.0867153276089871;
+        final double C5 = -0.050095347101076396;
+        final double C6 = 0.028545210671990548;
+        final double C7 = -0.01603732327121424;
+        final double C8 = 0.009119464608960324;
+        final double C9 = -0.0042649119475593605;
+        final double C10 = 0.004647759044464623;
+        final double C11 = 0.0024320723684013107;
+        final double C12 = 0.006102992397523436;
+        final double C13 = 0.004059796713804028;
+        final double C14 = 0.0021489619475108107;
+
+        final double x2 = x * x;
+
+        final double v0 = C0 + x * C1 + x2 * (C2 + x * C3);
+        final double v4 = C4 + x * C5 + x2 * (C6 + x * C7);
+        final double v8 = C8 + x * C9 + x2 * (C10 + x * C11);
+        final double v12 = C12 + x * C13 + x2 * C14;
+
+        final double x4 = x2 * x2;
+
+        return v0 + x4 * (v4 + x4 * (v8 + x4 * v12));
+    }
+
+    private static double trigamma2p_smallX_0_to_0_5(double x) {
+        assert x >= 0;
+        assert x <= 0.5;
+
+        final double C0 = 0.6449340668482264;
+        final double C1 = -0.4041138063191871;
+        final double C2 = 0.2469697011331987;
+        final double C3 = -0.1477110205610824;
+        final double C4 = 0.08671530954865755;
+        final double C5 = -0.050095657493126146;
+        final double C6 = 0.028541412336164772;
+        final double C7 = -0.016066476701837598;
+        final double C8 = 0.008947283413123158;
+        final double C9 = -0.004925384152746134;
+        final double C10 = 0.002655761087858228;
+        final double C11 = -0.0013562742139614993;
+        final double C12 = 6.040638609517639E-4;
+        final double C13 = -1.9980408675742252E-4;
+        final double C14 = 3.49811174070382E-5;
+
+        final double x2 = x * x;
+
+        final double v0 = C0 + x * C1 + x2 * (C2 + x * C3);
+        final double v4 = C4 + x * C5 + x2 * (C6 + x * C7);
+        final double v8 = C8 + x * C9 + x2 * (C10 + x * C11);
+        final double v12 = C12 + x * C13 + x2 * C14;
+
+        final double x4 = x2 * x2;
+
+        return v0 + x4 * (v4 + x4 * (v8 + x4 * v12));
+    }
+
+    /**
+     * トリガンマ関数のスターリング近似: 1/x + 1/(2x^2)
+     *
+     * @param x
+     * @return trigammaStirling(x)
+     */
+    private static double trigammaStirling(double x) {
+        final double invX = 1 / x;
+        return invX + 0.5 * invX * invX;
+    }
+
+    /**
+     * {@literal x >= 2.5} のときの, psi1(x) - 1/x - 1/(2x^2)
+     */
+    private static double trigammaStirRes_largeX(double x) {
+        assert x >= BOUNDARY_X_FOR_ASYMPTOTIC;
+
+        if (x >= 10d) {
+            return trigammaStirRes_10_to_inf(x);
+        }
+
+        return trigammaStirRes_2_5_to_10(x);
+    }
+
+    private static double trigammaStirRes_2_5_to_10(double x) {
+        assert x >= 2.5;
+        assert x <= 10;
+
+        final double C0 = 0.16666666688718998;
+        final double C1 = -1.5841221907147984E-8;
+        final double C2 = -0.03333281392620971;
+        final double C3 = -1.0300525014952065E-5;
+        final double C4 = 0.02394745652958498;
+        final double C5 = -0.00131719977449279;
+        final double C6 = -0.02411544355494644;
+        final double C7 = -0.04765507912720703;
+        final double C8 = 0.25554800145631473;
+        final double C9 = -0.47242245678357;
+        final double C10 = 0.4962883749665182;
+        final double C11 = -0.30112072399212125;
+        final double C12 = 0.08695334800183606;
+        final double C13 = -0.0038140894039424447;
 
         final double t = 1 / x;
         final double t2 = t * t;
+
+        final double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
+        final double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
+        final double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        final double v12 = C12 + t * C13;
+
         final double t4 = t2 * t2;
-        final double t8 = t4 * t4;
 
-        final double value1 = TGL1 + t2 * TGL3 + t4 * (TGL5 + t2 * TGL7);
-        final double value9 = TGL9 + t2 * TGL11;
-
-        return 0.5 * t2 + t * (value1 + t8 * value9);
+        return t * t2 * (v0 + t4 * (v4 + t4 * (v8 + t4 * v12)));
     }
 
-    /**
-     *
-     * @param x |x|＜0.5
-     * @return ψ'(2+x)
-     */
-    private static double trigamma_smallkernel(double x) {
-        if (x < -0.0625) {
-            final double TGS0 = 0.6449340668456999168497507162920213;
-            final double TGS1 = -0.4041138065181304139813859121911892;
-            final double TGS2 = 0.2469696942023276137942077245599758;
-            final double TGS3 = -0.1477111622248231355610802708842988;
-            final double TGS4 = 0.08671341131472947710948278387683772;
-            final double TGS5 = -0.05011333777810971354117571694548063;
-            final double TGS6 = 0.02842353892632418505202635413949106;
-            final double TGS7 = -0.01664098807739095464301847756530598;
-            final double TGS8 = 0.006906124423289308478155764045926724;
-            final double TGS9 = -0.01024718917269064281787466308062876;
-            final double TGS10 = -0.007111947206864510219389820213103861;
-            final double TGS11 = -0.01390591658700268547873806059173431;
-            final double TGS12 = -0.009092274937420192460729556043384463;
-            final double TGS13 = -0.004424088202617627097062073470145046;
+    private static double trigammaStirRes_10_to_inf(double x) {
+        assert x >= 10;
 
-            final double x2 = x * x;
-            final double x4 = x2 * x2;
-            final double x8 = x4 * x4;
+        final double C0 = 0.16666666666666666;
+        final double C1 = -0.03333333333328928;
+        final double C2 = 0.02380952372259268;
+        final double C3 = -0.033333276166239975;
+        final double C4 = 0.07574022760714248;
+        final double C5 = -0.2504265826880604;
+        final double C6 = 0.9566446635927073;
 
-            final double value0 = (TGS0 + x * TGS1) + x2 * (TGS2 + x * TGS3);
-            final double value4 = (TGS4 + x * TGS5) + x2 * (TGS6 + x * TGS7);
-            final double value8 = (TGS8 + x * TGS9) + x2 * (TGS10 + x * TGS11);
-            final double value12 = TGS12 + x * TGS13;
-            return (value0 + x4 * value4) + x8 * (value8 + x4 * value12);
+        final double t = 1 / x;
+        final double u = t * t;
+        final double u2 = u * u;
 
-        } else {
-            final double TGS0 = 0.6449340668482265608349744266083016;
-            final double TGS1 = -0.4041138063191893981202082501004250;
-            final double TGS2 = 0.2469697011330286179177876170816620;
-            final double TGS3 = -0.1477110205697577884989197627527309;
-            final double TGS4 = 0.08671531008686449516664952773340815;
-            final double TGS5 = -0.05009566706727851631671089467297858;
-            final double TGS6 = 0.02854149120130557101454454802134196;
-            final double TGS7 = -0.01606675124687139917402683994480659;
-            final double TGS8 = 0.008946857906515484131988362792732850;
-            final double TGS9 = -0.004917059859922661799459220490129982;
-            final double TGS10 = 0.002618192785043820229543437281011416;
-            final double TGS11 = -0.001264562248874002145949616693724137;
-            final double TGS12 = 0.0004729449937137596727192831548730589;
-            final double TGS13 = -0.00009628890028858592116986189561823887;
+        final double v0 = C0 + u * C1 + u2 * (C2 + u * C3);
+        final double v4 = C4 + u * C5 + u2 * C6;
 
-            final double x2 = x * x;
-            final double x4 = x2 * x2;
-            final double x8 = x4 * x4;
-
-            final double value0 = (TGS0 + x * TGS1) + x2 * (TGS2 + x * TGS3);
-            final double value4 = (TGS4 + x * TGS5) + x2 * (TGS6 + x * TGS7);
-            final double value8 = (TGS8 + x * TGS9) + x2 * (TGS10 + x * TGS11);
-            final double value12 = TGS12 + x * TGS13;
-            return (value0 + x4 * value4) + x8 * (value8 + x4 * value12);
-        }
+        return t * u * (v0 + u2 * u2 * v4);
     }
 }

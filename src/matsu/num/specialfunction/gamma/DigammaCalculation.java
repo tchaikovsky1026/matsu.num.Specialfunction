@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.18
+ * 2024.8.5
  */
 package matsu.num.specialfunction.gamma;
 
@@ -15,9 +15,11 @@ import matsu.num.commons.Exponentiation;
  * ディガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 18.1
+ * @version 19.2
  */
 public final class DigammaCalculation {
+
+    private static final double BOUNDARY_X_FOR_ASYMPTOTIC = 2.5;
 
     public DigammaCalculation() {
     }
@@ -41,34 +43,25 @@ public final class DigammaCalculation {
             return Double.NaN;
         }
 
-        if (x >= 10) {
-            //10以上は漸近展開を使う.
-            return digammaStirlingResidual_largekernel(x) + digammaStirling(x);
+        if (x >= BOUNDARY_X_FOR_ASYMPTOTIC) {
+            //2.5以上は漸近展開を使う.
+            return digammaStirRes_largeX(x) + digammaStirling(x);
         }
 
-        //10以下はx=2における級数展開を使う.
-        if (x < 1.5) {
-            double shiftValue = 0;
-            double shiftX = x;
-            while (shiftX <= 1.5) {
-                shiftValue -= 1 / shiftX;
-                shiftX += 1;
-            }
-            return digamma_smallkernel(shiftX - 2) + shiftValue;
-        } else {
-            double shiftValue = 0;
-            double shiftX = x;
-            while (shiftX > 5.5) {
-                double shiftX2 = 2 * shiftX;
-                shiftValue += (shiftX2 - 3) / ((shiftX - 1) * (shiftX - 2))
-                        + (shiftX2 - 7) / ((shiftX - 3) * (shiftX - 4));
-                shiftX -= 4;
-            }
-            while (shiftX > 2.5) {
-                shiftX -= 1;
-                shiftValue += 1 / shiftX;
-            }
-            return digamma_smallkernel(shiftX - 2) + shiftValue;
+        assert x <= 2.5;
+        switch ((int) (x * 2)) {
+        case 0: {
+            //-0dの場合でもうまくいく
+            double shift = (2 * x + 1) / (x * x + x);
+            return digamma2p_smallX(x) - shift;
+        }
+        case 1, 2: {
+            double shift = 1d / x;
+            return digamma2p_smallX(x - 1) - shift;
+        }
+        default: {
+            return digamma2p_smallX(x - 2);
+        }
         }
     }
 
@@ -78,89 +71,147 @@ public final class DigammaCalculation {
      * @param x
      * @return digammaStirling(x)
      */
-    private double digammaStirling(double x) {
+    private static double digammaStirling(double x) {
         return Exponentiation.log(x) - 0.5 / x;
     }
 
     /**
-     * x≧10 のときの ψ(x)-log(x)+0.5/x
+     * {@literal -0.5 <= x <= 0.5} のときの, psi(2+x)
      */
-    private double digammaStirlingResidual_largekernel(double x) {
-        //スターリングの公式によりψ(x)の値を求める
-        final double DGL2 = -0.08333333333328739357470911184372542;
-        final double DGL4 = 0.008333333267783087213545265242688808;
-        final double DGL6 = -0.003968223537336971425914891426605989;
-        final double DGL8 = 0.004160473881603943239794112222091733;
-        final double DGL10 = -0.006996922395754135301453770623701787;
+    private static double digamma2p_smallX(double x) {
+        assert x >= -0.5;
+        assert x <= 0.5;
 
-        final double t = 1 / x;
-        final double t2 = t * t;
-        final double t4 = t2 * t2;
-        final double t8 = t4 * t4;
+        return x <= 0d
+                ? digamma2p_smallX_m0_5_to_0(x)
+                : digamma2p_smallX_0_to_0_5(x);
+    }
 
-        final double value0 = t2 * DGL2 + t4 * (DGL4 + t2 * DGL6);
-        final double value8 = DGL8 + t2 * DGL10;
+    private static double digamma2p_smallX_m0_5_to_0(double x) {
+        assert x >= -0.5;
+        assert x <= 0;
 
-        return value0 + t8 * value8;
+        final double C0 = 0.422784335098467;
+        final double C1 = 0.6449340668482;
+        final double C2 = -0.20205690316208472;
+        final double C3 = 0.08232323359764801;
+        final double C4 = -0.0369277581022438;
+        final double C5 = 0.017343013406704928;
+        final double C6 = -0.008349810725958855;
+        final double C7 = 0.004073287492502214;
+        final double C8 = -0.00203045815509519;
+        final double C9 = 9.086254054588246E-4;
+        final double C10 = -7.342042789061258E-4;
+        final double C11 = -2.26561445164494E-4;
+        final double C12 = -7.54258720738494E-4;
+        final double C13 = -4.663864738641112E-4;
+        final double C14 = -2.5532839632940173E-4;
+
+        final double x2 = x * x;
+
+        final double v0 = C0 + x * C1 + x2 * (C2 + x * C3);
+        final double v4 = C4 + x * C5 + x2 * (C6 + x * C7);
+        final double v8 = C8 + x * C9 + x2 * (C10 + x * C11);
+        final double v12 = C12 + x * C13 + x2 * C14;
+
+        final double x4 = x2 * x2;
+
+        return v0 + x4 * (v4 + x4 * (v8 + x4 * v12));
+    }
+
+    private static double digamma2p_smallX_0_to_0_5(double x) {
+        assert x >= 0;
+        assert x <= 0.5;
+
+        final double C0 = 0.42278433509846713;
+        final double C1 = 0.6449340668482257;
+        final double C2 = -0.20205690315950245;
+        final double C3 = 0.08232323370617795;
+        final double C4 = -0.03692775500310061;
+        final double C5 = 0.017343059596509006;
+        final double C6 = -0.008349250858481457;
+        final double C7 = 0.004077154229343854;
+        final double C8 = -0.0020073056970933995;
+        final double C9 = 9.903655621325842E-4;
+        final double C10 = -4.82375070815139E-4;
+        final double C11 = 2.2208271372339898E-4;
+        final double C12 = -8.766805413095233E-5;
+        final double C13 = 2.4829945462735492E-5;
+        final double C14 = -3.52466477457275E-6;
+
+        final double x2 = x * x;
+
+        final double v0 = C0 + x * C1 + x2 * (C2 + x * C3);
+        final double v4 = C4 + x * C5 + x2 * (C6 + x * C7);
+        final double v8 = C8 + x * C9 + x2 * (C10 + x * C11);
+        final double v12 = C12 + x * C13 + x2 * C14;
+
+        final double x4 = x2 * x2;
+
+        return v0 + x4 * (v4 + x4 * (v8 + x4 * v12));
     }
 
     /**
-     *
-     * @param x |x|＜0.5
-     * @return ψ(2+x)
+     * {@literal x >= 2.5} のときの, psi(x)-log(x)+0.5/x
      */
-    private double digamma_smallkernel(double x) {
-        if (x < -0.0625) {
-            final double DGS0 = 0.4227843350989869268935081341859300;
-            final double DGS1 = 0.6449340668878360083791301083204227;
-            final double DGS2 = -0.2020569018268229512768081189492156;
-            final double DGS3 = 0.08232325997486556963347228209222169;
-            final double DGS4 = -0.03692741608794768694921370000029979;
-            final double DGS5 = 0.01734610003169764330967602293218115;
-            final double DGS6 = -0.008329762652687279041420284891443240;
-            final double DGS7 = 0.004168753978403772810530353137478453;
-            final double DGS8 = -0.001694625750348581527057292253880704;
-            final double DGS9 = 0.001779416706889607114104719424847390;
-            final double DGS10 = 0.0009081297375073063381469503915570035;
-            final double DGS11 = 0.001963217921810770020954370174617190;
-            final double DGS12 = 0.001201100813324397850027751507656302;
-            final double DGS13 = 0.0005823274424193981229438619321738804;
+    private static double digammaStirRes_largeX(double x) {
+        assert x >= BOUNDARY_X_FOR_ASYMPTOTIC;
 
-            final double x2 = x * x;
-            final double x4 = x2 * x2;
-            final double x8 = x4 * x4;
-
-            final double value0 = (DGS0 + x * DGS1) + x2 * (DGS2 + x * DGS3);
-            final double value4 = (DGS4 + x * DGS5) + x2 * (DGS6 + x * DGS7);
-            final double value8 = (DGS8 + x * DGS9) + x2 * (DGS10 + x * DGS11);
-            final double value12 = DGS12 + x * DGS13;
-            return (value0 + x4 * value4) + x8 * (value8 + x4 * value12);
-
-        } else {
-            final double DGS0 = 0.4227843350984671273000466851314970;
-            final double DGS1 = 0.6449340668482268346802984739065999;
-            final double DGS2 = -0.2020569031595553524777377953722888;
-            final double DGS3 = 0.08232323371046633392485463720375387;
-            final double DGS4 = -0.03692775515859214438202225761846589;
-            final double DGS5 = 0.01734306233633621246972786345770444;
-            final double DGS6 = -0.008349277945778360422869060051804784;
-            final double DGS7 = 0.004077314689775532683867896512576123;
-            final double DGS8 = -0.002007873283621135004570801122200925;
-            final double DGS9 = 0.0009914056031367780032441186761955929;
-            final double DGS10 = -0.0004824183789521655651510244300943983;
-            final double DGS11 = 0.0002177993956108496467644385849686818;
-            final double DGS12 = -0.00007815034253940785821427892294970496;
-            final double DGS13 = 0.00001560567542719673471576695610123257;
-
-            final double x2 = x * x;
-            final double x4 = x2 * x2;
-            final double x8 = x4 * x4;
-
-            final double value0 = (DGS0 + x * DGS1) + x2 * (DGS2 + x * DGS3);
-            final double value4 = (DGS4 + x * DGS5) + x2 * (DGS6 + x * DGS7);
-            final double value8 = (DGS8 + x * DGS9) + x2 * (DGS10 + x * DGS11);
-            final double value12 = DGS12 + x * DGS13;
-            return (value0 + x4 * value4) + x8 * (value8 + x4 * value12);
+        if (x >= 10d) {
+            return digammaStirRes_10_to_inf(x);
         }
+
+        return digammaStirRes_2_5_to_10(x);
+    }
+
+    private static double digammaStirRes_2_5_to_10(double x) {
+        assert x >= 2.5;
+        assert x <= 10;
+
+        final double C0 = -0.08333333336352612;
+        final double C1 = 2.0775833112262124E-9;
+        final double C2 = 0.008333268275975752;
+        final double C3 = 1.2284561305540452E-6;
+        final double C4 = -0.003983870462138023;
+        final double C5 = 1.411607025008755E-4;
+        final double C6 = 0.003234260060141176;
+        final double C7 = 0.004537229855589289;
+        final double C8 = -0.023642382389413342;
+        final double C9 = 0.039485497710652254;
+        final double C10 = -0.03703688927580265;
+        final double C11 = 0.019709131755747913;
+        final double C12 = -0.004684811193911103;
+
+        final double t = 1 / x;
+        final double t2 = t * t;
+
+        final double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
+        final double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
+        final double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        final double v12 = C12;
+
+        final double t4 = t2 * t2;
+
+        return t2 * (v0 + t4 * (v4 + t4 * (v8 + t4 * v12)));
+    }
+
+    private static double digammaStirRes_10_to_inf(double x) {
+        assert x >= 10;
+
+        final double C0 = -0.08333333333333333;
+        final double C1 = 0.008333333333159249;
+        final double C2 = -0.003968253719301066;
+        final double C3 = 0.0041665507604469595;
+        final double C4 = -0.007552066489340584;
+        final double C5 = 0.018859762071985555;
+
+        final double t = 1 / x;
+        final double u = t * t;
+        final double u2 = u * u;
+
+        final double v0 = C0 + u * C1 + u2 * (C2 + u * C3);
+        final double v4 = C4 + u * C5;
+
+        return u * (v0 + u2 * u2 * v4);
     }
 }

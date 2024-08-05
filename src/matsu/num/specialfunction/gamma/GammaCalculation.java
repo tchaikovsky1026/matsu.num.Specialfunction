@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.8.2
  */
 package matsu.num.specialfunction.gamma;
 
@@ -17,12 +17,12 @@ import matsu.num.commons.Exponentiation;
  * ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 19.2
  */
 public final class GammaCalculation {
 
     private static final int GAMMA_MAX = 171;
-    private static final double GAMMA_THRESHOLD = 40;
+    private static final double GAMMA_THRESHOLD = 3;
 
     private final LGammaCalculation lGamma;
     private final double[] intGammaTable;
@@ -117,51 +117,60 @@ public final class GammaCalculation {
             return Exponentiation.exp(lGamma.lgamma(x));
         }
 
-        //x = 0における1/Γ(x)の級数展開を使う
-        double value = 1;
-        while (x > 4) {
-            value *= ((x - 1) * (x - 2)) * ((x - 3) * (x - 4));
-            x -= 4;
+        assert x <= 3d;
+
+        switch ((int) (2 * x)) {
+        case 0: {
+            // x + 0dは, x=-0d への配慮
+            return gamma1p_m0_5_to_0_5(x) / (x + 0d);
         }
-        while (x > 1) {
-            value *= x - 1;
-            x -= 1;
+        case 1, 2: {
+            return gamma1p_m0_5_to_0_5(x - 1d);
         }
-        return value * gamma_smallkernel(x);
+        case 3, 4: {
+            return (x - 1d) * gamma1p_m0_5_to_0_5(x - 2d);
+        }
+        default:
+            return (x - 1d) * (x - 2d) * gamma1p_m0_5_to_0_5(x - 3d);
+        }
     }
 
     /**
-     * 0≦x≦1におけるΓ(x)
+     * {@literal -0.5 <= x <= 0.5} におけるGamma(1+x)
      */
-    private double gamma_smallkernel(double x) {
+    private double gamma1p_m0_5_to_0_5(double x) {
+        assert x >= -0.5;
+        assert x <= 0.5;
 
-        //1/Γ(x)を計算し, 逆数をとって返す.
-        double GS1 = 1;
-        double GS2 = 0.5772156649015238830941825047995205;
-        double GS3 = -0.6558780715194271311905445528280728;
-        double GS4 = -0.04200263506068912249136114614773858;
-        double GS5 = 0.1665386118137646712762881561739282;
-        double GS6 = -0.04219773869985819648250288093243171;
-        double GS7 = -0.009621945792574902843361766824272098;
-        double GS8 = 0.007218834322573813253151308851088317;
-        double GS9 = -0.001164843227062886222715396585129185;
-        double GS10 = -0.0002159328405011461404463856976358929;
-        double GS11 = 0.0001291084968731937103581841272117679;
-        double GS12 = -0.00002128810826537580222562658541710358;
-        double GS13 = -3.806933070349227688428280597293888E-7;
-        double GS14 = 7.068118361409347040325775519785248E-7;
-        double GS15 = -9.040488593688208747165525475953710E-8;
+        //1/Γ(1+x)を計算し, 逆数をとって返す.
+        final double C0 = 1.0;
+        final double C1 = 0.5772156649015314;
+        final double C2 = -0.6558780715202812;
+        final double C3 = -0.0420026350339443;
+        final double C4 = 0.16653861138408968;
+        final double C5 = -0.042197734560468325;
+        final double C6 = -0.009621971573174017;
+        final double C7 = 0.007218943310501935;
+        final double C8 = -0.0011651670561764129;
+        final double C9 = -2.1524201713579006E-4;
+        final double C10 = 1.280471176548347E-4;
+        final double C11 = -2.013442649366256E-5;
+        final double C12 = -1.2417016345308765E-6;
+        final double C13 = 1.1352831354395674E-6;
+        final double C14 = -2.133274966289084E-7;
 
         final double x2 = x * x;
+
+        final double v0 = C0 + x * C1 + x2 * (C2 + x * C3);
+        final double v4 = C4 + x * C5 + x2 * (C6 + x * C7);
+        final double v8 = C8 + x * C9 + x2 * (C10 + x * C11);
+        final double v12 = C12 + x * C13 + x2 * (C14);
+
         final double x4 = x2 * x2;
-        final double x8 = x4 * x4;
 
-        final double value0 = x * GS1 + x2 * (GS2 + x * GS3);
-        final double value4 = (GS4 + x * GS5) + x2 * (GS6 + x * GS7);
-        final double value8 = (GS8 + x * GS9) + x2 * (GS10 + x * GS11);
-        final double value12 = GS12 + x * GS13 + x2 * (GS14 + x * GS15);
+        double inv = v0 + x4 * (v4 + x4 * (v8 + x4 * v12));
 
-        return 1 / (value0 + x4 * value4 + x8 * (value8 + x4 * value12));
+        return 1 / inv;
     }
 
     /**
