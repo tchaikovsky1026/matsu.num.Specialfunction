@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.19
+ * 2024.8.14
  */
 package matsu.num.specialfunction;
 
@@ -17,13 +17,31 @@ import matsu.num.specialfunction.lambert.LambertCalculationPrincipalBranch;
  * 
  * <p>
  * Lambert関数は初等関数の逆関数であり,
- * 次式により定義される (e: Napier数). <br>
  * <i>W</i>(<i>z</i>) =
  * arg<sub><i>w</i></sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
+ * により定義される (e: Napier数). <br>
+ * 
+ * <i>w</i> e<sup><i>w</i></sup> = <i>z</i> を満たす実数 <i>w</i> が存在するのは,
+ * <i>z</i> &ge; -1/e の場合である. <br>
+ * このうち -1/e &lt; <i>z</i> &lt; 0 の場合は,
+ * <i>w</i> e<sup><i>w</i></sup> = <i>z</i> を満たす相異なる実数 <i>w</i> が2個存在する. <br>
+ * これを区別するため, <br>
+ * <i>W</i><sub>0</sub>(<i>z</i>) =
+ * arg<sub><i>w</i> &ge; -1</sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
+ * <br>
+ * <i>W</i><sub>-1</sub>(<i>z</i>) =
+ * arg<sub><i>w</i> &le; -1</sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
+ * <br>
+ * とする. <br>
+ * <i>W</i><sub>0</sub> を主枝, <i>W</i><sub>-1</sub>を分枝という. <br>
+ * 
+ * <i>W</i><sub>0</sub>(<i>z</i>) は <i>z</i> &ge; -1/e で,
+ * <i>W</i><sub>-1</sub>(<i>z</i>) は -1/e &le; <i>z</i> &lt; 0
+ * で定義される.
  * </p>
  *
  * @author Matsuura Y.
- * @version 18.1
+ * @version 19.3
  * @see <a href="https://en.wikipedia.org/wiki/Lambert_W_function" target=
  *          "_brank">
  *          Wikipedia: Lambert <i>W</i> function</a>
@@ -41,14 +59,14 @@ public final class LambertFunction {
     }
 
     /**
-     * Lambert関数の主枝
+     * 与えられた <i>z</i> に対するLambert関数の主枝
      * <i>W</i><sub>0</sub>(<i>z</i>) =
      * arg<sub><i>w</i> &ge; -1</sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
      * の値を計算する.
      * 
      * <ul>
      * <li><i>z</i> &lt; -1/e &rarr; NaN</li>
-     * <li><i>z</i> &asymp; +&infin; &rarr; +&infin;</li>
+     * <li><i>z</i> &asymp; &infin; &rarr; &infin;</li>
      * </ul>
      *
      * @param z <i>z</i>, 引数
@@ -59,7 +77,7 @@ public final class LambertFunction {
     }
 
     /**
-     * Lambert関数の分枝
+     * 与えられた <i>z</i> に対するLambert関数の分枝
      * <i>W</i><sub>-1</sub>(<i>z</i>) =
      * arg<sub><i>w</i> &le; -1</sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
      * の値を計算する.

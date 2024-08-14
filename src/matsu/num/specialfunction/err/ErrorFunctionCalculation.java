@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.18
+ * 2024.8.14
  */
 package matsu.num.specialfunction.err;
 
@@ -15,11 +15,21 @@ import matsu.num.commons.Exponentiation;
  * 誤差関数の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 18.1
+ * @version 19.3
  */
 public final class ErrorFunctionCalculation {
 
+    /**
+     * 1/sqrt(pi)
+     */
+    // = 1d / Math.sqrt(Math.PI)
+    private static final double ONE_OVER_SQRT_PI = 0.5641895835477563;
+
+    /**
+     * 唯一のコンストラクタ.
+     */
     public ErrorFunctionCalculation() {
+        super();
     }
 
     /**
@@ -35,13 +45,12 @@ public final class ErrorFunctionCalculation {
          * x = -inf: -1
          */
         double absX = Math.abs(x);
-        double valueForAbsX;
-        if (absX >= 1) {
-            valueForAbsX = 1 - Exponentiation.exp(-absX * absX) * erfcx_over1(absX);
-        } else {
-            valueForAbsX = erf_0To1(absX);
+        if (absX <= 1) {
+            return erf_smallX(x);
         }
-        return x >= 0 ? valueForAbsX : -valueForAbsX;
+
+        double erfAtAbsX = 1 - Exponentiation.exp(-absX * absX) * erfcx_largeX(absX);
+        return x < 0 ? -erfAtAbsX : erfAtAbsX;
     }
 
     /**
@@ -56,10 +65,13 @@ public final class ErrorFunctionCalculation {
          * x = +inf: 0
          * x = -inf: 2
          */
-        if (x >= 1) {
-            return Exponentiation.exp(-x * x) * erfcx_over1(x);
+        if (x > 1) {
+            return Exponentiation.exp(-x * x) * erfcx_largeX(x);
         }
-        return 1 - erf(x);
+        if (x >= -1) {
+            return 1 - erf_smallX(x);
+        }
+        return 2 - Exponentiation.exp(-x * x) * erfcx_largeX(-x);
     }
 
     /**
@@ -75,186 +87,247 @@ public final class ErrorFunctionCalculation {
          * x = +inf: 0
          * x = -inf: +inf
          */
-        if (x >= 1) {
-            return erfcx_over1(x);
+        if (x > 1) {
+            return erfcx_largeX(x);
         }
-        return Exponentiation.exp(x * x) * (1 - erf(x));
+        if (x >= -1) {
+            return Exponentiation.exp(x * x) * (1 - erf_smallX(x));
+        }
+        return 2 * Exponentiation.exp(x * x) - erfcx_largeX(-x);
     }
 
     /**
-     * {@literal 0 <= x <= 1} における erf(x).
+     * {@literal -1 <= x <= 1} における erf(x).
      */
-    private static double erf_0To1(double x) {
-        double DN1 = 1.1283791670955126;
-        double DN3 = 0.08827220707874833;
-        double DN5 = 0.03818305184693074;
-        double DN7 = -1.6069332689136896E-4;
-        double DN9 = 1.1876775220564546E-4;
-        double DN11 = -3.0841229312069887E-6;
+    private double erf_smallX(double x) {
+        assert x >= -1;
+        assert x <= 1;
 
-        double DD0 = 1.0;
-        double DD2 = 0.41156254001564285;
-        double DD4 = 0.0710263619819068;
-        double DD6 = 0.0061863130402539;
-        double DD8 = 2.3420185312115596E-4;
+        final double C0 = 1.0;
+        final double C1 = -0.3333333333333325;
+        final double C2 = 0.09999999999994759;
+        final double C3 = -0.023809523808403246;
+        final double C4 = 0.004629629617726746;
+        final double C5 = -7.575756844203689E-4;
+        final double C6 = 1.0683732519520164E-4;
+        final double C7 = -1.3226804769677749E-5;
+        final double C8 = 1.4577322887575652E-6;
+        final double C9 = -1.437281699650162E-7;
+        final double C10 = 1.219322561041248E-8;
+        final double C11 = -6.968611403365222E-10;
 
-        double x2 = x * x;
-        double x4 = x2 * x2;
-        double x8 = x4 * x4;
-        double nume1 = DN1 + x2 * DN3 + x4 * (DN5 + x2 * DN7);
-        double nume9 = DN9 + x2 * DN11;
-        double nume = x * (nume1 + x8 * nume9);
+        final double u = x * x;
+        final double u2 = u * u;
 
-        double denomi0 = DD0 + x2 * DD2 + x4 * (DD4 + x2 * DD6);
-        double denomi8 = DD8;
-        double denomi = denomi0 + x8 * denomi8;
+        double v0 = C0 + u * C1 + u2 * (C2 + u * C3);
+        double v4 = C4 + u * C5 + u2 * (C6 + u * C7);
+        double v8 = C8 + u * C9 + u2 * (C10 + u * C11);
 
-        return nume / denomi;
+        final double u4 = u2 * u2;
+        return ((2 * ONE_OVER_SQRT_PI) * x) *
+                (v0 + u4 * (v4 + u4 * v8));
     }
 
     /**
-     * {@literal x >= 1} における erf(x).
+     * {@literal x >= 1} における erfcx(x).
      */
-    private static double erfcx_over1(double x) {
-        double t = 1 / x;
-        double t2 = t * t;
-        double t4 = t2 * t2;
-        if (t < 0.5) {
-            if (t < 0.25) {
-                if (t < 0.125) {
+    private double erfcx_largeX(double x) {
+        assert x >= 1;
 
-                    double DN1 = 0.5641895835477564;
-                    double DN2 = 0.24533720485199798;
-                    double DN3 = 3.1306369463403305;
-                    double DN4 = 0.5028943894813879;
-                    double DN5 = 2.199683855787236;
-                    double DN6 = -0.12880523661365864;
-                    double DN7 = -0.2391393511033293;
+        final double t = 1 / x;
+        final double limit = ONE_OVER_SQRT_PI * t;
 
-                    double DD0 = 1.0;
-                    double DD1 = 0.4348488735107914;
-                    double DD2 = 6.0489095111746645;
-                    double DD3 = 1.108781553383177;
-                    double DD4 = 6.173291621503642;
-
-                    double nume1 = DN1 + t * DN2 + t2 * (DN3 + t * DN4);
-                    double nume5 = DN5 + t * DN6 + t2 * DN7;
-                    double nume = t * (nume1 + t4 * nume5);
-
-                    double denomi0 = DD0 + t * DD1 + t2 * (DD2 + t * DD3);
-                    double denomi4 = DD4;
-                    double denomi = denomi0 + t4 * denomi4;
-
-                    return nume / denomi;
-
-                } else {
-                    double DN1 = 0.5641895862449408;
-                    double DN2 = 1.155098340675547;
-                    double DN3 = 3.7709450210010402;
-                    double DN4 = 2.7963001302578627;
-                    double DN5 = 2.2066812951697043;
-                    double DN6 = -0.8334425367726905;
-                    double DN7 = 0.15931842295729948;
-
-                    double DD0 = 1.0;
-                    double DD1 = 2.0473588320913727;
-                    double DD2 = 7.1838156188550695;
-                    double DD3 = 5.980190350428227;
-                    double DD4 = 6.750621930206149;
-
-                    double nume1 = DN1 + t * DN2 + t2 * (DN3 + t * DN4);
-                    double nume5 = DN5 + t * DN6 + t2 * DN7;
-                    double nume = t * (nume1 + t4 * nume5);
-
-                    double denomi0 = DD0 + t * DD1 + t2 * (DD2 + t * DD3);
-                    double denomi4 = DD4;
-                    double denomi = denomi0 + t4 * denomi4;
-
-                    return nume / denomi;
-
-                }
-            } else {
-                double DN1 = 0.5641899411064255;
-                double DN2 = 2.415705309372266;
-                double DN3 = 6.6005443321473845;
-                double DN4 = 9.091751635396884;
-                double DN5 = 6.2725645532813274;
-                double DN6 = -0.13683414313949438;
-                double DN7 = 0.03530303406849633;
-                double DN8 = -0.004435370750455192;
-
-                double DD0 = 1.0;
-                double DD1 = 4.281752022713011;
-                double DD2 = 12.198671556906127;
-                double DD3 = 18.26124790626759;
-                double DD4 = 16.422534212601708;
-                double DD5 = 5.9268692121165065;
-
-                double nume1 = DN1 + t * DN2 + t2 * (DN3 + t * DN4);
-                double nume5 = DN5 + t * DN6 + t2 * (DN7 + t * DN8);
-                double nume = t * (nume1 + t4 * nume5);
-
-                double denomi0 = DD0 + t * DD1 + t2 * (DD2 + t * DD3);
-                double denomi4 = DD4 + t * DD5;
-                double denomi = denomi0 + t4 * denomi4;
-
-                return nume / denomi;
-
-            }
-        } else {
-            if (t < 0.75) {
-
-                double DN1 = 0.5641436862455586;
-                double DN2 = 2.187681945064657;
-                double DN3 = 4.390499233617424;
-                double DN4 = 3.8793053368301083;
-                double DN5 = 0.028217205537368617;
-                double DN6 = -0.00631572215317755;
-                double DN7 = 6.761378084951808E-4;
-
-                double DD0 = 1.0;
-                double DD1 = 3.8757334510493453;
-                double DD2 = 8.30106542354672;
-                double DD3 = 8.692656985173018;
-                double DD4 = 3.959898769006462;
-
-                double nume1 = DN1 + t * DN2 + t2 * (DN3 + t * DN4);
-                double nume5 = DN5 + t * DN6 + t2 * DN7;
-                double nume = t * (nume1 + t4 * nume5);
-
-                double denomi0 = DD0 + t * DD1 + t2 * (DD2 + t * DD3);
-                double denomi4 = DD4;
-                double denomi = denomi0 + t4 * denomi4;
-
-                return nume / denomi;
-
-            } else {
-
-                double DN1 = 0.5644872774995844;
-                double DN2 = 1.7698076550109454;
-                double DN3 = 3.0183998363902824;
-                double DN4 = 1.894585851585952;
-                double DN5 = 0.020757428421423363;
-                double DN6 = -0.004031926993635526;
-                double DN7 = 3.6856613459967935E-4;
-
-                double DD0 = 1.0;
-                double DD1 = 3.1442404109052617;
-                double DD2 = 5.805163908185843;
-                double DD3 = 5.078260236825702;
-                double DD4 = 1.961703355169866;
-
-                double nume1 = DN1 + t * DN2 + t2 * (DN3 + t * DN4);
-                double nume5 = DN5 + t * DN6 + t2 * DN7;
-                double nume = t * (nume1 + t4 * nume5);
-
-                double denomi0 = DD0 + t * DD1 + t2 * (DD2 + t * DD3);
-                double denomi4 = DD4;
-                double denomi = denomi0 + t4 * denomi4;
-
-                return nume / denomi;
-
-            }
+        switch ((int) (t * 8)) {
+        case 0:
+            return limit * erfcx_largeX_Factor_as_t_0_to_1_Over8(t);
+        case 1:
+            return limit * erfcx_largeX_Factor_as_t_1_to_2_Over8(t);
+        case 2:
+            return limit * erfcx_largeX_Factor_as_t_2_to_3_Over8(t);
+        case 3:
+            return limit * erfcx_largeX_Factor_as_t_3_to_4_Over8(t);
+        case 4, 5:
+            return limit * erfcx_largeX_Factor_as_t_4_to_6_Over8(t);
+        default:
+            return limit * erfcx_largeX_Factor_as_t_6_to_8_Over8(t);
         }
+    }
+
+    /**
+     * erfcx(x) = (t/sqrt(pi)) * F(t) における F(t).
+     */
+    private double erfcx_largeX_Factor_as_t_0_to_1_Over8(double t) {
+        assert t >= 0;
+        assert t <= 1d / 8;
+
+        final double C0 = 1.0;
+        final double C1 = -0.4999999999999794;
+        final double C2 = 0.7499999998896585;
+        final double C3 = -1.8749998935904393;
+        final double C4 = 6.562456769307346;
+        final double C5 = -29.52201664856533;
+        final double C6 = 161.29259264501337;
+        final double C7 = -975.0386603103184;
+        final double C8 = 4659.374670704266;
+
+        final double u = t * t;
+        final double u2 = u * u;
+
+        final double v0 = C0 + u * C1 + u2 * (C2 + u * C3);
+        final double v4 = C4 + u * C5 + u2 * (C6 + u * C7);
+        final double v8 = C8;
+
+        final double u4 = u2 * u2;
+        return (v0 + u4 * (v4 + u4 * v8));
+    }
+
+    /**
+     * erfcx(x) = (t/sqrt(pi)) * F(t) における F(t).
+     */
+    private double erfcx_largeX_Factor_as_t_1_to_2_Over8(double t) {
+        assert t >= 1d / 8;
+        assert t <= 2d / 8;
+
+        final double C0 = 0.9999999942522338;
+        final double C1 = 2.836374561372571E-7;
+        final double C2 = -0.5000047413415732;
+        final double C3 = -4.910828648887686E-6;
+        final double C4 = 0.7515306677948306;
+        final double C5 = -0.030119876362158488;
+        final double C6 = -1.5448330694503856;
+        final double C7 = -2.3736496319818525;
+        final double C8 = 18.13917821828396;
+        final double C9 = -37.07880559258125;
+        final double C10 = 37.05679170026917;
+        final double C11 = -15.623222277041659;
+
+        final double t2 = t * t;
+
+        final double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
+        final double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
+        final double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+
+        final double t4 = t2 * t2;
+        return (v0 + t4 * (v4 + t4 * v8));
+    }
+
+    /**
+     * erfcx(x) = (t/sqrt(pi)) * F(t) における F(t).
+     */
+    private double erfcx_largeX_Factor_as_t_2_to_3_Over8(double t) {
+        assert t >= 2d / 8;
+        assert t <= 3d / 8;
+
+        final double C0 = 0.9999959151429135;
+        final double C1 = 1.6896955850103377E-4;
+        final double C2 = -0.5032066238001722;
+        final double C3 = 0.03685624913922959;
+        final double C4 = 0.4652704562228117;
+        final double C5 = 1.5459124548341412;
+        final double C6 = -7.826647373702869;
+        final double C7 = 15.763173417933167;
+        final double C8 = -19.044276206224673;
+        final double C9 = 14.47588078800862;
+        final double C10 = -6.438178428516741;
+        final double C11 = 1.2830956748463003;
+
+        final double t2 = t * t;
+
+        final double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
+        final double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
+        final double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+
+        final double t4 = t2 * t2;
+        return (v0 + t4 * (v4 + t4 * v8));
+    }
+
+    /**
+     * erfcx(x) = (t/sqrt(pi)) * F(t) における F(t).
+     */
+    private double erfcx_largeX_Factor_as_t_3_to_4_Over8(double t) {
+        assert t >= 3d / 8;
+        assert t <= 4d / 8;
+
+        final double C0 = 1.000037610887234;
+        final double C1 = -9.49889291500491E-4;
+        final double C2 = -0.4895603864571144;
+        final double C3 = -0.06296019569752366;
+        final double C4 = 0.9515224355334557;
+        final double C5 = -0.10932106189777946;
+        final double C6 = -3.8129941864191963;
+        final double C7 = 8.839691201568407;
+        final double C8 = -10.73329700020704;
+        final double C9 = 7.880477575224544;
+        final double C10 = -3.3352149106360627;
+        final double C11 = 0.63091070046683;
+
+        final double t2 = t * t;
+
+        final double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
+        final double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
+        final double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+
+        final double t4 = t2 * t2;
+        return (v0 + t4 * (v4 + t4 * v8));
+    }
+
+    /**
+     * erfcx(x) = (t/sqrt(pi)) * F(t) における F(t).
+     */
+    private double erfcx_largeX_Factor_as_t_4_to_6_Over8(double t) {
+        assert t >= 4d / 8;
+        assert t <= 6d / 8;
+
+        final double C0 = 1.0004261192886856;
+        final double C1 = -0.009051724439852388;
+        final double C2 = -0.41223850069230505;
+        final double C3 = -0.5088382162240198;
+        final double C4 = 2.6778970071496313;
+        final double C5 = -4.822007723939706;
+        final double C6 = 5.442011537812434;
+        final double C7 = -4.234435132422705;
+        final double C8 = 2.284138624633327;
+        final double C9 = -0.8175678208684948;
+        final double C10 = 0.17406049561765485;
+        final double C11 = -0.016522425192743776;
+
+        final double t2 = t * t;
+
+        final double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
+        final double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
+        final double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+
+        final double t4 = t2 * t2;
+        return (v0 + t4 * (v4 + t4 * v8));
+    }
+
+    /**
+     * erfcx(x) = (t/sqrt(pi)) * F(t) における F(t).
+     */
+    private double erfcx_largeX_Factor_as_t_6_to_8_Over8(double t) {
+        assert t >= 6d / 8;
+        assert t <= 8d / 8;
+
+        final double C0 = 0.9991005672158109;
+        final double C1 = 0.008834181718224726;
+        final double C2 = -0.5217997602472936;
+        final double C3 = -0.10700254960567943;
+        final double C4 = 1.6984956197746828;
+        final double C5 = -3.1588497966280995;
+        final double C6 = 3.43821709777213;
+        final double C7 = -2.5264680192960327;
+        final double C8 = 1.2789480193198766;
+        final double C9 = -0.43096408095641525;
+        final double C10 = 0.08748050211597176;
+        final double C11 = -0.008119625041864576;
+
+        final double t2 = t * t;
+
+        final double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
+        final double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
+        final double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+
+        final double t4 = t2 * t2;
+        return (v0 + t4 * (v4 + t4 * v8));
     }
 }

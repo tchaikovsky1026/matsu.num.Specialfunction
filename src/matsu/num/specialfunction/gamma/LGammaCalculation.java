@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.5
+ * 2024.8.14
  */
 package matsu.num.specialfunction.gamma;
 
@@ -15,15 +15,20 @@ import matsu.num.commons.Exponentiation;
  * 対数ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 19.2
+ * @version 19.3
  */
 public final class LGammaCalculation {
 
     private static final double BOUNDARY_X_FOR_ASYMPTOTIC = 2.5;
 
-    private static final double HALF_LN2PI = 0.5 * Math.log(2 * Math.PI);
+    // = 0.5 * Math.log(2 * Math.PI)
+    private static final double HALF_LN2PI = 0.9189385332046727;
 
+    /**
+     * 唯一のコンストラクタ.
+     */
     public LGammaCalculation() {
+        super();
     }
 
     /**
@@ -239,7 +244,7 @@ public final class LGammaCalculation {
      * logΓ(x)-(x-0.5)log(x)+x-0.5*log(2π) を返す.
      * {@literal 2.5 <= x}の場合.
      */
-    private static double lgammaStirlRes_largeX(double x) {
+    private double lgammaStirlRes_largeX(double x) {
         assert x >= BOUNDARY_X_FOR_ASYMPTOTIC;
         return x >= 10
                 ? lgammaStirlRes_largeX_10_to_inf(x)
@@ -249,7 +254,7 @@ public final class LGammaCalculation {
     /**
      * {@literal 2.5 <= x <= 10}の場合を扱う.
      */
-    private static double lgammaStirlRes_largeX_2_5_to_10(double x) {
+    private double lgammaStirlRes_largeX_2_5_to_10(double x) {
         assert x >= 2.5;
         assert x <= 10;
 
@@ -282,7 +287,7 @@ public final class LGammaCalculation {
     /**
      * {@literal x >= 10}の場合を扱う.
      */
-    private static double lgammaStirlRes_largeX_10_to_inf(double x) {
+    private double lgammaStirlRes_largeX_10_to_inf(double x) {
         assert x >= 10;
 
         final double C0 = 0.08333333333333333;
@@ -307,7 +312,7 @@ public final class LGammaCalculation {
      * logΓ(2+x) を返す.
      * {@literal -0.5 <= x <= 0.5}の場合.
      */
-    private static double lgamma2p_smallX(double x) {
+    private double lgamma2p_smallX(double x) {
         assert x >= -0.5;
         assert x <= 0.5;
 
@@ -319,7 +324,7 @@ public final class LGammaCalculation {
     /**
      * {@literal -0.5 <= x <= 0}の場合.
      */
-    private static double lgamma2p_smallX_m0_5_to_0(double x) {
+    private double lgamma2p_smallX_m0_5_to_0(double x) {
         assert x >= -0.5;
         assert x <= 0;
 
@@ -351,7 +356,7 @@ public final class LGammaCalculation {
     /**
      * {@literal 0 <= x <= 0.5}の場合.
      */
-    private static double lgamma2p_smallX_0_to_0_5(double x) {
+    private double lgamma2p_smallX_0_to_0_5(double x) {
         assert x >= 0;
         assert x <= 0.5;
 
@@ -384,7 +389,7 @@ public final class LGammaCalculation {
      * logΓ(1+x) を返す.
      * {@literal -0.5 <= x <= 0.5}の場合.
      */
-    private static double lgamma1p_smallX(double x) {
+    private double lgamma1p_smallX(double x) {
         assert x >= -0.5;
         assert x <= 0.5;
 
@@ -398,7 +403,7 @@ public final class LGammaCalculation {
     /**
      * {@literal -0.5 <= x <= -0.25}の場合.
      */
-    private static double lgamma1p_smallX_m0_5_to_m0_25(double x) {
+    private double lgamma1p_smallX_m0_5_to_m0_25(double x) {
         assert x >= -0.5;
         assert x <= -0.25;
 
@@ -433,7 +438,7 @@ public final class LGammaCalculation {
     /**
      * {@literal -0.25 <= x <= 0}の場合.
      */
-    private static double lgamma1p_smallX_m0_25_to_0(double x) {
+    private double lgamma1p_smallX_m0_25_to_0(double x) {
         assert x >= -0.25;
         assert x <= 0;
 
@@ -468,7 +473,7 @@ public final class LGammaCalculation {
     /**
      * {@literal 0 <= x <= 0.5}の場合.
      */
-    private static double lgamma1p_smallX_0_to_0_5(double x) {
+    private double lgamma1p_smallX_0_to_0_5(double x) {
         assert x >= 0;
         assert x <= 0.5;
 

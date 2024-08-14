@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.5
+ * 2024.8.14
  */
 package matsu.num.specialfunction.gamma;
 
@@ -15,13 +15,17 @@ import matsu.num.commons.Exponentiation;
  * ディガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 19.2
+ * @version 19.3
  */
 public final class DigammaCalculation {
 
     private static final double BOUNDARY_X_FOR_ASYMPTOTIC = 2.5;
 
+    /**
+     * 唯一のコンストラクタ.
+     */
     public DigammaCalculation() {
+        super();
     }
 
     /**
@@ -71,14 +75,14 @@ public final class DigammaCalculation {
      * @param x
      * @return digammaStirling(x)
      */
-    private static double digammaStirling(double x) {
+    private double digammaStirling(double x) {
         return Exponentiation.log(x) - 0.5 / x;
     }
 
     /**
      * {@literal -0.5 <= x <= 0.5} のときの, psi(2+x)
      */
-    private static double digamma2p_smallX(double x) {
+    private double digamma2p_smallX(double x) {
         assert x >= -0.5;
         assert x <= 0.5;
 
@@ -87,7 +91,7 @@ public final class DigammaCalculation {
                 : digamma2p_smallX_0_to_0_5(x);
     }
 
-    private static double digamma2p_smallX_m0_5_to_0(double x) {
+    private double digamma2p_smallX_m0_5_to_0(double x) {
         assert x >= -0.5;
         assert x <= 0;
 
@@ -119,7 +123,7 @@ public final class DigammaCalculation {
         return v0 + x4 * (v4 + x4 * (v8 + x4 * v12));
     }
 
-    private static double digamma2p_smallX_0_to_0_5(double x) {
+    private double digamma2p_smallX_0_to_0_5(double x) {
         assert x >= 0;
         assert x <= 0.5;
 
@@ -154,7 +158,7 @@ public final class DigammaCalculation {
     /**
      * {@literal x >= 2.5} のときの, psi(x)-log(x)+0.5/x
      */
-    private static double digammaStirRes_largeX(double x) {
+    private double digammaStirRes_largeX(double x) {
         assert x >= BOUNDARY_X_FOR_ASYMPTOTIC;
 
         if (x >= 10d) {
@@ -164,7 +168,7 @@ public final class DigammaCalculation {
         return digammaStirRes_2_5_to_10(x);
     }
 
-    private static double digammaStirRes_2_5_to_10(double x) {
+    private double digammaStirRes_2_5_to_10(double x) {
         assert x >= 2.5;
         assert x <= 10;
 
@@ -195,7 +199,7 @@ public final class DigammaCalculation {
         return t2 * (v0 + t4 * (v4 + t4 * (v8 + t4 * v12)));
     }
 
-    private static double digammaStirRes_10_to_inf(double x) {
+    private double digammaStirRes_10_to_inf(double x) {
         assert x >= 10;
 
         final double C0 = -0.08333333333333333;

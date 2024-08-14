@@ -5,26 +5,30 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.18
+ * 2024.8.14
  */
 package matsu.num.specialfunction.lambert;
 
 import matsu.num.commons.Exponentiation;
 
 /**
- * ランベルト関数の-1分枝の計算を扱う.
+ * Lambert関数の-1分枝の計算を扱う.
  * 
  * @author Matsuura Y.
- * @version 18.1
+ * @version 19.3
  */
 public final class LambertCalculationMinus1Branch {
-
-    public LambertCalculationMinus1Branch() {
-    }
 
     private static final double NEGATIVE_INVERSE_E = -1 / Math.E;
     private static final double EXTREME_THRESHOLD = 1E-11;
     private static final double ALGORITHM_THRESHOLD = -0.270670566;
+
+    /**
+     * 唯一のコンストラクタ.
+     */
+    public LambertCalculationMinus1Branch() {
+        super();
+    }
 
     /**
      * -1分枝の計算. {@literal 0 >= z >= -1/e}で意味を持つ.

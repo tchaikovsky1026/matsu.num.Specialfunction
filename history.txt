@@ -1,3 +1,7 @@
+19.3:
+ErrorFunctionまわりのリファクタリング.
+Javadocの整備.
+
 19.2:
 GammaFunctionまわりのリファクタリング.
 

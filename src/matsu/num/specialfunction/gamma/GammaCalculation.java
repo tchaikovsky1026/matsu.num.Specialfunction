@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.2
+ * 2024.8.14
  */
 package matsu.num.specialfunction.gamma;
 
@@ -17,7 +17,7 @@ import matsu.num.commons.Exponentiation;
  * ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 19.2
+ * @version 19.3
  */
 public final class GammaCalculation {
 
@@ -27,7 +27,14 @@ public final class GammaCalculation {
     private final LGammaCalculation lGamma;
     private final double[] intGammaTable;
 
+    /**
+     * 唯一のコンストラクタ.
+     * 
+     * @param lGamma lgamma
+     */
     public GammaCalculation(LGammaCalculation lGamma) {
+        super();
+
         this.lGamma = Objects.requireNonNull(lGamma);
         intGammaTable = new double[] {
                 1d, 1d, 2d, 6d, 24d,

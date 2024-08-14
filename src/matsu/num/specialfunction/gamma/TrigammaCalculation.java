@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.5
+ * 2024.8.14
  */
 package matsu.num.specialfunction.gamma;
 
@@ -13,13 +13,17 @@ package matsu.num.specialfunction.gamma;
  * トリガンマ関数の計算に関する.
  * 
  * @author Matsuura Y.
- * @version 19.2
+ * @version 19.3
  */
 public final class TrigammaCalculation {
 
     private static final double BOUNDARY_X_FOR_ASYMPTOTIC = 2.5;
 
+    /**
+     * 唯一のコンストラクタ.
+     */
     public TrigammaCalculation() {
+        super();
     }
 
     /**
@@ -68,7 +72,7 @@ public final class TrigammaCalculation {
     /**
      * {@literal -0.5 <= x <= 0.5} のときの, psi1(2+x)
      */
-    private static double trigamma2p_smallX(double x) {
+    private double trigamma2p_smallX(double x) {
         assert x >= -0.5;
         assert x <= 0.5;
 
@@ -77,7 +81,7 @@ public final class TrigammaCalculation {
                 : trigamma2p_smallX_0_to_0_5(x);
     }
 
-    private static double trigamma2p_smallX_m0_5_to_0(double x) {
+    private double trigamma2p_smallX_m0_5_to_0(double x) {
         assert x >= -0.5;
         assert x <= 0;
 
@@ -109,7 +113,7 @@ public final class TrigammaCalculation {
         return v0 + x4 * (v4 + x4 * (v8 + x4 * v12));
     }
 
-    private static double trigamma2p_smallX_0_to_0_5(double x) {
+    private double trigamma2p_smallX_0_to_0_5(double x) {
         assert x >= 0;
         assert x <= 0.5;
 
@@ -147,7 +151,7 @@ public final class TrigammaCalculation {
      * @param x
      * @return trigammaStirling(x)
      */
-    private static double trigammaStirling(double x) {
+    private double trigammaStirling(double x) {
         final double invX = 1 / x;
         return invX + 0.5 * invX * invX;
     }
@@ -155,7 +159,7 @@ public final class TrigammaCalculation {
     /**
      * {@literal x >= 2.5} のときの, psi1(x) - 1/x - 1/(2x^2)
      */
-    private static double trigammaStirRes_largeX(double x) {
+    private double trigammaStirRes_largeX(double x) {
         assert x >= BOUNDARY_X_FOR_ASYMPTOTIC;
 
         if (x >= 10d) {
@@ -165,7 +169,7 @@ public final class TrigammaCalculation {
         return trigammaStirRes_2_5_to_10(x);
     }
 
-    private static double trigammaStirRes_2_5_to_10(double x) {
+    private double trigammaStirRes_2_5_to_10(double x) {
         assert x >= 2.5;
         assert x <= 10;
 
@@ -197,7 +201,7 @@ public final class TrigammaCalculation {
         return t * t2 * (v0 + t4 * (v4 + t4 * (v8 + t4 * v12)));
     }
 
-    private static double trigammaStirRes_10_to_inf(double x) {
+    private double trigammaStirRes_10_to_inf(double x) {
         assert x >= 10;
 
         final double C0 = 0.16666666666666666;

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.5
+ * 2024.8.14
  */
 package matsu.num.specialfunction;
 
@@ -15,7 +15,8 @@ import matsu.num.specialfunction.gamma.LGammaCalculation;
 import matsu.num.specialfunction.gamma.TrigammaCalculation;
 
 /**
- * ガンマ関数(Gamma function)の計算(おおよそ倍精度).
+ * ガンマ関数 (Gamma function) の計算
+ * (おおよそ倍精度).
  * 
  * <p>
  * ガンマ関数は次式で定義される1変数関数である. <br>
@@ -27,7 +28,7 @@ import matsu.num.specialfunction.gamma.TrigammaCalculation;
  * </p>
  *
  * @author Matsuura Y.
- * @version 19.2
+ * @version 19.3
  * @see <a href="https://en.wikipedia.org/wiki/Gamma_function" target= "_brank">
  *          Wikipedia: Gamma function</a>
  * @see <a href="https://en.wikipedia.org/wiki/Stirling%27s_approximation"
@@ -45,8 +46,7 @@ public final class GammaFunction {
     private static final TrigammaCalculation TRIGAMMA = new TrigammaCalculation();
 
     /**
-     * Euler-Mascheroni 定数: <br>
-     * {@code  0.5772156649015329}
+     * Euler-Mascheroni 定数.
      */
     public static final double EULER_MASCHERONI_GAMMA = 0.5772156649015329;
 
@@ -55,12 +55,13 @@ public final class GammaFunction {
     }
 
     /**
+     * 与えられた <i>x</i> に対する
      * log<sub>e</sub>&Gamma;(<i>x</i>) の値を返す.
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN</li>
      * <li><i>x</i> &asymp; 0 &rarr; +&infin;</li>
-     * <li><i>x</i> &asymp; +&infin; &rarr; +&infin;</li>
+     * <li><i>x</i> &asymp; &infin; &rarr; &infin;</li>
      * </ul>
      *
      * @param x <i>x</i>, 引数
@@ -71,12 +72,13 @@ public final class GammaFunction {
     }
 
     /**
+     * 与えられた <i>x</i> に対する
      * log<sub>e</sub>&Gamma;(1 + <i>x</i>) の値を返す.
      * 
      * <ul>
      * <li><i>x</i> &lt; -1 &rarr; NaN</li>
-     * <li><i>x</i> &asymp; -1 &rarr; +&infin;</li>
-     * <li><i>x</i> &asymp; +&infin; &rarr; +&infin;</li>
+     * <li><i>x</i> &asymp; -1 &rarr; &infin;</li>
+     * <li><i>x</i> &asymp; &infin; &rarr; &infin;</li>
      * </ul>
      *
      * @param x <i>x</i>, 引数
@@ -87,17 +89,18 @@ public final class GammaFunction {
     }
 
     /**
-     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似 <br>
+     * 与えられた <i>x</i> に対する
+     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似
      * <i>S</i>(<i>x</i>) =
      * (<i>x</i> - 1/2) log<sub>e</sub>(<i>x</i>)
      * - <i>x</i>
-     * + (1/2) log(2&pi;) <br>
+     * + (1/2) log(2&pi;)
      * の値を返す.
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN</li>
-     * <li><i>x</i> &asymp; 0 &rarr; +&infin;</li>
-     * <li><i>x</i> &asymp; +&infin; &rarr; +&infin;</li>
+     * <li><i>x</i> &asymp; 0 &rarr; &infin;</li>
+     * <li><i>x</i> &asymp; &infin; &rarr; &infin;</li>
      * </ul>
      *
      * @param x <i>x</i>, 引数
@@ -108,15 +111,16 @@ public final class GammaFunction {
     }
 
     /**
-     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似残差: <br>
-     * log<sub>e</sub>&Gamma;(<i>x</i>) - <i>S</i>(<i>x</i>) <br>
-     * を返す. <br>
+     * 与えられた <i>x</i> に対する
+     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似残差:
+     * log<sub>e</sub>&Gamma;(<i>x</i>) - <i>S</i>(<i>x</i>)
+     * の値を返す. <br>
      * (<i>S</i>(<i>x</i>) は log<sub>e</sub>&Gamma;(<i>x</i>) の Stirling近似)
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN</li>
-     * <li><i>x</i> &asymp; 0 &rarr; +&infin;</li>
-     * <li><i>x</i> &asymp; +&infin; &rarr; 0</li>
+     * <li><i>x</i> &asymp; 0 &rarr; &infin;</li>
+     * <li><i>x</i> &asymp; &infin; &rarr; 0</li>
      * </ul>
      *
      * @param x <i>x</i>, 引数
@@ -128,25 +132,22 @@ public final class GammaFunction {
     }
 
     /**
-     * log<sub>e</sub>&Gamma;(<i>x</i>) の差分
-     * 
-     * [
+     * 与えられた <i>x</i>, <i>y</i> に対する
+     * log<sub>e</sub>&Gamma;(<i>x</i>) の差分:
      * log<sub>e</sub>&Gamma;(<i>x</i> + <i>y</i>)
      * - log<sub>e</sub>&Gamma;(<i>x</i>)
-     * ]
-     * 
      * の値を返す.
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 または <i>x</i> + <i>y</i> &lt; 0 &rarr; NaN
      * </li>
-     * <li><i>x</i> &asymp; +&infin; &rarr; NaN</li>
+     * <li><i>x</i> &asymp; &infin; &rarr; NaN</li>
      * <li><i>x</i> &asymp; 0 かつ
      * <i>x</i> + <i>y</i> &asymp; 0 &rarr; NaN</li>
      * </ul>
      *
      * @param x <i>x</i>, 引数
-     * @param y <i>y</i>, 差分
+     * @param y <i>y</i>, 引数
      * @return log<sub>e</sub>&Gamma;(<i>x</i> + <i>y</i>) -
      *             log<sub>e</sub>&Gamma;(<i>x</i>)
      */
@@ -155,21 +156,17 @@ public final class GammaFunction {
     }
 
     /**
-     * ベータ関数の自然対数
-     * 
+     * 与えられた <i>x</i>, <i>y</i> に対するベータ関数の自然対数:
      * log<sub>e</sub>B(<i>x</i>, <i>y</i>) =
-     * [
-     * log<sub>e</sub>&Gamma;(<i>x</i>)
-     * + log<sub>e</sub>&Gamma;(<i>y</i>)
-     * - log<sub>e</sub>&Gamma;(<i>x</i> + <i>y</i>)
-     * ]
-     * 
+     * log<sub>e</sub>[&Gamma;(<i>x</i>)
+     * &Gamma;(<i>y</i>) /
+     * &Gamma;(<i>x</i> + <i>y</i>)]
      * の値を返す.
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 または <i>y</i> &lt; 0 &rarr; NaN
      * </li>
-     * <li><i>x</i> &asymp; +&infin; または <i>y</i> &asymp; +&infin;
+     * <li><i>x</i> &asymp; &infin; または <i>y</i> &asymp; &infin;
      * &rarr; NaN
      * </li>
      * </ul>
@@ -183,12 +180,13 @@ public final class GammaFunction {
     }
 
     /**
+     * 与えられた <i>x</i> に対する
      * &Gamma;(<i>x</i>) の値を返す.
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN</li>
-     * <li><i>x</i> &asymp; 0 &rarr; +&infin;</li>
-     * <li><i>x</i> &asymp; +&infin; &rarr; +&infin;</li>
+     * <li><i>x</i> &asymp; 0 &rarr; &infin;</li>
+     * <li><i>x</i> &asymp; &infin; &rarr; &infin;</li>
      * </ul>
      *
      * @param x <i>x</i>, 引数
@@ -199,12 +197,13 @@ public final class GammaFunction {
     }
 
     /**
-     * 整数引数の&Gamma;(<i>n</i>) の値を返す.
+     * 与えられた整数 <i>n</i> に対する
+     * &Gamma;(<i>n</i>) の値を返す.
      * 
      * <ul>
      * <li><i>n</i> &lt; 0 &rarr; NaN
      * </li>
-     * <li><i>n</i> = 0 &rarr; +&infin;</li>
+     * <li><i>n</i> = 0 &rarr; &infin;</li>
      * </ul>
      *
      * @param n <i>n</i>, 整数引数
@@ -215,17 +214,15 @@ public final class GammaFunction {
     }
 
     /**
-     * ディガンマ関数
-     * 
+     * 与えられた <i>x</i> に対するディガンマ関数
      * <i>&psi;</i>(<i>x</i>) =
      * (d/d<i>x</i>) log<sub>e</sub>&Gamma;(<i>x</i>)
-     * 
      * の値を返す.
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN</li>
      * <li><i>x</i> &asymp; 0 &rarr; -&infin;</li>
-     * <li><i>x</i> &asymp; +&infin; &rarr; +&infin;</li>
+     * <li><i>x</i> &asymp; &infin; &rarr; &infin;</li>
      * </ul>
      *
      * @param x <i>x</i>, 引数
@@ -236,17 +233,16 @@ public final class GammaFunction {
     }
 
     /**
-     * トリガンマ関数
-     * 
+     * 与えられた <i>x</i> に対するトリガンマ関数
      * <i>&psi;</i>'(<i>x</i>) =
      * (d/d<i>x</i>) <i>&psi;</i>(<i>x</i>)
-     * 
-     * の値を返す.
+     * の値を返す. <br>
+     * (<i>&psi;</i>(<i>x</i>) はディガンマ関数)
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN</li>
-     * <li><i>x</i> &asymp; 0 &rarr; +&infin;</li>
-     * <li><i>x</i> &asymp; +&infin; &rarr; 0</li>
+     * <li><i>x</i> &asymp; 0 &rarr; &infin;</li>
+     * <li><i>x</i> &asymp; &infin; &rarr; 0</li>
      * </ul>
      *
      * @param x <i>x</i>, 引数
