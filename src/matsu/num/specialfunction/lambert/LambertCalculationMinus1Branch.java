@@ -12,15 +12,28 @@ package matsu.num.specialfunction.lambert;
 import matsu.num.commons.Exponentiation;
 
 /**
- * Lambert関数の-1分枝の計算を扱う.
+ * Lambert関数の-1分枝(Wm)の計算を扱う.
  * 
  * @author Matsuura Y.
- * @version 19.3
+ * @version 19.4
  */
 public final class LambertCalculationMinus1Branch {
 
+    /**
+     * -1/e, Wmの定義域の下限.
+     */
     private static final double NEGATIVE_INVERSE_E = -1 / Math.E;
-    private static final double EXTREME_THRESHOLD = 1E-11;
+
+    /**
+     * w exp(w) = z の 左辺が (w+1) の2次近似になるようなzの上限.
+     */
+    private static final double EXTREME_THRESHOLD = NEGATIVE_INVERSE_E + 1E-11;
+
+    /**
+     * 逆関数の反復的求解に用いる式を切り替える閾値. <br>
+     * 下側では w exp(w) - z = 0 に対する反復,
+     * 上側では w + log(-w) - log(-z) = 0 に対する反復.
+     */
     private static final double ALGORITHM_THRESHOLD = -0.270670566;
 
     /**
@@ -40,39 +53,83 @@ public final class LambertCalculationMinus1Branch {
         if (!(z >= NEGATIVE_INVERSE_E && z <= 0d)) {
             return Double.NaN;
         }
-        if (z == 0d) {
-            return Double.NEGATIVE_INFINITY;
-        }
 
-        //zが-1/eに非常に近い場合は, 2次近似で代用する.
-        double z_p_invE = z - NEGATIVE_INVERSE_E;
-        if (z_p_invE < EXTREME_THRESHOLD) {
-            return -1 - Exponentiation.sqrt((2 * Math.E) * z_p_invE);
+        if (z < EXTREME_THRESHOLD) {
+            return wm_near_negativeInvE(z);
         }
+        if (z < ALGORITHM_THRESHOLD) {
+            return wm_smallZ(z);
+        }
+        return wm_largeZ(z);
+    }
+
+    /**
+     * zが-1/eに近いときのWm(z)を計算する. <br>
+     * 注意として, z = -1/e のとき, w = -1 は重根であるので有効桁数は半分 (およそ8, 9桁) である.
+     * 
+     * @param z z
+     * @return Wm(z)
+     */
+    private double wm_near_negativeInvE(double z) {
+        assert z >= NEGATIVE_INVERSE_E;
+        assert z <= EXTREME_THRESHOLD;
+
+        return wm_lower_extreme(z);
+    }
+
+    /**
+     * {@literal z -> -1/e} のWm(z)の解析値. <br>
+     * w*exp(w) = z を w = -1 のまわりで2次近似して計算.
+     */
+    private double wm_lower_extreme(double z) {
+        return -1 - Exponentiation.sqrt((2 * Math.E) * (z - NEGATIVE_INVERSE_E));
+    }
+
+    /**
+     * zが0から遠いときのWm(z)を計算する. <br>
+     * w exp(w) - z = 0 に対する反復.
+     * 
+     * @param z z
+     * @return Wm(z)
+     */
+    private double wm_smallZ(double z) {
+        assert z >= NEGATIVE_INVERSE_E;
+        assert z <= ALGORITHM_THRESHOLD;
+
+        double w0 = wm_lower_extreme(z);
 
         /*
-         * z < -0.27では,
-         * ｆ（w） = w exp(w) - z = 0
+         * z<-0.27のとき,
+         * f(w) = w exp(w) - z = 0
          * に対してハレー法を用いる.
          * w_new = w_old - f/(f' - f''f/(2f'))
          */
-        if (z < ALGORITHM_THRESHOLD) {
-            double w0 = -1 - Exponentiation.sqrt((2 * Math.E) * z_p_invE);
-            final int iteration_z0 = 3;
-            for (int i = 0; i < iteration_z0; i++) {
-                w0 += deltaW_wExpW(w0, z);
-            }
-            return w0;
+        final int iteration_z0 = 3;
+        for (int i = 0; i < iteration_z0; i++) {
+            w0 += deltaW_wExpW(w0, z);
         }
+        return w0;
+    }
+
+    /**
+     * zが0に近づいたときのWm(z)を計算する. <br>
+     * w + log(-w) - log(-z) = 0 に対する反復.
+     * 
+     * @param z z
+     * @return Wm(z)
+     */
+    private double wm_largeZ(double z) {
+        assert z >= ALGORITHM_THRESHOLD;
+        assert z <= 0d;
 
         /*
          * -0.27 <= z <= 0 では,
-         * f(w) = w + log w - log(z) = 0
+         * f(w) = w + log(-w) - log(-z) = 0
          * に対してハレー法を用いる.
          * w_new = w_old - f/(f' - f''f/(2f'))
          */
         double logMinusZ = Exponentiation.log(-z);
-        if (logMinusZ == Double.POSITIVE_INFINITY) {
+        if (logMinusZ == Double.NEGATIVE_INFINITY) {
             return Double.NEGATIVE_INFINITY;
         }
         final int iteration_z10 = 3;
@@ -93,7 +150,7 @@ public final class LambertCalculationMinus1Branch {
     }
 
     /**
-     * f(w) = w + log w - log(z) = 0
+     * f(w) = w + log(-w) - log(-z) = 0
      * に関するハレー法の更新量.
      */
     private double deltaW_log_negative(double w, double logMinusZ) {

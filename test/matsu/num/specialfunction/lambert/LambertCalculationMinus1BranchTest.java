@@ -1,5 +1,6 @@
 package matsu.num.specialfunction.lambert;
 
+import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -17,7 +18,7 @@ import matsu.num.specialfunction.DoubleRelativeAssertion;
 final class LambertCalculationMinus1BranchTest {
 
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
-            new DoubleRelativeAssertion(1E-15);
+            new DoubleRelativeAssertion(1E-14);
 
     private static final LambertCalculationMinus1Branch LAMBERT_M1 =
             new LambertCalculationMinus1Branch();
@@ -40,6 +41,7 @@ final class LambertCalculationMinus1BranchTest {
                 { -Double.MIN_VALUE, -751.0615595398791 },
                 { Math.nextDown(-1 / Math.E), Double.NaN },
                 { 0d, Double.NEGATIVE_INFINITY },
+                { -0d, Double.NEGATIVE_INFINITY },
                 { Double.MIN_VALUE, Double.NaN }
         };
 
@@ -48,6 +50,12 @@ final class LambertCalculationMinus1BranchTest {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
                     LAMBERT_M1.wm(dataPair[0]));
+        }
+
+        @Test
+        public void test_特殊値() {
+            DOUBLE_RELATIVE_ASSERTION.assertFinite(LAMBERT_M1.wm(Math.nextDown(-1 / Math.E + 1E-11)));
+            DOUBLE_RELATIVE_ASSERTION.assertFinite(LAMBERT_M1.wm(Math.nextUp(-1 / Math.E + 1E-11)));
         }
     }
 }

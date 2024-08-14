@@ -70,7 +70,8 @@ public final class DigammaCalculation {
     }
 
     /**
-     * ディガンマ関数のスターリング近似: log(x) - 0.5/x
+     * ディガンマ関数のスターリング近似: log(x) - 0.5/x <br>
+     * xが大きいところで使われることを想定している.
      *
      * @param x
      * @return digammaStirling(x)

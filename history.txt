@@ -1,3 +1,6 @@
+19.4:
+LambertFunctionまわりのリファクタリングと安定性向上.
+
 19.3:
 ErrorFunctionまわりのリファクタリング.
 Javadocの整備.

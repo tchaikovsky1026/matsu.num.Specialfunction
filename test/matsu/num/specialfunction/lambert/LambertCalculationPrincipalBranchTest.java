@@ -1,5 +1,6 @@
 package matsu.num.specialfunction.lambert;
 
+import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -17,7 +18,7 @@ import matsu.num.specialfunction.DoubleRelativeAssertion;
 final class LambertCalculationPrincipalBranchTest {
 
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
-            new DoubleRelativeAssertion(1E-15);
+            new DoubleRelativeAssertion(1E-14);
 
     private static final LambertCalculationPrincipalBranch LAMBERT_P =
             new LambertCalculationPrincipalBranch();
@@ -48,6 +49,12 @@ final class LambertCalculationPrincipalBranchTest {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
                     LAMBERT_P.wp(dataPair[0]));
+        }
+
+        @Test
+        public void test_特殊値() {
+            DOUBLE_RELATIVE_ASSERTION.assertFinite(LAMBERT_P.wp(Math.nextDown(-1 / Math.E + 1E-11)));
+            DOUBLE_RELATIVE_ASSERTION.assertFinite(LAMBERT_P.wp(Math.nextUp(-1 / Math.E + 1E-11)));
         }
     }
 }

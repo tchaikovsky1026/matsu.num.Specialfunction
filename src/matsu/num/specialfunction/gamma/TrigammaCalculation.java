@@ -146,7 +146,8 @@ public final class TrigammaCalculation {
     }
 
     /**
-     * トリガンマ関数のスターリング近似: 1/x + 1/(2x^2)
+     * トリガンマ関数のスターリング近似: 1/x + 1/(2x^2) <br>
+     * xが大きいところで使われることを想定している.
      *
      * @param x
      * @return trigammaStirling(x)

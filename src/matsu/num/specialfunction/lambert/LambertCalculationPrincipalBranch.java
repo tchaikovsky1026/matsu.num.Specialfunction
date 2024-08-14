@@ -12,15 +12,28 @@ package matsu.num.specialfunction.lambert;
 import matsu.num.commons.Exponentiation;
 
 /**
- * Lambert関数の主枝の計算を実行する.
+ * Lambert関数の主枝W0の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 19.3
+ * @version 19.4
  */
 public final class LambertCalculationPrincipalBranch {
 
+    /**
+     * -1/e, W0の定義域の下限.
+     */
     private static final double NEGATIVE_INVERSE_E = -1 / Math.E;
-    private static final double EXTREME_THRESHOLD = 1E-11;
+
+    /**
+     * w exp(w) = z の 左辺が (w+1) の2次近似になるようなzの上限.
+     */
+    private static final double EXTREME_THRESHOLD = NEGATIVE_INVERSE_E + 1E-11;
+
+    /**
+     * 逆関数の反復的求解に用いる式を切り替える閾値. <br>
+     * 下側では w exp(w) - z = 0 に対する反復,
+     * 上側では w + log w - log(z) = 0 に対する反復.
+     */
     private static final double ALGORITHM_THRESHOLD = 10d;
 
     /**
@@ -41,28 +54,77 @@ public final class LambertCalculationPrincipalBranch {
             return Double.NaN;
         }
 
-        //zが-1/eに非常に近い場合は, 2次近似で代用する.
-        double z_p_invE = z - NEGATIVE_INVERSE_E;
-        if (z_p_invE < EXTREME_THRESHOLD) {
-            return -1 + Exponentiation.sqrt((2 * Math.E) * z_p_invE);
+        if (z < EXTREME_THRESHOLD) {
+            return wp_near_negativeInvE(z);
         }
+        if (z <= ALGORITHM_THRESHOLD) {
+            return wp_smallZ(z);
+        }
+        return wp_largeZ(z);
+    }
+
+    /**
+     * zが-1/eに近いときのW0(z)を計算する. <br>
+     * 注意として, z = -1/e のとき, w = -1 は重根であるので有効桁数は半分 (およそ8, 9桁) である.
+     * 
+     * @param z z
+     * @return W0(z)
+     */
+    private double wp_near_negativeInvE(double z) {
+        assert z >= NEGATIVE_INVERSE_E;
+        assert z <= EXTREME_THRESHOLD;
+
+        return wp_lower_extreme(z);
+    }
+
+    /**
+     * {@literal z -> -1/e} のW0(z)の解析値. <br>
+     * w*exp(w) = z を w = -1 のまわりで2次近似して計算.
+     */
+    private double wp_lower_extreme(double z) {
+        return -1 + Exponentiation.sqrt((2 * Math.E) * (z - NEGATIVE_INVERSE_E));
+    }
+
+    /**
+     * zが比較的小さいときのW0(z)を計算する. <br>
+     * w exp(w) - z = 0 に対する反復.
+     * 
+     * @param z z
+     * @return W0(z)
+     */
+    private double wp_smallZ(double z) {
+        assert z >= NEGATIVE_INVERSE_E;
+        assert z <= ALGORITHM_THRESHOLD;
 
         /*
-         * z < 10では,
+         * z sim -1/e と z >> 1 の極限を参考に, 初期値を定める.
+         * 閾値は経験則.
+         */
+        double w0 = z < -0.25
+                ? wp_lower_extreme(z)
+                : Exponentiation.log1p(z);
+
+        /*
          * f(w) = w exp(w) - z = 0
          * に対してハレー法を用いる.
          * w_new = w_old - f/(f' - f''f/(2f'))
          */
-        if (z <= ALGORITHM_THRESHOLD) {
-            double w0 = z < 0
-                    ? -1 + Exponentiation.sqrt((2 * Math.E) * z_p_invE)
-                    : Exponentiation.log(z + 1);
-            final int iteration_z0 = 3;
-            for (int i = 0; i < iteration_z0; i++) {
-                w0 += deltaW_wExpW(w0, z);
-            }
-            return w0;
+        final int iteration_z0 = 3;
+        for (int i = 0; i < iteration_z0; i++) {
+            w0 += deltaW_wExpW(w0, z);
         }
+        return w0;
+    }
+
+    /**
+     * zが大きいときのW0(z)を計算する. <br>
+     * w + log w - log(z) = 0 に対する反復.
+     * 
+     * @param z z
+     * @return W0(z)
+     */
+    private double wp_largeZ(double z) {
+        assert z >= ALGORITHM_THRESHOLD;
 
         /*
          * z >= 10では,

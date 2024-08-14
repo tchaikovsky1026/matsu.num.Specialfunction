@@ -16,7 +16,7 @@ import matsu.num.specialfunction.lambert.LambertCalculationPrincipalBranch;
  * Lambertの<i>W</i>-関数の計算(おおよそ倍精度).
  * 
  * <p>
- * Lambert関数は初等関数の逆関数であり,
+ * Lambertの<i>W</i>-関数は初等関数の逆関数であり,
  * <i>W</i>(<i>z</i>) =
  * arg<sub><i>w</i></sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
  * により定義される (e: Napier数). <br>
@@ -41,14 +41,14 @@ import matsu.num.specialfunction.lambert.LambertCalculationPrincipalBranch;
  * </p>
  *
  * @author Matsuura Y.
- * @version 19.3
+ * @version 19.4
  * @see <a href="https://en.wikipedia.org/wiki/Lambert_W_function" target=
  *          "_brank">
  *          Wikipedia: Lambert <i>W</i> function</a>
  */
 public final class LambertFunction {
 
-    private static final LambertCalculationMinus1Branch LAMBERT_MINUS1 =
+    private static final LambertCalculationMinus1Branch LAMBERT_MINUS_1 =
             new LambertCalculationMinus1Branch();
     private static final LambertCalculationPrincipalBranch LAMBERT_PRINCIPAL =
             new LambertCalculationPrincipalBranch();
@@ -91,6 +91,6 @@ public final class LambertFunction {
      * @return <i>W</i><sub>-1</sub>(<i>z</i>)
      */
     public static double wm(double z) {
-        return LAMBERT_MINUS1.wm(z);
+        return LAMBERT_MINUS_1.wm(z);
     }
 }
