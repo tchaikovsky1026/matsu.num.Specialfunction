@@ -1,4 +1,4 @@
-package matsu.num.specialfunction.err.subpj;
+package matsu.num.specialfunction.err.subpj.erf;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
 import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;

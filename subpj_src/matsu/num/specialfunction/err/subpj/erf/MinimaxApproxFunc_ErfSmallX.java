@@ -1,4 +1,4 @@
-package matsu.num.specialfunction.err.subpj;
+package matsu.num.specialfunction.err.subpj.erf;
 
 import java.util.Objects;
 

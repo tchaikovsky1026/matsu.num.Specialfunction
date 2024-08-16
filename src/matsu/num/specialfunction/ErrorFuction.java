@@ -5,11 +5,12 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.14
+ * 2024.8.15
  */
 package matsu.num.specialfunction;
 
 import matsu.num.specialfunction.err.ErrorFunctionCalculation;
+import matsu.num.specialfunction.err.ErrorFunctionImaginaryCalculation;
 
 /**
  * 誤差関数 (Error function) の計算
@@ -28,9 +29,24 @@ import matsu.num.specialfunction.err.ErrorFunctionCalculation;
  * <li>erf(&infin;) = 1</li>
  * <li>erf(-&infin;) = -1</li>
  * </ul>
+ * 
+ * <p>
+ * このクラスでは虚数誤差関数
+ * erfi(<i>x</i>) = (2/&radic;<i>&pi;</i>)
+ * &int;<sub>0</sub><sup><i>x</i></sup>
+ * exp(<i>t</i><sup>2</sup>) d<i>t</i>
+ * に関する計算も提供する.
+ * </p>
+ * 
+ * <ul>
+ * <li>erfi(-<i>x</i>) = -erfi(<i>x</i>)</li>
+ * <li>erfi(0) = 0</li>
+ * <li>erfi(&infin;) = &infin;</li>
+ * <li>erfi(-&infin;) = -&infin;</li>
+ * </ul>
  *
  * @author Matsuura Y.
- * @version 19.3
+ * @version 19.5
  * @see <a href="https://en.wikipedia.org/wiki/Error_function" target=
  *          "_brank">
  *          Wikipedia: Error function</a>
@@ -38,6 +54,8 @@ import matsu.num.specialfunction.err.ErrorFunctionCalculation;
 public final class ErrorFuction {
 
     private static final ErrorFunctionCalculation ERR_FUNC = new ErrorFunctionCalculation();
+    private static final ErrorFunctionImaginaryCalculation ERFI_CALC =
+            ErrorFunctionImaginaryCalculation.createInstance();
 
     private ErrorFuction() {
         //インスタンス化不可
@@ -93,5 +111,38 @@ public final class ErrorFuction {
      */
     public static double erfcx(double x) {
         return ERR_FUNC.erfcx(x);
+    }
+
+    /**
+     * 与えられた <i>x</i> に対する
+     * erfi(<i>x</i>)
+     * の値を返す.
+     * 
+     * <ul>
+     * <li><i>x</i> &asymp; &infin; &rarr; &infin;</li>
+     * <li><i>x</i> &asymp; -&infin; &rarr; -&infin;</li>
+     * </ul>
+     *
+     * @param x <i>x</i>, 引数
+     * @return erfi(<i>x</i>)
+     */
+    public static double erfi(double x) {
+        return ERFI_CALC.erfi(x);
+    }
+
+    /**
+     * 与えられた <i>x</i> に対するスケーリング虚数誤差関数
+     * erfix(<i>x</i>) = exp(-<i>x</i><sup>2</sup>) erfi(<i>x</i>)
+     * の値を返す.
+     * 
+     * <ul>
+     * <li><i>x</i> &asymp; &pm;&infin; &rarr; 0</li>
+     * </ul>
+     *
+     * @param x <i>x</i>, 引数
+     * @return erfix(<i>x</i>)
+     */
+    public static double erfix(double x) {
+        return ERFI_CALC.erfix(x);
     }
 }

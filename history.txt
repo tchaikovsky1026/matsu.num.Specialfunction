@@ -1,3 +1,6 @@
+19.5:
+機能追加(ErrorFunctionにerfi).
+
 19.4:
 LambertFunctionまわりのリファクタリングと安定性向上.
 

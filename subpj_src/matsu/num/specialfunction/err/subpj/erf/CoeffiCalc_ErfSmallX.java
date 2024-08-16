@@ -1,4 +1,4 @@
-package matsu.num.specialfunction.err.subpj;
+package matsu.num.specialfunction.err.subpj.erf;
 
 import matsu.num.approximation.Approximation;
 import matsu.num.approximation.DoubleFiniteClosedInterval;
@@ -8,24 +8,20 @@ import matsu.num.specialfunction.bessel.subpj.ConstantStyle;
 import matsu.num.specialfunction.bessel.subpj.ResultDisplayFormat;
 
 /**
- * {@link MinimaxApproxFunc_ErfcxLargeX_accuracy} のminimax近似.
+ * {@link MinimaxApproxFunc_ErfSmallX} のminimax近似.
  * 
  * @author Matsuura Y.
  */
-final class CoeffiCalc_ErfcxLargeX {
+final class CoeffiCalc_ErfSmallX {
 
     public static void main(String[] args) {
 
-        int order = 11;
+        int order = 10;
         MinimaxPolynomialApproxExecutor approxExecutor =
                 MinimaxPolynomialApproxExecutor.of(order);
         EachIntervalExecutor executor = new EachIntervalExecutor(approxExecutor);
 
-        executor.execute(DoubleFiniteClosedInterval.from(1d / 8, 2d / 8));
-        executor.execute(DoubleFiniteClosedInterval.from(2d / 8, 3d / 8));
-        executor.execute(DoubleFiniteClosedInterval.from(3d / 8, 4d / 8));
-        executor.execute(DoubleFiniteClosedInterval.from(4d / 8, 6d / 8));
-        executor.execute(DoubleFiniteClosedInterval.from(6d / 8, 8d / 8));
+        executor.execute(DoubleFiniteClosedInterval.from(0, 1d));
 
         System.out.println("finished...");
     }
@@ -44,8 +40,7 @@ final class CoeffiCalc_ErfcxLargeX {
             System.out.println(interval);
             System.out.println();
 
-            MinimaxApproxFunc_ErfcxLargeX target =
-                    new MinimaxApproxFunc_ErfcxLargeX(interval);
+            MinimaxApproxFunc_ErfSmallX target = new MinimaxApproxFunc_ErfSmallX(interval);
             Approximation<PolynomialFunction> approx = executor.apply(target);
             PolynomialFunction resultPolynomial = approx
                     .orElseThrow(() -> new RuntimeException(approx.message()));

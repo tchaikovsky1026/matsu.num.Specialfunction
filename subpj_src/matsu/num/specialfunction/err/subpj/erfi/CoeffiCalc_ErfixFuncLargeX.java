@@ -1,4 +1,4 @@
-package matsu.num.specialfunction.err.subpj;
+package matsu.num.specialfunction.err.subpj.erfi;
 
 import matsu.num.approximation.Approximation;
 import matsu.num.approximation.PolynomialFunction;
@@ -7,40 +7,44 @@ import matsu.num.specialfunction.bessel.subpj.ConstantStyle;
 import matsu.num.specialfunction.bessel.subpj.ResultDisplayFormat;
 
 /**
- * {@link MinimaxApproxFunc_ErfcxLargeX_accuracy} のminimax近似.
+ * {@link ErfixFuncLargeX_t} のminimax近似.
  * 
  * @author Matsuura Y.
  */
-final class CoeffiCalc_ErfcxLargeX_accuracy {
+final class CoeffiCalc_ErfixFuncLargeX {
 
     public static void main(String[] args) {
 
-        int order = 6;
-        MinimaxPolynomialApproxExecutor approxExecutor =
-                MinimaxPolynomialApproxExecutor.of(order);
-        EachIntervalExecutor executor = new EachIntervalExecutor(approxExecutor);
+        EachIntervalExecutor executor = new EachIntervalExecutor();
 
-        executor.execute(1d / 8);
+        executor.execute(1d, 2d, 17);
+        executor.execute(2d, 3d, 16);
+        executor.execute(3d, 4d, 14);
+        executor.execute(4d, 5d, 13);
+        executor.execute(5d, 6d, 12);
+        executor.execute(6d, 7d, 10);
+        executor.execute(7d, 8d, 10);
 
         System.out.println("finished...");
     }
 
     private static final class EachIntervalExecutor {
 
-        private final MinimaxPolynomialApproxExecutor executor;
-
-        EachIntervalExecutor(MinimaxPolynomialApproxExecutor executor) {
+        EachIntervalExecutor() {
             super();
-            this.executor = executor;
         }
 
-        void execute(double tmax) {
+        void execute(double xmin, double xmax, int order) {
 
-            System.out.println("tmax = " + tmax);
+            MinimaxPolynomialApproxExecutor executor =
+                    MinimaxPolynomialApproxExecutor.of(order);
+
+            ErfixFuncLargeX target =
+                    new ErfixFuncLargeX(xmin, xmax);
+
+            System.out.println(target);
             System.out.println();
 
-            MinimaxApproxFunc_ErfcxLargeX_accuracy target =
-                    new MinimaxApproxFunc_ErfcxLargeX_accuracy(tmax);
             Approximation<PolynomialFunction> approx = executor.apply(target);
             PolynomialFunction resultPolynomial = approx
                     .orElseThrow(() -> new RuntimeException(approx.message()));
