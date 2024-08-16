@@ -20,7 +20,7 @@ final class ErfiCalcSimpleTest {
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
             new DoubleRelativeAssertion(1E-14);
 
-    private static final ErrorFunctionImaginaryCalculation ERRI_FUNC = new ErfiCalcSimple();
+    private static final ErrorFunctionImaginaryCalculation ERFI = new ErfiCalcSimple();
 
     @RunWith(Theories.class)
     public static class erfiに関するテスト {
@@ -67,7 +67,7 @@ final class ErfiCalcSimpleTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    ERRI_FUNC.erfi(dataPair[0]));
+                    ERFI.erfi(dataPair[0]));
         }
     }
 
@@ -116,7 +116,7 @@ final class ErfiCalcSimpleTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    ERRI_FUNC.erfix(dataPair[0]));
+                    ERFI.erfix(dataPair[0]));
         }
     }
 }

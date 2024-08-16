@@ -9,17 +9,17 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link ErrorFunctionCalculation}クラスのテスト.
+ * {@link ErfCalcOptimized}クラスのテスト.
  * 
  * @author Matsuura Y.
  */
 @RunWith(Enclosed.class)
-final class ErrorFunctionCalculationTest {
+final class ErfCalcOptimizedTest {
 
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
             new DoubleRelativeAssertion(1E-14);
 
-    private static final ErrorFunctionCalculation ERR_FUNC = new ErrorFunctionCalculation();
+    private static final ErrorFunctionCalculation ERF = new ErfCalcOptimized();
 
     @RunWith(Theories.class)
     public static class erfに関するテスト {
@@ -66,7 +66,7 @@ final class ErrorFunctionCalculationTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    ERR_FUNC.erf(dataPair[0]));
+                    ERF.erf(dataPair[0]));
         }
     }
 
@@ -115,7 +115,7 @@ final class ErrorFunctionCalculationTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    ERR_FUNC.erfc(dataPair[0]));
+                    ERF.erfc(dataPair[0]));
         }
     }
 
@@ -164,7 +164,7 @@ final class ErrorFunctionCalculationTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    ERR_FUNC.erfcx(dataPair[0]));
+                    ERF.erfcx(dataPair[0]));
         }
     }
 }

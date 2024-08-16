@@ -10,18 +10,17 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link LambertCalculationPrincipalBranch}クラス(主枝の計算)のテスト.
+ * {@link LambertWpImplByHalley}クラス(主枝の計算)のテスト.
  * 
  * @author Matsuura Y.
  */
 @RunWith(Enclosed.class)
-final class LambertCalculationPrincipalBranchTest {
+final class LambertWpImplByHalleyTest {
 
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
             new DoubleRelativeAssertion(1E-14);
 
-    private static final LambertCalculationPrincipalBranch LAMBERT_P =
-            new LambertCalculationPrincipalBranch();
+    private static final LambertWpCalculation WP = new LambertWpImplByHalley();
 
     @RunWith(Theories.class)
     public static class Wp値のテスト {
@@ -48,13 +47,13 @@ final class LambertCalculationPrincipalBranchTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    LAMBERT_P.wp(dataPair[0]));
+                    WP.wp(dataPair[0]));
         }
 
         @Test
         public void test_特殊値() {
-            DOUBLE_RELATIVE_ASSERTION.assertFinite(LAMBERT_P.wp(Math.nextDown(-1 / Math.E + 1E-11)));
-            DOUBLE_RELATIVE_ASSERTION.assertFinite(LAMBERT_P.wp(Math.nextUp(-1 / Math.E + 1E-11)));
+            DOUBLE_RELATIVE_ASSERTION.assertFinite(WP.wp(Math.nextDown(-1 / Math.E + 1E-11)));
+            DOUBLE_RELATIVE_ASSERTION.assertFinite(WP.wp(Math.nextUp(-1 / Math.E + 1E-11)));
         }
     }
 }

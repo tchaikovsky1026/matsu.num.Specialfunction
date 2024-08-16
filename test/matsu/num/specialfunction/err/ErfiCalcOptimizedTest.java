@@ -19,7 +19,7 @@ final class ErfiCalcOptimizedTest {
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
             new DoubleRelativeAssertion(1E-14);
 
-    private static final ErrorFunctionImaginaryCalculation ERRI_FUNC = new ErfiCalcOptimized();
+    private static final ErrorFunctionImaginaryCalculation ERFI = new ErfiCalcOptimized();
 
     @RunWith(Theories.class)
     public static class erfiに関するテスト {
@@ -66,7 +66,7 @@ final class ErfiCalcOptimizedTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    ERRI_FUNC.erfi(dataPair[0]));
+                    ERFI.erfi(dataPair[0]));
         }
     }
 
@@ -75,8 +75,8 @@ final class ErfiCalcOptimizedTest {
 
         /* 値の生成コード(https://keisan.casio.jp/calculator) */
         /* ------------------------------------ */
-        //        numeric xs[] = {-8.25,-7.75,-5,-3,-2.5,-2,-1.25,-0.75,-0.25,0,
-        //                       0.25,0.75,1.25,2,2.5,3,5,7.75,8.25};
+        //        numeric xs[] = {-8.25,-7.75,-6.75,-5.75,-4.75,-3.75,-2.75,-1.75,-0.75,-0.25,0,
+        //                       0.25,0.75,1.25,2.25,3.25,4.25,5.25,6.25,7.25,8.25};
         //
         //        for(index = 0; index < kei_length(xs); index = index + 1){
         //            x = xs[index];
@@ -89,22 +89,24 @@ final class ErfiCalcOptimizedTest {
         public static double[][] dataPairs = {
                 { -8.25, -0.0689004980596054789 },
                 { -7.75, -0.073420484677026387 },
-                { -5, -0.115245961830936589 },
-                { -3, -0.201157317037600387 },
-                { -2.5, -0.251723024611857583 },
-                { -2, -0.340026217066066201 },
-                { -1.25, -0.559480940743271414 },
+                { -6.75, -0.0845328794179241116 },
+                { -5.75, -0.0996768212265112937 },
+                { -4.75, -0.121607128022189005 },
+                { -3.75, -0.156512102724399949 },
+                { -2.75, -0.223250886981430738 },
+                { -1.75, -0.405580568981373555 },
                 { -0.75, -0.590156711247878271 },
                 { -0.25, -0.270629515617987493 },
                 { 0, 0 },
                 { 0.25, 0.270629515617987493 },
                 { 0.75, 0.590156711247878271 },
                 { 1.25, 0.559480940743271414 },
-                { 2, 0.340026217066066201 },
-                { 2.5, 0.251723024611857583 },
-                { 3, 0.201157317037600387 },
-                { 5, 0.115245961830936589 },
-                { 7.75, 0.073420484677026387 },
+                { 2.25, 0.289490485423674097 },
+                { 3.25, 0.183441633165943731 },
+                { 4.25, 0.136783921603819067 },
+                { 5.25, 0.109531346526862402 },
+                { 6.25, 0.091473291696250886 },
+                { 7.25, 0.0785817104423815577 },
                 { 8.25, 0.0689004980596054789 },
 
                 { Double.NEGATIVE_INFINITY, 0d },
@@ -115,7 +117,7 @@ final class ErfiCalcOptimizedTest {
         public void test_検証(double[] dataPair) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     dataPair[1],
-                    ERRI_FUNC.erfix(dataPair[0]));
+                    ERFI.erfix(dataPair[0]));
         }
     }
 }

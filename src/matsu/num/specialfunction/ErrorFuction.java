@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.15
+ * 2024.8.16
  */
 package matsu.num.specialfunction;
 
@@ -46,14 +46,15 @@ import matsu.num.specialfunction.err.ErrorFunctionImaginaryCalculation;
  * </ul>
  *
  * @author Matsuura Y.
- * @version 19.5
+ * @version 19.6
  * @see <a href="https://en.wikipedia.org/wiki/Error_function" target=
  *          "_brank">
  *          Wikipedia: Error function</a>
  */
 public final class ErrorFuction {
 
-    private static final ErrorFunctionCalculation ERR_FUNC = new ErrorFunctionCalculation();
+    private static final ErrorFunctionCalculation ERR_FUNC =
+            ErrorFunctionCalculation.createInstance();
     private static final ErrorFunctionImaginaryCalculation ERFI_CALC =
             ErrorFunctionImaginaryCalculation.createInstance();
 

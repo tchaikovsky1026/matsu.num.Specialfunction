@@ -5,12 +5,12 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.14
+ * 2024.8.16
  */
 package matsu.num.specialfunction;
 
-import matsu.num.specialfunction.lambert.LambertCalculationMinus1Branch;
-import matsu.num.specialfunction.lambert.LambertCalculationPrincipalBranch;
+import matsu.num.specialfunction.lambert.LambertWmCalculation;
+import matsu.num.specialfunction.lambert.LambertWpCalculation;
 
 /**
  * Lambertの<i>W</i>-関数の計算(おおよそ倍精度).
@@ -41,17 +41,15 @@ import matsu.num.specialfunction.lambert.LambertCalculationPrincipalBranch;
  * </p>
  *
  * @author Matsuura Y.
- * @version 19.4
+ * @version 19.6
  * @see <a href="https://en.wikipedia.org/wiki/Lambert_W_function" target=
  *          "_brank">
  *          Wikipedia: Lambert <i>W</i> function</a>
  */
 public final class LambertFunction {
 
-    private static final LambertCalculationMinus1Branch LAMBERT_MINUS_1 =
-            new LambertCalculationMinus1Branch();
-    private static final LambertCalculationPrincipalBranch LAMBERT_PRINCIPAL =
-            new LambertCalculationPrincipalBranch();
+    private static final LambertWpCalculation WP = LambertWpCalculation.createInstance();
+    private static final LambertWmCalculation WM = LambertWmCalculation.createInstance();
 
     private LambertFunction() {
         //インスタンス化不可
@@ -73,7 +71,7 @@ public final class LambertFunction {
      * @return <i>W</i><sub>0</sub>(<i>z</i>)
      */
     public static double wp(double z) {
-        return LAMBERT_PRINCIPAL.wp(z);
+        return WP.wp(z);
     }
 
     /**
@@ -91,6 +89,6 @@ public final class LambertFunction {
      * @return <i>W</i><sub>-1</sub>(<i>z</i>)
      */
     public static double wm(double z) {
-        return LAMBERT_MINUS_1.wm(z);
+        return WM.wm(z);
     }
 }

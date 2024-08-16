@@ -5,22 +5,22 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.14
+ * 2024.8.16
  */
 package matsu.num.specialfunction.lambert;
 
 import matsu.num.commons.Exponentiation;
 
 /**
- * Lambert関数の主枝W0の計算を実行する.
+ * Lambert関数の-1分枝(Wm)の計算を扱う.
  * 
  * @author Matsuura Y.
- * @version 19.4
+ * @version 19.6
  */
-public final class LambertCalculationPrincipalBranch {
+final class LambertWmImplByHalley implements LambertWmCalculation {
 
     /**
-     * -1/e, W0の定義域の下限.
+     * -1/e, Wmの定義域の下限.
      */
     private static final double NEGATIVE_INVERSE_E = -1 / Math.E;
 
@@ -32,79 +32,69 @@ public final class LambertCalculationPrincipalBranch {
     /**
      * 逆関数の反復的求解に用いる式を切り替える閾値. <br>
      * 下側では w exp(w) - z = 0 に対する反復,
-     * 上側では w + log w - log(z) = 0 に対する反復.
+     * 上側では w + log(-w) - log(-z) = 0 に対する反復.
      */
-    private static final double ALGORITHM_THRESHOLD = 10d;
+    private static final double ALGORITHM_THRESHOLD = -0.270670566;
 
     /**
      * 唯一のコンストラクタ.
      */
-    public LambertCalculationPrincipalBranch() {
+    public LambertWmImplByHalley() {
         super();
     }
 
-    /**
-     * 主枝の計算. {@literal z >= -1/e}で意味を持つ.
-     * 
-     * @param z z
-     * @return wp(z)
-     */
-    public double wp(double z) {
-        if (!(z >= NEGATIVE_INVERSE_E)) {
+    @Override
+    public double wm(double z) {
+        if (!(z >= NEGATIVE_INVERSE_E && z <= 0d)) {
             return Double.NaN;
         }
 
         if (z < EXTREME_THRESHOLD) {
-            return wp_near_negativeInvE(z);
+            return wm_near_negativeInvE(z);
         }
-        if (z <= ALGORITHM_THRESHOLD) {
-            return wp_smallZ(z);
+        if (z < ALGORITHM_THRESHOLD) {
+            return wm_smallZ(z);
         }
-        return wp_largeZ(z);
+        return wm_largeZ(z);
     }
 
     /**
-     * zが-1/eに近いときのW0(z)を計算する. <br>
+     * zが-1/eに近いときのWm(z)を計算する. <br>
      * 注意として, z = -1/e のとき, w = -1 は重根であるので有効桁数は半分 (およそ8, 9桁) である.
      * 
      * @param z z
-     * @return W0(z)
+     * @return Wm(z)
      */
-    private double wp_near_negativeInvE(double z) {
+    private double wm_near_negativeInvE(double z) {
         assert z >= NEGATIVE_INVERSE_E;
         assert z <= EXTREME_THRESHOLD;
 
-        return wp_lower_extreme(z);
+        return wm_lower_extreme(z);
     }
 
     /**
-     * {@literal z -> -1/e} のW0(z)の解析値. <br>
+     * {@literal z -> -1/e} のWm(z)の解析値. <br>
      * w*exp(w) = z を w = -1 のまわりで2次近似して計算.
      */
-    private double wp_lower_extreme(double z) {
-        return -1 + Exponentiation.sqrt((2 * Math.E) * (z - NEGATIVE_INVERSE_E));
+    private double wm_lower_extreme(double z) {
+        return -1 - Exponentiation.sqrt((2 * Math.E) * (z - NEGATIVE_INVERSE_E));
     }
 
     /**
-     * zが比較的小さいときのW0(z)を計算する. <br>
+     * zが0から遠いときのWm(z)を計算する. <br>
      * w exp(w) - z = 0 に対する反復.
      * 
      * @param z z
-     * @return W0(z)
+     * @return Wm(z)
      */
-    private double wp_smallZ(double z) {
+    private double wm_smallZ(double z) {
         assert z >= NEGATIVE_INVERSE_E;
         assert z <= ALGORITHM_THRESHOLD;
 
-        /*
-         * z sim -1/e と z >> 1 の極限を参考に, 初期値を定める.
-         * 閾値は経験則.
-         */
-        double w0 = z < -0.25
-                ? wp_lower_extreme(z)
-                : Exponentiation.log1p(z);
+        double w0 = wm_lower_extreme(z);
 
         /*
+         * z<-0.27のとき,
          * f(w) = w exp(w) - z = 0
          * に対してハレー法を用いる.
          * w_new = w_old - f/(f' - f''f/(2f'))
@@ -117,29 +107,30 @@ public final class LambertCalculationPrincipalBranch {
     }
 
     /**
-     * zが大きいときのW0(z)を計算する. <br>
-     * w + log w - log(z) = 0 に対する反復.
+     * zが0に近づいたときのWm(z)を計算する. <br>
+     * w + log(-w) - log(-z) = 0 に対する反復.
      * 
      * @param z z
-     * @return W0(z)
+     * @return Wm(z)
      */
-    private double wp_largeZ(double z) {
+    private double wm_largeZ(double z) {
         assert z >= ALGORITHM_THRESHOLD;
+        assert z <= 0d;
 
         /*
-         * z >= 10では,
-         * f(w) = w + log w - log(z) = 0
+         * -0.27 <= z <= 0 では,
+         * f(w) = w + log(-w) - log(-z) = 0
          * に対してハレー法を用いる.
          * w_new = w_old - f/(f' - f''f/(2f'))
          */
-        final int iteration_z10 = 3;
-        double logZ = Exponentiation.log(z);
-        if (logZ == Double.POSITIVE_INFINITY) {
-            return Double.POSITIVE_INFINITY;
+        double logMinusZ = Exponentiation.log(-z);
+        if (logMinusZ == Double.NEGATIVE_INFINITY) {
+            return Double.NEGATIVE_INFINITY;
         }
-        double w0 = logZ;
+        final int iteration_z10 = 3;
+        double w0 = logMinusZ - 1;
         for (int i = 0; i < iteration_z10; i++) {
-            w0 += deltaW_log_positive(w0, logZ);
+            w0 += deltaW_log_negative(w0, logMinusZ);
         }
         return w0;
     }
@@ -154,13 +145,13 @@ public final class LambertCalculationPrincipalBranch {
     }
 
     /**
-     * f(w) = w + log w - log(z) = 0
+     * f(w) = w + log(-w) - log(-z) = 0
      * に関するハレー法の更新量.
      */
-    private double deltaW_log_positive(double w, double logZ) {
-        double logW = Exponentiation.log(w);
+    private double deltaW_log_negative(double w, double logMinusZ) {
+        double logMinusW = Exponentiation.log(-w);
 
-        double L = (w + logW - logZ) / (1 + w);
+        double L = (w + logMinusW - logMinusZ) / (1 + w);
         return -w * L / (1 + L / (2 * (1 + w)));
     }
 }
