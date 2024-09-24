@@ -1,4 +1,4 @@
-package matsu.num.specialfunction.bessel.subpj;
+package matsu.num.specialfunction.subpj;
 
 /**
  * <p>

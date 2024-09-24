@@ -1,14 +1,14 @@
-package matsu.num.specialfunction.bessel.subpj;
+package matsu.num.specialfunction.subpj;
 
-import matsu.num.approximation.TargetFunction;
+import matsu.num.approximation.DoubleApproxTarget;
 
 /**
  * 近似ターゲット関数の近似多項式を, 元々扱いたい関数の係数へと変換する機能を持たせた,
- * {@link TargetFunction} の拡張.
+ * {@link DoubleApproxTarget} の拡張.
  * 
  * @author Matsuura Y.
  */
-public interface RawCoefficientCalculableFunction extends TargetFunction {
+public abstract class RawCoefficientCalculableFunction extends DoubleApproxTarget {
 
     /**
      * 元々扱いたい係数を返す.

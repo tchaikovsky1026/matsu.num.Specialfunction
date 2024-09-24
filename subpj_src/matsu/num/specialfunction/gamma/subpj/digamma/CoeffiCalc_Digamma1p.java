@@ -1,11 +1,11 @@
 package matsu.num.specialfunction.gamma.subpj.digamma;
 
-import matsu.num.approximation.Approximation;
+import matsu.num.approximation.ApproxResult;
 import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.approximation.PolynomialFunction;
+import matsu.num.approximation.polynomial.DoublePolynomial;
 import matsu.num.approximation.polynomial.MinimaxPolynomialApproxExecutor;
-import matsu.num.specialfunction.bessel.subpj.ConstantStyle;
-import matsu.num.specialfunction.bessel.subpj.ResultDisplayFormat;
+import matsu.num.specialfunction.subpj.ConstantStyle;
+import matsu.num.specialfunction.subpj.ResultDisplayFormat;
 
 /**
  * {@link MinimaxApproxFunc_Digamma1p} のminimax近似.
@@ -44,8 +44,8 @@ public final class CoeffiCalc_Digamma1p {
 
             MinimaxApproxFunc_Digamma1p target =
                     new MinimaxApproxFunc_Digamma1p(interval);
-            Approximation<PolynomialFunction> approx = executor.apply(target);
-            PolynomialFunction resultPolynomial = approx
+            ApproxResult<DoublePolynomial> approx = executor.apply(target);
+            DoublePolynomial resultPolynomial = approx
                     .orElseThrow(() -> new RuntimeException(approx.message()));
 
             System.out.println(

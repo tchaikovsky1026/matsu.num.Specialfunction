@@ -1,7 +1,7 @@
 package matsu.num.specialfunction.bessel.subpj.modbessel.power;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * <p>
@@ -20,7 +20,7 @@ import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
  * 
  * @author Matsuura Y.
  */
-final class BesselI1Power_ExpTerm implements RawCoefficientCalculableFunction {
+final class BesselI1Power_ExpTerm extends RawCoefficientCalculableFunction {
 
     private static final double MIN_MIN_X = 2d;
     private static final double MAX_MAX_X = 24d;
@@ -50,7 +50,7 @@ final class BesselI1Power_ExpTerm implements RawCoefficientCalculableFunction {
     }
 
     @Override
-    public double value(double u) {
+    protected double calcValue(double u) {
         if (!this.accepts(u)) {
             return Double.NaN;
         }
@@ -69,7 +69,7 @@ final class BesselI1Power_ExpTerm implements RawCoefficientCalculableFunction {
     }
 
     @Override
-    public double scale(double u) {
+    protected double calcScale(double u) {
         if (!this.accepts(u)) {
             return Double.NaN;
         }

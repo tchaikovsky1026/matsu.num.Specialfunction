@@ -1,11 +1,11 @@
 package matsu.num.specialfunction.bessel.subpj.bessel.power;
 
-import matsu.num.approximation.Approximation;
+import matsu.num.approximation.ApproxResult;
 import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.approximation.PolynomialFunction;
+import matsu.num.approximation.polynomial.DoublePolynomial;
 import matsu.num.approximation.polynomial.MinimaxPolynomialApproxExecutor;
-import matsu.num.specialfunction.bessel.subpj.ConstantStyle;
-import matsu.num.specialfunction.bessel.subpj.ResultDisplayFormat;
+import matsu.num.specialfunction.subpj.ConstantStyle;
+import matsu.num.specialfunction.subpj.ResultDisplayFormat;
 
 /**
  * {@link BesselY1Power_HarmonicTerm} のminimax近似.
@@ -21,8 +21,8 @@ public final class CoeffiCalc_Y1Power_HarmonicTerm {
                 MinimaxPolynomialApproxExecutor.of(order);
         BesselY1Power_HarmonicTerm target =
                 new BesselY1Power_HarmonicTerm(DoubleFiniteClosedInterval.from(0, 1));
-        Approximation<PolynomialFunction> approx = approxExecutor.apply(target);
-        PolynomialFunction resultPolynomial = approx
+        ApproxResult<DoublePolynomial> approx = approxExecutor.apply(target);
+        DoublePolynomial resultPolynomial = approx
                 .orElseThrow(() -> new RuntimeException(approx.message()));
 
         System.out.println(

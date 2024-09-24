@@ -1,7 +1,7 @@
 package matsu.num.specialfunction.err.subpj.erfi;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * erfix(x)の漸近展開をminimax近似する. <br>
@@ -37,7 +37,7 @@ import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
  * 
  * @author Matsuura Y.
  */
-final class ErfixFuncLargeX_accuracy implements RawCoefficientCalculableFunction {
+final class ErfixFuncLargeX_accuracy extends RawCoefficientCalculableFunction {
 
     private static final double SCALE_U_THRESHOLD = 1d / 1024;
 
@@ -64,7 +64,7 @@ final class ErfixFuncLargeX_accuracy implements RawCoefficientCalculableFunction
     }
 
     @Override
-    public double value(double u) {
+    protected double calcValue(double u) {
         if (!this.accepts(u)) {
             return Double.NaN;
         }
@@ -82,7 +82,7 @@ final class ErfixFuncLargeX_accuracy implements RawCoefficientCalculableFunction
     }
 
     @Override
-    public double scale(double u) {
+    protected double calcScale(double u) {
         if (!this.accepts(u)) {
             return Double.NaN;
         }

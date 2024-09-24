@@ -2,7 +2,7 @@ package matsu.num.specialfunction.bessel.subpj.modbessel.asymptotic;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
 import matsu.num.commons.Exponentiation;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * <p>
@@ -30,7 +30,7 @@ import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
  * 
  * @author Matsuura Y.
  */
-final class BesselI1Asymptotic_Accurate implements RawCoefficientCalculableFunction {
+final class BesselI1Asymptotic_Accurate extends RawCoefficientCalculableFunction {
 
     private static final double MIN_T = 0d;
     private static final double MAX_T = 1d / 192;
@@ -58,7 +58,7 @@ final class BesselI1Asymptotic_Accurate implements RawCoefficientCalculableFunct
     }
 
     @Override
-    public double value(double t) {
+    protected double calcValue(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }
@@ -74,7 +74,7 @@ final class BesselI1Asymptotic_Accurate implements RawCoefficientCalculableFunct
     }
 
     @Override
-    public double scale(double t) {
+    protected double calcScale(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }

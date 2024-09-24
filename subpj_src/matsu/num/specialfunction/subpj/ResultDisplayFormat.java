@@ -1,8 +1,8 @@
-package matsu.num.specialfunction.bessel.subpj;
+package matsu.num.specialfunction.subpj;
 
 import java.util.Objects;
 
-import matsu.num.approximation.PolynomialFunction;
+import matsu.num.approximation.polynomial.DoublePolynomial;
 
 /**
  * 近似誤差の可視化と, 近似結果の係数を文字列として出力する,
@@ -26,7 +26,7 @@ public final class ResultDisplayFormat implements DisplayFormat {
 
     @Override
     public String resultToString(
-            RawCoefficientCalculableFunction target, PolynomialFunction result) {
+            RawCoefficientCalculableFunction target, DoublePolynomial result) {
 
         StringBuilder sb = new StringBuilder();
 

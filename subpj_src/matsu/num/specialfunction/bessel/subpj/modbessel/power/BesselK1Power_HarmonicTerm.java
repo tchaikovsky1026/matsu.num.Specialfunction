@@ -2,7 +2,7 @@ package matsu.num.specialfunction.bessel.subpj.modbessel.power;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
 import matsu.num.commons.Exponentiation;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * <p>
@@ -31,7 +31,7 @@ import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
  * 
  * @author Matsuura Y.
  */
-final class BesselK1Power_HarmonicTerm implements RawCoefficientCalculableFunction {
+final class BesselK1Power_HarmonicTerm extends RawCoefficientCalculableFunction {
 
     private static final double MIN_U = 0d;
     private static final double MAX_U = 1d;
@@ -67,7 +67,7 @@ final class BesselK1Power_HarmonicTerm implements RawCoefficientCalculableFuncti
     }
 
     @Override
-    public double value(double u) {
+    protected double calcValue(double u) {
         if (!this.accepts(u)) {
             return Double.NaN;
         }
@@ -82,7 +82,7 @@ final class BesselK1Power_HarmonicTerm implements RawCoefficientCalculableFuncti
     }
 
     @Override
-    public double scale(double u) {
+    protected double calcScale(double u) {
         if (!this.accepts(u)) {
             return Double.NaN;
         }

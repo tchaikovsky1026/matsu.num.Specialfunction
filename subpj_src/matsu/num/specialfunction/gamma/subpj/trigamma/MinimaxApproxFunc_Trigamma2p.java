@@ -3,8 +3,8 @@ package matsu.num.specialfunction.gamma.subpj.trigamma;
 import java.util.Objects;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
 import matsu.num.specialfunction.gamma.subpj.component.RiemannZetaParameter;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * psi1(2+x)をminimax近似する. <br>
@@ -21,7 +21,7 @@ import matsu.num.specialfunction.gamma.subpj.component.RiemannZetaParameter;
  * 
  * @author Matsuura Y.
  */
-final class MinimaxApproxFunc_Trigamma2p implements RawCoefficientCalculableFunction {
+final class MinimaxApproxFunc_Trigamma2p extends RawCoefficientCalculableFunction {
 
     private static final double LOWER_LIMIT_OF_INTERVAL = -0.5;
     private static final double UPPER_LIMIT_OF_INTERVAL = 0.5;
@@ -44,7 +44,7 @@ final class MinimaxApproxFunc_Trigamma2p implements RawCoefficientCalculableFunc
     }
 
     @Override
-    public double value(double x) {
+    protected double calcValue(double x) {
         if (!this.accepts(x)) {
             return Double.NaN;
         }
@@ -64,7 +64,7 @@ final class MinimaxApproxFunc_Trigamma2p implements RawCoefficientCalculableFunc
     }
 
     @Override
-    public double scale(double x) {
+    protected double calcScale(double x) {
         if (!this.accepts(x)) {
             return Double.NaN;
         }

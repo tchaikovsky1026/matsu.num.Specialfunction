@@ -1,10 +1,10 @@
 package matsu.num.specialfunction.err.subpj.erfi;
 
-import matsu.num.approximation.Approximation;
-import matsu.num.approximation.PolynomialFunction;
+import matsu.num.approximation.ApproxResult;
+import matsu.num.approximation.polynomial.DoublePolynomial;
 import matsu.num.approximation.polynomial.MinimaxPolynomialApproxExecutor;
-import matsu.num.specialfunction.bessel.subpj.ConstantStyle;
-import matsu.num.specialfunction.bessel.subpj.ResultDisplayFormat;
+import matsu.num.specialfunction.subpj.ConstantStyle;
+import matsu.num.specialfunction.subpj.ResultDisplayFormat;
 
 /**
  * {@link ErfixFuncLargeX_t} のminimax近似.
@@ -45,8 +45,8 @@ final class CoeffiCalc_ErfixFuncLargeX {
             System.out.println(target);
             System.out.println();
 
-            Approximation<PolynomialFunction> approx = executor.apply(target);
-            PolynomialFunction resultPolynomial = approx
+            ApproxResult<DoublePolynomial> approx = executor.apply(target);
+            DoublePolynomial resultPolynomial = approx
                     .orElseThrow(() -> new RuntimeException(approx.message()));
 
             System.out.println(

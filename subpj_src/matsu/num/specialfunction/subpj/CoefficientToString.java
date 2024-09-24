@@ -1,4 +1,4 @@
-package matsu.num.specialfunction.bessel.subpj;
+package matsu.num.specialfunction.subpj;
 
 /**
  * {@code double} 型の配列として表された係数を文字列に変換する仕組みを扱う.

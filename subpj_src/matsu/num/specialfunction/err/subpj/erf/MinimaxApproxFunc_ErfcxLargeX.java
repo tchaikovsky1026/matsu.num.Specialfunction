@@ -3,7 +3,7 @@ package matsu.num.specialfunction.err.subpj.erf;
 import java.util.Objects;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * スケーリング相補誤差関数erfcx(x)の漸近展開をminimax近似する. <br>
@@ -45,7 +45,7 @@ import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
  * 
  * @author Matsuura Y.
  */
-final class MinimaxApproxFunc_ErfcxLargeX implements RawCoefficientCalculableFunction {
+final class MinimaxApproxFunc_ErfcxLargeX extends RawCoefficientCalculableFunction {
 
     private static final int K_MAX = 100;
 
@@ -74,7 +74,7 @@ final class MinimaxApproxFunc_ErfcxLargeX implements RawCoefficientCalculableFun
     }
 
     @Override
-    public double value(double t) {
+    protected double calcValue(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }
@@ -103,7 +103,7 @@ final class MinimaxApproxFunc_ErfcxLargeX implements RawCoefficientCalculableFun
     }
 
     @Override
-    public double scale(double t) {
+    protected double calcScale(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }

@@ -1,8 +1,8 @@
 package matsu.num.specialfunction.gamma.subpj.lgamma;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
 import matsu.num.specialfunction.gamma.subpj.component.EvenBernoulli;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * 対数ガンマ関数に対するStirling近似の残差をminimax近似する. <br>
@@ -27,7 +27,7 @@ import matsu.num.specialfunction.gamma.subpj.component.EvenBernoulli;
  * @author Matsuura Y.
  */
 final class MinimaxApproxFunc_LGammaResidual_AsymptoticAccuracy
-        implements RawCoefficientCalculableFunction {
+        extends RawCoefficientCalculableFunction {
 
     private static final double SCALE_U_THRESHOLD = 1d / 65536;
 
@@ -49,7 +49,7 @@ final class MinimaxApproxFunc_LGammaResidual_AsymptoticAccuracy
     }
 
     @Override
-    public double value(double u) {
+    protected double calcValue(double u) {
         if (!this.accepts(u)) {
             return Double.NaN;
         }
@@ -65,7 +65,7 @@ final class MinimaxApproxFunc_LGammaResidual_AsymptoticAccuracy
     }
 
     @Override
-    public double scale(double u) {
+    protected double calcScale(double u) {
         if (!this.accepts(u)) {
             return Double.NaN;
         }

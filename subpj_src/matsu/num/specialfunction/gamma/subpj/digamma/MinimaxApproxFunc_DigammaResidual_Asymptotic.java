@@ -3,7 +3,7 @@ package matsu.num.specialfunction.gamma.subpj.digamma;
 import java.util.Objects;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * ディガンマ関数 psi(x) に対するStirling近似の残差ををminimax近似する. <br>
@@ -22,7 +22,7 @@ import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
  * @author Matsuura Y.
  */
 final class MinimaxApproxFunc_DigammaResidual_Asymptotic
-        implements RawCoefficientCalculableFunction {
+        extends RawCoefficientCalculableFunction {
 
     private static final double LOWER_LIMIT_OF_INTERVAL = 1d / 10;
     private static final double UPPER_LIMIT_OF_INTERVAL = 1d / 2.5;
@@ -53,7 +53,7 @@ final class MinimaxApproxFunc_DigammaResidual_Asymptotic
     }
 
     @Override
-    public double value(double t) {
+    protected double calcValue(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }
@@ -62,7 +62,7 @@ final class MinimaxApproxFunc_DigammaResidual_Asymptotic
     }
 
     @Override
-    public double scale(double t) {
+    protected double calcScale(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }

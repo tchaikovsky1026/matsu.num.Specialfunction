@@ -4,8 +4,8 @@ import java.util.Objects;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
 import matsu.num.commons.Exponentiation;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
 import matsu.num.specialfunction.gamma.LGammaCalculation;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * F(x) = 1/Gamma(1+x) のminimax近似のための関数. <br>
@@ -14,7 +14,7 @@ import matsu.num.specialfunction.gamma.LGammaCalculation;
  * 
  * @author Matsuura Y.
  */
-final class MinimaxApproxFunc_InvOfGamma1p implements RawCoefficientCalculableFunction {
+final class MinimaxApproxFunc_InvOfGamma1p extends RawCoefficientCalculableFunction {
 
     private static final LGammaCalculation LGAMMA = new LGammaCalculation();
 
@@ -43,7 +43,7 @@ final class MinimaxApproxFunc_InvOfGamma1p implements RawCoefficientCalculableFu
     }
 
     @Override
-    public double value(double x) {
+    protected double calcValue(double x) {
         if (!this.accepts(x)) {
             return Double.NaN;
         }
@@ -55,7 +55,7 @@ final class MinimaxApproxFunc_InvOfGamma1p implements RawCoefficientCalculableFu
     }
 
     @Override
-    public double scale(double x) {
+    protected double calcScale(double x) {
         if (!this.accepts(x)) {
             return Double.NaN;
         }

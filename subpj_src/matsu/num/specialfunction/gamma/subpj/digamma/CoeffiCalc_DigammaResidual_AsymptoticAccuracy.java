@@ -1,10 +1,10 @@
 package matsu.num.specialfunction.gamma.subpj.digamma;
 
-import matsu.num.approximation.Approximation;
-import matsu.num.approximation.PolynomialFunction;
+import matsu.num.approximation.ApproxResult;
+import matsu.num.approximation.polynomial.DoublePolynomial;
 import matsu.num.approximation.polynomial.MinimaxPolynomialApproxExecutor;
-import matsu.num.specialfunction.bessel.subpj.ConstantStyle;
-import matsu.num.specialfunction.bessel.subpj.ResultDisplayFormat;
+import matsu.num.specialfunction.subpj.ConstantStyle;
+import matsu.num.specialfunction.subpj.ResultDisplayFormat;
 
 /**
  * {@link MinimaxApproxFunc_DigammaResidual_AsymptoticAccuracy} のminimax近似.
@@ -20,8 +20,8 @@ public final class CoeffiCalc_DigammaResidual_AsymptoticAccuracy {
                 MinimaxPolynomialApproxExecutor.of(order);
         MinimaxApproxFunc_DigammaResidual_AsymptoticAccuracy target =
                 new MinimaxApproxFunc_DigammaResidual_AsymptoticAccuracy(0.1d);
-        Approximation<PolynomialFunction> approx = approxExecutor.apply(target);
-        PolynomialFunction resultPolynomial = approx
+        ApproxResult<DoublePolynomial> approx = approxExecutor.apply(target);
+        DoublePolynomial resultPolynomial = approx
                 .orElseThrow(() -> new RuntimeException(approx.message()));
 
         System.out.println(

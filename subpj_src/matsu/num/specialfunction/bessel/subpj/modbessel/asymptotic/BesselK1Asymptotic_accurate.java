@@ -4,10 +4,10 @@ import java.util.function.IntFunction;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
 import matsu.num.commons.Exponentiation;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
 import matsu.num.specialfunction.fraction.BigRational;
 import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
 import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * <p>
@@ -32,7 +32,7 @@ import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
  * 
  * @author Matsuura Y.
  */
-final class BesselK1Asymptotic_accurate implements RawCoefficientCalculableFunction {
+final class BesselK1Asymptotic_accurate extends RawCoefficientCalculableFunction {
 
     private static final DoubleContinuedFractionFunction K1_UPPER4 =
             k1_upper4().asDoubleFunction();
@@ -61,7 +61,7 @@ final class BesselK1Asymptotic_accurate implements RawCoefficientCalculableFunct
     }
 
     @Override
-    public double value(double t) {
+    protected double calcValue(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }
@@ -78,7 +78,7 @@ final class BesselK1Asymptotic_accurate implements RawCoefficientCalculableFunct
     }
 
     @Override
-    public double scale(double t) {
+    protected double calcScale(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }

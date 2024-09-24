@@ -1,6 +1,6 @@
-package matsu.num.specialfunction.bessel.subpj;
+package matsu.num.specialfunction.subpj;
 
-import matsu.num.approximation.PolynomialFunction;
+import matsu.num.approximation.polynomial.DoublePolynomial;
 
 /**
  * ターゲット関数と近似結果から, 結果出力の文字列を得るための,
@@ -20,5 +20,5 @@ public interface DisplayFormat {
      */
     public abstract String resultToString(
             RawCoefficientCalculableFunction target,
-            PolynomialFunction result);
+            DoublePolynomial result);
 }

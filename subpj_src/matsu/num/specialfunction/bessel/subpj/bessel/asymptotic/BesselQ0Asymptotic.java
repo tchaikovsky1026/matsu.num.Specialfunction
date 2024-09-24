@@ -4,11 +4,11 @@ import java.util.function.IntFunction;
 
 import matsu.num.approximation.DoubleFiniteClosedInterval;
 import matsu.num.commons.Exponentiation;
-import matsu.num.specialfunction.bessel.subpj.RawCoefficientCalculableFunction;
 import matsu.num.specialfunction.fraction.BigRational;
 import matsu.num.specialfunction.fraction.ComplexContinuedFractionFunction;
 import matsu.num.specialfunction.fraction.ComplexNumber;
 import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
+import matsu.num.specialfunction.subpj.RawCoefficientCalculableFunction;
 
 /**
  * <p>
@@ -31,7 +31,7 @@ import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
  * 
  * @author Matsuura Y.
  */
-final class BesselQ0Asymptotic implements RawCoefficientCalculableFunction {
+final class BesselQ0Asymptotic extends RawCoefficientCalculableFunction {
 
     private static final ComplexContinuedFractionFunction H0_UPPER4 = h0_upper4();
 
@@ -58,7 +58,7 @@ final class BesselQ0Asymptotic implements RawCoefficientCalculableFunction {
     }
 
     @Override
-    public double value(double t) {
+    protected double calcValue(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }
@@ -76,7 +76,7 @@ final class BesselQ0Asymptotic implements RawCoefficientCalculableFunction {
     }
 
     @Override
-    public double scale(double t) {
+    protected double calcScale(double t) {
         if (!this.accepts(t)) {
             return Double.NaN;
         }
