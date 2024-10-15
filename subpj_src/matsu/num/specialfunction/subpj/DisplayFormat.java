@@ -1,5 +1,7 @@
 package matsu.num.specialfunction.subpj;
 
+import matsu.num.approximation.generalfield.PseudoRealNumber;
+import matsu.num.approximation.generalfield.polynomial.Polynomial;
 import matsu.num.approximation.polynomial.DoublePolynomial;
 
 /**
@@ -8,7 +10,6 @@ import matsu.num.approximation.polynomial.DoublePolynomial;
  * 
  * @author Matsuura Y.
  */
-@FunctionalInterface
 public interface DisplayFormat {
 
     /**
@@ -19,6 +20,17 @@ public interface DisplayFormat {
      * @return 結果出力の文字列
      */
     public abstract String resultToString(
-            RawCoefficientCalculableFunction target,
+            RawCoeffCalculableDoubleFunction target,
             DoublePolynomial result);
+
+    /**
+     * 結果出力の文字列を返す.
+     * 
+     * @param target ターゲット
+     * @param result 近似結果
+     * @return 結果出力の文字列
+     */
+    public abstract <T extends PseudoRealNumber<T>> String resultToString(
+            RawCoeffCalculableFunction<T> target,
+            Polynomial<T> result);
 }

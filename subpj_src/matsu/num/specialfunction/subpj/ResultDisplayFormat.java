@@ -2,6 +2,8 @@ package matsu.num.specialfunction.subpj;
 
 import java.util.Objects;
 
+import matsu.num.approximation.generalfield.PseudoRealNumber;
+import matsu.num.approximation.generalfield.polynomial.Polynomial;
 import matsu.num.approximation.polynomial.DoublePolynomial;
 
 /**
@@ -26,7 +28,7 @@ public final class ResultDisplayFormat implements DisplayFormat {
 
     @Override
     public String resultToString(
-            RawCoefficientCalculableFunction target, DoublePolynomial result) {
+            RawCoeffCalculableDoubleFunction target, DoublePolynomial result) {
 
         StringBuilder sb = new StringBuilder();
 
@@ -67,4 +69,46 @@ public final class ResultDisplayFormat implements DisplayFormat {
         return sb.toString();
     }
 
+    @Override
+    public <T extends PseudoRealNumber<T>> String resultToString(
+            RawCoeffCalculableFunction<T> target, Polynomial<T> result) {
+
+        StringBuilder sb = new StringBuilder();
+
+        int resolution = 100;
+        T xmin = target.interval().lower();
+        T xmax = target.interval().upper();
+        T delta = xmax.minus(xmin).dividedBy(resolution);
+
+        sb.append("x,u\terror");
+        sb.append(System.lineSeparator());
+        for (int i = 0; i < resolution / 2; i++) {
+            T x = xmin.plus(delta.times(i));
+            sb.append(
+                    String.format(
+                            "%s\t%s",
+                            x,
+                            result.value(x).minus(target.value(x)).dividedBy(target.scale(x))));
+
+            sb.append(System.lineSeparator());
+        }
+        for (int i = resolution / 2; i <= resolution; i++) {
+            T x = xmax.plus(delta.times(i - resolution));
+            sb.append(
+                    String.format(
+                            "%s\t%s",
+                            x,
+                            result.value(x).minus(target.value(x)).dividedBy(target.scale(x))));
+
+            sb.append(System.lineSeparator());
+        }
+
+        sb.append(System.lineSeparator());
+
+        sb.append(
+                this.coefficientDisplay.execute(
+                        target.rawCoeff(result.coefficient())));
+
+        return sb.toString();
+    }
 }

@@ -32,7 +32,7 @@ public final class ConstantStyle implements CoefficientToString {
     }
 
     @Override
-    public String execute(double[] coeff) {
+    public String execute(Object[] coeff) {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < coeff.length; i++) {

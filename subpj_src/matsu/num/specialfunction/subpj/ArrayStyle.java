@@ -25,7 +25,7 @@ public final class ArrayStyle implements CoefficientToString {
     }
 
     @Override
-    public String execute(double[] coeff) {
+    public String execute(Object[] coeff) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append(System.lineSeparator());
