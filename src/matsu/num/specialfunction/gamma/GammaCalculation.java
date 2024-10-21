@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.14
+ * 2024.10.18
  */
 package matsu.num.specialfunction.gamma;
 
@@ -17,7 +17,7 @@ import matsu.num.commons.Exponentiation;
  * ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 19.3
+ * @version 19.9
  */
 public final class GammaCalculation {
 
@@ -150,21 +150,21 @@ public final class GammaCalculation {
         assert x <= 0.5;
 
         //1/Γ(1+x)を計算し, 逆数をとって返す.
-        final double C0 = 1.0;
-        final double C1 = 0.5772156649015314;
-        final double C2 = -0.6558780715202812;
-        final double C3 = -0.0420026350339443;
-        final double C4 = 0.16653861138408968;
-        final double C5 = -0.042197734560468325;
-        final double C6 = -0.009621971573174017;
-        final double C7 = 0.007218943310501935;
-        final double C8 = -0.0011651670561764129;
-        final double C9 = -2.1524201713579006E-4;
-        final double C10 = 1.280471176548347E-4;
-        final double C11 = -2.013442649366256E-5;
-        final double C12 = -1.2417016345308765E-6;
-        final double C13 = 1.1352831354395674E-6;
-        final double C14 = -2.133274966289084E-7;
+        final double C0 = 0.99999999999999999566056458775722; // C0 = 1dである.
+        final double C1 = 0.57721566490153311614240826552387;
+        final double C2 = -0.65587807152025187505690756737124;
+        final double C3 = -0.042002635034134241430230332161088;
+        final double C4 = 0.16653861138213774590438474709323;
+        final double C5 = -0.042197734553824257308705712654779;
+        final double C6 = -0.0096219715233496651386085682551894;
+        final double C7 = 0.0072189432132061281061955511043432;
+        final double C8 = -0.0011651676577866355989257938630416;
+        final double C9 = -0.00021524133914593566377912266815152;
+        final double C10 = 0.00012805080669061585962913680615077;
+        final double C11 = -0.000020136663744698520934194609425779;
+        final double C12 = -0.0000012528133910170696217885055905421;
+        final double C13 = 0.0000011380985582075846428368493949507;
+        final double C14 = -2.0027639428205237599984033411035E-7;
 
         final double x2 = x * x;
 

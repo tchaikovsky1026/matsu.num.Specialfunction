@@ -1,88 +1,106 @@
 package matsu.num.specialfunction.subpj.gamma.trigamma;
 
+import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
+import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 import matsu.num.specialfunction.subpj.gamma.component.EvenBernoulli;
+import matsu.num.specialfunction.subpj.gamma.component.EvenBernoulliByDoubleDoubleFloat;
 
 /**
  * トリガンマ関数に対するStirling近似の残差を扱う. <br>
  * すなわち, f(x) = psi1(x) - 1/x - 1/(2x^2) の取り扱い. <br>
  * f(x) = sum_{k=1}^{inf} B_{2k} * x^{-2k-1}
  * 
+ * <p>
+ * x は2.5以上を扱う.
+ * </p>
+ * 
  * @author Matsuura Y.
  */
 final class TrigammaResidual {
 
-    private static final double VALID_X_FOR_ASYMPTOTIC = 10d;
+    private static final Provider<DoubleDoubleFloatElement> PROVIDER =
+            DoubleDoubleFloatElement.elementProvider();
+
+    private static final DoubleDoubleFloatElement X_MIN =
+            PROVIDER.fromDoubleValue(2.5d);
+    private static final DoubleDoubleFloatElement VALID_X_FOR_ASYMPTOTIC =
+            PROVIDER.fromDoubleValue(10d);
 
     /**
      * f(x) を計算する.
+     * 内部的には再帰である.
      * 
      * @param x x
      * @return f(x)
      */
     public static double value(double x) {
-        if (!(x >= 0)) {
-            return Double.NaN;
+        return value(PROVIDER.fromDoubleValue(x)).asDouble();
+    }
+
+    /**
+     * f(x) を計算する. <br>
+     * 10^{-22}程度の相対誤差を達成する.
+     * 
+     * @param x x
+     * @return f(x)
+     * @throws IllegalArgumentException 範囲外の場合
+     * @throws NullPointerException null
+     */
+    public static DoubleDoubleFloatElement value(DoubleDoubleFloatElement x) {
+        if (x.compareTo(X_MIN) < 0) {
+            throw new IllegalArgumentException("範囲外");
         }
 
-        if (x >= VALID_X_FOR_ASYMPTOTIC) {
+        if (x.compareTo(VALID_X_FOR_ASYMPTOTIC) >= 0) {
             return valueAsymptotic(x);
         }
 
-        return ResidualRecursion.difference(x) + value(x + 1);
+        return ResidualRecursion.difference(x).plus(value(x.plus(PROVIDER.one())));
     }
 
     /**
      * {@literal x >> 1} における f(x) の計算. <br>
-     * {@literal x >= 10} でおそらくうまくいく.
+     * {@literal x >> 10} でおそらくうまくいく.
      * 
      * @param x x
      * @return f(x)
      */
-    private static double valueAsymptotic(double x) {
+    private static DoubleDoubleFloatElement valueAsymptotic(DoubleDoubleFloatElement x) {
 
         /*
          * 漸近級数では,
          * f(x) = sum_{k=1}^{inf} B_{2k} * x^{-2k-1}
          * である.
          */
+        DoubleDoubleFloatElement invX = PROVIDER.one().dividedBy(x);
+        DoubleDoubleFloatElement invX2 = invX.times(invX);
 
-        double invX = 1 / x;
-
-        double value = 0;
+        DoubleDoubleFloatElement value = PROVIDER.zero();
         for (int k = EvenBernoulli.MAX_M; k >= 1; k--) {
-            value *= invX * invX;
-            value += EvenBernoulli.evenBernoulli(k);
+            value = value.times(invX2);
+            DoubleDoubleFloatElement c =
+                    EvenBernoulliByDoubleDoubleFloat.evenBernoulli(k);
+            value = value.plus(c);
         }
 
-        return value * invX * invX * invX;
-    }
-
-    public static void main(String[] args) {
-
-        double xmin = 0.5d;
-        double xmax = 15d;
-        double delta = 0.25d;
-        System.out.println("s\tv");
-        for (double x = xmin; x <= xmax; x += delta) {
-            System.out.println(x + "\t" + value(x));
-        }
+        return value.times(invX2).times(invX);
     }
 
     /**
      * f(x) - f(x+1) を扱う.
-     * 
-     * f(x) + 1/x + 1/(2x^2) = psi1(x)
-     * 
-     * <p>
-     * psi1(x+1) = psi1(x) - 1/(x^2) <br>
-     * f(x) = f(x+1) + 1/(2x^2(x+1)^2)
-     * <p>
-     * 
      */
     private static final class ResidualRecursion {
 
-        static double difference(double x) {
-            return 0.5 / (x * x * (x + 1) * (x + 1));
+        /**
+         * xは2.5以上である.
+         */
+        static DoubleDoubleFloatElement difference(DoubleDoubleFloatElement x) {
+
+            /*
+             * f(x)- f(x+1) = 1/(2x^2(x+1)^2)
+             */
+            DoubleDoubleFloatElement x_xp1 = x.times(x.plus(PROVIDER.one()));
+            return PROVIDER.fromDoubleValue(0.5).dividedBy(x_xp1).dividedBy(x_xp1);
         }
     }
 }
