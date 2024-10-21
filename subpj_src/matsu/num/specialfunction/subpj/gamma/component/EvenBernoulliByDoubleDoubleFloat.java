@@ -1,9 +1,7 @@
 package matsu.num.specialfunction.subpj.gamma.component;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 
-import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 
 /**
@@ -17,9 +15,6 @@ import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
  * @author Matsuura Y.
  */
 public final class EvenBernoulliByDoubleDoubleFloat {
-
-    private static final Provider<DoubleDoubleFloatElement> PROVIDER =
-            DoubleDoubleFloatElement.elementProvider();
 
     /**
      * 偶数indexのBernoulli数. <br>
@@ -85,11 +80,7 @@ public final class EvenBernoulliByDoubleDoubleFloat {
         BERNOULLI = new DoubleDoubleFloatElement[BERNOULLI_STRING.length];
 
         for (int i = 0; i < BERNOULLI.length; i++) {
-            BigDecimal value = new BigDecimal(BERNOULLI_STRING[i]);
-            double high = value.doubleValue();
-            double low = value.subtract(new BigDecimal(high)).doubleValue();
-
-            BERNOULLI[i] = PROVIDER.fromDoubleValue(high).plus(low);
+            BERNOULLI[i] = DoubleDoubleFloatElement.fromDecimalExpression(BERNOULLI_STRING[i]);
         }
     }
 

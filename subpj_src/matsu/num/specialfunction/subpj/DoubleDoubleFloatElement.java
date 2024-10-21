@@ -1,5 +1,7 @@
 package matsu.num.specialfunction.subpj;
 
+import java.math.BigDecimal;
+
 import matsu.num.approximation.generalfield.PseudoRealNumber;
 import matsu.num.mathtype.DoubleDoubleFloat;
 
@@ -130,10 +132,38 @@ public final class DoubleDoubleFloatElement extends PseudoRealNumber<DoubleDoubl
         return this.value.toString();
     }
 
+    /**
+     * {@link DoubleDoubleFloatElement} のプロバイダを返す.
+     * 
+     * @return プロバイダ
+     */
     public static PseudoRealNumber.Provider<DoubleDoubleFloatElement> elementProvider() {
         return PROVIDER;
     }
 
+    /**
+     * 10進文字列からインスタンスを生成する.
+     * 
+     * <p>
+     * 文字列の規約は {@link java.math.BigDecimal} にしたがう.
+     * </p>
+     * 
+     * @param decimalExpression 文字列
+     * @return インスタンス
+     * @throws NumberFormatException 文字列が10進数値として評価できない場合
+     * @throws NullPointerException 引数がnullの場合
+     */
+    public static DoubleDoubleFloatElement fromDecimalExpression(String decimalExpression) {
+        BigDecimal value = new BigDecimal(decimalExpression);
+        double high = value.doubleValue();
+        double low = value.subtract(new BigDecimal(high)).doubleValue();
+
+        return PROVIDER.fromDoubleValue(high).plus(low);
+    }
+
+    /**
+     * プロバイダの実装.
+     */
     private static final class Provider implements PseudoRealNumber.Provider<DoubleDoubleFloatElement> {
 
         /**

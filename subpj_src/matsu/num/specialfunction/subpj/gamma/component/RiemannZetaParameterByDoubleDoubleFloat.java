@@ -1,6 +1,5 @@
 package matsu.num.specialfunction.subpj.gamma.component;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 
 import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
@@ -92,11 +91,7 @@ public final class RiemannZetaParameterByDoubleDoubleFloat {
         ZETA_M1 = new DoubleDoubleFloatElement[ZETA_M1_STRING.length];
 
         for (int i = 0; i < ZETA_M1.length; i++) {
-            BigDecimal value = new BigDecimal(ZETA_M1_STRING[i]);
-            double high = value.doubleValue();
-            double low = value.subtract(new BigDecimal(high)).doubleValue();
-
-            ZETA_M1[i] = PROVIDER.fromDoubleValue(high).plus(low);
+            ZETA_M1[i] = DoubleDoubleFloatElement.fromDecimalExpression(ZETA_M1_STRING[i]);
         }
     }
 
