@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.29
+ * 2024.10.22
  */
 package matsu.num.specialfunction.fraction;
 
@@ -31,7 +31,7 @@ package matsu.num.specialfunction.fraction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.1
+ * @version 19.9
  */
 public final class DoubleContinuedFractionFunction {
 
@@ -46,7 +46,7 @@ public final class DoubleContinuedFractionFunction {
      * 
      * 引数はコピーされないので, このコンストラクタを公開してはいけない.
      */
-    DoubleContinuedFractionFunction(double[] cfCoeff) {
+    private DoubleContinuedFractionFunction(double[] cfCoeff) {
         this.cfCoeff = cfCoeff;
     }
 
@@ -95,5 +95,23 @@ public final class DoubleContinuedFractionFunction {
      */
     public static DoubleContinuedFractionFunction of(double[] coefficient) {
         return new DoubleContinuedFractionFunction(coefficient.clone());
+    }
+
+    /**
+     * 与えられた連分数関数を {@code double} 型の連分数関数に変換する.
+     * 
+     * @param <SET>
+     * @param src ソース
+     * @return double変換した連分数関数
+     * @throws NullPointerException nullが含まれる場合
+     */
+    public static <SET extends RealMathField<SET>>
+            DoubleContinuedFractionFunction from(ContinuedFractionFunction<SET> src) {
+
+        return new DoubleContinuedFractionFunction(
+                src.coeffOfContinuedFraction()
+                        .stream()
+                        .mapToDouble(et -> et.doubleValue())
+                        .toArray());
     }
 }

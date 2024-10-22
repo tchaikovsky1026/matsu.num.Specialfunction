@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.29
+ * 2024.10.22
  */
 package matsu.num.specialfunction.fraction;
 
@@ -14,7 +14,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 
 import matsu.num.specialfunction.fraction.MathField.ConstantSupplier;
 
@@ -40,7 +42,7 @@ import matsu.num.specialfunction.fraction.MathField.ConstantSupplier;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.1
+ * @version 19.9
  * @param <ET> このクラスが扱う体構造の元を表す型パラメータ
  */
 public final class ContinuedFractionFunction<ET extends MathField<ET>> {
@@ -49,15 +51,10 @@ public final class ContinuedFractionFunction<ET extends MathField<ET>> {
 
     private final ET one;
 
-    //遅延初期化される
-    private volatile DoubleContinuedFractionFunction doubleCF;
-
-    //遅延初期化用のロック
-    private final Object lock = new Object();
-
     /**
      * 公開してはいけない.
      * 
+     * @param constantSupplier nullでないことが必要
      * @param cfCoeff 係数a,
      *            イミュータブルかつ,ラップ元が漏洩していない状態にしなければならない
      */
@@ -102,54 +99,30 @@ public final class ContinuedFractionFunction<ET extends MathField<ET>> {
     }
 
     /**
-     * <p>
-     * 自身と同等の {@code double} 型連分数関数を返す.
-     * </p>
+     * この連分数関数の型を変換する.
      * 
      * <p>
-     * このインスタンスが扱う体構造
-     * (クラスの型パラメータの {@link MathField#fieldProperty()})
-     * が {@code double} と互換性がない場合,
-     * 例外をスローする.
+     * この連分数関数の係数がファンクション ({@code elementTransformer}) で変換できなかった場合,
+     * 例外がスローされる.
      * </p>
      * 
-     * @return {@code double} 型で表現された連分数関数
-     * @throws UnsupportedOperationException 体構造が {@code double} と互換性がない場合
+     * @param <RET> 新しい型パラメータ
+     * @param elementTransformer 体を変換するファンクション
+     * @param newTypeConstantSupplier 新しい型に対する
+     * @return 新しい型での連分数関数
+     * @throws RuntimeException elementTransformerによって係数が変換できなかった場合
+     *             (例外インスタンスの詳細な型はelementTransformerに依存する)
+     * @throws NullPointerException 引数がnullの場合, ファンクションがnullを返した場合
      */
-    public DoubleContinuedFractionFunction asDoubleFunction() {
+    public <RET extends MathField<RET>> ContinuedFractionFunction<RET> transformedFrom(
+            Function<? super ET, ? extends RET> elementTransformer,
+            ConstantSupplier<RET> newTypeConstantSupplier) {
 
-        //ダブルチェックイディオム
-        DoubleContinuedFractionFunction out = this.doubleCF;
-        if (Objects.nonNull(out)) {
-            return out;
-        }
-        synchronized (this.lock) {
-            out = this.doubleCF;
-            if (Objects.nonNull(out)) {
-                return out;
-            }
-            //ここで例外が発生する可能性がある
-            double[] coeff = this.coeffsAsDouble();
-            out = new DoubleContinuedFractionFunction(coeff);
-            this.doubleCF = out;
-            return out;
-        }
-    }
-
-    /**
-     * double表示された連分数の係数を返す.
-     * 
-     * @throws UnsupportedOperationException doubleと互換性がない場合
-     */
-    private double[] coeffsAsDouble() {
-        double[] out = new double[this.cfCoeff.size()];
-
-        int i = 0;
-        for (ET f : this.cfCoeff) {
-            out[i] = f.doubleValue();
-            i++;
-        }
-        return out;
+        return new ContinuedFractionFunction<RET>(
+                Objects.requireNonNull(newTypeConstantSupplier),
+                this.cfCoeff.stream()
+                        .map(elementTransformer)
+                        .collect(Collectors.toUnmodifiableList()));
     }
 
     /**
@@ -169,6 +142,8 @@ public final class ContinuedFractionFunction<ET extends MathField<ET>> {
             ContinuedFractionFunction<ET> from(
                     int size, IntFunction<ET> ratioSupplier,
                     ConstantSupplier<ET> constantSupplier) {
+
+        // constantSupplierのnullチェックはCFCalculatorのインスタンス生成で行われている
 
         return ContinuedFractionFunction.of(
                 constantSupplier,

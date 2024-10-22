@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.29
+ * 2024.10.22
  */
 package matsu.num.specialfunction.fraction;
 
@@ -18,17 +18,11 @@ import java.util.Objects;
  * Decimal128 形式 (おおよそ4倍精度) の体構造の元.
  * </p>
  * 
- * <p>
- * このクラスの equalty と comparability は {@link BigDecimal}
- * に準じており, 整合しないことに注意が必要である.
- * </p>
- * 
  * @author Matsuura Y.
- * @version 19.1
+ * @version 19.9
  */
 public final class Decimal128
-        extends MathField<Decimal128>
-        implements Comparable<Decimal128> {
+        extends RealMathField<Decimal128> {
 
     private static final Decimal128 ZERO = new Decimal128(BigDecimal.ZERO);
     private static final Decimal128 ONE = new Decimal128(BigDecimal.ONE);
@@ -36,7 +30,7 @@ public final class Decimal128
     private final BigDecimal value;
 
     public Decimal128(BigDecimal value) {
-        super(DoubleInterpretable.INSTANCE);
+        super();
         this.value = Objects.requireNonNull(value);
     }
 
@@ -65,7 +59,7 @@ public final class Decimal128
     }
 
     /**
-     * @throws ArithmeticException {@inheritDoc}
+     * @throws ArithmeticException 0割りを行った場合
      * @throws NullPointerException {@inheritDoc }
      */
     @Override
@@ -79,7 +73,7 @@ public final class Decimal128
     }
 
     @Override
-    protected double toDouble() {
+    public double doubleValue() {
         return this.value.doubleValue();
     }
 
@@ -99,7 +93,7 @@ public final class Decimal128
             return false;
         }
 
-        return this.value.equals(target.value);
+        return this.compareTo(target) == 0;
     }
 
     /**
@@ -110,6 +104,11 @@ public final class Decimal128
     @Override
     public int hashCode() {
         return this.value.hashCode();
+    }
+
+    @Override
+    public Decimal128 abs() {
+        return new Decimal128(this.value.abs());
     }
 
     /**

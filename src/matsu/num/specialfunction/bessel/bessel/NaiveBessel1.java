@@ -12,8 +12,8 @@ package matsu.num.specialfunction.bessel.bessel;
 import matsu.num.commons.Exponentiation;
 import matsu.num.commons.Trigonometry;
 import matsu.num.specialfunction.GammaFunction;
-import matsu.num.specialfunction.fraction.ComplexContinuedFractionFunction;
-import matsu.num.specialfunction.fraction.ComplexNumber;
+import matsu.num.specialfunction.fraction.RealCoeffDoubleComplexCFFunction;
+import matsu.num.specialfunction.fraction.DoubleComplexNumber;
 
 /**
  * <p>
@@ -65,7 +65,7 @@ final class NaiveBessel1 extends Bessel1st {
      * {@literal x >= boundaryX} における, H^{(2)}(x)の漸近展開部分を連分数に変換した結果. <br>
      * t = i/(8x) として, P(x) + iQ(x) を得る.
      */
-    private static final ComplexContinuedFractionFunction ASYMPTOTIC_FRACTION =
+    private static final RealCoeffDoubleComplexCFFunction ASYMPTOTIC_FRACTION =
             NaiveBesselContinuedFraction.createH1Asymptotic();
 
     /**
@@ -111,8 +111,8 @@ final class NaiveBessel1 extends Bessel1st {
     private static double bJ_byAsymptotic(double x) {
 
         double t = 0.125 / x;
-        ComplexNumber factor = ASYMPTOTIC_FRACTION.value(
-                ComplexNumber.I.times(ComplexNumber.ofReal(t)));
+        DoubleComplexNumber factor = ASYMPTOTIC_FRACTION.value(
+                DoubleComplexNumber.I.times(DoubleComplexNumber.ofReal(t)));
 
         double cos = Trigonometry.cos(x - 3 * Math.PI / 4);
         double sin = Trigonometry.sin(x - 3 * Math.PI / 4);
@@ -165,8 +165,8 @@ final class NaiveBessel1 extends Bessel1st {
     private static double bY_byAsymptotic(double x) {
 
         double t = 0.125 / x;
-        ComplexNumber factor = ASYMPTOTIC_FRACTION.value(
-                ComplexNumber.I.times(ComplexNumber.ofReal(t)));
+        DoubleComplexNumber factor = ASYMPTOTIC_FRACTION.value(
+                DoubleComplexNumber.I.times(DoubleComplexNumber.ofReal(t)));
 
         double cos = Trigonometry.cos(x - 3 * Math.PI / 4);
         double sin = Trigonometry.sin(x - 3 * Math.PI / 4);

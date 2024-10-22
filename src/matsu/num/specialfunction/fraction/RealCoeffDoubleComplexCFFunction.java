@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.29
+ * 2024.10.22
  */
 package matsu.num.specialfunction.fraction;
 
@@ -15,26 +15,26 @@ package matsu.num.specialfunction.fraction;
  * の引数を複素数に拡張したものであり, すなわち係数は実数である.
  * 
  * @author Matsuura Y.
- * @version 19.1
+ * @version 19.9
  * @see DoubleContinuedFractionFunction
  */
-public final class ComplexContinuedFractionFunction {
+public final class RealCoeffDoubleComplexCFFunction {
 
     private final DoubleContinuedFractionFunction src;
-    private final ComplexNumber[] cfCoeff;
+    private final DoubleComplexNumber[] cfCoeff;
 
     /**
      * 与えたdouble連分数を, 引数がcomplexに対応するように変換する.
      * 
      * @param src 元となるdouble連分数
      */
-    public ComplexContinuedFractionFunction(DoubleContinuedFractionFunction src) {
+    public RealCoeffDoubleComplexCFFunction(DoubleContinuedFractionFunction src) {
         this.src = src;
         double[] srcCoeffs = src.coeffOfContinuedFraction();
 
-        this.cfCoeff = new ComplexNumber[srcCoeffs.length];
+        this.cfCoeff = new DoubleComplexNumber[srcCoeffs.length];
         for (int i = 0; i < srcCoeffs.length; i++) {
-            this.cfCoeff[i] = ComplexNumber.ofReal(srcCoeffs[i]);
+            this.cfCoeff[i] = DoubleComplexNumber.ofReal(srcCoeffs[i]);
         }
     }
 
@@ -44,16 +44,16 @@ public final class ComplexContinuedFractionFunction {
      * @param t t
      * @return 値
      */
-    public ComplexNumber value(ComplexNumber t) {
+    public DoubleComplexNumber value(DoubleComplexNumber t) {
 
-        ComplexNumber value = ComplexNumber.ONE;
+        DoubleComplexNumber value = DoubleComplexNumber.ONE;
 
         for (int i = this.cfCoeff.length - 1; i >= 0; i--) {
-            ComplexNumber coeff = this.cfCoeff[i];
+            DoubleComplexNumber coeff = this.cfCoeff[i];
             value = coeff.times(t).dividedBy(value);
-            value = value.plus(ComplexNumber.ONE);
+            value = value.plus(DoubleComplexNumber.ONE);
         }
-        return ComplexNumber.ONE.dividedBy(value);
+        return DoubleComplexNumber.ONE.dividedBy(value);
     }
 
     /**

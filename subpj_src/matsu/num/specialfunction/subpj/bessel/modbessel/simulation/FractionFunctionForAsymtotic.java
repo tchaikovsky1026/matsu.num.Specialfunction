@@ -24,7 +24,7 @@ final class FractionFunctionForAsymtotic {
     }
 
     public DoubleContinuedFractionFunction asDoubleFunction() {
-        return this.continuedFraction.asDoubleFunction();
+        return DoubleContinuedFractionFunction.from(this.continuedFraction);
     }
 
     public static FractionFunctionForAsymtotic from(int numeratorOfOrder, int denominatorOfOrder, int kMax) {

@@ -35,7 +35,7 @@ import matsu.num.specialfunction.subpj.RawCoeffCalculableDoubleFunction;
 final class BesselK0Asymptotic_accurate extends RawCoeffCalculableDoubleFunction {
 
     private static final DoubleContinuedFractionFunction K0_UPPER4 =
-            k0_upper4().asDoubleFunction();
+            DoubleContinuedFractionFunction.from(k0_upper4());
 
     private static final double MIN_T = 0d;
     private static final double MAX_T = 1d / 16;

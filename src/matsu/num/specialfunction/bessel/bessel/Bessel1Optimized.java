@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.24
+ * 2024.10.22
  */
 package matsu.num.specialfunction.bessel.bessel;
 
@@ -25,7 +25,7 @@ import matsu.num.specialfunction.GammaFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.0
+ * @version 19.9
  */
 final class Bessel1Optimized extends Bessel1st {
 
@@ -63,15 +63,15 @@ final class Bessel1Optimized extends Bessel1st {
         final double halfX = x / 2d;
         final double u = halfX * halfX;
 
-        final double C0 = 1.0;
-        final double C1 = -0.4999999999999994;
-        final double C2 = 0.0833333333333135;
-        final double C3 = -0.0069444444442244655;
-        final double C4 = 3.4722222104223096E-4;
-        final double C5 = -1.1574070570985904E-5;
-        final double C6 = 2.755671274932813E-7;
-        final double C7 = -4.914849968943784E-9;
-        final double C8 = 6.503498175886429E-11;
+        final double C0 = 1;
+        final double C1 = -0.49999999999999938924672156646327;
+        final double C2 = 0.083333333333313517161150595521470;
+        final double C3 = -0.0069444444442246577558115930707236;
+        final double C4 = 0.00034722222104306580332685993610038;
+        final double C5 = -0.000011574070572913302194410348284828;
+        final double C6 = 2.7556712992123981692218458531041E-7;
+        final double C7 = -4.9148515436004576157332212149455E-9;
+        final double C8 = 6.5035392834424757725623614002719E-11;
 
         double u2 = u * u;
 
@@ -137,15 +137,15 @@ final class Bessel1Optimized extends Bessel1st {
      */
     private static double bY_byPower_harmonic(double u) {
 
-        final double C0 = 0.5;
-        final double C1 = -0.6249999999999974;
-        final double C2 = 0.13888888888881984;
-        final double C3 = -0.013599537036327625;
-        final double C4 = 7.581018481993057E-4;
-        final double C5 = -2.7391964740116576E-5;
-        final double C6 = 6.948201429036592E-7;
-        final double C7 = -1.3049027227019681E-8;
-        final double C8 = 1.7995367774385983E-10;
+        final double C0 = 0.49999999999999998408566878329610;
+        final double C1 = -0.62499999999999741917190824663783;
+        final double C2 = 0.13888888888881999184284425525394;
+        final double C3 = -0.013599537036328834370748849082430;
+        final double C4 = 0.00075810184820435365368353696671095;
+        final double C5 = -0.000027391964751473630471605881421293;
+        final double C6 = 6.9482015696373839641923637370096E-7;
+        final double C7 = -1.3049036242319301388522273728959E-8;
+        final double C8 = 1.7995601579165807509457847936898E-10;
 
         double u2 = u * u;
 
@@ -199,22 +199,20 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double p1_asymptoticTerm_0_to_1_over128(double t) {
-        final double C0 = 1.0;
-        final double C1 = 1.8028133585109065E-14;
-        final double C2 = 7.499999999894075;
-        final double C3 = 2.4266005149709E-7;
-        final double C4 = -590.6252848049793;
-        final double C5 = 0.19440756052322783;
-        final double C6 = 177282.64919623727;
-        final double C7 = 21736.83660395108;
-        final double C8 = -1.1895644531298159E8;
-        final double C9 = 2.6466500856222528E8;
-        final double C10 = 1.376291484622012E11;
-        final double C11 = -3.2530910986912153E12;
+        final double C0 = 1.0000000000000000093016881287648;
+        final double C1 = 9.5988826600591285648443415548144E-14;
+        final double C2 = 7.4999999990051901177792817682820;
+        final double C3 = 0.0000024926440609549889712340377071252;
+        final double C4 = -590.62788317099007251361941045535;
+        final double C5 = 1.8659052395986985049874756267652;
+        final double C6 = 176627.80441002437372235280209073;
+        final double C7 = 184268.61619401016949792510837235;
+        final double C8 = -144646598.00093745740801279449057;
+        final double C9 = 2771256932.8897866357242817525082;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8 + t * C9;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
@@ -224,22 +222,19 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double p1_asymptoticTerm_1_to_2_over128(double t) {
-        final double C0 = 1.0000000000339264;
-        final double C1 = -3.293346082780188E-8;
-        final double C2 = 7.5000138390168996;
-        final double C3 = -0.0031758372046546413;
-        final double C4 = -590.241602284164;
-        final double C5 = -5.912900295202007;
-        final double C6 = 171113.1595741806;
-        final double C7 = 1189575.071164131;
-        final double C8 = -2.3472477228658158E8;
-        final double C9 = 7.27593244129726E9;
-        final double C10 = -1.102426949007787E11;
-        final double C11 = 7.161700014398915E11;
+        final double C0 = 1.0000000003136452484716243136552;
+        final double C1 = -3.7580335492413180473290877904183E-7;
+        final double C2 = 7.5001913503124186471693375903043;
+        final double C3 = -0.055492862177045625426418404508008;
+        final double C4 = -580.38349361401195506366059355656;
+        final double C5 = -1260.1064514848529361804256660851;
+        final double C6 = 281356.87564300938377351437837894;
+        final double C7 = -5510240.0193245802840253017839735;
+        final double C8 = 40802242.388957131542158963996788;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
@@ -249,22 +244,21 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double p1_asymptoticTerm_2_to_4_over128(double t) {
-        final double C0 = 1.000000018134829;
-        final double C1 = -1.1057913887130982E-5;
-        final double C2 = 7.503108126805166;
-        final double C3 = -0.5325128595430222;
-        final double C4 = -528.7885121327149;
-        final double C5 = -5099.222505787415;
-        final double C6 = 479106.83171726076;
-        final double C7 = -1.2412887685026756E7;
-        final double C8 = 1.9543738683472967E8;
-        final double C9 = -1.998403936253549E9;
-        final double C10 = 1.2337098084785572E10;
-        final double C11 = -3.517443005217423E10;
+        final double C0 = 0.99999998808887386619735145320127;
+        final double C1 = 0.0000038952166643148066494031479477642;
+        final double C2 = 7.4997459993475099151145713923829;
+        final double C3 = -0.081683844448321357431999351889134;
+        final double C4 = -568.84693641910350157238784700097;
+        final double C5 = -2622.5652008780666536655892434262;
+        final double C6 = 370383.34217449131199912275263459;
+        final double C7 = -9023725.3130479976489555941420034;
+        final double C8 = 121913339.02359386529333224863319;
+        final double C9 = -941149456.39642110209327446449935;
+        final double C10 = 3266767805.1289563495985852124924;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8 + t * C9 + t2 * C10;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
@@ -274,22 +268,20 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double p1_asymptoticTerm_4_to_6_over128(double t) {
-        final double C0 = 0.9999987112682444;
-        final double C1 = 4.117478811942639E-4;
-        final double C2 = 7.440454423245729;
-        final double C3 = 5.085360419931288;
-        final double C4 = -867.7185005270713;
-        final double C5 = 9357.0780849898;
-        final double C6 = 34016.41238819485;
-        final double C7 = -2516394.3054168457;
-        final double C8 = 3.966030291548673E7;
-        final double C9 = -3.4507368773712814E8;
-        final double C10 = 1.6899163930720885E9;
-        final double C11 = -3.6673254147704825E9;
+        final double C0 = 0.99999680966100895754387698750484;
+        final double C1 = 0.00093657054123869025433707485762852;
+        final double C2 = 7.3748770925773618657379079777523;
+        final double C3 = 9.9815081534888727308141178647854;
+        final double C4 = -1110.3798677671295933274161782672;
+        final double C5 = 17738.155819843360882471437705835;
+        final double C6 = -171777.55294648605188254416513529;
+        final double C7 = 1075228.9185231119079305803289997;
+        final double C8 = -3988666.5033893235428403893584666;
+        final double C9 = 6603268.3522762885118849719031584;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8 + t * C9;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
@@ -299,22 +291,20 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double p1_asymptoticTerm_6_to_8_over128(double t) {
-        final double C0 = 0.9999922994591925;
-        final double C1 = 0.0018968696618412231;
-        final double C2 = 7.282512322092441;
-        final double C3 = 15.266571874538553;
-        final double C4 = -1309.6858120631102;
-        final double C5 = 22920.088755996236;
-        final double C6 = -266110.97318633803;
-        final double C7 = 2270136.03652352;
-        final double C8 = -1.4224945028250908E7;
-        final double C9 = 6.24743079964777E7;
-        final double C10 = -1.7256025192008442E8;
-        final double C11 = 2.2608170847200462E8;
+        final double C0 = 1.0000033977482456195517670566185;
+        final double C1 = -0.00020530921606610587517264756560389;
+        final double C2 = 7.4623393694510265959277218218765;
+        final double C3 = 6.1041743099973273566409905339209;
+        final double C4 = -1001.0744043126698609210054581795;
+        final double C5 = 15715.070648269092352315613652625;
+        final double C6 = -147361.05794830526433006944826955;
+        final double C7 = 892012.92398673695924654368500244;
+        final double C8 = -3228803.4291110351834230726093529;
+        final double C9 = 5333262.0249602311855540810553996;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8 + t * C9;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
@@ -346,22 +336,20 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double q1_asymptoticTerm_0_to_1_over128(double t) {
-        final double C0 = 6.742317347139188E-19;
-        final double C1 = -3.0000000000000253;
-        final double C2 = 1.592137262088292E-10;
-        final double C3 = 52.499999609807574;
-        final double C4 = 4.947421157441845E-4;
-        final double C5 = -9095.995900795471;
-        final double C6 = 176.76421923381042;
-        final double C7 = 4125100.3001062903;
-        final double C8 = 1.1717435005627932E7;
-        final double C9 = -5.286090727949247E9;
-        final double C10 = 1.4102827892888464E11;
-        final double C11 = -1.0762749166587991E12;
+        final double C0 = -1.5320283922161067862764711379673E-16;
+        final double C1 = -2.9999999999960585435527220894758;
+        final double C2 = -1.6729296379557790919210127849352E-8;
+        final double C3 = 52.500027530692130226956045854873;
+        final double C4 = -0.022985877051651358806746109025195;
+        final double C5 = -9084.6246063344094054127714109656;
+        final double C6 = -3189.8900863074880963218068937683;
+        final double C7 = 4746545.7249484177295358750516642;
+        final double C8 = -58602108.460974265037303807877198;
+        final double C9 = -729718865.54949526878852611689763;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8 + t * C9;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
@@ -371,22 +359,20 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double q1_asymptoticTerm_1_to_2_over128(double t) {
-        final double C0 = -1.1489019929221078E-10;
-        final double C1 = -2.9999998723386643;
-        final double C2 = -6.477072758550098E-5;
-        final double C3 = 52.519832006572074;
-        final double C4 = -4.076321363137765;
-        final double C5 = -8504.809850300415;
-        final double C6 = -61502.938288854326;
-        final double C7 = 8740116.889799342;
-        final double C8 = -2.2880625231792977E8;
-        final double C9 = 2.8546189233838744E9;
-        final double C10 = -1.1768978507778105E10;
-        final double C11 = -5.985936460790506E10;
+        final double C0 = 5.7304715577317141442225428586608E-10;
+        final double C1 = -3.0000004926580033821943704791302;
+        final double C2 = 0.00018502585188094053035214822649515;
+        final double C3 = 52.460693399024237607063638543686;
+        final double C4 = 5.0347772344592583413920069490062;
+        final double C5 = -9458.4806635116938134494317655409;
+        final double C6 = 7073.4495317676585993546627345522;
+        final double C7 = 5405894.3189169935995194856378304;
+        final double C8 = -124741304.50783043113087403073195;
+        final double C9 = 1020587297.7252477163185266673027;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8 + t * C9;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
@@ -396,18 +382,18 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double q1_asymptoticTerm_2_to_4_over128(double t) {
-        final double C0 = 3.1677173574945787E-8;
-        final double C1 = -3.000017135493916;
-        final double C2 = 0.004181432875740007;
-        final double C3 = 51.896640482702104;
-        final double C4 = 56.329771804860826;
-        final double C5 = -12537.156149089902;
-        final double C6 = 125209.2936523827;
-        final double C7 = 2900783.074411482;
-        final double C8 = -1.155200269129423E8;
-        final double C9 = 1.8311773906213074E9;
-        final double C10 = -1.5269895892269712E10;
-        final double C11 = 5.5102665440116844E10;
+        final double C0 = 3.1672881965140236406953234540347E-8;
+        final double C1 = -3.0000171333472153180267190061041;
+        final double C2 = 0.0041809477509501344804656631842739;
+        final double C3 = 51.896705862198967281290416050923;
+        final double C4 = 56.323933315442807464676237740308;
+        final double C5 = -12536.793378224430281826450576454;
+        final double C6 = 125193.28961628426179420518839992;
+        final double C7 = 2901284.3947542397288926043607773;
+        final double C8 = -115530955.00000165496735595037398;
+        final double C9 = 1831335282.3164556334925902663139;
+        final double C10 = -15271256834.702174138298270046439;
+        final double C11 = 55107967583.847467671981145498189;
 
         double t2 = t * t;
 
@@ -421,22 +407,21 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double q1_asymptoticTerm_4_to_6_over128(double t) {
-        final double C0 = 3.885997350298778E-7;
-        final double C1 = -3.00015771766123;
-        final double C2 = 0.029411663104482427;
-        final double C3 = 49.16850752970546;
-        final double C4 = 254.0407102296055;
-        final double C5 = -22627.854547627787;
-        final double C6 = 495432.06275492656;
-        final double C7 = -6864252.3459210675;
-        final double C8 = 6.590173156783584E7;
-        final double C9 = -4.2903420524093854E8;
-        final double C10 = 1.7151644721312206E9;
-        final double C11 = -3.188882386995639E9;
+        final double C0 = -5.3104158599536989151477440620264E-7;
+        final double C1 = -2.9998933596043825222087943830605;
+        final double C2 = -0.0050588787754502467897355512954451;
+        final double C3 = 51.859792340482426496630631123163;
+        final double C4 = 114.24756223625221098447370078963;
+        final double C5 = -17555.403168304402156012419214068;
+        final double C6 = 364232.60945311878203324338811848;
+        final double C7 = -4445277.8226007155192810292811978;
+        final double C8 = 34745468.002544151513575576871037;
+        final double C9 = -162047824.63862736231498759810571;
+        final double C10 = 345198684.12226862266793511825227;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8 + t * C9 + t2 * C10;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
@@ -446,22 +431,20 @@ final class Bessel1Optimized extends Bessel1st {
     }
 
     private static double q1_asymptoticTerm_6_to_8_over128(double t) {
-        final double C0 = -7.340362255454794E-6;
-        final double C1 = -2.998436134668127;
-        final double C2 = -0.14591146574669106;
-        final double C3 = 59.94819053660787;
-        final double C4 = -190.74404116341955;
-        final double C5 = -9691.690202448235;
-        final double C6 = 224744.87945738126;
-        final double C7 = -2788312.880019899;
-        final double C8 = 2.261354861698649E7;
-        final double C9 = -1.2020062092894305E8;
-        final double C10 = 3.8311781323060405E8;
-        final double C11 = -5.578450649685867E8;
+        final double C0 = -0.000025010116658851055206011043283455;
+        final double C1 = -2.9950435387498609285284914370061;
+        final double C2 = -0.44064355016585654800175726853807;
+        final double C3 = 75.234427178596986773965857582996;
+        final double C4 = -716.37465520396472855429526709572;
+        final double C5 = 2882.4487303820612348904371743501;
+        final double C6 = 11380.261852114914581260839580859;
+        final double C7 = -222771.47820425199472417705553358;
+        final double C8 = 1218305.2914617695773435575891531;
+        final double C9 = -2543978.9116855367802738916093011;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8 + t * C9;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 

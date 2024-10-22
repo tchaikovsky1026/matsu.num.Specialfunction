@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.IntFunction;
 
 import matsu.num.specialfunction.fraction.BigRational;
-import matsu.num.specialfunction.fraction.ComplexContinuedFractionFunction;
+import matsu.num.specialfunction.fraction.RealCoeffDoubleComplexCFFunction;
 import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
 import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
 
@@ -87,12 +87,13 @@ final class NaiveBesselContinuedFraction {
      * 
      * @return 連分数
      */
-    public static ComplexContinuedFractionFunction createH0Asymptotic() {
+    public static RealCoeffDoubleComplexCFFunction createH0Asymptotic() {
         if (CREATION_FROM_ARRAY) {
-            return new ComplexContinuedFractionFunction(H0_fromArray());
+            return new RealCoeffDoubleComplexCFFunction(H0_fromArray());
         }
 
-        return new ComplexContinuedFractionFunction(H0_inPrinciple().asDoubleFunction());
+        return new RealCoeffDoubleComplexCFFunction(
+                DoubleContinuedFractionFunction.from(H0_inPrinciple()));
     }
 
     /**
@@ -103,12 +104,13 @@ final class NaiveBesselContinuedFraction {
      * 
      * @return 連分数
      */
-    public static ComplexContinuedFractionFunction createH1Asymptotic() {
+    public static RealCoeffDoubleComplexCFFunction createH1Asymptotic() {
         if (CREATION_FROM_ARRAY) {
-            return new ComplexContinuedFractionFunction(H1_fromArray());
+            return new RealCoeffDoubleComplexCFFunction(H1_fromArray());
         }
 
-        return new ComplexContinuedFractionFunction(H1_inPrinciple().asDoubleFunction());
+        return new RealCoeffDoubleComplexCFFunction(
+                DoubleContinuedFractionFunction.from(H1_inPrinciple()));
     }
 
     /**
@@ -176,8 +178,7 @@ final class NaiveBesselContinuedFraction {
             System.out.println();
             System.out.println();
 
-            double[] coeffs = fraction
-                    .asDoubleFunction()
+            double[] coeffs = DoubleContinuedFractionFunction.from(fraction)
                     .coeffOfContinuedFraction();
             System.out.println("{");
             System.out.printf("//H_0の漸近級数の連分数係数(%s項)", coeffs.length);
@@ -218,8 +219,7 @@ final class NaiveBesselContinuedFraction {
             System.out.println();
             System.out.println();
 
-            double[] coeffs = fraction
-                    .asDoubleFunction()
+            double[] coeffs = DoubleContinuedFractionFunction.from(fraction)
                     .coeffOfContinuedFraction();
             System.out.println("{");
             System.out.printf("//H_1の漸近級数の連分数係数(%s項)", coeffs.length);

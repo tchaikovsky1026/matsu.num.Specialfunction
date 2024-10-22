@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.29
+ * 2024.9.22
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
@@ -20,7 +20,7 @@ import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
  * 変形Bessel関数の計算で使う, 連分数の生成機能.
  * 
  * @author Matsuura Y.
- * @version 19.1
+ * @version 19.9
  * @deprecated {@link NaiveMBessel0}, {@link NaiveMBessel1}
  *                 が使用されていないので, 使用されていない.
  */
@@ -90,7 +90,7 @@ final class NaiveMBesselContinuedFraction {
             return k0_fromArray();
         }
 
-        return k0_inPrinciple().asDoubleFunction();
+        return DoubleContinuedFractionFunction.from(k0_inPrinciple());
     }
 
     /**
@@ -106,7 +106,7 @@ final class NaiveMBesselContinuedFraction {
             return k1_fromArray();
         }
 
-        return k1_inPrinciple().asDoubleFunction();
+        return DoubleContinuedFractionFunction.from(k1_inPrinciple());
     }
 
     /**
@@ -174,8 +174,7 @@ final class NaiveMBesselContinuedFraction {
             System.out.println();
             System.out.println();
 
-            double[] coeffs = fraction
-                    .asDoubleFunction()
+            double[] coeffs = DoubleContinuedFractionFunction.from(fraction)
                     .coeffOfContinuedFraction();
             System.out.println("{");
             System.out.printf("//K_0の漸近級数の連分数係数(%s項)", coeffs.length);
@@ -216,8 +215,7 @@ final class NaiveMBesselContinuedFraction {
             System.out.println();
             System.out.println();
 
-            double[] coeffs = fraction
-                    .asDoubleFunction()
+            double[] coeffs = DoubleContinuedFractionFunction.from(fraction)
                     .coeffOfContinuedFraction();
             System.out.println("{");
             System.out.printf("//K_1の漸近級数の連分数係数(%s項)", coeffs.length);

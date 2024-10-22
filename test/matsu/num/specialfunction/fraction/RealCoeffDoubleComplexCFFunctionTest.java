@@ -9,13 +9,13 @@ import org.junit.Test;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link ComplexContinuedFractionFunction} クラスのテスト.
+ * {@link RealCoeffDoubleComplexCFFunction} クラスのテスト.
  * 
  * @author Matsuura Y.
  */
-final class ComplexContinuedFractionFunctionTest {
+final class RealCoeffDoubleComplexCFFunctionTest {
 
-    public static final Class<?> TEST_CLASS = ComplexContinuedFractionFunction.class;
+    public static final Class<?> TEST_CLASS = RealCoeffDoubleComplexCFFunction.class;
 
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
             new DoubleRelativeAssertion(1E-15);
@@ -28,7 +28,7 @@ final class ComplexContinuedFractionFunctionTest {
          */
 
         private static int SIZE = 50;
-        private ComplexContinuedFractionFunction continuedFractionFunction;
+        private RealCoeffDoubleComplexCFFunction continuedFractionFunction;
 
         @Before
         public void before_関数の準備() {
@@ -40,7 +40,8 @@ final class ComplexContinuedFractionFunctionTest {
                             SIZE, supplier,
                             BigRational.constantSupplier());
             continuedFractionFunction =
-                    new ComplexContinuedFractionFunction(function.asDoubleFunction());
+                    new RealCoeffDoubleComplexCFFunction(
+                            DoubleContinuedFractionFunction.from(function));
         }
 
         @Test
@@ -54,7 +55,7 @@ final class ComplexContinuedFractionFunctionTest {
 
                 DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                         Math.log1p(x) / x,
-                        continuedFractionFunction.value(ComplexNumber.ofReal(x)).real());
+                        continuedFractionFunction.value(DoubleComplexNumber.ofReal(x)).real());
             }
         }
     }

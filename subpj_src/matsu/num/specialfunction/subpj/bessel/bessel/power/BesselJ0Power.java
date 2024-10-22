@@ -1,111 +1,108 @@
 package matsu.num.specialfunction.subpj.bessel.bessel.power;
 
-import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.commons.Exponentiation;
-import matsu.num.specialfunction.subpj.RawCoeffCalculableDoubleFunction;
+import matsu.num.approximation.generalfield.FiniteClosedInterval;
+import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
+import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
+import matsu.num.specialfunction.subpj.EachApproxExecutor;
+import matsu.num.specialfunction.subpj.FiniteClosedIntervalFactory;
+import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
 
 /**
  * <p>
  * J0の計算の近似のためのターゲット. <br>
- * u = (x/2)^2 として, {@literal 0 <= u <= 1} を引数とする形で計算する.
+ * u = (x/2)^2 として, {@literal 0 <= u <= 1} を引数とする形で計算する. <br>
+ * F(u) = J0(x) = sum_{m=0 to inf} (-1)^{m} / (m!)^2 * u^m
  * </p>
  * 
  * <p>
  * 第0近似を厳密にしたい. <br>
  * そこで, F'(u) = (F(u)-1)/u を多項式近似する. <br>
- * F'(u)の第2次近似をf'(u)とする. <br>
- * f'(u) = -1/(1!)^2 + 1/(2!)^2 * u - 1/(3!)^2 * u^2 <br>
- * その残差: <br>
- * F'(u) - f'(u) =
- * Sum_{m=3 to inf} (-1)^{m+1} u^m / ((m+1)!)^2 <br>
- * を提供する. <br>
+ * F'(u) = sum_{m=1 to inf} (-1)^{m} / (m!)^2 * u^{m-1} <br>
  * スケールは(1/u)である.
  * </p>
  * 
  * @author Matsuura Y.
  */
-final class BesselJ0Power extends RawCoeffCalculableDoubleFunction {
+final class BesselJ0Power extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
 
-    private static final double MIN_U = 0d;
-    private static final double MAX_U = 1d;
+    private static final Provider<DoubleDoubleFloatElement> PROVIDER =
+            DoubleDoubleFloatElement.elementProvider();
+    private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
+            new FiniteClosedIntervalFactory<>(PROVIDER);
 
-    private static final double SCALE_U_THRESHOLD = 1d / 1024;
+    private static final double U_MIN = 0d;
+    private static final double U_MAX = 1d;
 
-    private static final int K_MAX_FOR_BESSEL_K_BY_POWER = 20;
+    private static final DoubleDoubleFloatElement SCALE_U_THRESHOLD =
+            DoubleDoubleFloatElement.elementProvider().fromDoubleValue(1d / 1024);
 
-    /**
-     * f'(u)の係数.
-     * マージするときに使う
-     */
-    private static final double[] ESTIMATED_COEFF = {
-            -1d / (1 * 1), // -1/(1!)^2
-            1d / (2 * 2), // 1/(2!)^2
-            -1d / (6 * 6) // -1/(3!)^2
-    };
+    private static final int K_MAX_FOR_BESSEL_K_BY_POWER = 40;
 
-    private final DoubleFiniteClosedInterval interval;
+    private final FiniteClosedInterval<DoubleDoubleFloatElement> interval;
 
-    public BesselJ0Power(DoubleFiniteClosedInterval interval) {
+    public static void main(String[] args) {
+
+        System.out.println("J0(x) について,");
+        System.out.println("u = (x/2)^2, F(u) = J0(x) としたときの,");
+        System.out.println("(F(u) - 1)/u に対する多項式近似を扱う.");
+        System.out.println();
+
+        int order = 7;
+
+        System.out.println("umin = " + U_MIN);
+        System.out.println("umin = " + U_MAX);
+        new EachApproxExecutor(order).execute(new BesselJ0Power());
+
+        System.out.println("finished...");
+    }
+
+    private BesselJ0Power() {
         super();
-        this.interval = interval;
-
-        if (!(MIN_U <= interval.lower() &&
-                interval.upper() <= MAX_U)) {
-            throw new IllegalArgumentException("区間がサポート外");
-        }
+        this.interval = INTERVAL_FACTORY.createInterval(U_MIN, U_MAX);
     }
 
     @Override
-    protected double calcValue(double u) {
-        if (!this.accepts(u)) {
-            return Double.NaN;
-        }
-
-        double value = 0;
-        for (int k = K_MAX_FOR_BESSEL_K_BY_POWER + 1; k >= 5; k--) {
-            value *= -u / (k * k);
-            value += 1;
-        }
-
-        return value * Exponentiation.pow(u, 3) / (24 * 24);
+    public Provider<DoubleDoubleFloatElement> elementProvider() {
+        return PROVIDER;
     }
 
     @Override
-    protected double calcScale(double u) {
-        if (!this.accepts(u)) {
-            return Double.NaN;
+    protected DoubleDoubleFloatElement calcValue(DoubleDoubleFloatElement u) {
+
+        /*
+         * F'(u) = sum_{m=1 to inf} (-1)^{m} / (m!)^2 * u^{m-1}
+         */
+        DoubleDoubleFloatElement value = PROVIDER.zero();
+        for (int k = K_MAX_FOR_BESSEL_K_BY_POWER + 1; k >= 2; k--) {
+            value = value.times(u)
+                    .dividedBy(k)
+                    .dividedBy(k)
+                    .negated();
+            value = value.plus(PROVIDER.one());
         }
 
-        if (u < SCALE_U_THRESHOLD) {
-            return 1 / SCALE_U_THRESHOLD;
-        }
-        return 1 / u;
+        return value.negated();
     }
 
     @Override
-    public DoubleFiniteClosedInterval interval() {
+    protected DoubleDoubleFloatElement calcScale(DoubleDoubleFloatElement u) {
+        if (u.compareTo(SCALE_U_THRESHOLD) <= 0) {
+            return PROVIDER.one().dividedBy(SCALE_U_THRESHOLD);
+        }
+        return PROVIDER.one().dividedBy(u);
+    }
+
+    @Override
+    public FiniteClosedInterval<DoubleDoubleFloatElement> interval() {
         return this.interval;
     }
 
-    /**
-     * [F'(u) - f'(u)] の近似多項式の係数を与え,
-     * F(u) の近似多項式係数を計算して返す.
-     * 
-     * @param thisCoeff [F'(u) - f'(u)]の係数
-     * @return F(u)の係数
-     */
     @Override
-    public double[] rawCoeff(double[] thisCoeff) {
-        double[] coeffFp = thisCoeff.clone();
-        for (int i = 0;
-                i < coeffFp.length && i < ESTIMATED_COEFF.length;
-                i++) {
-            coeffFp[i] += ESTIMATED_COEFF[i];
-        }
+    public DoubleDoubleFloatElement[] rawCoeff(DoubleDoubleFloatElement[] thisCoeff) {
 
-        double[] coeffF = new double[coeffFp.length + 1];
-        coeffF[0] = 1d;
-        System.arraycopy(coeffFp, 0, coeffF, 1, coeffFp.length);
+        DoubleDoubleFloatElement[] coeffF = new DoubleDoubleFloatElement[thisCoeff.length + 1];
+        coeffF[0] = PROVIDER.one();
+        System.arraycopy(thisCoeff, 0, coeffF, 1, thisCoeff.length);
 
         return coeffF;
     }

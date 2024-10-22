@@ -5,24 +5,25 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.29
+ * 2024.10.22
  */
 package matsu.num.specialfunction.fraction;
-
-import java.util.Objects;
 
 /**
  * <p>
  * 体 (数学) の元を表現する. <br>
  * 実質的にイミュータブルである. <br>
- * 値に基づく equalty を提供する. <br>
- * comparability は任意である.
+ * 値に基づく equalty を提供する.
  * </p>
  * 
  * <p>
- * 体とは, (0で割ることを除いて) 四則演算が定義された代数系である. <br>
+ * 体とは, 0で割ることを除いて四則演算が定義された代数系である. <br>
  * 例えば, 有理数や実数の構造である. <br>
  * 定義により, 二項演算ができる型は対称性がなければならない.
+ * </p>
+ * 
+ * <p>
+ * 無限大やNaNを表現する手段は持っておらず, 演算等の結果が表現できない場合は例外をスローする.
  * </p>
  * 
  * <p>
@@ -31,38 +32,17 @@ import java.util.Objects;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.1
+ * @version 19.9
  * @param <ET> このクラスと二項演算が可能な体構造の元を表す型.
  *            体の定義より, 自身に一致する.
  */
 public abstract class MathField<ET extends MathField<ET>> {
 
-    private final MathFieldProperty fieldProperty;
-
     /**
      * 唯一のコンストラクタ.
-     * 
-     * <p>
-     * 引数としてこの体の性質を与える. <br>
-     * これは, インスタンスでなくクラス全体に共通する性質を表す. <br>
-     * したがってサブクラスにおいて, {@link MathFieldProperty}
-     * はコンストラクタで指定するのではなく, ハードコーディングされるべきである.
-     * </p>
-     * 
-     * @param fieldProperty 体の性質
      */
-    protected MathField(MathFieldProperty fieldProperty) {
+    protected MathField() {
         super();
-        this.fieldProperty = Objects.requireNonNull(fieldProperty);
-    }
-
-    /**
-     * このインスタンスの体としての性質を返す.
-     * 
-     * @return 体としての性質
-     */
-    protected final MathFieldProperty fieldProperty() {
-        return this.fieldProperty;
     }
 
     /**
@@ -70,6 +50,7 @@ public abstract class MathField<ET extends MathField<ET>> {
      * 
      * @param augend augend
      * @return 和
+     * @throws ArithmeticException 演算結果が表現できない場合
      * @throws NullPointerException 引数がnullの場合
      */
     public abstract ET plus(ET augend);
@@ -79,6 +60,7 @@ public abstract class MathField<ET extends MathField<ET>> {
      * 
      * @param subtrahend subtrahend
      * @return 差
+     * @throws ArithmeticException 演算結果が表現できない場合
      * @throws NullPointerException 引数がnullの場合
      */
     public abstract ET minus(ET subtrahend);
@@ -88,6 +70,7 @@ public abstract class MathField<ET extends MathField<ET>> {
      * 
      * @param multiplicand multiplicand
      * @return 積
+     * @throws ArithmeticException 演算結果が表現できない場合
      * @throws NullPointerException 引数がnullの場合
      */
     public abstract ET times(ET multiplicand);
@@ -102,8 +85,8 @@ public abstract class MathField<ET extends MathField<ET>> {
      * 
      * @param divisor divisor
      * @return 商
+     * @throws ArithmeticException 演算結果が表現できない場合 (0除算を含む)
      * @throws NullPointerException 引数がnullの場合
-     * @throws ArithmeticException 0除算が発生した場合
      */
     public abstract ET dividedBy(ET divisor);
 
@@ -114,32 +97,14 @@ public abstract class MathField<ET extends MathField<ET>> {
      */
     public abstract ET negated();
 
-    /**
-     * このインスタンスの型 ({@link #fieldProperty()} が {@code double} 型で解釈可能
-     * ({@link MathFieldProperty#canBeInterpretedAsDouble()} が {@code true}
-     * の場合に,
-     * {@code double} 表現された値を返す. <br>
-     * 解釈できない場合は例外をスローする.
-     * 
-     * @return double表現した値
-     * @throws UnsupportedOperationException {@code double} 型として解釈できない場合
-     */
-    public final double doubleValue() {
-        if (!this.fieldProperty.canBeInterpretedAsDouble()) {
-            throw new UnsupportedOperationException("このインスタンスはdouble型として解釈可能でない");
-        }
-        return this.toDouble();
-    }
+    @Override
+    public abstract boolean equals(Object obj);
 
-    /**
-     * {@link #doubleValue()} から内部的に呼ばれるメソッド,
-     * このインスタンスを {@code double} 型に変換する. <br>
-     * このインスタンスの型 ({@link #fieldProperty()} が {@code double} 型で解釈できない場合,
-     * このメソッドは到達不能である.
-     * 
-     * @return 自身を {@code double} に変換した値
-     */
-    protected abstract double toDouble();
+    @Override
+    public abstract int hashCode();
+
+    @Override
+    public abstract String toString();
 
     /**
      * 体構造における, 定数のサプライヤ.

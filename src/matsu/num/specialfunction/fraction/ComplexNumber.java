@@ -5,13 +5,15 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.29
+ * 2024.10.22
  */
 package matsu.num.specialfunction.fraction;
 
+import java.util.Objects;
+
 /**
  * <p>
- * 複素数を表す.
+ * 実部と虚部に {@link RealMathField} を持つ複素数を表す.
  * </p>
  * 
  * <p>
@@ -19,28 +21,25 @@ package matsu.num.specialfunction.fraction;
  * 公開されることは想定されていない.
  * </p>
  * 
- * <p>
- * 無限大は表現できず, オーバーフローする場合は常にNaNの表現をする.
- * </p>
- * 
  * @author Matsuura Y.
- * @version 19.1
+ * @version 19.9
+ * @param <ET> 実部と虚部を表現する実数型を表現する
  */
-public final class ComplexNumber extends MathField<ComplexNumber> {
+public final class ComplexNumber<ET extends RealMathField<ET>> extends MathField<ComplexNumber<ET>> {
 
-    public static final ComplexNumber ZERO = new ComplexNumber(0, 0);
-    public static final ComplexNumber ONE = new ComplexNumber(1, 0);
-    public static final ComplexNumber I = new ComplexNumber(0, 1);
+    private final MathField.ConstantSupplier<ET> realConstantSupplier;
 
-    public static final ComplexNumber NaN = new ComplexNumber(Double.NaN, Double.NaN);
+    private final ET real;
+    private final ET imaginary;
 
-    private final double real;
-    private final double imaginary;
-
-    private ComplexNumber(double real, double imaginary) {
-        super(DoubleUninterpretable.INSTANCE);
+    /**
+     * providerは使いまわさなければならない.
+     */
+    private ComplexNumber(ET real, ET imaginary, MathField.ConstantSupplier<ET> realConstantSupplier) {
+        super();
         this.real = real;
         this.imaginary = imaginary;
+        this.realConstantSupplier = realConstantSupplier;
     }
 
     /**
@@ -48,7 +47,7 @@ public final class ComplexNumber extends MathField<ComplexNumber> {
      * 
      * @return 実部
      */
-    public double real() {
+    public ET real() {
         return real;
     }
 
@@ -57,172 +56,200 @@ public final class ComplexNumber extends MathField<ComplexNumber> {
      * 
      * @return 虚部
      */
-    public double imaginary() {
+    public ET imaginary() {
         return imaginary;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * {@link ComplexNumber} では,
-     * オーバーフローを起こす場合は非数 {@link #NaN} が返る.
-     * </p>
-     * 
-     * @throws NullPointerException {@inheritDoc }
-     */
     @Override
-    public ComplexNumber plus(ComplexNumber augend) {
-        return ComplexNumber.of(
-                this.real + augend.real, this.imaginary + augend.imaginary);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof ComplexNumber<?> target)) {
+            return false;
+        }
+
+        return this.real.equals(target.real)
+                && this.imaginary.equals(target.imaginary);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.real.hashCode();
+        result = 31 * result + this.imaginary.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s + i * %s", this.real, this.imaginary);
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * {@link ComplexNumber} では,
-     * オーバーフローを起こす場合は非数 {@link #NaN} が返る.
-     * </p>
-     * 
+     * @throws ArithmeticException {@inheritDoc }
      * @throws NullPointerException {@inheritDoc }
      */
     @Override
-    public ComplexNumber minus(ComplexNumber subtrahend) {
-        return ComplexNumber.of(
-                this.real - subtrahend.real, this.imaginary - subtrahend.imaginary);
+    public ComplexNumber<ET> plus(ComplexNumber<ET> augend) {
+        return new ComplexNumber<>(
+                this.real.plus(augend.real),
+                this.imaginary.plus(augend.imaginary),
+                this.realConstantSupplier);
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * {@link ComplexNumber} では,
-     * オーバーフローを起こす場合は非数 {@link #NaN} が返る.
-     * </p>
-     * 
+     * @throws ArithmeticException {@inheritDoc }
      * @throws NullPointerException {@inheritDoc }
      */
     @Override
-    public ComplexNumber times(ComplexNumber multiplicand) {
-        return ComplexNumber.of(
-                this.real * multiplicand.real - this.imaginary * multiplicand.imaginary,
-                this.real * multiplicand.imaginary + this.imaginary * multiplicand.real);
+    public ComplexNumber<ET> minus(ComplexNumber<ET> subtrahend) {
+        return new ComplexNumber<>(
+                this.real.minus(subtrahend.real),
+                this.imaginary.minus(subtrahend.imaginary),
+                this.realConstantSupplier);
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * {@link ComplexNumber} では,
-     * オーバーフローを起こす場合は非数 {@link #NaN} が返る. <br>
-     * また, ゼロ割りの場合も例外はスローせず, 非数を返す.
-     * </p>
-     * 
+     * @throws ArithmeticException {@inheritDoc }
      * @throws NullPointerException {@inheritDoc }
      */
     @Override
-    public ComplexNumber dividedBy(ComplexNumber divisor) {
+    public ComplexNumber<ET> times(ComplexNumber<ET> multiplicand) {
+        return new ComplexNumber<>(
+                this.real.times(multiplicand.real)
+                        .minus(this.imaginary.times(multiplicand.imaginary)),
+                this.real.times(multiplicand.imaginary)
+                        .plus(this.imaginary.times(multiplicand.real)),
+                this.realConstantSupplier);
+    }
 
-        final double p;
-        final double q;
-        final double k;
-        if (Math.abs(divisor.real) > Math.abs(divisor.imaginary)) {
-            p = 1d;
-            q = divisor.imaginary / divisor.real;
-            k = divisor.real * (1 + q * q);
+    /**
+     * @throws ArithmeticException {@inheritDoc }
+     * @throws NullPointerException {@inheritDoc }
+     */
+    @Override
+    public ComplexNumber<ET> dividedBy(ComplexNumber<ET> divisor) {
+
+        final ET p;
+        final ET q;
+        final ET k;
+        if (divisor.real.abs().compareTo(divisor.imaginary.abs()) > 0) {
+            p = this.realConstantSupplier.one();
+            q = divisor.imaginary.dividedBy(divisor.real);
+            k = divisor.real.times(this.realConstantSupplier.one().plus(q.times(q)));
         } else {
-            p = divisor.real / divisor.imaginary;
-            q = 1d;
-            k = divisor.imaginary * (1 + p * p);
+            p = divisor.real.dividedBy(divisor.imaginary);
+            q = this.realConstantSupplier.one();
+            k = divisor.imaginary.times(this.realConstantSupplier.one().plus(p.times(p)));
         }
 
-        return ComplexNumber.of(
-                (this.real * p + this.imaginary * q) / k,
-                (this.imaginary * p - this.real * q) / k);
+        return new ComplexNumber<>(
+                this.real.times(p).plus(this.imaginary.times(q))
+                        .dividedBy(k),
+                this.imaginary.times(p).minus(this.real.times(q))
+                        .dividedBy(k),
+                this.realConstantSupplier);
     }
 
     @Override
-    public ComplexNumber negated() {
-        return ComplexNumber.of(-real, -imaginary);
+    public ComplexNumber<ET> negated() {
+        return new ComplexNumber<>(real.negated(), imaginary.negated(), this.realConstantSupplier);
     }
 
-    /**
-     * 外部からの呼び出し不可.
-     * 
-     * @return -
-     */
-    @Override
-    protected double toDouble() {
-        throw new AssertionError("Bug:　到達不能のはずである");
-    }
+    public static final class Provider<ET extends RealMathField<ET>> {
 
-    /**
-     * 虚部が0の複素数を返す. <br>
-     * ただし, 実部が有限でない場合, 非数 ({@link #NaN} を返す.
-     * 
-     * @param real 実部
-     * @return 複素数
-     */
-    public static ComplexNumber ofReal(double real) {
-        return ComplexNumber.of(real, 0d);
-    }
+        private final MathField.ConstantSupplier<ET> realConstantSupplier;
 
-    /**
-     * 実部が0の複素数を返す. <br>
-     * ただし, 虚部が有限でない場合, 非数 ({@link #NaN} を返す.
-     * 
-     * @param imaginary 虚部
-     * @return 複素数
-     */
-    public static ComplexNumber ofImaginary(double imaginary) {
-        return ComplexNumber.of(0d, imaginary);
-    }
+        private final MathField.ConstantSupplier<ComplexNumber<ET>> constantSupplier;
 
-    /**
-     * 与えた値を実部と虚部に持つ複素数を返す. <br>
-     * ただし, 実部虚部のいずれかが有限でない場合, 非数 ({@link #NaN} を返す.
-     * 
-     * @param real 実部
-     * @param imaginary 虚部
-     * @return 複素数
-     */
-    public static ComplexNumber of(double real, double imaginary) {
+        private final ComplexNumber<ET> zero;
+        private final ComplexNumber<ET> one;
 
-        if (!(Double.isFinite(real) && Double.isFinite(imaginary))) {
-            return NaN;
-        }
-        return new ComplexNumber(real, imaginary);
-    }
+        /**
+         * 
+         * @param realConstantSupplier
+         */
+        public Provider(MathField.ConstantSupplier<ET> realConstantSupplier) {
+            this.realConstantSupplier = realConstantSupplier;
+            this.zero = new ComplexNumber<>(
+                    realConstantSupplier.zero(),
+                    realConstantSupplier.zero(),
+                    realConstantSupplier);
+            this.one = new ComplexNumber<>(
+                    realConstantSupplier.one(),
+                    realConstantSupplier.zero(),
+                    realConstantSupplier);
 
-    /**
-     * このクラスと関連する定数サプライヤを返す.
-     * 
-     * @return 定数サプライヤ.
-     */
-    public static MathField.ConstantSupplier<ComplexNumber> constantSupplier() {
-        return ComplexNumber.ConstantSupplier.INSTANCE;
-    }
-
-    /**
-     * {@link ComplexNumber} と関連する定数サプライヤ.
-     */
-    private static final class ConstantSupplier
-            implements MathField.ConstantSupplier<ComplexNumber> {
-
-        static final ConstantSupplier INSTANCE = new ConstantSupplier();
-
-        ConstantSupplier() {
+            this.constantSupplier = new ConstantSupplier();
         }
 
-        @Override
-        public ComplexNumber zero() {
-            return ComplexNumber.ZERO;
+        /**
+         * 虚部が0の複素数を返す.
+         * 
+         * @param real 実部
+         * @return 複素数
+         * @throws NullPointerException 引数にnullを含む場合
+         */
+        public ComplexNumber<ET> getValueOfReal(ET real) {
+            return getValueOf(
+                    real,
+                    realConstantSupplier.zero());
         }
 
-        @Override
-        public ComplexNumber one() {
-            return ComplexNumber.ONE;
+        /**
+         * 実部が0の複素数を返す.
+         * 
+         * @param imaginary 虚部
+         * @return 複素数
+         * @throws NullPointerException 引数にnullを含む場合
+         */
+        public ComplexNumber<ET> getValueOfImaginary(ET imaginary) {
+            return getValueOf(
+                    realConstantSupplier.zero(),
+                    imaginary);
+        }
+
+        /**
+         * 与えた値を実部と虚部に持つ複素数を返す.
+         * 
+         * @param real 実部
+         * @param imaginary 虚部
+         * @return 複素数
+         * @throws NullPointerException 引数にnullを含む場合
+         */
+        public ComplexNumber<ET> getValueOf(ET real, ET imaginary) {
+            return new ComplexNumber<>(
+                    Objects.requireNonNull(real),
+                    Objects.requireNonNull(imaginary),
+                    this.realConstantSupplier);
+        }
+
+        /**
+         * このクラスと関連する定数サプライヤを返す.
+         * 
+         * @return 定数サプライヤ.
+         */
+        public MathField.ConstantSupplier<ComplexNumber<ET>> constantSupplier() {
+            return this.constantSupplier;
+        }
+
+        private final class ConstantSupplier
+                implements MathField.ConstantSupplier<ComplexNumber<ET>> {
+
+            ConstantSupplier() {
+                super();
+            }
+
+            @Override
+            public ComplexNumber<ET> zero() {
+                return zero;
+            }
+
+            @Override
+            public ComplexNumber<ET> one() {
+                return one;
+            }
         }
     }
 }

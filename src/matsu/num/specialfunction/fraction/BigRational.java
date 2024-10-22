@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.29
+ * 2024.10.22
  */
 package matsu.num.specialfunction.fraction;
 
@@ -28,10 +28,10 @@ import java.math.MathContext;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.1
+ * @version 19.9
  */
 public final class BigRational
-        extends MathField<BigRational> {
+        extends RealMathField<BigRational> {
 
     private static final BigRational ZERO =
             new BigRational(BigInteger.ZERO, BigInteger.ONE);
@@ -49,7 +49,7 @@ public final class BigRational
      * @param denominator
      */
     private BigRational(BigInteger numerator, BigInteger denominator) {
-        super(DoubleInterpretable.INSTANCE);
+        super();
         this.numerator = numerator;
         this.denominator = denominator;
     }
@@ -153,7 +153,7 @@ public final class BigRational
     }
 
     /**
-     * @throws ArithmeticException {@inheritDoc }
+     * @throws ArithmeticException 0割りを行った場合
      * @throws NullPointerException {@inheritDoc }
      */
     @Override
@@ -191,7 +191,18 @@ public final class BigRational
     }
 
     @Override
-    protected double toDouble() {
+    public BigRational abs() {
+        return new BigRational(this.numerator.abs(), this.denominator);
+    }
+
+    @Override
+    public int compareTo(BigRational o) {
+        //引き算で表現する
+        return this.minus(o).numerator.compareTo(BigInteger.ZERO);
+    }
+
+    @Override
+    public double doubleValue() {
         return new BigDecimal(numerator)
                 .divide(new BigDecimal(denominator), MathContext.DECIMAL128).doubleValue();
     }

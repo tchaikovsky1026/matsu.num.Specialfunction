@@ -1,9 +1,11 @@
 package matsu.num.specialfunction.subpj;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import matsu.num.approximation.generalfield.PseudoRealNumber;
 import matsu.num.mathtype.DoubleDoubleFloat;
+import matsu.num.specialfunction.fraction.BigRational;
 
 /**
  * double-double浮動小数点数を用いた体構造の実現
@@ -159,6 +161,28 @@ public final class DoubleDoubleFloatElement extends PseudoRealNumber<DoubleDoubl
         double low = value.subtract(new BigDecimal(high)).doubleValue();
 
         return PROVIDER.fromDoubleValue(high).plus(low);
+    }
+
+    /**
+     * {@link BigRational} からインスタンスを得る.
+     * 
+     * @param src 元の値
+     * @return 変換後
+     * @throws IllegalArgumentException 引数が扱えない場合
+     * @throws NullPointerException 引数がnullの場合
+     */
+    public static DoubleDoubleFloatElement fromBigRational(BigRational src) {
+        BigDecimal decimal = new BigDecimal(src.numerator(), MathContext.DECIMAL128)
+                .divide(new BigDecimal(src.denominator(), MathContext.DECIMAL128), MathContext.DECIMAL128);
+
+        double high = decimal.doubleValue();
+        double low = decimal.subtract(new BigDecimal(high), MathContext.DECIMAL128).doubleValue();
+
+        try {
+            return PROVIDER.fromDoubleValue(high).plus(low);
+        } catch (ArithmeticException ae) {
+            throw new IllegalArgumentException("扱えない値");
+        }
     }
 
     /**
