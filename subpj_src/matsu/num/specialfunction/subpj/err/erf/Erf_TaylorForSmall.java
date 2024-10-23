@@ -1,7 +1,5 @@
 package matsu.num.specialfunction.subpj.err.erf;
 
-import java.util.Objects;
-
 import matsu.num.approximation.generalfield.FiniteClosedInterval;
 import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
@@ -15,12 +13,10 @@ import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
  * 
  * <p>
  * 厳密式:
- * erf(x) = 2/sqrt(pi) * sum_{k=0}^{inf}
- * (-1)^k / (k! * (2k+1)) * x^{2k+1} <br>
- * そこで, u = x^2 として, <br>
- * erf(x) = 2/sqrt(pi) * x F(u) <br>
- * としたときの, 多項式 F(u) を近似する. <br>
- * F(u) = sum_{k=0}^{inf} (-1)^k / (k! * (2k+1)) * u^k
+ * erf(x) = 2/sqrt(pi) * x * F(u), <br>
+ * F(u) = sum_{k=0}^{inf}
+ * (-1)^k / (k! * (2k+1)) * u^{k} <br>
+ * ただし, u = x^2 である. <br>
  * </p>
  * 
  * <p>
@@ -39,10 +35,8 @@ final class Erf_TaylorForSmall extends RawCoeffCalculableFunction<DoubleDoubleFl
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
 
-    private static final DoubleDoubleFloatElement LOWER_LIMIT_OF_INTERVAL =
-            PROVIDER.zero();
-    private static final DoubleDoubleFloatElement UPPER_LIMIT_OF_INTERVAL =
-            PROVIDER.one();
+    private static final double MIN_X = 0d;
+    private static final double MAX_X = 1d;
 
     private static final DoubleDoubleFloatElement SCALE_U_THRESHOLD =
             DoubleDoubleFloatElement.elementProvider().fromDoubleValue(1d / 1024);
@@ -58,22 +52,21 @@ final class Erf_TaylorForSmall extends RawCoeffCalculableFunction<DoubleDoubleFl
      */
     public static void main(String[] args) {
 
-        int order = 10;
+        System.out.println("erf(x) = 2/sqrt(pi) * x * F(u), u = x^2 としたときの,");
+        System.out.println("F(u)を近似する.");
+        System.out.println();
 
-        new EachApproxExecutor(order).execute(
-                new Erf_TaylorForSmall(INTERVAL_FACTORY.createInterval(0d, 1d)));
+        System.out.println("xmin = " + MIN_X);
+        System.out.println("xmax = " + MAX_X);
+        new EachApproxExecutor(10).execute(new Erf_TaylorForSmall());
 
         System.out.println("finished...");
     }
 
-    private Erf_TaylorForSmall(FiniteClosedInterval<DoubleDoubleFloatElement> interval) {
+    private Erf_TaylorForSmall() {
         super();
-        this.interval = Objects.requireNonNull(interval);
 
-        if (!(interval.lower().compareTo(LOWER_LIMIT_OF_INTERVAL) >= 0
-                && interval.upper().compareTo(UPPER_LIMIT_OF_INTERVAL) <= 0)) {
-            throw new IllegalArgumentException("区間異常");
-        }
+        this.interval = INTERVAL_FACTORY.createInterval(MIN_X * MIN_X, MAX_X * MAX_X);
     }
 
     @Override

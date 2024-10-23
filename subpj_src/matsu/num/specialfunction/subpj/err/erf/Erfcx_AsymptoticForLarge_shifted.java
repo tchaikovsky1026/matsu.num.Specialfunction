@@ -13,11 +13,9 @@ import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
  * 
  * <p>
  * 厳密式:
- * erfcx(x) = 1/(x*sqrt(pi)) *
- * sum_{k=0}^{inf} (-1)^k * (2k-1)!! / 2^k * t^{2k} <br>
- * erfcx(x) = 1/(x*sqrt(pi)) * F(t) <br>
- * としたときの, 多項式 F(t) を近似する. <br>
+ * erfcx(x) = 1/(x*sqrt(pi)) * F(t), <br>
  * F(t) = sum_{k=0}^{inf} (-1)^k * (2k-1)!! / 2^k * t^{2k} <br>
+ * としたときの, 多項式 F(t) を近似する. <br>
  * スケールは 1 とする.
  * </p>
  * 
@@ -57,10 +55,8 @@ final class Erfcx_AsymptoticForLarge_shifted extends RawCoeffCalculableFunction<
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
 
-    private static final DoubleDoubleFloatElement LOWER_LIMIT_OF_INTERVAL =
-            PROVIDER.zero();
-    private static final DoubleDoubleFloatElement UPPER_LIMIT_OF_INTERVAL =
-            PROVIDER.one();
+    private static final double LOWER_LIMIT_OF_INTERVAL = 0d;
+    private static final double UPPER_LIMIT_OF_INTERVAL = 1d;
 
     private static final int K_MAX = 100;
 
@@ -69,8 +65,8 @@ final class Erfcx_AsymptoticForLarge_shifted extends RawCoeffCalculableFunction<
 
     public static void main(String[] args) {
 
-        System.out.println("erfcxの漸近展開を近似する");
-        System.out.println("tをシフトすることで安定性を向上させる");
+        System.out.println("erfcx(x) = 1/(x*sqrt(pi)) * F(t), t = 1/x としたときの,");
+        System.out.println("F(t)を近似する.");
         System.out.println();
 
         executeEach(11, 1d / 8, 2d / 8);
@@ -97,10 +93,10 @@ final class Erfcx_AsymptoticForLarge_shifted extends RawCoeffCalculableFunction<
         this.interval = INTERVAL_FACTORY.createInterval(
                 t1 - t_shift.asDouble(), t2 - t_shift.asDouble());
 
-        if (!(LOWER_LIMIT_OF_INTERVAL.asDouble() <= t1
-                && t1 <= UPPER_LIMIT_OF_INTERVAL.asDouble()
-                && LOWER_LIMIT_OF_INTERVAL.asDouble() <= t2
-                && t2 <= UPPER_LIMIT_OF_INTERVAL.asDouble())) {
+        if (!(LOWER_LIMIT_OF_INTERVAL <= t1
+                && t1 <= UPPER_LIMIT_OF_INTERVAL
+                && LOWER_LIMIT_OF_INTERVAL <= t2
+                && t2 <= UPPER_LIMIT_OF_INTERVAL)) {
             throw new IllegalArgumentException("区間異常");
         }
     }

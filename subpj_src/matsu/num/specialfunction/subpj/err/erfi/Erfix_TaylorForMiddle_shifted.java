@@ -14,15 +14,11 @@ import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
  * </p>
  * 
  * <p>
- * 厳密式:
- * erfix(x) = 2/sqrt(pi) * x *
- * sum_{k=0}^{inf} (-1)^k / (2k+1)!! * (2x^2)^k <br>
- * に対し, 漸近形である erfix(x) = 1/(x*sqrt(pi)) * F(x) を適用する. <br>
- * このF(x)は {@literal 1 <= x <= 8} で2倍も変化しないことがわかっている.
- * これを使い, <br>
+ * erfix(x) = 1/(x*sqrt(pi)) * F(x), <br>
  * F(x) = sum_{k=0}^{inf} (-1)^k / (2k+1)!! * (2x^2)^{k+1} <br>
- * に対して近似を適用する. <br>
- * スケールは1である.
+ * について, F(x) を近似する. <br>
+ * F(x)は {@literal 1 <= x <= 8} で2倍も変化しないことがわかっており,
+ * スケールを1とする.
  * </p>
  * 
  * 
@@ -58,8 +54,8 @@ final class Erfix_TaylorForMiddle_shifted extends RawCoeffCalculableFunction<Dou
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
 
-    private static final double LOWER_LIMIT_OF_X_MIN = 0.5d;
-    private static final double UPPER_LIMIT_OF_X_MAX = 8.5d;
+    private static final double LOWER_LIMIT_OF_X_MIN = 1d;
+    private static final double UPPER_LIMIT_OF_X_MAX = 8d;
 
     private static final int K_MAX = 1000;
 
@@ -68,8 +64,9 @@ final class Erfix_TaylorForMiddle_shifted extends RawCoeffCalculableFunction<Dou
 
     public static void main(String[] args) {
 
-        System.out.println("erfixを漸近形で規格化したものを近似する(ただし引数はTaylorの形)");
-        System.out.println("xをシフトすることで安定性を向上させる");
+        System.out.println("erfix(x) = 1/(x*sqrt(pi)) * F(x) としたときの,");
+        System.out.println("F(x)を近似する.");
+        System.out.println("ただし, 安定性を得るために, 区間中央が0になるようにシフトする");
         System.out.println();
 
         executeEach(17, 1d, 2d);

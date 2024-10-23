@@ -9,13 +9,13 @@ import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
 
 /**
  * erfi(x)のminimax近似を行うための関数と, 近似の実行. <br>
- * {@literal -1 <= x <= 1} を扱う.
+ * {@literal 0 <= x <= 1} を扱う.
  * 
  * <p>
- * u = x^2 とすると, <br>
  * erfi(x) = 2/sqrt(pi) * x * F(u) <br>
- * F(u) = sum_{k=0}^{inf} 1/(k!(2k+1)) * u^k <br>
- * である. F(u) を近似する.
+ * F(u) = sum_{k=0}^{inf} 1/(k!(2k+1)) * u^k, <br>
+ * ただし, u = x^2 とする. <br>
+ * F(u) を近似する.
  * </p>
  * 
  * <p>
@@ -34,7 +34,8 @@ final class Erfi_TaylorForSmall extends RawCoeffCalculableFunction<DoubleDoubleF
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
 
-    private static final double UPPER_LIMIT_OF_X_MAX = 1d;
+    private static final double X_MIN = 0d;
+    private static final double X_MAX = 1d;
 
     private static final DoubleDoubleFloatElement SCALE_U_THRESHOLD =
             DoubleDoubleFloatElement.elementProvider().fromDoubleValue(1d / 1024);
@@ -50,20 +51,19 @@ final class Erfi_TaylorForSmall extends RawCoeffCalculableFunction<DoubleDoubleF
      */
     public static void main(String[] args) {
 
-        int order = 10;
-        double xmax = 1d;
+        System.out.println("erfi(x) = 2/sqrt(pi) * x * F(u), u = x^2 としたときの,");
+        System.out.println("F(u)を近似する.");
+        System.out.println();
 
-        System.out.println("xmax = " + xmax);
-        new EachApproxExecutor(order).execute(new Erfi_TaylorForSmall(xmax));
+        System.out.println("xmin = " + X_MIN);
+        System.out.println("xmax = " + X_MAX);
+        new EachApproxExecutor(10).execute(new Erfi_TaylorForSmall());
 
         System.out.println("finished...");
     }
 
-    private Erfi_TaylorForSmall(double xmax) {
-        if (!(0 <= xmax && xmax <= UPPER_LIMIT_OF_X_MAX)) {
-            throw new IllegalArgumentException("引数異常");
-        }
-        this.interval = INTERVAL_FACTORY.createInterval(0d, xmax);
+    private Erfi_TaylorForSmall() {
+        this.interval = INTERVAL_FACTORY.createInterval(X_MIN, X_MAX);
     }
 
     @Override

@@ -9,16 +9,14 @@ import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
 
 /**
  * スケーリング相補誤差関数erfcx(x)の漸近展開をminimax近似する. <br>
- * t=1/xとして, {@literal 0 <= t <= 1} を扱う.
+ * t=1/xとして, {@literal 0 <= t <= 1/8} を扱う.
  * 
  * <p>
  * 厳密式:
- * erfcx(x) = 1/(x*sqrt(pi)) *
- * sum_{k=0}^{inf} (-1)^k * (2k-1)!! / 2^k * t^{2k} <br>
- * そこで, u = t^2 として, <br>
- * erfcx(x) = 1/(x*sqrt(pi)) * F(u) <br>
- * としたときの, 多項式 F(u) を近似する. <br>
- * F(u) = sum_{k=0}^{inf} (-1)^k * (2k-1)!! / 2^k * u^k
+ * erfcx(x) = 1/(x*sqrt(pi)) * F(u), <br>
+ * F(u) = sum_{k=0}^{inf} (-1)^k * (2k-1)!! / 2^k * u^{k} <br>
+ * ただし, u = t^2 とする. <br>
+ * F(u) の近似を扱う.
  * </p>
  * 
  * <p>
@@ -61,7 +59,7 @@ final class Erfcx_AsymptoticForLarge_accuracy extends RawCoeffCalculableFunction
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
 
-    private static final double UPPER_LIMIT_OF_T_MAX = 1d;
+    private static final double T_MAX = 1d / 8;
 
     private static final DoubleDoubleFloatElement SCALE_U_THRESHOLD =
             DoubleDoubleFloatElement.elementProvider().fromDoubleValue(1d / 1024);
@@ -72,25 +70,20 @@ final class Erfcx_AsymptoticForLarge_accuracy extends RawCoeffCalculableFunction
 
     public static void main(String[] args) {
 
-        int order = 7;
-        double tmax = 1d / 8;
+        System.out.println("erfcx(x) = 1/(x*sqrt(pi)) * F(u), u = t^2, t = 1/x としたときの,");
+        System.out.println("F(u)を近似する.");
+        System.out.println();
 
-        System.out.println("tmax = " + tmax);
-        new EachApproxExecutor(order).execute(
-                new Erfcx_AsymptoticForLarge_accuracy(tmax));
+        System.out.println("tmax = " + T_MAX);
+        new EachApproxExecutor(7).execute(new Erfcx_AsymptoticForLarge_accuracy());
 
         System.out.println("finished...");
     }
 
-    private Erfcx_AsymptoticForLarge_accuracy(double tmax) {
+    private Erfcx_AsymptoticForLarge_accuracy() {
         super();
 
-        if (!(0 < tmax
-                && tmax <= UPPER_LIMIT_OF_T_MAX)) {
-            throw new IllegalArgumentException("区間異常");
-        }
-
-        this.interval = INTERVAL_FACTORY.createInterval(0d, tmax * tmax);
+        this.interval = INTERVAL_FACTORY.createInterval(0d, T_MAX * T_MAX);
     }
 
     @Override
