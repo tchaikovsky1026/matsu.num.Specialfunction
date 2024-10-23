@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.27
+ * 2024.10.23
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
@@ -25,7 +25,7 @@ import matsu.num.specialfunction.GammaFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.0
+ * @version 19.9
  */
 final class MBessel1Optimized extends ModifiedBessel1stOrder {
 
@@ -143,15 +143,15 @@ final class MBessel1Optimized extends ModifiedBessel1stOrder {
      * I1(x) = (x/2)F(u) としたときのF(u)
      */
     private static double mbI_PowerTerm(double u) {
-        final double C0 = 1.0;
-        final double C1 = 0.49999999999999933;
-        final double C2 = 0.08333333333335496;
-        final double C3 = 0.006944444444205112;
-        final double C4 = 3.472222235023415E-4;
-        final double C5 = 1.1574070287760461E-5;
-        final double C6 = 2.755797132269685E-7;
-        final double C7 = 4.914445506868288E-9;
-        final double C8 = 7.18208097542048E-11;
+        final double C0 = 1;
+        final double C1 = 0.49999999999999933284305986001953;
+        final double C2 = 0.083333333333354934515231556578770;
+        final double C3 = 0.0069444444442054155391890164755313;
+        final double C4 = 0.00034722222350104441504009338516982;
+        final double C5 = 0.000011574070290688636204507528381170;
+        final double C6 = 2.7557970963279049807648621918918E-7;
+        final double C7 = 4.9144477719850609245326194999588E-9;
+        final double C8 = 7.1820236166041190409525073852568E-11;
 
         double u2 = u * u;
 
@@ -163,209 +163,192 @@ final class MBessel1Optimized extends ModifiedBessel1stOrder {
     }
 
     /**
-     * {@literal 2 <= x <= 24} について, I(x)exp(-x)をべき級数のminimax近似で計算する.
+     * {@literal 2 <= x <= 24} について, I(x) * exp(-x)をべき級数のminimax近似で計算する.
      */
     private static double scaling_mbI_byPowerExp(double x) {
         assert x >= 2;
         assert x <= 24;
 
-        switch ((int) x) {
-        case 2, 3, 4, 5:
-            return scaling_mbI_byPowerExp_shifted_2_to_6(x - 2);
-        case 6, 7, 8, 9:
-            return scaling_mbI_byPowerExp_shifted_6_to_10(x - 6);
-        case 10, 11, 12, 13:
-            return scaling_mbI_byPowerExp_shifted_10_to_14(x - 10);
-        case 14, 15, 16, 17:
-            return scaling_mbI_byPowerExp_shifted_14_to_18(x - 14);
+        /*
+         * I(x)/((x/2)exp(x)) を表現する.
+         */
+        double factor;
+
+        switch ((int) (x * 0.5)) {
+        case 1, 2:
+            factor = factor_scaling_mbI_byPowerExp_2_to_6(x);
+            break;
+        case 3, 4:
+            factor = factor_scaling_mbI_byPowerExp_6_to_10(x);
+            break;
+        case 5, 6:
+            factor = factor_scaling_mbI_byPowerExp_10_to_14(x);
+            break;
+        case 7, 8:
+            factor = factor_scaling_mbI_byPowerExp_14_to_18(x);
+            break;
         default:
-            return scaling_mbI_byPowerExp_shifted_18_to_24(x - 18);
+            factor = factor_scaling_mbI_byPowerExp_18_to_24(x);
+            break;
         }
+
+        return factor * (x * 0.5);
     }
 
-    /**
-     * @param u {@literal u = x - 2}
-     */
-    private static double scaling_mbI_byPowerExp_shifted_2_to_6(double u) {
-        final double C0 = 0.21526928924893776;
-        final double C1 = -0.01439561131974926;
-        final double C2 = -0.008914147006038063;
-        final double C3 = 0.007428455833537319;
-        final double C4 = -0.0035573477602108094;
-        final double C5 = 0.0013131228800252752;
-        final double C6 = -4.0329242225912337E-4;
-        final double C7 = 1.0680104256006478E-4;
-        final double C8 = -2.4924201492011665E-5;
-        final double C9 = 5.203921392223091E-6;
-        final double C10 = -9.828148365720822E-7;
-        final double C11 = 1.6909921316131489E-7;
-        final double C12 = -2.6551834190598942E-8;
-        final double C13 = 3.778158318455118E-9;
-        final double C14 = -4.775662294997401E-10;
-        final double C15 = 5.17194760023591E-11;
-        final double C16 = -4.542425557710229E-12;
-        final double C17 = 2.9849604754239246E-13;
-        final double C18 = -1.2857228827093158E-14;
-        final double C19 = 2.691821145241169E-16;
+    private static double factor_scaling_mbI_byPowerExp_2_to_6(double x) {
+
+        double u = x - 4d;
+
+        final double C0 = 0.089375419751217635460938046057142;
+        final double C1 = -0.030562169014834619521128587398184;
+        final double C2 = 0.0085071999886902193974419123471475;
+        final double C3 = -0.0021400814439099889543491675332263;
+        final double C4 = 0.00049818284150144585759860373624194;
+        final double C5 = -0.00010796882671216447820970369411913;
+        final double C6 = 0.000021813756190803083759356685875368;
+        final double C7 = -0.0000041102726975303635525983822922942;
+        final double C8 = 7.2283983076701238087970692600592E-7;
+        final double C9 = -1.1879987003317312013714174739552E-7;
+        final double C10 = 1.8279993731044388896049873859743E-8;
+        final double C11 = -2.6389557174117273165753339133688E-9;
+        final double C12 = 3.5829538723434382723975087787373E-10;
+        final double C13 = -4.5912333652070651385085988921723E-11;
+        final double C14 = 5.5534295407268444851857291918064E-12;
+        final double C15 = -6.2415353269802295017151572509103E-13;
+        final double C16 = 6.7849184953924530617655607547227E-14;
+        final double C17 = -8.5283577699520139130668196393391E-15;
+        final double C18 = 8.4262820895475981747432797083824E-16;
 
         double u2 = u * u;
         double v0 = C0 + C1 * u + (C2 + C3 * u) * u2;
         double v4 = C4 + C5 * u + (C6 + C7 * u) * u2;
         double v8 = C8 + C9 * u + (C10 + C11 * u) * u2;
         double v12 = C12 + C13 * u + (C14 + C15 * u) * u2;
-        double v16 = C16 + C17 * u + (C18 + C19 * u) * u2;
+        double v16 = C16 + C17 * u + C18 * u2;
 
         double u4 = u2 * u2;
 
         return v0 + u4 * (v4 + u4 * (v8 + u4 * (v12 + u4 * v16)));
     }
 
-    /**
-     * @param u {@literal u = x - 6}
-     */
-    private static double scaling_mbI_byPowerExp_shifted_6_to_10(double u) {
-        final double C0 = 0.1520514593085059;
-        final double C1 = -0.010735936553441188;
-        final double C2 = 0.0010714688142732284;
-        final double C3 = -1.0573032102721503E-4;
-        final double C4 = 8.07307044539049E-6;
-        final double C5 = 7.518988692752148E-8;
-        final double C6 = -2.331292363003344E-7;
-        final double C7 = 7.210737789355154E-8;
-        final double C8 = -1.6515720374661725E-8;
-        final double C9 = 3.199964261654611E-9;
-        final double C10 = -5.17172090554003E-10;
-        final double C11 = 5.497664552789005E-11;
-        final double C12 = 3.9398310162316205E-12;
-        final double C13 = -4.314130880040043E-12;
-        final double C14 = 1.392546924429121E-12;
-        final double C15 = -2.907431661143759E-13;
-        final double C16 = 4.192795471373361E-14;
-        final double C17 = -4.050655293645774E-15;
-        final double C18 = 2.3676197835944573E-16;
-        final double C19 = -6.3401673630507286E-18;
+    private static double factor_scaling_mbI_byPowerExp_6_to_10(double x) {
+
+        double u = x - 8d;
+
+        final double C0 = 0.033535623323174355639998248308046;
+        final double C1 = -0.0060615836897553183353850192864099;
+        final double C2 = 0.00091020125849558448241057177677695;
+        final double C3 = -0.00012708608106147098193297353642806;
+        final double C4 = 0.000017031398898138867567572210857860;
+        final double C5 = -0.0000022186773421482827104771825424076;
+        final double C6 = 2.8251050972963255561620026473575E-7;
+        final double C7 = -3.5234236371910695022936908416043E-8;
+        final double C8 = 4.3042515492310985762784502760996E-9;
+        final double C9 = -5.1442572657755611512442304522521E-10;
+        final double C10 = 6.0068755535287687234641023301495E-11;
+        final double C11 = -6.8307383381028380032127997233175E-12;
+        final double C12 = 7.4496290950230794696056953259379E-13;
+        final double C13 = -7.9739113617065990843514561711137E-14;
+        final double C14 = 9.8191149732276233959522533746172E-15;
+        final double C15 = -9.9340001705200457927913307159380E-16;
 
         double u2 = u * u;
         double v0 = C0 + C1 * u + (C2 + C3 * u) * u2;
         double v4 = C4 + C5 * u + (C6 + C7 * u) * u2;
         double v8 = C8 + C9 * u + (C10 + C11 * u) * u2;
         double v12 = C12 + C13 * u + (C14 + C15 * u) * u2;
-        double v16 = C16 + C17 * u + (C18 + C19 * u) * u2;
 
         double u4 = u2 * u2;
 
-        return v0 + u4 * (v4 + u4 * (v8 + u4 * (v12 + u4 * v16)));
+        return v0 + u4 * (v4 + u4 * (v8 + u4 * (v12)));
     }
 
-    /**
-     * @param u {@literal u = x - 10}
-     */
-    private static double scaling_mbI_byPowerExp_shifted_10_to_14(double u) {
-        final double C0 = 0.12126268138445552;
-        final double C1 = -0.005555612359472155;
-        final double C2 = 3.7657231513556346E-4;
-        final double C3 = -2.7842213883823998E-5;
-        final double C4 = 2.1060600221302598E-6;
-        final double C5 = -1.575908323482282E-7;
-        final double C6 = 1.1262621490014348E-8;
-        final double C7 = -7.25425232718112E-10;
-        final double C8 = 4.1344401529598604E-11;
-        final double C9 = -6.600224432591169E-12;
-        final double C10 = 3.652475526830563E-12;
-        final double C11 = -1.326255054304157E-12;
-        final double C12 = 1.2736139564461965E-13;
-        final double C13 = 1.3226439597319092E-13;
-        final double C14 = -8.178739643161974E-14;
-        final double C15 = 2.5104879280069183E-14;
-        final double C16 = -4.7948854320387236E-15;
-        final double C17 = 5.77294237229154E-16;
-        final double C18 = -4.038126408517544E-17;
-        final double C19 = 1.257181494410686E-18;
+    private static double factor_scaling_mbI_byPowerExp_10_to_14(double x) {
+
+        double u = x - 12d;
+
+        final double C0 = 0.018577383215030244495822455639707;
+        final double C1 = -0.0022692435486285417239375360263605;
+        final double C2 = 0.00023072609032623589741231433913071;
+        final double C3 = -0.000021867268266446924349817695283037;
+        final double C4 = 0.0000019956229729030379256790479460425;
+        final double C5 = -1.7778892428092540190401850726225E-7;
+        final double C6 = 1.5570627979002633241842340727576E-8;
+        final double C7 = -1.3458449816842696709752098704527E-9;
+        final double C8 = 1.1508443729841301178785683644634E-10;
+        final double C9 = -9.7479391396169729199676058831743E-12;
+        final double C10 = 8.1526402765939464378576724036465E-13;
+        final double C11 = -6.7789432149715030101830143185946E-14;
+        final double C12 = 6.1704597973659763517174647593269E-15;
+        final double C13 = -5.0992571385383657148880688032900E-16;
 
         double u2 = u * u;
         double v0 = C0 + C1 * u + (C2 + C3 * u) * u2;
         double v4 = C4 + C5 * u + (C6 + C7 * u) * u2;
         double v8 = C8 + C9 * u + (C10 + C11 * u) * u2;
-        double v12 = C12 + C13 * u + (C14 + C15 * u) * u2;
-        double v16 = C16 + C17 * u + (C18 + C19 * u) * u2;
+        double v12 = C12 + C13 * u;
 
         double u4 = u2 * u2;
 
-        return v0 + u4 * (v4 + u4 * (v8 + u4 * (v12 + u4 * v16)));
+        return v0 + u4 * (v4 + u4 * (v8 + u4 * v12));
     }
 
-    /**
-     * @param u {@literal u = x - 14}
-     */
-    private static double scaling_mbI_byPowerExp_shifted_14_to_18(double u) {
-        final double C0 = 0.1036976674631427;
-        final double C1 = -0.003489392039810318;
-        final double C2 = 1.7505992627752572E-4;
-        final double C3 = -9.687278484447036E-6;
-        final double C4 = 5.578236216506256E-7;
-        final double C5 = -3.2648578196631745E-8;
-        final double C6 = 1.8724020951552864E-9;
-        final double C7 = -3.05710482162194E-11;
-        final double C8 = -9.607939483157049E-11;
-        final double C9 = 9.700752356619307E-11;
-        final double C10 = -7.07770070617323E-11;
-        final double C11 = 3.968248388428452E-11;
-        final double C12 = -1.7176810727143017E-11;
-        final double C13 = 5.719739295592486E-12;
-        final double C14 = -1.4502117801035678E-12;
-        final double C15 = 2.7464381180374673E-13;
-        final double C16 = -3.7590535884388306E-14;
-        final double C17 = 3.5103004259298025E-15;
-        final double C18 = -2.0002861211611018E-16;
-        final double C19 = 5.24533146351663E-18;
+    private static double factor_scaling_mbI_byPowerExp_14_to_18(double x) {
+
+        double u = x - 16d;
+
+        final double C0 = 0.012168701844558512585177972837679;
+        final double C1 = -0.0011217736549717049212246898504031;
+        final double C2 = 0.000086124137198021425697036803603110;
+        final double C3 = -0.0000061673917029196484436147895990059;
+        final double C4 = 4.2558082593603529968998494592637E-7;
+        final double C5 = -2.8692998987506239986464988867907E-8;
+        final double C6 = 1.9036373473106788955652717143973E-9;
+        final double C7 = -1.2479902679914766697311015194773E-10;
+        final double C8 = 8.1054583911123617705299021074938E-12;
+        final double C9 = -5.2183984471981852326947123080995E-13;
+        final double C10 = 3.3404641192162705834398473908021E-14;
+        final double C11 = -2.2444349627006958637585710323105E-15;
+        final double C12 = 1.4325129971458747920423252945824E-16;
 
         double u2 = u * u;
         double v0 = C0 + C1 * u + (C2 + C3 * u) * u2;
         double v4 = C4 + C5 * u + (C6 + C7 * u) * u2;
         double v8 = C8 + C9 * u + (C10 + C11 * u) * u2;
-        double v12 = C12 + C13 * u + (C14 + C15 * u) * u2;
-        double v16 = C16 + C17 * u + (C18 + C19 * u) * u2;
+        double v12 = C12;
 
         double u4 = u2 * u2;
 
-        return v0 + u4 * (v4 + u4 * (v8 + u4 * (v12 + u4 * v16)));
+        return v0 + u4 * (v4 + u4 * (v8 + u4 * v12));
     }
 
-    /**
-     * @param u {@literal u = x - 18}
-     */
-    private static double scaling_mbI_byPowerExp_shifted_18_to_24(double u) {
-        final double C0 = 0.09203679687202053;
-        final double C1 = -0.002443657041034773;
-        final double C2 = 9.699080633129094E-5;
-        final double C3 = -4.260676551189654E-6;
-        final double C4 = 1.956340731598957E-7;
-        final double C5 = -9.189692704477685E-9;
-        final double C6 = 4.352730035815067E-10;
-        final double C7 = -1.8331449673638002E-11;
-        final double C8 = -1.6574295981794648E-12;
-        final double C9 = 1.9393613024087163E-12;
-        final double C10 = -1.096490353323833E-12;
-        final double C11 = 4.56575356089158E-13;
-        final double C12 = -1.4388354183335996E-13;
-        final double C13 = 3.4402052440117484E-14;
-        final double C14 = -6.19888258183969E-15;
-        final double C15 = 8.278414078455154E-16;
-        final double C16 = -7.942602954356268E-17;
-        final double C17 = 5.175233481277015E-18;
-        final double C18 = -2.0502537964397078E-19;
-        final double C19 = 3.7271205621040715E-21;
+    private static double factor_scaling_mbI_byPowerExp_18_to_24(double x) {
+
+        double u = x - 21d;
+
+        final double C0 = 0.0081407234709742753127861084020090;
+        final double C1 = -0.00057420573923549793179176912389701;
+        final double C2 = 0.000033740186968690638579240358894755;
+        final double C3 = -0.0000018497500403077906765913101478497;
+        final double C4 = 9.7751773013381477323076510236617E-8;
+        final double C5 = -5.0490229834006713192870740306235E-9;
+        final double C6 = 2.5673220527271804661611044056957E-10;
+        final double C7 = -1.2905536898215974379291116794582E-11;
+        final double C8 = 6.4302962901621734094381697651014E-13;
+        final double C9 = -3.1749171577414998728715540953065E-14;
+        final double C10 = 1.5605768057876982092318450482406E-15;
+        final double C11 = -8.2127567947837112665263604851973E-17;
+        final double C12 = 4.0438865764219600629080284487258E-18;
 
         double u2 = u * u;
         double v0 = C0 + C1 * u + (C2 + C3 * u) * u2;
         double v4 = C4 + C5 * u + (C6 + C7 * u) * u2;
         double v8 = C8 + C9 * u + (C10 + C11 * u) * u2;
-        double v12 = C12 + C13 * u + (C14 + C15 * u) * u2;
-        double v16 = C16 + C17 * u + (C18 + C19 * u) * u2;
+        double v12 = C12;
 
         double u4 = u2 * u2;
 
-        return v0 + u4 * (v4 + u4 * (v8 + u4 * (v12 + u4 * v16)));
+        return v0 + u4 * (v4 + u4 * (v8 + u4 * v12));
     }
 
     /**
@@ -381,16 +364,16 @@ final class MBessel1Optimized extends ModifiedBessel1stOrder {
      * {@literal 0 <= t <= 1/192}
      */
     private static double scaling_mbI_asymptoticTerm(double t) {
-        final double C0 = 1.0;
-        final double C1 = -3.000000000000024;
-        final double C2 = -7.499999999367855;
-        final double C3 = -52.50000273666424;
-        final double C4 = -590.6203914475212;
-        final double C5 = -9099.558488884913;
-        final double C6 = -175468.81417384805;
-        final double C7 = -4714264.998222145;
-        final double C8 = -3.042016688878059E7;
-        final double C9 = -1.033192096544347E10;
+        final double C0 = 1;
+        final double C1 = -3.0000000000000241489963977213912;
+        final double C2 = -7.4999999993672799887507076217255;
+        final double C3 = -52.500002738939635362379994728854;
+        final double C4 = -590.62038798344635924450194141275;
+        final double C5 = -9099.5611220913880793111863821155;
+        final double C6 = -175467.70997135826723997442545862;
+        final double C7 = -4714525.1009710469159270569316806;
+        final double C8 = -30387866.053911177423059328013274;
+        final double C9 = -10333569222.529218035005023883561;
 
         final double t2 = t * t;
         double v0 = C0 + C1 * t + (C2 + C3 * t) * t2;
@@ -424,15 +407,15 @@ final class MBessel1Optimized extends ModifiedBessel1stOrder {
      */
     private static double mbK_byPower_HarmonicTerm(double u) {
 
-        final double C0 = 0.5;
-        final double C1 = 0.6249999999999971;
-        final double C2 = 0.1388888888889643;
-        final double C3 = 0.013599537036263496;
-        final double C4 = 7.581018558235424E-4;
-        final double C5 = 2.7391963858409945E-5;
-        final double C6 = 6.948574962609124E-7;
-        final double C7 = 1.3047801156291469E-8;
-        final double C8 = 1.9964193229460673E-10;
+        final double C0 = 0.50000000000000001748150397761035;
+        final double C1 = 0.62499999999999717093447798714317;
+        final double C2 = 0.13888888888896424943900094084761;
+        final double C3 = 0.013599537036264264030329877630524;
+        final double C4 = 0.00075810185582039220235650518238038;
+        final double C5 = 0.000027391963865366940349418405925716;
+        final double C6 = 6.9485748781398167581920025110105E-7;
+        final double C7 = 1.3047806468174486410833880432694E-8;
+        final double C8 = 1.9964058030373836878360988877266E-10;
 
         double u2 = u * u;
 
@@ -469,47 +452,48 @@ final class MBessel1Optimized extends ModifiedBessel1stOrder {
     }
 
     private static double mbK_asymptoticTerm_0_to_1_Over64(double t) {
-        final double C0 = 1.0;
-        final double C1 = 2.999999999999715;
-        final double C2 = -7.4999999966397874;
-        final double C3 = 52.49999325888449;
-        final double C4 = -590.6193457328459;
-        final double C5 = 9093.05183935913;
-        final double C6 = -176646.8247234349;
-        final double C7 = 4049332.8298530686;
-        final double C8 = -9.902846697566415E7;
-        final double C9 = 2.1988533612929516E9;
-        final double C10 = -3.555868452683058E10;
-        final double C11 = 2.911183666084078E11;
+        final double C0 = 1;
+        final double C1 = 2.9999999999999676958245900511540;
+        final double C2 = -7.4999999995347455113748212936037;
+        final double C3 = 52.499998865276962200704082797839;
+        final double C4 = -590.62385299848927036116102916290;
+        final double C5 = 9094.9959989006409884526923913051;
+        final double C6 = -177152.13495647714160938156826582;
+        final double C7 = 4133188.7706354807605208575060738;
+        final double C8 = -108128646.09159884088304340981891;
+        final double C9 = 2842240319.5767913229930543493796;
+        final double C10 = -64120892523.542760179269319550660;
+        final double C11 = 1014157419363.5623459002662888254;
+        final double C12 = -7962531379373.4766542039939388408;
 
         double t2 = t * t;
 
+        double v12 = C12;
         double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
         double t4 = t2 * t2;
 
-        return v0 + t4 * (v4 + t4 * v8);
+        return v0 + t4 * (v4 + t4 * (v8 + t4 * v12));
     }
 
     private static double mbK_asymptoticTerm_1_to_2_Over64(double t) {
-        final double C0 = 1.0000000028184965;
-        final double C1 = 2.999998385327426;
-        final double C2 = -7.499572918174702;
-        final double C3 = 52.43069018247646;
-        final double C4 = -582.8789854481608;
-        final double C5 = 8459.728312752948;
-        final double C6 = -137225.8369656045;
-        final double C7 = 2147852.7531960756;
-        final double C8 = -2.8496961917234033E7;
-        final double C9 = 2.842391272935273E8;
-        final double C10 = -1.8366198297759774E9;
-        final double C11 = 5.672938728487763E9;
+        final double C0 = 1.0000000076005107930740389486319;
+        final double C1 = 2.9999960025088856018875778261670;
+        final double C2 = -7.4990364943489117690270147690113;
+        final double C3 = 52.358672241595043345196691025402;
+        final double C4 = -576.47195988783972107986172422914;
+        final double C5 = 8063.1216763946789685148770424398;
+        final double C6 = -119793.90283417027224103164674201;
+        final double C7 = 1603803.2882296494195495150789989;
+        final double C8 = -16680321.834077347579584629830936;
+        final double C9 = 114118626.50914855225806585465865;
+        final double C10 = -375432434.10190000650229442737410;
 
         double t2 = t * t;
 
-        double v8 = C8 + t * C9 + t2 * (C10 + t * C11);
+        double v8 = C8 + t * C9 + t2 * C10;
         double v4 = C4 + t * C5 + t2 * (C6 + t * C7);
         double v0 = C0 + t * C1 + t2 * (C2 + t * C3);
 
@@ -519,18 +503,18 @@ final class MBessel1Optimized extends ModifiedBessel1stOrder {
     }
 
     private static double mbK_asymptoticTerm_2_to_4_Over64(double t) {
-        final double C0 = 1.0000002811709148;
-        final double C1 = 2.9999168674834347;
-        final double C2 = -7.488535140841639;
-        final double C3 = 51.514914579114006;
-        final double C4 = -530.9388055950313;
-        final double C5 = 6337.306538269181;
-        final double C6 = -73284.9355827139;
-        final double C7 = 725606.696764786;
-        final double C8 = -5611755.852491752;
-        final double C9 = 3.0994322276068732E7;
-        final double C10 = -1.074293956133725E8;
-        final double C11 = 1.744729278001707E8;
+        final double C0 = 1.0000002811024438973674879916141;
+        final double C1 = 2.9999168845942354533365118130627;
+        final double C2 = -7.4885370723223687406892458618151;
+        final double C3 = 51.515044577391141890058867792970;
+        final double C4 = -530.94460218830097744670181388104;
+        final double C5 = 6337.4863404251805477831326328138;
+        final double C6 = -73288.894653520013132160264731969;
+        final double C7 = 725668.58231870611732909225599412;
+        final double C8 = -5612428.8846266863348103735235367;
+        final double C9 = 30999172.651678236701042686736748;
+        final double C10 = -107450244.69621186422161130918412;
+        final double C11 = 174513426.13707129627494691680936;
 
         double t2 = t * t;
 

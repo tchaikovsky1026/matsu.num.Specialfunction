@@ -44,13 +44,13 @@ final class BesselJ0Power extends RawCoeffCalculableFunction<DoubleDoubleFloatEl
 
         System.out.println("J0(x) について,");
         System.out.println("u = (x/2)^2, F(u) = J0(x) としたときの,");
-        System.out.println("(F(u) - 1)/u に対する多項式近似を扱う.");
+        System.out.println("多項式近似を扱う.");
         System.out.println();
 
         int order = 7;
 
         System.out.println("umin = " + U_MIN);
-        System.out.println("umin = " + U_MAX);
+        System.out.println("umax = " + U_MAX);
         new EachApproxExecutor(order).execute(new BesselJ0Power());
 
         System.out.println("finished...");

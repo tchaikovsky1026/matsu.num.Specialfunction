@@ -1,125 +1,92 @@
 package matsu.num.specialfunction.subpj.bessel.modbessel.asymptotic;
 
-import java.util.function.IntFunction;
-
-import matsu.num.approximation.DoubleFiniteClosedInterval;
-import matsu.num.commons.Exponentiation;
-import matsu.num.specialfunction.fraction.BigRational;
-import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
-import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
-import matsu.num.specialfunction.subpj.RawCoeffCalculableDoubleFunction;
+import matsu.num.approximation.generalfield.FiniteClosedInterval;
+import matsu.num.approximation.generalfield.PseudoRealNumber;
+import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
+import matsu.num.specialfunction.subpj.EachApproxExecutor;
+import matsu.num.specialfunction.subpj.FiniteClosedIntervalFactory;
+import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
 
 /**
  * <p>
  * K0の計算の近似のためのターゲット. <br>
- * t = 1/(8x) として, {@literal 0 <= t <= 1/16} を引数とする形で計算する. <br>
- * K0(x) = sqrt(pi/(2x)) * exp(-x) * F(t) <br>
- * として, F(t) を推定する. <br>
- * F(0)からF(1/16)までで2割程度しか変化しない. <br>
- * よって, スケールは1とする.
+ * t = 1/(8x) として, {@literal 0 <= t <= 1/16} の一部を引数とする形で計算する.
  * </p>
  * 
  * <p>
- * F(t)の第3次近似をf(t)とする. <br>
- * f(t) = 1 - (1^2 /1!)t + (1^2 * 3^2 /2!)t^2 - (1^2 * 3^2 * 5^2 /3!)t^3
+ * K0(x) = sqrt(pi/(2x)) * exp(-x) * F(t) <br>
+ * として, F(t) を推定する. <br>
+ * スケールは1とする.
  * </p>
- * 
  * 
  * @author Matsuura Y.
  */
-final class BesselK0Asymptotic extends RawCoeffCalculableDoubleFunction {
+final class BesselK0Asymptotic extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
 
-    private static final DoubleContinuedFractionFunction K0_UPPER4 =
-            DoubleContinuedFractionFunction.from(k0_upper4());
+    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
+            DoubleDoubleFloatElement.elementProvider();
+    private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
+            new FiniteClosedIntervalFactory<>(PROVIDER);
 
-    private static final double MIN_T = 0d;
-    private static final double MAX_T = 1d / 16;
+    private static final double LOWER_LIMIT_OF_T = 0d;
+    private static final double UPPER_LIMIT_OF_T = 1d / 16;
 
-    private final DoubleFiniteClosedInterval interval;
+    private final FiniteClosedInterval<DoubleDoubleFloatElement> interval;
 
-    private static final double[] ESTIMATED_COEFF = {
-            1d,
-            -1d,
-            (3 * 3) / 2d,
-            -(15 * 15) / 6d
-    };
+    public static void main(String[] args) {
 
-    public BesselK0Asymptotic(DoubleFiniteClosedInterval interval) {
+        System.out.println("K0(x) について,");
+        System.out.println("t = 1/(8x), K0(x) = sqrt(pi/(2x)) * exp(-x) * F(t) としたときの");
+        System.out.println("F(t)の推定");
+        System.out.println();
+
+        executeEach(10, 1d / 64, 2d / 64);
+        executeEach(11, 2d / 64, 4d / 64);
+
+        System.out.println("finished...");
+    }
+
+    private static void executeEach(int order, double t1, double t2) {
+        new EachApproxExecutor(order).execute(new BesselK0Asymptotic(t1, t2));
+    }
+
+    private BesselK0Asymptotic(double t1, double t2) {
         super();
-        this.interval = interval;
 
-        if (!(MIN_T <= interval.lower() &&
-                interval.upper() <= MAX_T)) {
-            throw new IllegalArgumentException("区間がサポート外");
+        if (!(LOWER_LIMIT_OF_T <= t1
+                && t1 <= UPPER_LIMIT_OF_T
+                && LOWER_LIMIT_OF_T <= t2
+                && t2 <= UPPER_LIMIT_OF_T)) {
+            throw new IllegalArgumentException("区間異常");
         }
+
+        this.interval = INTERVAL_FACTORY.createInterval(t1, t2);
     }
 
     @Override
-    protected double calcValue(double t) {
-        if (!this.accepts(t)) {
-            return Double.NaN;
-        }
-
-        double v = K0_UPPER4.value(t);
-        v *= 3 * 3;
-        v *= 5 * 5;
-        v *= 7 * 7;
-        v /= 24;
-        v *= Exponentiation.pow(t, 4);
-
-        return v;
+    public PseudoRealNumber.Provider<DoubleDoubleFloatElement> elementProvider() {
+        return PROVIDER;
     }
 
     @Override
-    protected double calcScale(double t) {
-        if (!this.accepts(t)) {
-            return Double.NaN;
-        }
-
-        return 1d;
+    protected DoubleDoubleFloatElement calcValue(DoubleDoubleFloatElement t) {
+        return ContinuedFractionFactoryOfK0Asymptotic.K0_ASYMPTOTIC_PRIME.apply(t)
+                .times(t)
+                .plus(PROVIDER.one());
     }
 
     @Override
-    public DoubleFiniteClosedInterval interval() {
+    protected DoubleDoubleFloatElement calcScale(DoubleDoubleFloatElement t) {
+        return PROVIDER.one();
+    }
+
+    @Override
+    public FiniteClosedInterval<DoubleDoubleFloatElement> interval() {
         return this.interval;
     }
 
-    /**
-     * [F(t) - f(t)] の近似多項式の係数を与え,
-     * F(t) の近似多項式係数を計算して返す.
-     * 
-     * @param thisCoeff [F(t) - f(t)]の係数
-     * @return F(t)の係数
-     */
     @Override
-    public double[] rawCoeff(double[] thisCoeff) {
-        double[] coeffF = thisCoeff.clone();
-        for (int i = 0;
-                i < coeffF.length && i < ESTIMATED_COEFF.length;
-                i++) {
-            coeffF[i] += ESTIMATED_COEFF[i];
-        }
-
-        return coeffF;
+    public DoubleDoubleFloatElement[] rawCoeff(DoubleDoubleFloatElement[] thisCoeff) {
+        return thisCoeff.clone();
     }
-
-    /**
-     * K0の漸近連分数の {@literal m >= 4}でのもの. <br>
-     * 4次が定数項1に対応するため, 実際は全体に, <br>
-     * (1^2 * 3^2 * 5^2 * 7^2 /4!)t^4
-     * <br>
-     * が乗算される.
-     */
-    private static ContinuedFractionFunction<BigRational> k0_upper4() {
-
-        final int kMax = 60;
-
-        IntFunction<BigRational> func =
-                k -> BigRational.of(-((2 * k + 9) * (2 * k + 9)), k + 5);
-
-        return ContinuedFractionFunction.from(
-                kMax, func,
-                BigRational.constantSupplier());
-    }
-
 }

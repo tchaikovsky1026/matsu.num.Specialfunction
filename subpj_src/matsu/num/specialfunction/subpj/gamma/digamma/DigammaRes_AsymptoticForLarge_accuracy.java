@@ -48,9 +48,9 @@ final class DigammaRes_AsymptoticForLarge_accuracy
 
     public static void main(String[] args) {
 
-        System.out.println("psi(x) - log(x) + 1/(2x) について,");
+        System.out.println("f(x) = psi(x) - log(x) + 1/(2x) について,");
         System.out.println("t = 1/x としたとき,");
-        System.out.println("x^2 * psi(x) を u = t^2 の多項式で近似する.");
+        System.out.println("x^2 * f(x) を u = t^2 の多項式で近似する.");
         System.out.println();
 
         int order = 4;

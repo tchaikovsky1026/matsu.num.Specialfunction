@@ -47,9 +47,9 @@ final class TrigammaRes_AsymptoticForLarge_accuracy
 
     public static void main(String[] args) {
 
-        System.out.println("psi1(x) - 1/x - 1/(2x^2) について,");
+        System.out.println("f(x) = psi1(x) - 1/x - 1/(2x^2) について,");
         System.out.println("t = 1/x としたとき,");
-        System.out.println("x^3 * psi1(x) を u = t^2 の多項式で近似する.");
+        System.out.println("x^3 * f(x) を u = t^2 の多項式で近似する.");
         System.out.println();
 
         int order = 5;

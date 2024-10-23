@@ -1,38 +1,43 @@
 package matsu.num.specialfunction.subpj.bessel.modbessel.asymptotic;
 
 import matsu.num.approximation.generalfield.FiniteClosedInterval;
-import matsu.num.approximation.generalfield.PseudoRealNumber;
+import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 import matsu.num.specialfunction.subpj.EachApproxExecutor;
 import matsu.num.specialfunction.subpj.FiniteClosedIntervalFactory;
 import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
+import matsu.num.specialfunction.subpj.gamma.component.EvenBernoulli;
 
 /**
- * <p>
- * K0の計算の近似のためのターゲット. <br>
- * t = 1/(8x) として, {@literal 0 <= t <= 1/64} を引数とする形で計算する.
- * </p>
+ * I0の計算の近似のためのターゲット. <br>
+ * t = 1/(8x) として, {@literal 0 <= t <= 1/192} を引数とする形で計算する
+ * (すなわち, {@code x >= 24}). <br>
+ * {@literal t -> 0} で厳密に一致するようにしたパターン.
  * 
  * <p>
- * K0(x) = sqrt(pi/(2x)) * exp(-x) * F(t) <br>
- * として, F(t) を推定する. <br>
+ * 漸近展開は, <br>
+ * I0(x) = sqrt(1/(2*pi*x)) * exp(x) * F(t), <br>
+ * F(t) = sum_{k=0}^{inf} (1^2 * 3^2 * ... (2k-1)^2)/k! * t^k <br>
  * ただし, 0次近似を厳密にするため, <br>
- * F'(t) = (F(t) - 1)/t を推定する.
+ * F'(t) = (F(t) - 1) / t として, F'(t)を推定する. <br>
+ * F'(t) = sum_{k=1}^{inf} (1^2 * 3^2 * ... (2k-1)^2)/k! * t^{k-1} <br>
  * スケールは 1/t とする.
  * </p>
  * 
- * 
  * @author Matsuura Y.
  */
-final class BesselK0Asymptotic_accurate extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
+final class BesselI0Asymptotic_accurate
+        extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
 
-    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
+    private static final Provider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
 
-    private static final double T_MIN = 0d;
-    private static final double T_MAX = 1d / 64;
+    /**
+     * 厳密な1/192よりはわずかに大きい.
+     */
+    private static final double T_MAX = Math.nextUp(1d / 192);
 
     private static final DoubleDoubleFloatElement SCALE_U_THRESHOLD =
             DoubleDoubleFloatElement.elementProvider().fromDoubleValue(1d / 1024);
@@ -41,30 +46,46 @@ final class BesselK0Asymptotic_accurate extends RawCoeffCalculableFunction<Doubl
 
     public static void main(String[] args) {
 
-        System.out.println("K0(x) について,");
-        System.out.println("t = 1/(8x), K0(x) = sqrt(pi/(2x)) * exp(-x) * F(t) としたときの");
-        System.out.println("F(t)の推定");
+        System.out.println("t = 1/x としたとき,");
+        System.out.println("I0(x) = sqrt(1/(2*pi*x)) * exp(x) * F(t) における");
+        System.out.println("F(t)の多項式で近似する.");
         System.out.println();
 
-        new EachApproxExecutor(11).execute(new BesselK0Asymptotic_accurate(T_MIN, T_MAX));
+        int order = 8;
+
+        System.out.println("tmax = " + T_MAX);
+        new EachApproxExecutor(order).execute(
+                new BesselI0Asymptotic_accurate());
 
         System.out.println("finished...");
     }
 
-    private BesselK0Asymptotic_accurate(double t1, double t2) {
-        super();
+    private BesselI0Asymptotic_accurate() {
 
-        this.interval = INTERVAL_FACTORY.createInterval(t1, t2);
+        this.interval = INTERVAL_FACTORY.createInterval(0d, T_MAX);
     }
 
     @Override
-    public PseudoRealNumber.Provider<DoubleDoubleFloatElement> elementProvider() {
+    public Provider<DoubleDoubleFloatElement> elementProvider() {
         return PROVIDER;
     }
 
     @Override
     protected DoubleDoubleFloatElement calcValue(DoubleDoubleFloatElement t) {
-        return ContinuedFractionFactoryOfK0Asymptotic.K0_ASYMPTOTIC_PRIME.apply(t);
+
+        /*
+         * F'(t) = sum_{k=1}^{inf} (1^2 * 3^2 * ... (2k-1)^2)/k! * t^{k-1}
+         */
+        DoubleDoubleFloatElement value = PROVIDER.zero();
+        for (int k = EvenBernoulli.MAX_M; k >= 2; k--) {
+            value = value.times(t)
+                    .times(2 * k - 1)
+                    .times(2 * k - 1)
+                    .dividedBy(k);
+            value = value.plus(PROVIDER.one());
+        }
+
+        return value;
     }
 
     @Override
@@ -82,11 +103,12 @@ final class BesselK0Asymptotic_accurate extends RawCoeffCalculableFunction<Doubl
 
     @Override
     public DoubleDoubleFloatElement[] rawCoeff(DoubleDoubleFloatElement[] thisCoeff) {
-        
+
         DoubleDoubleFloatElement[] coeffF = new DoubleDoubleFloatElement[thisCoeff.length + 1];
         coeffF[0] = PROVIDER.one();
         System.arraycopy(thisCoeff, 0, coeffF, 1, thisCoeff.length);
 
         return coeffF;
     }
+
 }

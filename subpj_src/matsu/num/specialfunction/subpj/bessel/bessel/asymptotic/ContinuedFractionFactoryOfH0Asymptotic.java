@@ -1,12 +1,3 @@
-/*
- * Copyright (c) 2024 Matsuura Y.
- * 
- * This software is released under the MIT License.
- * http://opensource.org/licenses/mit-license.php
- */
-/*
- * 2024.10.22
- */
 package matsu.num.specialfunction.subpj.bessel.bessel.asymptotic;
 
 import java.util.function.Function;
@@ -36,7 +27,7 @@ import matsu.num.specialfunction.subpj.DoubleDoubleFloatMathFieldWrapper;
  * 
  * @author Matsuura Y.
  */
-public final class ContinuedFractionFactoryOfH0Asymptotic {
+final class ContinuedFractionFactoryOfH0Asymptotic {
 
     private static final ComplexNumber.Provider<DoubleDoubleFloatMathFieldWrapper> COMPLEX_NUMBER_PROVIDER =
             new ComplexNumber.Provider<>(DoubleDoubleFloatMathFieldWrapper.constantSupplier());

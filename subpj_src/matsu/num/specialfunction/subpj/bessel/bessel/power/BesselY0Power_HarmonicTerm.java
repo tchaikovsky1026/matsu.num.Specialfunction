@@ -51,7 +51,7 @@ final class BesselY0Power_HarmonicTerm extends RawCoeffCalculableFunction<Double
         int order = 8;
 
         System.out.println("umin = " + U_MIN);
-        System.out.println("umin = " + U_MAX);
+        System.out.println("umax = " + U_MAX);
         new EachApproxExecutor(order).execute(new BesselY0Power_HarmonicTerm());
 
         System.out.println("finished...");

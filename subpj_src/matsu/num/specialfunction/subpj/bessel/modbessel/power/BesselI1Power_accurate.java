@@ -9,18 +9,21 @@ import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
 
 /**
  * <p>
- * K0の調和数部分の計算の近似のためのターゲット. <br>
+ * I1の計算の近似のためのターゲット. <br>
  * u = (x/2)^2 として, {@literal 0 <= u <= 1} を引数とする形で計算する. <br>
- * K0(x) = -(gamma + log(x/2))I0(x) + G(u) <br>
- * の形に分解したときの, <br>
- * Gの推定に関する. <br>
- * G(u) = Sum_{m=0 to inf} H_m/(m!)^2 * u^m <br>
- * スケールは 1 とする.
+ * F(u) = I1(x)/(x/2) = sum_{m=0 to inf} 1 / (m!(m+1)!) * u^m
+ * </p>
+ * 
+ * <p>
+ * 第0近似を厳密にしたい. <br>
+ * そこで, F'(u) = (F(u)-1)/u を多項式近似する. <br>
+ * F'(u) = sum_{m=1 to inf} 1 / (m!(m+1)!) * u^{m-1} <br>
+ * スケールは(1/u)である.
  * </p>
  * 
  * @author Matsuura Y.
  */
-final class BesselK0Power_HarmonicTerm extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
+final class BesselI1Power_accurate extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
 
     private static final Provider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
@@ -30,34 +33,30 @@ final class BesselK0Power_HarmonicTerm extends RawCoeffCalculableFunction<Double
     private static final double U_MIN = 0d;
     private static final double U_MAX = 1d;
 
-    private static final int K_MAX_FOR_BESSEL_K_BY_POWER = 40;
+    private static final DoubleDoubleFloatElement SCALE_U_THRESHOLD =
+            DoubleDoubleFloatElement.elementProvider().fromDoubleValue(1d / 1024);
 
-    /**
-     * [H_0, ..., H_kMax],
-     * Kのべき級数の計算で使用する.
-     */
-    private static final DoubleDoubleFloatElement[] HARMONIC_NUMBERS =
-            calcHarmonicNumbers(K_MAX_FOR_BESSEL_K_BY_POWER);
+    private static final int K_MAX_FOR_BESSEL_K_BY_POWER = 50;
 
     private final FiniteClosedInterval<DoubleDoubleFloatElement> interval;
 
     public static void main(String[] args) {
 
-        System.out.println("K0(x) について,");
-        System.out.println("u = (x/2)^2, K0(x) = -(gamma + log(x/2))I0(x) + G(u) としたときの,");
-        System.out.println("G(u) に対する多項式近似を扱う.");
+        System.out.println("I1(x) について,");
+        System.out.println("u = (x/2)^2, F(u) = I0(x)/(x/2) としたときの,");
+        System.out.println("多項式近似を扱う.");
         System.out.println();
 
-        int order = 8;
+        int order = 7;
 
         System.out.println("umin = " + U_MIN);
         System.out.println("umax = " + U_MAX);
-        new EachApproxExecutor(order).execute(new BesselK0Power_HarmonicTerm());
+        new EachApproxExecutor(order).execute(new BesselI1Power_accurate());
 
         System.out.println("finished...");
     }
 
-    private BesselK0Power_HarmonicTerm() {
+    private BesselI1Power_accurate() {
         super();
         this.interval = INTERVAL_FACTORY.createInterval(U_MIN, U_MAX);
     }
@@ -71,22 +70,25 @@ final class BesselK0Power_HarmonicTerm extends RawCoeffCalculableFunction<Double
     protected DoubleDoubleFloatElement calcValue(DoubleDoubleFloatElement u) {
 
         /*
-         * G(u) = Sum_{m=0 to inf} H_m/(m!)^2 * u^m
+         * F'(u) = sum_{m=1 to inf} 1 / (m!(m+1)!) * u^{m-1}
          */
         DoubleDoubleFloatElement value = PROVIDER.zero();
-        for (int k = K_MAX_FOR_BESSEL_K_BY_POWER + 1; k >= 1; k--) {
+        for (int k = K_MAX_FOR_BESSEL_K_BY_POWER + 1; k >= 2; k--) {
             value = value.times(u)
                     .dividedBy(k)
-                    .dividedBy(k);
-            value = value.plus(HARMONIC_NUMBERS[k - 1]);
+                    .dividedBy(k + 1);
+            value = value.plus(PROVIDER.one());
         }
 
-        return value;
+        return value.dividedBy(2d);
     }
 
     @Override
     protected DoubleDoubleFloatElement calcScale(DoubleDoubleFloatElement u) {
-        return PROVIDER.one();
+        if (u.compareTo(SCALE_U_THRESHOLD) <= 0) {
+            return PROVIDER.one().dividedBy(SCALE_U_THRESHOLD);
+        }
+        return PROVIDER.one().dividedBy(u);
     }
 
     @Override
@@ -96,21 +98,11 @@ final class BesselK0Power_HarmonicTerm extends RawCoeffCalculableFunction<Double
 
     @Override
     public DoubleDoubleFloatElement[] rawCoeff(DoubleDoubleFloatElement[] thisCoeff) {
-        return thisCoeff.clone();
-    }
 
-    /**
-     * [H_0, ..., H_kMax] を返す.
-     */
-    private static DoubleDoubleFloatElement[] calcHarmonicNumbers(int kMax) {
-        final DoubleDoubleFloatElement[] harmonicNumbers = new DoubleDoubleFloatElement[kMax + 1];
+        DoubleDoubleFloatElement[] coeffF = new DoubleDoubleFloatElement[thisCoeff.length + 1];
+        coeffF[0] = PROVIDER.one();
+        System.arraycopy(thisCoeff, 0, coeffF, 1, thisCoeff.length);
 
-        DoubleDoubleFloatElement current = PROVIDER.zero();
-        for (int k = 0; k <= kMax; k++) {
-            harmonicNumbers[k] = current;
-            current = current.plus(PROVIDER.one().dividedBy(k + 1));
-        }
-
-        return harmonicNumbers;
+        return coeffF;
     }
 }
