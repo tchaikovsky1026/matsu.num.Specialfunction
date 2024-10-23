@@ -5,11 +5,9 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.4.4
+ * 2024.10.23
  */
 package matsu.num.specialfunction.icbeta;
-
-import matsu.num.specialfunction.IncompleteBetaFunction;
 
 /**
  * {@link IncompleteBetaFunction}の骨格実装.
@@ -28,7 +26,7 @@ import matsu.num.specialfunction.IncompleteBetaFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.0
+ * @version 20.0
  */
 abstract class SkeletalICBeta implements IncompleteBetaFunction {
 

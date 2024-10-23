@@ -5,13 +5,12 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.17
+ * 2024.10.23
  */
 package matsu.num.specialfunction.icbeta;
 
 import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.GammaFunction;
-import matsu.num.specialfunction.IncompleteBetaFunction;
 
 /**
  * 不完全ベータ関数の計算(およそ倍精度未満). <br>
@@ -23,9 +22,9 @@ import matsu.num.specialfunction.IncompleteBetaFunction;
  * </p>
  *
  * @author Matsuura Y.
- * @version 18.1
+ * @version 20.0
  */
-final class ICBetaAtMiddleParam extends SkeletalICBeta implements IncompleteBetaFunction {
+final class ICBetaAtMiddleParam extends SkeletalICBeta {
 
     private static final double HALF_LN2PI = 0.9189385332046727417804d;
 

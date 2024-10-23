@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.19
+ * 2024.10.23
  */
 package matsu.num.specialfunction;
 
@@ -55,13 +55,22 @@ import matsu.num.specialfunction.icgamma.ICGammaFactory;
  * {@code 1E-2 <= a <= 1E+14}
  * </p>
  * 
+ * <p>
+ * <i>
+ * <u>
+ * このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
+ * 外部で実装することは不可.
+ * </u>
+ * </i>
+ * </p>
+ * 
  * @author Matsuura Y.
- * @version 18.1
+ * @version 20.0
  * @see <a href="https://en.wikipedia.org/wiki/Incomplete_gamma_function"
  *          target= "_brank">
  *          Wikipedia: Incomplete gamma function</a>
  */
-public interface IncompleteGammaFunction {
+public sealed interface IncompleteGammaFunction permits matsu.num.specialfunction.icgamma.IncompleteGammaFunction {
 
     /**
      * パラメータ <i>a</i> の下限を表す定数.
