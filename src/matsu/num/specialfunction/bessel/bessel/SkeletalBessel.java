@@ -5,18 +5,16 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.10.23
  */
 package matsu.num.specialfunction.bessel.bessel;
-
-import matsu.num.specialfunction.bessel.BesselFunction;
 
 /**
  * Bessel関数の骨格実装. <br>
  * {@link #toString()} の実装を提供する.
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 20.0
  */
 abstract class SkeletalBessel implements BesselFunction {
 

@@ -1,3 +1,7 @@
+20.0:
+公開インターフェースをシールし,外部で実装できないようにする.
+
+--------------------------
 19.9:
 サブPjにdouble-doubleを実装し, 係数を高度化
 (ErrorFunction, GammaFunction, BesselFunctionファミリー).

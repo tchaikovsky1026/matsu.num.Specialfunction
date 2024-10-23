@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.23
+ * 2024.10.23
  */
 package matsu.num.specialfunction.bessel;
 
@@ -26,16 +26,25 @@ import matsu.num.specialfunction.bessel.sbessel.SBesselFunctionFactory;
  * 0 &le; <i>n</i> &le; 100
  * である.
  * </p>
+ * 
+ * <p>
+ * <i>
+ * <u>
+ * このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
+ * 外部で実装することは不可.
+ * </u>
+ * </i>
+ * </p>
  *
  * @author Matsuura Y.
- * @version 19.0
+ * @version 20.0
  * @see <a href=
  *          "https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn,_yn"
  *          target=
  *          "_brank">
  *          Wikipedia: Bessel function#Spherical Bessel functions</a>
  */
-public interface SphericalBesselFunction {
+public sealed interface SphericalBesselFunction permits matsu.num.specialfunction.bessel.sbessel.SphericalBesselFunction {
     /**
      * 次数 <i>n</i> の下限を表す定数.
      */

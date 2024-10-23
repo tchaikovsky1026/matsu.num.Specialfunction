@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.23
+ * 2024.10.23
  */
 package matsu.num.specialfunction.bessel;
 
@@ -39,14 +39,23 @@ import matsu.num.specialfunction.bessel.modbessel.ModifiedBesselFunctionFactory;
  * である.
  * </p>
  * 
+ * <p>
+ * <i>
+ * <u>
+ * このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
+ * 外部で実装することは不可.
+ * </u>
+ * </i>
+ * </p>
+ * 
  * @author Matsuura Y.
- * @version 19.0
+ * @version 20.0
  * @see <a href=
  *          "https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions"
  *          target= "_brank">
  *          Wikipedia: Bessel function#Modified Bessel functions</a>
  */
-public interface ModifiedBesselFunction {
+public sealed interface ModifiedBesselFunction permits matsu.num.specialfunction.bessel.modbessel.ModifiedBesselFunction {
 
     /**
      * 次数 <i>n</i> の下限を表す定数.

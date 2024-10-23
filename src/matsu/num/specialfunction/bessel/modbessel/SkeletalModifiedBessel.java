@@ -5,18 +5,16 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.10.23
  */
 package matsu.num.specialfunction.bessel.modbessel;
-
-import matsu.num.specialfunction.bessel.ModifiedBesselFunction;
 
 /**
  * {@link ModifiedBesselFunction} の骨格実装. <br>
  * 主に, 文字列表現 ({@link #toString()})の実装を提供する.
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 20.0
  */
 abstract class SkeletalModifiedBessel implements ModifiedBesselFunction {
 
