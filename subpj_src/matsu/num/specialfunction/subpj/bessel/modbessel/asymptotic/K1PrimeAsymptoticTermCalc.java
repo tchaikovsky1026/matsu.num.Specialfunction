@@ -1,7 +1,6 @@
 package matsu.num.specialfunction.subpj.bessel.modbessel.asymptotic;
 
 import java.util.function.IntFunction;
-import java.util.function.UnaryOperator;
 
 import matsu.num.specialfunction.fraction.BigRational;
 import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
@@ -25,16 +24,10 @@ import matsu.num.specialfunction.subpj.DoubleDoubleFloatMathFieldWrapper;
  * 
  * @author Matsuura Y.
  */
-public final class ContinuedFractionFactoryOfK1Asymptotic {
+public final class K1PrimeAsymptoticTermCalc {
 
     private static final ContinuedFractionFunction<
             DoubleDoubleFloatMathFieldWrapper> K1_ASYMPTOTIC_PRIME_KERNEL = createK1AsymptoticPrime_kernel();
-
-    /**
-     * tからF'(t)を計算するための関数.
-     */
-    public static UnaryOperator<
-            DoubleDoubleFloatElement> K1_ASYMPTOTIC_PRIME = createK1AsymptoticPrime();
 
     /**
      * F'(t)/3 を計算している.
@@ -48,14 +41,23 @@ public final class ContinuedFractionFactoryOfK1Asymptotic {
 
         return ContinuedFractionFunction.from(kMax, func, BigRational.constantSupplier())
                 .transformedFrom(
-                        br -> new DoubleDoubleFloatMathFieldWrapper(
-                                DoubleDoubleFloatElement.fromBigRational(br)),
+                        br -> fromBigRationalToDDFWrapper(br),
                         DoubleDoubleFloatMathFieldWrapper.constantSupplier());
     }
 
-    private static UnaryOperator<DoubleDoubleFloatElement> createK1AsymptoticPrime() {
+    private static DoubleDoubleFloatMathFieldWrapper fromBigRationalToDDFWrapper(BigRational br) {
+        return new DoubleDoubleFloatMathFieldWrapper(
+                DoubleDoubleFloatElement.fromBigRational(br));
+    }
 
-        return t -> K1_ASYMPTOTIC_PRIME_KERNEL.value(new DoubleDoubleFloatMathFieldWrapper(t))
+    /**
+     * F'(t) を計算する.
+     * 
+     * @param t t
+     * @return F'(t)
+     */
+    public static DoubleDoubleFloatElement calc(DoubleDoubleFloatElement t) {
+        return K1_ASYMPTOTIC_PRIME_KERNEL.value(new DoubleDoubleFloatMathFieldWrapper(t))
                 .asDoubleDoubleFloatElement().times(3d);
     }
 }

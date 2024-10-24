@@ -64,7 +64,7 @@ final class BesselK1Asymptotic_accurate extends RawCoeffCalculableFunction<Doubl
 
     @Override
     protected DoubleDoubleFloatElement calcValue(DoubleDoubleFloatElement t) {
-        return ContinuedFractionFactoryOfK1Asymptotic.K1_ASYMPTOTIC_PRIME.apply(t);
+        return K1PrimeAsymptoticTermCalc.calc(t);
     }
 
     @Override

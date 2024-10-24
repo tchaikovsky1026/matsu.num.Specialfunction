@@ -75,7 +75,7 @@ final class BesselP0Asymptotic extends RawCoeffCalculableFunction<DoubleDoubleFl
 
     @Override
     protected DoubleDoubleFloatElement calcValue(DoubleDoubleFloatElement t) {
-        return ContinuedFractionFactoryOfH0Asymptotic.P0.apply(t);
+        return H0AsymptoticCalc.calcP0(t);
     }
 
     @Override

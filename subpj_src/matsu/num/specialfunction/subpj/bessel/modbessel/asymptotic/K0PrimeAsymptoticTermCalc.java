@@ -1,7 +1,6 @@
 package matsu.num.specialfunction.subpj.bessel.modbessel.asymptotic;
 
 import java.util.function.IntFunction;
-import java.util.function.UnaryOperator;
 
 import matsu.num.specialfunction.fraction.BigRational;
 import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
@@ -23,16 +22,10 @@ import matsu.num.specialfunction.subpj.DoubleDoubleFloatMathFieldWrapper;
  * 
  * @author Matsuura Y.
  */
-public final class ContinuedFractionFactoryOfK0Asymptotic {
+public final class K0PrimeAsymptoticTermCalc {
 
     private static final ContinuedFractionFunction<
             DoubleDoubleFloatMathFieldWrapper> K0_ASYMPTOTIC_PRIME_KERNEL = createK0AsymptoticPrime_kernel();
-
-    /**
-     * tからF'(t)を計算するための関数.
-     */
-    public static UnaryOperator<
-            DoubleDoubleFloatElement> K0_ASYMPTOTIC_PRIME = createK0AsymptoticPrime();
 
     /**
      * F'(t)/(-1) を計算している.
@@ -46,14 +39,24 @@ public final class ContinuedFractionFactoryOfK0Asymptotic {
 
         return ContinuedFractionFunction.from(kMax, func, BigRational.constantSupplier())
                 .transformedFrom(
-                        br -> new DoubleDoubleFloatMathFieldWrapper(
-                                DoubleDoubleFloatElement.fromBigRational(br)),
+                        br -> fromBigRationalToDDFWrapper(br),
                         DoubleDoubleFloatMathFieldWrapper.constantSupplier());
     }
 
-    private static UnaryOperator<DoubleDoubleFloatElement> createK0AsymptoticPrime() {
+    private static DoubleDoubleFloatMathFieldWrapper fromBigRationalToDDFWrapper(BigRational br) {
+        return new DoubleDoubleFloatMathFieldWrapper(
+                DoubleDoubleFloatElement.fromBigRational(br));
+    }
 
-        return t -> K0_ASYMPTOTIC_PRIME_KERNEL.value(new DoubleDoubleFloatMathFieldWrapper(t))
+    /**
+     * F'(t) を計算する.
+     * 
+     * @param t t
+     * @return F'(t)
+     */
+    public static DoubleDoubleFloatElement calc(DoubleDoubleFloatElement t) {
+        return K0_ASYMPTOTIC_PRIME_KERNEL.value(new DoubleDoubleFloatMathFieldWrapper(t))
                 .negated().asDoubleDoubleFloatElement();
     }
+
 }

@@ -70,7 +70,7 @@ final class BesselK0Asymptotic extends RawCoeffCalculableFunction<DoubleDoubleFl
 
     @Override
     protected DoubleDoubleFloatElement calcValue(DoubleDoubleFloatElement t) {
-        return ContinuedFractionFactoryOfK0Asymptotic.K0_ASYMPTOTIC_PRIME.apply(t)
+        return K0PrimeAsymptoticTermCalc.calc(t)
                 .times(t)
                 .plus(PROVIDER.one());
     }
