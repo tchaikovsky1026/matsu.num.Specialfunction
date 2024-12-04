@@ -1,5 +1,27 @@
+#Folder
 /bin/
 /dist/
-/javadoc-file/
 /testout/
-/subpj_src_out/
+/javadoc-file/
+/local/
+
+# Eclipse
+.project
+.classpath
+.settings
+.checkstyle
+
+#Java
+*.class
+*.jar
+*.war
+*.ear
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Other
+*.log
+*.swp
+*.bak
