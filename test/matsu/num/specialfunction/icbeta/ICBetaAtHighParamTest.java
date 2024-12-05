@@ -54,7 +54,8 @@ final class ICBetaAtHighParamTest {
                 { 5.0274361277084400E-01, 5.3029476814728000E+00 },
 
                 { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

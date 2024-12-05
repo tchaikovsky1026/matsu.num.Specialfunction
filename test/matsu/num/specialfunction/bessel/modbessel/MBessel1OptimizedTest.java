@@ -60,7 +60,8 @@ final class MBessel1OptimizedTest {
                 { 500, 2.5023034121760999956900776E+215 },
                 { 1000, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -106,7 +107,8 @@ final class MBessel1OptimizedTest {
                 { 500, 3.9963119385460033495059155E-219 },
                 { 1000, 0d },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -154,7 +156,8 @@ final class MBessel1OptimizedTest {
                 { 500, 0.017827851852898056461382459 },
                 { 1000, 0.012610930256928629470237564 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -200,7 +203,8 @@ final class MBessel1OptimizedTest {
                 { 500, 0.056091923370555569240004394 },
                 { 1000, 0.039648130812960210480145928 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.14
+ * 2024.12.5
  */
 package matsu.num.specialfunction.err;
 
@@ -15,7 +15,7 @@ import matsu.num.commons.Exponentiation;
  * 誤差関数の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 19.9
+ * @version 21.1
  */
 final class ErfCalcOptimized implements ErrorFunctionCalculation {
 
@@ -34,6 +34,10 @@ final class ErfCalcOptimized implements ErrorFunctionCalculation {
 
     @Override
     public double erf(double x) {
+        if (Double.isNaN(x)) {
+            return Double.NaN;
+        }
+
         /*
          * x = +inf: 1
          * x = -inf: -1
@@ -49,6 +53,10 @@ final class ErfCalcOptimized implements ErrorFunctionCalculation {
 
     @Override
     public double erfc(double x) {
+        if (Double.isNaN(x)) {
+            return Double.NaN;
+        }
+
         /*
          * x = +inf: 0
          * x = -inf: 2
@@ -64,6 +72,10 @@ final class ErfCalcOptimized implements ErrorFunctionCalculation {
 
     @Override
     public double erfcx(double x) {
+        if (Double.isNaN(x)) {
+            return Double.NaN;
+        }
+
         /*
          * x = +inf: 0
          * x = -inf: +inf
@@ -119,18 +131,18 @@ final class ErfCalcOptimized implements ErrorFunctionCalculation {
         final double limit = ONE_OVER_SQRT_PI * t;
 
         switch ((int) (t * 8)) {
-        case 0:
-            return limit * erfcx_largeX_Factor_as_t_0_to_1_Over8(t);
-        case 1:
-            return limit * erfcx_largeX_Factor_as_t_1_to_2_Over8(t);
-        case 2:
-            return limit * erfcx_largeX_Factor_as_t_2_to_3_Over8(t);
-        case 3:
-            return limit * erfcx_largeX_Factor_as_t_3_to_4_Over8(t);
-        case 4, 5:
-            return limit * erfcx_largeX_Factor_as_t_4_to_6_Over8(t);
-        default:
-            return limit * erfcx_largeX_Factor_as_t_6_to_8_Over8(t);
+            case 0:
+                return limit * erfcx_largeX_Factor_as_t_0_to_1_Over8(t);
+            case 1:
+                return limit * erfcx_largeX_Factor_as_t_1_to_2_Over8(t);
+            case 2:
+                return limit * erfcx_largeX_Factor_as_t_2_to_3_Over8(t);
+            case 3:
+                return limit * erfcx_largeX_Factor_as_t_3_to_4_Over8(t);
+            case 4, 5:
+                return limit * erfcx_largeX_Factor_as_t_4_to_6_Over8(t);
+            default:
+                return limit * erfcx_largeX_Factor_as_t_6_to_8_Over8(t);
         }
     }
 

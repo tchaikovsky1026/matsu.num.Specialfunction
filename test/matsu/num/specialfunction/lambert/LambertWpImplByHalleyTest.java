@@ -40,7 +40,8 @@ final class LambertWpImplByHalleyTest {
                 { 20, 2.205003278024059970493 },
                 { Double.MAX_VALUE, 703.22703310477018687 },
                 { Math.nextDown(-1 / Math.E), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

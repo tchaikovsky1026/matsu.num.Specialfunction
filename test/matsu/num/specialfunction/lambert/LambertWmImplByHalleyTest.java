@@ -41,7 +41,8 @@ final class LambertWmImplByHalleyTest {
                 { Math.nextDown(-1 / Math.E), Double.NaN },
                 { 0d, Double.NEGATIVE_INFINITY },
                 { -0d, Double.NEGATIVE_INFINITY },
-                { Double.MIN_VALUE, Double.NaN }
+                { Double.MIN_VALUE, Double.NaN },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

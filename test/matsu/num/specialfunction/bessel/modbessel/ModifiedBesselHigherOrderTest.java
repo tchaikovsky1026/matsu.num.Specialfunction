@@ -82,7 +82,8 @@ final class ModifiedBesselHigherOrderTest {
                 { 500, 4.0083068568719768907546592E-219 },
                 { 1000, 0d },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -128,7 +129,8 @@ final class ModifiedBesselHigherOrderTest {
                 { 500, 4.4117428767318521938832843E-219 },
                 { 1000, 0d },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -174,7 +176,8 @@ final class ModifiedBesselHigherOrderTest {
                 { 500, 8.4258768687230154098218643E-215 },
                 { 1000, 0d },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -220,7 +223,8 @@ final class ModifiedBesselHigherOrderTest {
                 { 500, 0.056260283110716737705322629 },
                 { 1000, 0.039707617862380137535686214 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -266,7 +270,9 @@ final class ModifiedBesselHigherOrderTest {
                 { 500, 0.061922879689485175071705714 },
                 { 1000, 0.041659051428005657878964015 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -312,7 +318,8 @@ final class ModifiedBesselHigherOrderTest {
                 { 500, 1182.6495201525858169930894 },
                 { 1000, 5.8424465521265156526734722 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

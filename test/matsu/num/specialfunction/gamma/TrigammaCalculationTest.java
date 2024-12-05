@@ -58,7 +58,8 @@ final class TrigammaCalculationTest {
                 { 0d, Double.POSITIVE_INFINITY },
                 { -0d, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

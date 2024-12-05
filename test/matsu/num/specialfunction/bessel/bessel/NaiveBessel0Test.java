@@ -36,7 +36,8 @@ final class NaiveBessel0Test {
                 { 6, 0.1506452572509969316623 },
                 { 10, -0.2459357644513483351978 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -60,7 +61,8 @@ final class NaiveBessel0Test {
                 { 10, 0.05567116728359939142446 },
                 { Math.nextDown(0d), Double.NaN },
                 { 0d, Double.NEGATIVE_INFINITY },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

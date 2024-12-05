@@ -42,7 +42,8 @@ final class ICGammaAtHighParamTest {
                 { 5.0894427190999900E+04, 28762.90666680780000000 },
 
                 { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

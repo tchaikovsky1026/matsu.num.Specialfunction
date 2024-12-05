@@ -60,7 +60,8 @@ final class ErfiCalcSimpleTest {
                 { 7.25, 5.28354222605648187E+21 },
 
                 { Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -109,7 +110,8 @@ final class ErfiCalcSimpleTest {
                 { 7.25, 0.0785817104423815577 },
 
                 { Double.NEGATIVE_INFINITY, 0d },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

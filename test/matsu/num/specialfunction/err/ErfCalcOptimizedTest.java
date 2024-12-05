@@ -59,7 +59,8 @@ final class ErfCalcOptimizedTest {
                 { 10, 1 },
 
                 { Double.NEGATIVE_INFINITY, -1d },
-                { Double.POSITIVE_INFINITY, 1d }
+                { Double.POSITIVE_INFINITY, 1d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -108,7 +109,8 @@ final class ErfCalcOptimizedTest {
                 { 10, 2.08848758376254476E-45 },
 
                 { Double.NEGATIVE_INFINITY, 2d },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -157,7 +159,8 @@ final class ErfCalcOptimizedTest {
                 { 10, 0.0561409927438225859 },
 
                 { Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

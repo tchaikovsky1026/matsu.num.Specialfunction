@@ -60,7 +60,8 @@ final class BesselHigherImplYTest {
                 { 10d, -0.005868082442208614639803 },
                 { Math.nextDown(0d), Double.NaN },
                 { 0d, Double.NEGATIVE_INFINITY },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -87,7 +88,8 @@ final class BesselHigherImplYTest {
                 { 10, 0.135403047689362303197 },
                 { Math.nextDown(0d), Double.NaN },
                 { 0d, Double.NEGATIVE_INFINITY },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -118,7 +120,8 @@ final class BesselHigherImplYTest {
                 { 150d, 0.07387607124501986831545 },
                 { Math.nextDown(0d), Double.NaN },
                 { 0d, Double.NEGATIVE_INFINITY },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

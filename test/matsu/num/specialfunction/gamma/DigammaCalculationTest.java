@@ -59,7 +59,8 @@ final class DigammaCalculationTest {
                 { 0d, Double.NEGATIVE_INFINITY },
                 { -0d, Double.NEGATIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

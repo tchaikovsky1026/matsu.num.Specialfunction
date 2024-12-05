@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.16
+ * 2024.12.5
  */
 package matsu.num.specialfunction.err;
 
@@ -15,7 +15,7 @@ import matsu.num.commons.Exponentiation;
  * 素朴な実装により虚数誤差関数の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 19.5
+ * @version 21.1
  * @deprecated このクラスは使われていない.
  */
 @Deprecated
@@ -76,6 +76,9 @@ final class ErfiCalcSimple implements ErrorFunctionImaginaryCalculation {
 
     @Override
     public double erfi(double x) {
+        if (Double.isNaN(x)) {
+            return Double.NaN;
+        }
 
         final double absX = Math.abs(x);
         if (absX <= BOUNDARY_ABS_X_SELECTING_ERFI_OR_ERFIX) {
@@ -97,6 +100,9 @@ final class ErfiCalcSimple implements ErrorFunctionImaginaryCalculation {
 
     @Override
     public double erfix(double x) {
+        if (Double.isNaN(x)) {
+            return Double.NaN;
+        }
 
         if (Math.abs(x) <= BOUNDARY_ABS_X_SELECTING_ERFI_OR_ERFIX) {
             return erfi_smallX(x) * Exponentiation.exp(-x * x);

@@ -63,7 +63,8 @@ final class ModifiedBesselOver2Test {
                 { 500, 2.4948002629213736965686518E+215 },
                 { 1000, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -111,7 +112,8 @@ final class ModifiedBesselOver2Test {
                 { 500, 2.4161540264783425286764094E+215 },
                 { 1000, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -160,7 +162,8 @@ final class ModifiedBesselOver2Test {
                 { 500, 2.3849171194724407702533707E+215 },
                 { 1000, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -208,7 +211,8 @@ final class ModifiedBesselOver2Test {
                 { 500, 1.6784410801938620762649637E+215 },
                 { 1000, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -258,7 +262,8 @@ final class ModifiedBesselOver2Test {
                 { 5001, Double.POSITIVE_INFINITY },
                 { 10000, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -306,7 +311,8 @@ final class ModifiedBesselOver2Test {
                 { 500, 0.017774395092741575010690668 },
                 { 1000, 0.012592018595377399326775656 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -354,7 +360,8 @@ final class ModifiedBesselOver2Test {
                 { 500, 0.01721407397210055847161696 },
                 { 1000, 0.012392050932874427978137372 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -403,7 +410,8 @@ final class ModifiedBesselOver2Test {
                 { 500, 0.016991524241426739233588445 },
                 { 1000, 0.012311724329574369804332509 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -451,7 +459,8 @@ final class ModifiedBesselOver2Test {
                 { 500, 0.011958181720054547742880982 },
                 { 1000, 0.010329157758475194371041681 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -501,7 +510,8 @@ final class ModifiedBesselOver2Test {
                 { 5001, 0.0020756585259550656857115906 },
                 { 10000, 0.0024196870787293211690425838 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

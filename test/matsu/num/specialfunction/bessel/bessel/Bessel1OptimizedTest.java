@@ -54,7 +54,8 @@ final class Bessel1OptimizedTest {
                 { 24, -0.15403806518312122128299789 },
                 { 30, -0.11875106261662293652023427 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -96,7 +97,8 @@ final class Bessel1OptimizedTest {
                 { 30, 0.084425570661747234890922904 },
                 { Math.nextDown(0d), Double.NaN },
                 { 0, Double.NEGATIVE_INFINITY },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

@@ -53,7 +53,8 @@ final class ICGammaAtLowParamTest {
                 { 1.5, 87.15219793202550000 },
 
                 { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -93,7 +94,8 @@ final class ICGammaAtLowParamTest {
                 { 10, 22025.46579480390000000 },
 
                 { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -126,7 +128,8 @@ final class ICGammaAtLowParamTest {
                 { 20, 59014.35037245490000000 },
 
                 { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -157,7 +160,8 @@ final class ICGammaAtLowParamTest {
                 { 30, 140413.90909508000000000 },
 
                 { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

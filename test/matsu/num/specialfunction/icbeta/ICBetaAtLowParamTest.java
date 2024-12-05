@@ -54,7 +54,8 @@ final class ICBetaAtLowParamTest {
                 { 98.9999999999999000, 180725.0393072710000000 },
 
                 { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

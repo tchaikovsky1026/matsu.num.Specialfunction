@@ -56,7 +56,8 @@ final class GammaCalculationTest {
                 { 0d, Double.POSITIVE_INFINITY },
                 { -0d, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { 200, Double.POSITIVE_INFINITY }
+                { 200, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

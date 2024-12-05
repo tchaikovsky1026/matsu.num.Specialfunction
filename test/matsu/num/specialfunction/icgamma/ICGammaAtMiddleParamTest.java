@@ -39,7 +39,8 @@ final class ICGammaAtMiddleParamTest {
                 { 30, 44.71748658332190000 },
 
                 { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

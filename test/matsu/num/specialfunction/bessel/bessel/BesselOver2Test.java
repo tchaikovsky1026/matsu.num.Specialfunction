@@ -48,7 +48,8 @@ final class BesselOver2Test {
                 { 6d, -0.2428732099601854677199 },
                 { 10d, 0.2546303136851206225317 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -74,7 +75,8 @@ final class BesselOver2Test {
                 { 6, 0.3620870748871723890797 },
                 { 10, -0.2340615281867936404437 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -104,7 +106,8 @@ final class BesselOver2Test {
                 { 100d, 0.09636667329586155967431 },
                 { 150d, -0.01535952611840539062934 },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

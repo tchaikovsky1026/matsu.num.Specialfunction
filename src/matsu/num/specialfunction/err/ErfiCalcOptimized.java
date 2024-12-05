@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.15
+ * 2024.12.5
  */
 package matsu.num.specialfunction.err;
 
@@ -15,7 +15,7 @@ import matsu.num.commons.Exponentiation;
  * 速度を最適化した虚数誤差関数の計算.
  * 
  * @author Matsuura Y.
- * @version 19.9
+ * @version 21.1
  */
 final class ErfiCalcOptimized implements ErrorFunctionImaginaryCalculation {
 
@@ -53,6 +53,9 @@ final class ErfiCalcOptimized implements ErrorFunctionImaginaryCalculation {
 
     @Override
     public double erfi(double x) {
+        if (Double.isNaN(x)) {
+            return Double.NaN;
+        }
 
         final double absX = Math.abs(x);
         if (absX <= BOUNDARY_ABS_X_SELECTING_ERFI_OR_ERFIX) {
@@ -74,6 +77,9 @@ final class ErfiCalcOptimized implements ErrorFunctionImaginaryCalculation {
 
     @Override
     public double erfix(double x) {
+        if (Double.isNaN(x)) {
+            return Double.NaN;
+        }
 
         if (Math.abs(x) <= BOUNDARY_ABS_X_SELECTING_ERFI_OR_ERFIX) {
             return erfi_smallX(x) * Exponentiation.exp(-x * x);
@@ -134,22 +140,22 @@ final class ErfiCalcOptimized implements ErrorFunctionImaginaryCalculation {
         assert abs_x >= BOUNDARY_ABS_X_SELECTING_ERFI_OR_ERFIX;
 
         switch ((int) abs_x) {
-        case 1:
-            return erfix_largeX_factor_1_to_2(abs_x);
-        case 2:
-            return erfix_largeX_factor_2_to_3(abs_x);
-        case 3:
-            return erfix_largeX_factor_3_to_4(abs_x);
-        case 4:
-            return erfix_largeX_factor_4_to_5(abs_x);
-        case 5:
-            return erfix_largeX_factor_5_to_6(abs_x);
-        case 6:
-            return erfix_largeX_factor_6_to_7(abs_x);
-        case 7:
-            return erfix_largeX_factor_7_to_8(abs_x);
-        default:
-            return erfix_largeX_factor_greater_than_8(abs_x);
+            case 1:
+                return erfix_largeX_factor_1_to_2(abs_x);
+            case 2:
+                return erfix_largeX_factor_2_to_3(abs_x);
+            case 3:
+                return erfix_largeX_factor_3_to_4(abs_x);
+            case 4:
+                return erfix_largeX_factor_4_to_5(abs_x);
+            case 5:
+                return erfix_largeX_factor_5_to_6(abs_x);
+            case 6:
+                return erfix_largeX_factor_6_to_7(abs_x);
+            case 7:
+                return erfix_largeX_factor_7_to_8(abs_x);
+            default:
+                return erfix_largeX_factor_greater_than_8(abs_x);
         }
     }
 

@@ -51,7 +51,8 @@ final class ICBetaAtMiddleParamTest {
                 { 4.8941215637254900E-04, 5.3674528891225900E+00 },
 
                 { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory

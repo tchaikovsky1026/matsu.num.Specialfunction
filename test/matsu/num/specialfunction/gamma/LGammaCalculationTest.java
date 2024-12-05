@@ -56,7 +56,8 @@ final class LGammaCalculationTest {
                 { 0d, Double.POSITIVE_INFINITY },
                 { -0d, Double.POSITIVE_INFINITY },
                 { -1d, Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -100,7 +101,8 @@ final class LGammaCalculationTest {
 
                 { -1d, Double.POSITIVE_INFINITY },
                 { Math.nextDown(-1d), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -123,7 +125,8 @@ final class LGammaCalculationTest {
                 { 0d, Double.POSITIVE_INFINITY },
                 { -0d, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY }
+                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -171,7 +174,8 @@ final class LGammaCalculationTest {
                 { 0d, Double.POSITIVE_INFINITY },
                 { -0d, Double.POSITIVE_INFINITY },
                 { Math.nextDown(0d), Double.NaN },
-                { Double.POSITIVE_INFINITY, 0d }
+                { Double.POSITIVE_INFINITY, 0d },
+                { Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -240,7 +244,9 @@ final class LGammaCalculationTest {
                 { Double.POSITIVE_INFINITY, -1d, Double.NaN },
                 { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NaN },
 
-                { 0d, 1d, Double.NEGATIVE_INFINITY }
+                { 0d, 1d, Double.NEGATIVE_INFINITY },
+                { Double.NaN, 1d, Double.NaN },
+                { 1d, Double.NaN, Double.NaN }
         };
 
         @Theory
@@ -329,7 +335,9 @@ final class LGammaCalculationTest {
                     { Double.POSITIVE_INFINITY, 1d, Double.NaN },
                     { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NaN },
                     { 0d, 1d, Double.POSITIVE_INFINITY },
-                    { 0d, 0d, Double.POSITIVE_INFINITY }
+                    { 0d, 0d, Double.POSITIVE_INFINITY },
+                    { Double.NaN, 1d, Double.NaN },
+                    { 1d, Double.NaN, Double.NaN }
 
             };
 
