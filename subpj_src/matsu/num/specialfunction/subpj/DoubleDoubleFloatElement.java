@@ -214,9 +214,6 @@ public final class DoubleDoubleFloatElement extends PseudoRealNumber<DoubleDoubl
 
         @Override
         public DoubleDoubleFloatElement[] createArray(int length) {
-            if (length < 0) {
-                throw new IllegalArgumentException("サイズが負");
-            }
             return new DoubleDoubleFloatElement[length];
         }
     }

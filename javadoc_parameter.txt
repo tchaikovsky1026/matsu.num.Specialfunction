@@ -1,3 +1,0 @@
-(Antビルド: javadoc)
-packagenames="matsu.num.specialfunction,
-        	matsu.num.specialfunction.bessel"
