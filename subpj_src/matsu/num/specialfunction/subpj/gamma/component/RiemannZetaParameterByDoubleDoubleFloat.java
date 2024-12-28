@@ -2,7 +2,7 @@ package matsu.num.specialfunction.subpj.gamma.component;
 
 import java.util.Arrays;
 
-import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
+import matsu.num.approximation.PseudoRealNumber;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 
 /**
@@ -12,7 +12,7 @@ import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
  */
 public final class RiemannZetaParameterByDoubleDoubleFloat {
 
-    private static final Provider<DoubleDoubleFloatElement> PROVIDER =
+    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
 
     /**

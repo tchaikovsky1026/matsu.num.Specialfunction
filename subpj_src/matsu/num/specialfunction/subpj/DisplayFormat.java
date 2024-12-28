@@ -1,8 +1,8 @@
 package matsu.num.specialfunction.subpj;
 
-import matsu.num.approximation.generalfield.PseudoRealNumber;
-import matsu.num.approximation.generalfield.polynomial.Polynomial;
+import matsu.num.approximation.PseudoRealNumber;
 import matsu.num.approximation.polynomial.DoublePolynomial;
+import matsu.num.approximation.polynomial.Polynomial;
 
 /**
  * ターゲット関数と近似結果から, 結果出力の文字列を得るための,

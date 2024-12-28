@@ -1,7 +1,7 @@
 package matsu.num.specialfunction.subpj;
 
-import matsu.num.approximation.generalfield.ApproxTarget;
-import matsu.num.approximation.generalfield.PseudoRealNumber;
+import matsu.num.approximation.ApproxTarget;
+import matsu.num.approximation.PseudoRealNumber;
 
 /**
  * 近似ターゲット関数の近似多項式を, 元々扱いたい関数の係数へと変換する機能を持たせた,

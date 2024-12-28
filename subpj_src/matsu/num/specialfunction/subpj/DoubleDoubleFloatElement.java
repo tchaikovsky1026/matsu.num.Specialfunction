@@ -3,7 +3,7 @@ package matsu.num.specialfunction.subpj;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import matsu.num.approximation.generalfield.PseudoRealNumber;
+import matsu.num.approximation.PseudoRealNumber;
 import matsu.num.mathtype.DoubleDoubleFloat;
 import matsu.num.specialfunction.fraction.BigRational;
 

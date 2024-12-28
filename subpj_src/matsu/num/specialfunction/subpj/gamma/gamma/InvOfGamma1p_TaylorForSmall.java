@@ -2,8 +2,8 @@ package matsu.num.specialfunction.subpj.gamma.gamma;
 
 import static matsu.num.specialfunction.subpj.gamma.component.GammaConstant.*;
 
-import matsu.num.approximation.generalfield.FiniteClosedInterval;
-import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
+import matsu.num.approximation.FiniteClosedInterval;
+import matsu.num.approximation.PseudoRealNumber;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 import matsu.num.specialfunction.subpj.EachApproxExecutor;
 import matsu.num.specialfunction.subpj.FiniteClosedIntervalFactory;
@@ -31,7 +31,7 @@ import matsu.num.specialfunction.subpj.gamma.component.RiemannZetaParameterByDou
  */
 final class InvOfGamma1p_TaylorForSmall extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
 
-    private static final Provider<DoubleDoubleFloatElement> PROVIDER =
+    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
@@ -60,7 +60,7 @@ final class InvOfGamma1p_TaylorForSmall extends RawCoeffCalculableFunction<Doubl
     }
 
     @Override
-    public Provider<DoubleDoubleFloatElement> elementProvider() {
+    public PseudoRealNumber.Provider<DoubleDoubleFloatElement> elementProvider() {
         return PROVIDER;
     }
 

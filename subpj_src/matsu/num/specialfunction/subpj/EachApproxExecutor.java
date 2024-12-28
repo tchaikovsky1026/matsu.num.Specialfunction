@@ -1,9 +1,9 @@
 package matsu.num.specialfunction.subpj;
 
 import matsu.num.approximation.ApproxResult;
-import matsu.num.approximation.generalfield.PseudoRealNumber;
-import matsu.num.approximation.generalfield.polynomial.MinimaxPolynomialApproxExecutor;
-import matsu.num.approximation.generalfield.polynomial.Polynomial;
+import matsu.num.approximation.PseudoRealNumber;
+import matsu.num.approximation.polynomial.MinimaxPolynomialApproxExecutor;
+import matsu.num.approximation.polynomial.Polynomial;
 
 /**
  * 近似の実行を扱う.

@@ -2,8 +2,8 @@ package matsu.num.specialfunction.subpj;
 
 import java.util.Objects;
 
-import matsu.num.approximation.generalfield.FiniteClosedInterval;
-import matsu.num.approximation.generalfield.PseudoRealNumber;
+import matsu.num.approximation.FiniteClosedInterval;
+import matsu.num.approximation.PseudoRealNumber;
 
 /**
  * 一般体の閉区間を作成するファクトリクラス.

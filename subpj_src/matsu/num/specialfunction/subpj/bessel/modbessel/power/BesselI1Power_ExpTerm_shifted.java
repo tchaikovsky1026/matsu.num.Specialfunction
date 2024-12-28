@@ -1,7 +1,7 @@
 package matsu.num.specialfunction.subpj.bessel.modbessel.power;
 
-import matsu.num.approximation.generalfield.FiniteClosedInterval;
-import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
+import matsu.num.approximation.FiniteClosedInterval;
+import matsu.num.approximation.PseudoRealNumber;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 import matsu.num.specialfunction.subpj.EachApproxExecutor;
 import matsu.num.specialfunction.subpj.FiniteClosedIntervalFactory;
@@ -38,7 +38,7 @@ import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
  */
 final class BesselI1Power_ExpTerm_shifted extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
 
-    private static final Provider<DoubleDoubleFloatElement> PROVIDER =
+    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
@@ -91,7 +91,7 @@ final class BesselI1Power_ExpTerm_shifted extends RawCoeffCalculableFunction<Dou
     }
 
     @Override
-    public Provider<DoubleDoubleFloatElement> elementProvider() {
+    public PseudoRealNumber.Provider<DoubleDoubleFloatElement> elementProvider() {
         return PROVIDER;
     }
 

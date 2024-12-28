@@ -1,6 +1,6 @@
 package matsu.num.specialfunction.subpj.gamma.lgamma;
 
-import matsu.num.approximation.generalfield.PseudoRealNumber.Provider;
+import matsu.num.approximation.PseudoRealNumber;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 import matsu.num.specialfunction.subpj.gamma.component.EvenBernoulli;
 import matsu.num.specialfunction.subpj.gamma.component.EvenBernoulliByDoubleDoubleFloat;
@@ -17,7 +17,7 @@ import matsu.num.specialfunction.subpj.gamma.component.EvenBernoulliByDoubleDoub
  */
 final class LGammaResidual {
 
-    private static final Provider<DoubleDoubleFloatElement> PROVIDER =
+    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
 
     private static final DoubleDoubleFloatElement X_MIN =

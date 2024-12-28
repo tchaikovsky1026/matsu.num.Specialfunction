@@ -1,7 +1,7 @@
 package matsu.num.specialfunction.subpj.bessel.modbessel.asymptotic;
 
-import matsu.num.approximation.generalfield.FiniteClosedInterval;
-import matsu.num.approximation.generalfield.PseudoRealNumber;
+import matsu.num.approximation.FiniteClosedInterval;
+import matsu.num.approximation.PseudoRealNumber;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 import matsu.num.specialfunction.subpj.EachApproxExecutor;
 import matsu.num.specialfunction.subpj.FiniteClosedIntervalFactory;
@@ -82,7 +82,7 @@ final class BesselK0Asymptotic_accurate extends RawCoeffCalculableFunction<Doubl
 
     @Override
     public DoubleDoubleFloatElement[] rawCoeff(DoubleDoubleFloatElement[] thisCoeff) {
-        
+
         DoubleDoubleFloatElement[] coeffF = new DoubleDoubleFloatElement[thisCoeff.length + 1];
         coeffF[0] = PROVIDER.one();
         System.arraycopy(thisCoeff, 0, coeffF, 1, thisCoeff.length);

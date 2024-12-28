@@ -2,9 +2,9 @@ package matsu.num.specialfunction.subpj;
 
 import java.util.Objects;
 
-import matsu.num.approximation.generalfield.PseudoRealNumber;
-import matsu.num.approximation.generalfield.polynomial.Polynomial;
+import matsu.num.approximation.PseudoRealNumber;
 import matsu.num.approximation.polynomial.DoublePolynomial;
+import matsu.num.approximation.polynomial.Polynomial;
 
 /**
  * 近似誤差の可視化と, 近似結果の係数を文字列として出力する,

@@ -1,7 +1,7 @@
 package matsu.num.specialfunction.subpj.bessel.modbessel.asymptotic;
 
-import matsu.num.approximation.generalfield.FiniteClosedInterval;
-import matsu.num.approximation.generalfield.PseudoRealNumber;
+import matsu.num.approximation.FiniteClosedInterval;
+import matsu.num.approximation.PseudoRealNumber;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 import matsu.num.specialfunction.subpj.EachApproxExecutor;
 import matsu.num.specialfunction.subpj.FiniteClosedIntervalFactory;
