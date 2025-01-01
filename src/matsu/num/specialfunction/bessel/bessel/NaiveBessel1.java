@@ -5,20 +5,18 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.23
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.bessel;
 
-import matsu.num.commons.Exponentiation;
-import matsu.num.commons.Trigonometry;
 import matsu.num.specialfunction.GammaFunction;
-import matsu.num.specialfunction.fraction.RealCoeffDoubleComplexCFFunction;
+import matsu.num.specialfunction.common.Exponentiation;
+import matsu.num.specialfunction.common.Trigonometry;
 import matsu.num.specialfunction.fraction.DoubleComplexNumber;
+import matsu.num.specialfunction.fraction.RealCoeffDoubleComplexCFFunction;
 
 /**
- * <p>
  * 素朴な1次のBessel関数の実装.
- * </p>
  * 
  * <p>
  * このクラスは1次Bessel関数の素朴な (原理に忠実な) 実装を扱う. <br>
@@ -31,7 +29,7 @@ import matsu.num.specialfunction.fraction.DoubleComplexNumber;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 22.0
  * @deprecated {@link Bessel1Optimized} が提供されたため, 使用されていない.
  */
 @Deprecated

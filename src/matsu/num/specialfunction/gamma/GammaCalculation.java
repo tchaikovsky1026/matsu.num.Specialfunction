@@ -5,19 +5,19 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.18
+ * 2024.12.31
  */
 package matsu.num.specialfunction.gamma;
 
 import java.util.Objects;
 
-import matsu.num.commons.Exponentiation;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 19.9
+ * @version 22.0
  */
 public final class GammaCalculation {
 
@@ -127,18 +127,18 @@ public final class GammaCalculation {
         assert x <= 3d;
 
         switch ((int) (2 * x)) {
-        case 0: {
-            // x + 0dは, x=-0d への配慮
-            return gamma1p_m0_5_to_0_5(x) / (x + 0d);
-        }
-        case 1, 2: {
-            return gamma1p_m0_5_to_0_5(x - 1d);
-        }
-        case 3, 4: {
-            return (x - 1d) * gamma1p_m0_5_to_0_5(x - 2d);
-        }
-        default:
-            return (x - 1d) * (x - 2d) * gamma1p_m0_5_to_0_5(x - 3d);
+            case 0: {
+                // x + 0dは, x=-0d への配慮
+                return gamma1p_m0_5_to_0_5(x) / (x + 0d);
+            }
+            case 1, 2: {
+                return gamma1p_m0_5_to_0_5(x - 1d);
+            }
+            case 3, 4: {
+                return (x - 1d) * gamma1p_m0_5_to_0_5(x - 2d);
+            }
+            default:
+                return (x - 1d) * (x - 2d) * gamma1p_m0_5_to_0_5(x - 3d);
         }
     }
 

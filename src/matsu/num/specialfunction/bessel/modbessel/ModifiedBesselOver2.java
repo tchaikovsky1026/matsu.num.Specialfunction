@@ -5,12 +5,12 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
-import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.bessel.basecomponent.InverseFactorialSupplier;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 次数2以上の変形Bessel関数を扱う. <br>
@@ -22,7 +22,7 @@ import matsu.num.specialfunction.bessel.basecomponent.InverseFactorialSupplier;
  * ただし, 次数6以下の場合は後退漸化式の領域は存在しない.
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 22.0
  */
 final class ModifiedBesselOver2 extends ModifiedBesselHigherOrder {
 

@@ -3,15 +3,13 @@
  * 
  * <p>
  * <i>依存モジュール:</i> <br>
- * {@code matsu.num.Commons}
+ * (無し)
  * </p>
  * 
  * @author Matsuura Y.
- * @version 21.1
+ * @version 22.0
  */
 module matsu.num.Specialfunction {
-    requires matsu.num.Commons;
-
     exports matsu.num.specialfunction;
     exports matsu.num.specialfunction.bessel;
 }

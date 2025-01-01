@@ -5,19 +5,17 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.22
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.bessel;
 
-import matsu.num.commons.Exponentiation;
-import matsu.num.commons.Trigonometry;
 import matsu.num.specialfunction.GammaFunction;
+import matsu.num.specialfunction.common.Exponentiation;
+import matsu.num.specialfunction.common.Trigonometry;
 
 /**
- * <p>
  * 最適化されたな0次のBessel関数の実装.
- * </p>
- * *
+ * 
  * <p>
  * 0次Besselの計算戦略は次の通りである. <br>
  * besselJ, besselYともに, 小さいxではべき級数表示のminimax近似を,
@@ -25,7 +23,7 @@ import matsu.num.specialfunction.GammaFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.9
+ * @version 22.0
  */
 final class Bessel0Optimized extends Bessel0th {
 
@@ -184,16 +182,16 @@ final class Bessel0Optimized extends Bessel0th {
 
         int t128 = (int) (t * 128);
         switch (t128) {
-        case 0:
-            return p0_asymptoticTerm_0_to_1_over128(t);
-        case 1:
-            return p0_asymptoticTerm_1_to_2_over128(t);
-        case 2, 3:
-            return p0_asymptoticTerm_2_to_4_over128(t);
-        case 4, 5:
-            return p0_asymptoticTerm_4_to_6_over128(t);
-        default:
-            return p0_asymptoticTerm_6_to_8_over128(t);
+            case 0:
+                return p0_asymptoticTerm_0_to_1_over128(t);
+            case 1:
+                return p0_asymptoticTerm_1_to_2_over128(t);
+            case 2, 3:
+                return p0_asymptoticTerm_2_to_4_over128(t);
+            case 4, 5:
+                return p0_asymptoticTerm_4_to_6_over128(t);
+            default:
+                return p0_asymptoticTerm_6_to_8_over128(t);
         }
     }
 
@@ -323,16 +321,16 @@ final class Bessel0Optimized extends Bessel0th {
 
         int t128 = (int) (t * 128);
         switch (t128) {
-        case 0:
-            return q0_asymptoticTerm_0_to_1_over128(t);
-        case 1:
-            return q0_asymptoticTerm_1_to_2_over128(t);
-        case 2, 3:
-            return q0_asymptoticTerm_2_to_4_over128(t);
-        case 4, 5:
-            return q0_asymptoticTerm_4_to_6_over128(t);
-        default:
-            return q0_asymptoticTerm_6_to_8_over128(t);
+            case 0:
+                return q0_asymptoticTerm_0_to_1_over128(t);
+            case 1:
+                return q0_asymptoticTerm_1_to_2_over128(t);
+            case 2, 3:
+                return q0_asymptoticTerm_2_to_4_over128(t);
+            case 4, 5:
+                return q0_asymptoticTerm_4_to_6_over128(t);
+            default:
+                return q0_asymptoticTerm_6_to_8_over128(t);
         }
     }
 

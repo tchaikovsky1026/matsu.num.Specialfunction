@@ -5,12 +5,12 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.modsbessel;
 
-import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.bessel.basecomponent.InverseDoubleFactorialSupplier;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 次数2以上の変形球Bessel関数を扱う. <br>
@@ -22,7 +22,7 @@ import matsu.num.specialfunction.bessel.basecomponent.InverseDoubleFactorialSupp
  * ただし,
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 22.0
  */
 final class MSBesselOver2 extends MSBesselHigherImplK {
 

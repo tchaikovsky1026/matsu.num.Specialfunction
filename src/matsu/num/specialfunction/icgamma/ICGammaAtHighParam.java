@@ -5,13 +5,13 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2024.12.31
  */
 package matsu.num.specialfunction.icgamma;
 
-import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.ErrorFuction;
 import matsu.num.specialfunction.GammaFunction;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 不完全ガンマ関数の計算の実装(およそ倍精度未満). <br>
@@ -23,7 +23,7 @@ import matsu.num.specialfunction.GammaFunction;
  * </p>
  *
  * @author Matsuura Y.
- * @version 20.0
+ * @version 22.0
  */
 final class ICGammaAtHighParam extends SkeletalICGamma {
 

@@ -5,12 +5,12 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.10
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
-import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.GammaFunction;
+import matsu.num.specialfunction.common.Exponentiation;
 import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
 
 /**

@@ -5,17 +5,17 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.12.5
+ * 2024.12.31
  */
 package matsu.num.specialfunction.err;
 
-import matsu.num.commons.Exponentiation;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 素朴な実装により虚数誤差関数の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 21.1
+ * @version 22.0
  * @deprecated このクラスは使われていない.
  */
 @Deprecated

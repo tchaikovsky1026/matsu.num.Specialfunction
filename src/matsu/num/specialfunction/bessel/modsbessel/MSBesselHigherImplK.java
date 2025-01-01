@@ -5,18 +5,18 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.modsbessel;
 
-import matsu.num.commons.Exponentiation;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 高次(2次以上)の変形球Bessel関数を表し,
  * 前進漸化式による第2種変形球Besselの計算が実装されている.
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 22.0
  */
 abstract class MSBesselHigherImplK extends SkeletalMSBessel {
 

@@ -5,17 +5,17 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.8.16
+ * 2024.12.31
  */
 package matsu.num.specialfunction.lambert;
 
-import matsu.num.commons.Exponentiation;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * Lambert関数の主枝W0の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 19.6
+ * @version 22.0
  */
 final class LambertWpImplByHalley implements LambertWpCalculation {
 

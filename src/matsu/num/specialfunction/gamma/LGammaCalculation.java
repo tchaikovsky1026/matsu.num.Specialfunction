@@ -5,17 +5,17 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.17
+ * 2024.12.31
  */
 package matsu.num.specialfunction.gamma;
 
-import matsu.num.commons.Exponentiation;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 対数ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 19.9
+ * @version 22.0
  */
 public final class LGammaCalculation {
 
@@ -57,12 +57,12 @@ public final class LGammaCalculation {
         assert x <= 2.5;
 
         switch ((int) (x * 2)) {
-        case 0:
-            return lgamma1p_smallX(x) - Exponentiation.log(x);
-        case 1, 2:
-            return lgamma1p_smallX(x - 1d);
-        default:
-            return lgamma2p_smallX(x - 2d);
+            case 0:
+                return lgamma1p_smallX(x) - Exponentiation.log(x);
+            case 1, 2:
+                return lgamma1p_smallX(x - 1d);
+            default:
+                return lgamma2p_smallX(x - 2d);
         }
     }
 
@@ -122,27 +122,27 @@ public final class LGammaCalculation {
         assert x <= 2.5;
 
         switch ((int) (x * 2)) {
-        case 0: {
-            //x=-0dに対応するため, log(1/x)でなくlog(x)の形で計算させる
-            double xp3 = x + 3;
-            return lgammaStirlRes_largeX(xp3)
-                    - (x + 0.5) * Exponentiation.log(x / xp3)
-                    - Exponentiation.log(((x + 1) * (x + 2)) / (xp3 * xp3))
-                    - 3;
-        }
-        case 1, 2: {
-            double xp2 = x + 2;
-            return lgammaStirlRes_largeX(xp2)
-                    - (x + 0.5) * Exponentiation.log(x / xp2)
-                    - Exponentiation.log((x + 1) / xp2)
-                    - 2;
-        }
-        default: {
-            double xp1 = x + 1;
-            return lgammaStirlRes_largeX(xp1)
-                    - (x + 0.5) * Exponentiation.log(x / xp1)
-                    - 1;
-        }
+            case 0: {
+                //x=-0dに対応するため, log(1/x)でなくlog(x)の形で計算させる
+                double xp3 = x + 3;
+                return lgammaStirlRes_largeX(xp3)
+                        - (x + 0.5) * Exponentiation.log(x / xp3)
+                        - Exponentiation.log(((x + 1) * (x + 2)) / (xp3 * xp3))
+                        - 3;
+            }
+            case 1, 2: {
+                double xp2 = x + 2;
+                return lgammaStirlRes_largeX(xp2)
+                        - (x + 0.5) * Exponentiation.log(x / xp2)
+                        - Exponentiation.log((x + 1) / xp2)
+                        - 2;
+            }
+            default: {
+                double xp1 = x + 1;
+                return lgammaStirlRes_largeX(xp1)
+                        - (x + 0.5) * Exponentiation.log(x / xp1)
+                        - 1;
+            }
         }
     }
 

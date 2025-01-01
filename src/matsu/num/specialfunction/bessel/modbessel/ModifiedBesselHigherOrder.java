@@ -5,11 +5,11 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
-import matsu.num.commons.Exponentiation;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 高次(2次以上)の変形Bessel関数を表す. <br>

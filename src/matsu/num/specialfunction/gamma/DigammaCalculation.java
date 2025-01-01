@@ -5,17 +5,17 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.20
+ * 2024.12.31
  */
 package matsu.num.specialfunction.gamma;
 
-import matsu.num.commons.Exponentiation;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * ディガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 19.9
+ * @version 22.0
  */
 public final class DigammaCalculation {
 
@@ -54,18 +54,18 @@ public final class DigammaCalculation {
 
         assert x <= 2.5;
         switch ((int) (x * 2)) {
-        case 0: {
-            //-0dの場合でもうまくいく
-            double shift = (2 * x + 1) / (x * x + x);
-            return digamma2p_smallX(x) - shift;
-        }
-        case 1, 2: {
-            double shift = 1d / x;
-            return digamma2p_smallX(x - 1) - shift;
-        }
-        default: {
-            return digamma2p_smallX(x - 2);
-        }
+            case 0: {
+                //-0dの場合でもうまくいく
+                double shift = (2 * x + 1) / (x * x + x);
+                return digamma2p_smallX(x) - shift;
+            }
+            case 1, 2: {
+                double shift = 1d / x;
+                return digamma2p_smallX(x - 1) - shift;
+            }
+            default: {
+                return digamma2p_smallX(x - 2);
+            }
         }
     }
 

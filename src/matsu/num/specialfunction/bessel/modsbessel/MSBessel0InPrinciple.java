@@ -5,17 +5,17 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.modsbessel;
 
-import matsu.num.commons.Exponentiation;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 原理的な0次変形球Besselの計算.
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 22.0
  */
 final class MSBessel0InPrinciple extends MSBessel0 {
 

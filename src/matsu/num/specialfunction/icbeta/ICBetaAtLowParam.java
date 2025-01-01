@@ -5,12 +5,12 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2024.12.31
  */
 package matsu.num.specialfunction.icbeta;
 
-import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.GammaFunction;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 不完全ベータ関数の計算(およそ倍精度未満). <br>

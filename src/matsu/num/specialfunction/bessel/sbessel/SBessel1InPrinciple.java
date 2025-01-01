@@ -5,17 +5,17 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.sbessel;
 
-import matsu.num.commons.Trigonometry;
+import matsu.num.specialfunction.common.Trigonometry;
 
 /**
  * 原理的な1次球Bessel関数.
  * 
  * @author Matsuura Y.
- * @version 18.9
+ * @version 22.0
  */
 final class SBessel1InPrinciple extends SBessel1 {
 

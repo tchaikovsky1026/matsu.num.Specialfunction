@@ -5,17 +5,15 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
-import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.GammaFunction;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
- * <p>
  * 最適化された0次の変形Bessel関数の実装.
- * </p>
  * 
  * <p>
  * 0次MBesselの計算戦略は次の通りである. <br>
@@ -25,7 +23,7 @@ import matsu.num.specialfunction.GammaFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.9
+ * @version 22.0
  */
 final class MBessel0Optimized extends ModifiedBessel0thOrder {
 
@@ -168,16 +166,16 @@ final class MBessel0Optimized extends ModifiedBessel0thOrder {
         assert x <= 24;
 
         switch ((int) (x * 0.5)) {
-        case 1, 2:
-            return scaling_mbI_byPowerExp_2_to_6(x);
-        case 3, 4:
-            return scaling_mbI_byPowerExp_6_to_10(x);
-        case 5, 6:
-            return scaling_mbI_byPowerExp_10_to_14(x);
-        case 7, 8:
-            return scaling_mbI_byPowerExp_14_to_18(x);
-        default:
-            return scaling_mbI_byPowerExp_18_to_24(x);
+            case 1, 2:
+                return scaling_mbI_byPowerExp_2_to_6(x);
+            case 3, 4:
+                return scaling_mbI_byPowerExp_6_to_10(x);
+            case 5, 6:
+                return scaling_mbI_byPowerExp_10_to_14(x);
+            case 7, 8:
+                return scaling_mbI_byPowerExp_14_to_18(x);
+            default:
+                return scaling_mbI_byPowerExp_18_to_24(x);
         }
     }
 
@@ -430,12 +428,12 @@ final class MBessel0Optimized extends ModifiedBessel0thOrder {
         assert t <= 1d / 16;
 
         switch ((int) (t * 64)) {
-        case 0:
-            return mbK_asymptoticTerm_0_to_1_Over64(t);
-        case 1:
-            return mbK_asymptoticTerm_1_to_2_Over64(t);
-        default:
-            return mbK_asymptoticTerm_2_to_4_Over64(t);
+            case 0:
+                return mbK_asymptoticTerm_0_to_1_Over64(t);
+            case 1:
+                return mbK_asymptoticTerm_1_to_2_Over64(t);
+            default:
+                return mbK_asymptoticTerm_2_to_4_Over64(t);
         }
     }
 

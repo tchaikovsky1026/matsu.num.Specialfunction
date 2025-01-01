@@ -5,17 +5,15 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2024.12.31
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
-import matsu.num.commons.Exponentiation;
 import matsu.num.specialfunction.GammaFunction;
+import matsu.num.specialfunction.common.Exponentiation;
 
 /**
- * <p>
  * 最適化された1次の変形Bessel関数の実装.
- * </p>
  * 
  * <p>
  * 1次MBesselの計算戦略は次の通りである. <br>
@@ -25,7 +23,7 @@ import matsu.num.specialfunction.GammaFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.9
+ * @version 22.0
  */
 final class MBessel1Optimized extends ModifiedBessel1stOrder {
 
@@ -175,21 +173,21 @@ final class MBessel1Optimized extends ModifiedBessel1stOrder {
         double factor;
 
         switch ((int) (x * 0.5)) {
-        case 1, 2:
-            factor = factor_scaling_mbI_byPowerExp_2_to_6(x);
-            break;
-        case 3, 4:
-            factor = factor_scaling_mbI_byPowerExp_6_to_10(x);
-            break;
-        case 5, 6:
-            factor = factor_scaling_mbI_byPowerExp_10_to_14(x);
-            break;
-        case 7, 8:
-            factor = factor_scaling_mbI_byPowerExp_14_to_18(x);
-            break;
-        default:
-            factor = factor_scaling_mbI_byPowerExp_18_to_24(x);
-            break;
+            case 1, 2:
+                factor = factor_scaling_mbI_byPowerExp_2_to_6(x);
+                break;
+            case 3, 4:
+                factor = factor_scaling_mbI_byPowerExp_6_to_10(x);
+                break;
+            case 5, 6:
+                factor = factor_scaling_mbI_byPowerExp_10_to_14(x);
+                break;
+            case 7, 8:
+                factor = factor_scaling_mbI_byPowerExp_14_to_18(x);
+                break;
+            default:
+                factor = factor_scaling_mbI_byPowerExp_18_to_24(x);
+                break;
         }
 
         return factor * (x * 0.5);
