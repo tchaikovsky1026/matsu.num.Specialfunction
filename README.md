@@ -11,7 +11,7 @@ matsu.num.Specialfunction は Java 言語向けの数値計算における, 特�
  - 変形球Bessel関数
 - ガンマ関数
 - 誤差関数
-- Lambertの_W_-関数
+- Lambertの*W*-関数
 - 不完全ガンマ関数
 - 不完全ベータ関数
 
