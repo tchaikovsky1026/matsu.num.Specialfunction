@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.bessel.modbessel;
 
 import org.junit.experimental.runners.Enclosed;
@@ -9,10 +15,8 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link NaiveMBessel1}クラスのテスト.
+ * {@link NaiveMBessel1} クラスのテスト.
  * 元クラスは非推奨.
- * 
- * @author Matsuura Y.
  */
 @SuppressWarnings("deprecation")
 @RunWith(Enclosed.class)

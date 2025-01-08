@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.fraction;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -12,8 +18,6 @@ import org.junit.runner.RunWith;
 
 /**
  * {@link BigRational} クラスのテスト.
- * 
- * @author Matsuura Y.
  */
 @RunWith(Enclosed.class)
 final class BigRationalTest {

@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.bessel.bessel;
 
 import org.junit.experimental.runners.Enclosed;
@@ -9,9 +15,7 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link Bessel1Optimized}クラスのテスト.
- *
- * @author Matsuura Y.
+ * {@link Bessel1Optimized} クラスのテスト.
  */
 @RunWith(Enclosed.class)
 final class Bessel1OptimizedTest {

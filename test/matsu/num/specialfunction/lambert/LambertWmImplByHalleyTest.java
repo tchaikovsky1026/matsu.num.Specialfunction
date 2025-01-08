@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.lambert;
 
 import org.junit.Test;
@@ -10,9 +16,7 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link LambertWmImplByHalley}クラス(-1分枝の計算)のテスト.
- * 
- * @author Matsuura Y.
+ * {@link LambertWmImplByHalley} クラス(-1分枝の計算)のテスト.
  */
 @RunWith(Enclosed.class)
 final class LambertWmImplByHalleyTest {

@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.gamma;
 
 import org.junit.experimental.runners.Enclosed;
@@ -9,11 +15,8 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link DigammaCalculation}クラスに関するテスト.
- * 
- * @author Matsuura Y.
+ * {@link DigammaCalculation} クラスに関するテスト.
  */
-
 @RunWith(Enclosed.class)
 final class DigammaCalculationTest {
 

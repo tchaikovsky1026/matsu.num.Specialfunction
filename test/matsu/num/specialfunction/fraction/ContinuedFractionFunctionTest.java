@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.fraction;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -14,9 +20,7 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link ContinuedFractionFunction}クラスのテスト.
- * 
- * @author Matsuura Y.
+ * {@link ContinuedFractionFunction} クラスのテスト.
  */
 @RunWith(Enclosed.class)
 final class ContinuedFractionFunctionTest {

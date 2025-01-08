@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.icgamma;
 
 import org.junit.Test;
@@ -11,9 +17,7 @@ import matsu.num.specialfunction.DoubleRelativeAssertion;
 import matsu.num.specialfunction.IncompleteGammaFunction;
 
 /**
- * {@link ICGammaAtMiddleParam}クラスのテスト.
- *
- * @author Matsuura Y.
+ * {@link ICGammaAtMiddleParam} クラスのテスト.
  */
 @RunWith(Enclosed.class)
 final class ICGammaAtMiddleParamTest {

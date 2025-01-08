@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.icbeta;
 
 import org.junit.Test;
@@ -11,9 +17,7 @@ import matsu.num.specialfunction.DoubleRelativeAssertion;
 import matsu.num.specialfunction.IncompleteBetaFunction;
 
 /**
- * {@link ICBetaAtLowParam}クラスのテスト.
- * 
- * @author Matsuura Y.
+ * {@link ICBetaAtLowParam} クラスのテスト.
  */
 @RunWith(Enclosed.class)
 final class ICBetaAtLowParamTest {

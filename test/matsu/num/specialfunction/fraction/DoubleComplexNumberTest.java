@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.fraction;
 
 import org.junit.experimental.theories.DataPoints;
@@ -8,9 +14,7 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link DoubleComplexNumber} クラスのテスト
- * 
- * @author Matsuura Y.
+ * {@link DoubleComplexNumber} クラスのテスト.
  */
 final class DoubleComplexNumberTest {
 

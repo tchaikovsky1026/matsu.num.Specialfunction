@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.fraction;
 
 import java.math.BigDecimal;
@@ -10,9 +16,7 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link ComplexNumber} クラスのテスト
- * 
- * @author Matsuura Y.
+ * {@link ComplexNumber} クラスのテスト.
  */
 final class ComplexNumberTest {
 

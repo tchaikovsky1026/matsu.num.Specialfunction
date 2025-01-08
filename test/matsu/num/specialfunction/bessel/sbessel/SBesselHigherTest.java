@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.bessel.sbessel;
 
 import java.util.function.IntFunction;
@@ -13,8 +19,6 @@ import matsu.num.specialfunction.bessel.SphericalBesselFunction;
 
 /**
  * {@link SBesselHigher} クラスのテスト.
- * 
- * @author Matsuura Y.
  */
 @RunWith(Enclosed.class)
 final class SBesselHigherTest {

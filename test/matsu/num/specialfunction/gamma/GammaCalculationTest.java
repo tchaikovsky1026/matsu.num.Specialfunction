@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2024 Matsuura Y.
+ * 
+ * This software is released under the MIT License.
+ * http://opensource.org/licenses/mit-license.php
+ */
 package matsu.num.specialfunction.gamma;
 
 import org.junit.experimental.runners.Enclosed;
@@ -9,9 +15,7 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.DoubleRelativeAssertion;
 
 /**
- * {@link GammaCalculation}区タスのテスト.
- * 
- * @author Matsuura Y.
+ * {@link GammaCalculation} クラスのテスト.
  */
 @RunWith(Enclosed.class)
 final class GammaCalculationTest {
