@@ -41,7 +41,6 @@ import matsu.num.specialfunction.lambert.LambertWpCalculation;
  * </p>
  *
  * @author Matsuura Y.
- * @version 19.6
  * @see <a href="https://en.wikipedia.org/wiki/Lambert_W_function" target=
  *          "_brank">
  *          Wikipedia: Lambert <i>W</i> function</a>

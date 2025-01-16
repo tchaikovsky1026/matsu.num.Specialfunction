@@ -42,7 +42,6 @@ import matsu.num.specialfunction.fraction.MathField.ConstantSupplier;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.9
  * @param <ET> このクラスが扱う体構造の元を表す型パラメータ
  */
 public final class ContinuedFractionFunction<ET extends MathField<ET>> {

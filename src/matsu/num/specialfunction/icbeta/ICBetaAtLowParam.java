@@ -21,7 +21,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * </p>
  *
  * @author Matsuura Y.
- * @version 20.0
  */
 final class ICBetaAtLowParam extends SkeletalICBeta {
 

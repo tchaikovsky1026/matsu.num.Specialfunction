@@ -17,7 +17,6 @@ import matsu.num.specialfunction.bessel.BesselFunction;
  * Bessel関数のファクトリ.
  *
  * @author Matsuura Y.
- * @version 19.0
  */
 public final class BesselFunctionFactory {
 

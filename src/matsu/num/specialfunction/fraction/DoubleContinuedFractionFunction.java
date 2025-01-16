@@ -31,7 +31,6 @@ package matsu.num.specialfunction.fraction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.9
  */
 public final class DoubleContinuedFractionFunction {
 

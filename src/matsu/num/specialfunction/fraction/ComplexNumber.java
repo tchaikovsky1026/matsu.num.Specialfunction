@@ -22,7 +22,6 @@ import java.util.Objects;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.9
  * @param <ET> 実部と虚部を表現する実数型を表現する
  */
 public final class ComplexNumber<ET extends RealMathField<ET>> extends MathField<ComplexNumber<ET>> {

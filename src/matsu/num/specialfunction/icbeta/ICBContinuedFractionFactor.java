@@ -13,7 +13,6 @@ package matsu.num.specialfunction.icbeta;
  * 不完全ベータ関数の計算における連分数ファクターを扱う.
  * 
  * @author Matsuura Y.
- * @version 18.0
  */
 final class ICBContinuedFractionFactor {
 

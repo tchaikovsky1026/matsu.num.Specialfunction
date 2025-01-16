@@ -28,7 +28,6 @@ import matsu.num.specialfunction.gamma.TrigammaCalculation;
  * </p>
  *
  * @author Matsuura Y.
- * @version 19.3
  * @see <a href="https://en.wikipedia.org/wiki/Gamma_function" target= "_brank">
  *          Wikipedia: Gamma function</a>
  * @see <a href="https://en.wikipedia.org/wiki/Stirling%27s_approximation"

@@ -13,7 +13,6 @@ package matsu.num.specialfunction.lambert;
  * Lambert-W関数の-1分枝 (Wm) の計算を扱う.
  * 
  * @author Matsuura Y.
- * @version 19.6
  */
 public interface LambertWmCalculation {
 

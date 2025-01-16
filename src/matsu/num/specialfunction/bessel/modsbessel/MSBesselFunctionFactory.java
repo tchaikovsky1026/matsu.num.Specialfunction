@@ -17,7 +17,6 @@ import matsu.num.specialfunction.bessel.ModifiedSphericalBesselFunction;
  * 変形球Bessel関数のファクトリ.
  *
  * @author Matsuura Y.
- * @version 18.9
  */
 public final class MSBesselFunctionFactory {
 

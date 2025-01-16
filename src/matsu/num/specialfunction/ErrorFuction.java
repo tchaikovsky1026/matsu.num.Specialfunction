@@ -46,7 +46,6 @@ import matsu.num.specialfunction.err.ErrorFunctionImaginaryCalculation;
  * </ul>
  *
  * @author Matsuura Y.
- * @version 19.6
  * @see <a href="https://en.wikipedia.org/wiki/Error_function" target=
  *          "_brank">
  *          Wikipedia: Error function</a>

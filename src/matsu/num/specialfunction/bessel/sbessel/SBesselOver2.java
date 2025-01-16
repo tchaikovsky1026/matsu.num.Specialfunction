@@ -21,7 +21,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * それ以上では前進漸化式を用いる.
  * 
  * @author Matsuura Y.
- * @version 18.9
  */
 final class SBesselOver2 extends SBesselHigher {
 

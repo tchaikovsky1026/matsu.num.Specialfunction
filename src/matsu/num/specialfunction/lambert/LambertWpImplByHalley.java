@@ -15,7 +15,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * Lambert関数の主枝W0の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class LambertWpImplByHalley implements LambertWpCalculation {
 

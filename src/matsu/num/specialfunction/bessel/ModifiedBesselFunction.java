@@ -49,7 +49,6 @@ import matsu.num.specialfunction.bessel.modbessel.ModifiedBesselFunctionFactory;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 20.0
  * @see <a href=
  *          "https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions"
  *          target= "_brank">

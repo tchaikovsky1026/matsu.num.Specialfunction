@@ -23,7 +23,6 @@ import matsu.num.specialfunction.common.Trigonometry;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class Bessel0Optimized extends Bessel0th {
 

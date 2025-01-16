@@ -19,7 +19,6 @@ import java.util.Objects;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.9
  */
 public final class Decimal128
         extends RealMathField<Decimal128> {

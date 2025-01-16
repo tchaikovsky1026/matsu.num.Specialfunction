@@ -16,7 +16,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * 高次のBessel関数で, besselJの実装を加え完成したクラス.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class BesselOver2 extends BesselHigherImplY {
 

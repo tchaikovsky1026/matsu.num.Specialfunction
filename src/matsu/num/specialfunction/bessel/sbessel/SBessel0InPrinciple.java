@@ -15,7 +15,6 @@ import matsu.num.specialfunction.common.Trigonometry;
  * 原理的な0次球Bessel関数.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class SBessel0InPrinciple extends SBessel0 {
 

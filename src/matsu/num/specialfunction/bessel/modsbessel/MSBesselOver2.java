@@ -22,7 +22,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * ただし,
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class MSBesselOver2 extends MSBesselHigherImplK {
 

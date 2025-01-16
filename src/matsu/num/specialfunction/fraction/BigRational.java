@@ -28,7 +28,6 @@ import java.math.MathContext;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.9
  */
 public final class BigRational
         extends RealMathField<BigRational> {

@@ -29,7 +29,6 @@ import matsu.num.specialfunction.fraction.RealCoeffDoubleComplexCFFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 22.0
  * @deprecated {@link Bessel0Optimized} が提供されたため, 使用されていない.
  */
 @Deprecated

@@ -15,7 +15,6 @@ package matsu.num.specialfunction.fraction;
  * の引数を複素数に拡張したものであり, すなわち係数は実数である.
  * 
  * @author Matsuura Y.
- * @version 19.9
  * @see DoubleContinuedFractionFunction
  */
 public final class RealCoeffDoubleComplexCFFunction {

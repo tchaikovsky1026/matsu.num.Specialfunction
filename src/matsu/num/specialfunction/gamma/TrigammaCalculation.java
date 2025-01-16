@@ -13,7 +13,6 @@ package matsu.num.specialfunction.gamma;
  * トリガンマ関数の計算に関する.
  * 
  * @author Matsuura Y.
- * @version 19.9
  */
 public final class TrigammaCalculation {
 

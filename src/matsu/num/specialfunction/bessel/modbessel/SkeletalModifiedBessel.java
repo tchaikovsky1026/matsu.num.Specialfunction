@@ -14,7 +14,6 @@ package matsu.num.specialfunction.bessel.modbessel;
  * 主に, 文字列表現 ({@link #toString()})の実装を提供する.
  * 
  * @author Matsuura Y.
- * @version 20.0
  */
 abstract class SkeletalModifiedBessel implements ModifiedBesselFunction {
 

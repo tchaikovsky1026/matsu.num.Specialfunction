@@ -13,7 +13,6 @@ package matsu.num.specialfunction.common;
  * 指数関数の計算を扱う.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 public final class Exponentiation {
     private Exponentiation() {

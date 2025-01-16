@@ -15,7 +15,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * Lambert関数の-1分枝(Wm)の計算を扱う.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class LambertWmImplByHalley implements LambertWmCalculation {
 

@@ -17,7 +17,6 @@ import matsu.num.specialfunction.bessel.ModifiedBesselFunction;
  * 変形Bessel関数のファクトリを扱う.
  * 
  * @author Matsuura Y.
- * @version 18.9
  */
 public final class ModifiedBesselFunctionFactory {
 

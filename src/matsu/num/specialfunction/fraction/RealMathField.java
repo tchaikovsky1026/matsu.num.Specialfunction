@@ -27,7 +27,6 @@ package matsu.num.specialfunction.fraction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 19.9
  * @param <ET> このクラスと二項演算が可能な体構造の元を表す型.
  *            体の定義より, 自身に一致する.
  */

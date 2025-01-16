@@ -37,7 +37,6 @@ import matsu.num.specialfunction.bessel.sbessel.SBesselFunctionFactory;
  * </p>
  *
  * @author Matsuura Y.
- * @version 20.0
  * @see <a href=
  *          "https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn,_yn"
  *          target=

@@ -15,7 +15,6 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
  * 不完全ガンマ関数のファクトリ.
  *
  * @author Matsuura Y.
- * @version 18.1
  */
 public final class ICGammaFactory {
 

@@ -15,7 +15,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * ディガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 public final class DigammaCalculation {
 

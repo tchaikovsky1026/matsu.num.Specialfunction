@@ -22,7 +22,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * </p>
  *
  * @author Matsuura Y.
- * @version 22.0
  */
 final class ICGammaAtMiddleParam extends SkeletalICGamma {
 

@@ -14,7 +14,6 @@ package matsu.num.specialfunction.bessel.sbessel;
  * をシールするためのモジュール外非公開インターフェース.
  * 
  * @author Matsuura Y.
- * @version 20.0
  */
 public non-sealed interface SphericalBesselFunction extends matsu.num.specialfunction.bessel.SphericalBesselFunction {
 

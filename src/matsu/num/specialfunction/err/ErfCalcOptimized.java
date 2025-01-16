@@ -15,7 +15,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * 誤差関数の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class ErfCalcOptimized implements ErrorFunctionCalculation {
 

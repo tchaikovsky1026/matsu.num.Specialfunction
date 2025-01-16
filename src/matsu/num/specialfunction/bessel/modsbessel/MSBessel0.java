@@ -13,7 +13,6 @@ package matsu.num.specialfunction.bessel.modsbessel;
  * 0次変形球Bessel関数の最低限の実装.
  * 
  * @author Matsuura Y.
- * @version 18.9
  */
 abstract class MSBessel0 extends SkeletalMSBessel {
 

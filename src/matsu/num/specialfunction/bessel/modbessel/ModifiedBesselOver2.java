@@ -22,7 +22,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * ただし, 次数6以下の場合は後退漸化式の領域は存在しない.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class ModifiedBesselOver2 extends ModifiedBesselHigherOrder {
 

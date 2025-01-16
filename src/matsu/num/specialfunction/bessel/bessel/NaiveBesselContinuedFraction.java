@@ -13,15 +13,14 @@ import java.util.List;
 import java.util.function.IntFunction;
 
 import matsu.num.specialfunction.fraction.BigRational;
-import matsu.num.specialfunction.fraction.RealCoeffDoubleComplexCFFunction;
 import matsu.num.specialfunction.fraction.ContinuedFractionFunction;
 import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
+import matsu.num.specialfunction.fraction.RealCoeffDoubleComplexCFFunction;
 
 /**
  * Bessel関数の計算で使う, 連分数の生成機能.
  * 
  * @author Matsuura Y.
- * @version 19.1
  * @deprecated {@link NaiveBessel0}, {@link NaiveBessel1}
  *                 が使用されていないので, 使用されていない.
  */

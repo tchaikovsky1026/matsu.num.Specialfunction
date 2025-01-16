@@ -15,7 +15,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * 速度を最適化した虚数誤差関数の計算.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class ErfiCalcOptimized implements ErrorFunctionImaginaryCalculation {
 

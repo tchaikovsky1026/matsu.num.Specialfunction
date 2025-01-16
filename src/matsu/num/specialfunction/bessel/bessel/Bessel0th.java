@@ -13,7 +13,6 @@ package matsu.num.specialfunction.bessel.bessel;
  * 0次Bessel関数を表す.
  * 
  * @author Matsuura Y.
- * @version 18.9
  */
 abstract class Bessel0th extends SkeletalBessel {
 

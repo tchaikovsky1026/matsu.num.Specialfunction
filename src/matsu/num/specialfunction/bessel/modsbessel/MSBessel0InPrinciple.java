@@ -15,7 +15,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * 原理的な0次変形球Besselの計算.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 final class MSBessel0InPrinciple extends MSBessel0 {
 

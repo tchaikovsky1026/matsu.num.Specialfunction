@@ -16,7 +16,6 @@ import matsu.num.specialfunction.bessel.SphericalBesselFunction;
  * 変形球Bessel関数の計算で使うための, 1/(2n+1)!! の計算方法を提供する.
  * 
  * @author Matsuura Y.
- * @version 19.0
  */
 public final class InverseDoubleFactorialSupplier {
 

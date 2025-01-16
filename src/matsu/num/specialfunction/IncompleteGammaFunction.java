@@ -65,7 +65,6 @@ import matsu.num.specialfunction.icgamma.ICGammaFactory;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 20.0
  * @see <a href="https://en.wikipedia.org/wiki/Incomplete_gamma_function"
  *          target= "_brank">
  *          Wikipedia: Incomplete gamma function</a>

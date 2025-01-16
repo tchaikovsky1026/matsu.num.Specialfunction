@@ -49,7 +49,6 @@ import matsu.num.specialfunction.bessel.modsbessel.MSBesselFunctionFactory;
  * </p>
  *
  * @author Matsuura Y.
- * @version 20.0
  * @see <a href=
  *          "https://ja.wikipedia.org/wiki/%E3%83%99%E3%83%83%E3%82%BB%E3%83%AB%E9%96%A2%E6%95%B0#%E5%A4%89%E5%BD%A2%E7%90%83%E3%83%99%E3%83%83%E3%82%BB%E3%83%AB%E9%96%A2%E6%95%B0"
  *          target=

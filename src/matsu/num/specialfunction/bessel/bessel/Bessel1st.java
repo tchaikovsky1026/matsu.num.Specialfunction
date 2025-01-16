@@ -13,7 +13,6 @@ package matsu.num.specialfunction.bessel.bessel;
  * 1次Bessel関数を表す.
  * 
  * @author Matsuura Y.
- * @version 18.9
  */
 abstract class Bessel1st extends SkeletalBessel {
 

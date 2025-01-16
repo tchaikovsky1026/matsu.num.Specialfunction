@@ -14,7 +14,6 @@ package matsu.num.specialfunction.icbeta;
  * をシールするためのモジュール外非公開インターフェース.
  * 
  * @author Matsuura Y.
- * @version 20.0
  */
 public non-sealed interface IncompleteBetaFunction
         extends matsu.num.specialfunction.IncompleteBetaFunction {

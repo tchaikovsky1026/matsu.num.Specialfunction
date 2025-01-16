@@ -15,7 +15,6 @@ import matsu.num.specialfunction.IncompleteBetaFunction;
  * 不完全ベータ関数のファクトリ.
  *
  * @author Matsuura Y.
- * @version 18.1
  */
 public final class ICBetaFactory {
 

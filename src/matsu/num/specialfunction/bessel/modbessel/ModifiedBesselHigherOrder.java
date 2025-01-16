@@ -16,7 +16,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * 前進漸化式による第2種変形Besselの計算が実装されている.
  * 
  * @author Matsuura Y.
- * @version 18.9
  */
 abstract class ModifiedBesselHigherOrder extends SkeletalModifiedBessel {
 

@@ -14,7 +14,6 @@ package matsu.num.specialfunction.bessel.sbessel;
  * {@link #toString()} の実装を提供する.
  * 
  * @author Matsuura Y.
- * @version 20.0
  */
 abstract class SkeletalSBessel implements SphericalBesselFunction {
 

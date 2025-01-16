@@ -28,7 +28,6 @@ import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 18.4
  * @deprecated {@link MBessel0Optimized} が提供されたため, 使用されていない.
  */
 @Deprecated

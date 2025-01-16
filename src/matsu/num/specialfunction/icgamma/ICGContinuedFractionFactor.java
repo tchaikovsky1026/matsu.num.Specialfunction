@@ -13,7 +13,6 @@ package matsu.num.specialfunction.icgamma;
  * 不完全ガンマ関数の計算における連分数ファクターを扱う.
  * 
  * @author Matsuura Y.
- * @version 18.0
  */
 final class ICGContinuedFractionFactor {
 

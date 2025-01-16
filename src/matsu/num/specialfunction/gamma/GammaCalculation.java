@@ -17,7 +17,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  * ガンマ関数の計算.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 public final class GammaCalculation {
 

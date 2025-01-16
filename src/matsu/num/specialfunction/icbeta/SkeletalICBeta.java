@@ -26,7 +26,6 @@ package matsu.num.specialfunction.icbeta;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 20.0
  */
 abstract class SkeletalICBeta implements IncompleteBetaFunction {
 

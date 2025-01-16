@@ -37,7 +37,6 @@ import matsu.num.specialfunction.bessel.bessel.BesselFunctionFactory;
  * </p>
  *
  * @author Matsuura Y.
- * @version 20.0
  * @see <a href="https://en.wikipedia.org/wiki/Bessel_function" target=
  *          "_brank">
  *          Wikipedia: Bessel function</a>

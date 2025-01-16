@@ -13,7 +13,6 @@ package matsu.num.specialfunction.common;
  * 三角関数の計算を扱う.
  * 
  * @author Matsuura Y.
- * @version 22.0
  */
 public final class Trigonometry {
     private Trigonometry() {

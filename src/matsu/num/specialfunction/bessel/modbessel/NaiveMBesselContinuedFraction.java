@@ -20,7 +20,6 @@ import matsu.num.specialfunction.fraction.DoubleContinuedFractionFunction;
  * 変形Bessel関数の計算で使う, 連分数の生成機能.
  * 
  * @author Matsuura Y.
- * @version 19.9
  * @deprecated {@link NaiveMBessel0}, {@link NaiveMBessel1}
  *                 が使用されていないので, 使用されていない.
  */

@@ -61,7 +61,6 @@ import matsu.num.specialfunction.icbeta.ICBetaFactory;
  * </p>
  *
  * @author Matsuura Y.
- * @version 20.0
  * @see <a href=
  *          "https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function"
  *          target= "_brank">

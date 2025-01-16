@@ -13,7 +13,6 @@ package matsu.num.specialfunction.err;
  * 誤差関数の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 19.6
  */
 public interface ErrorFunctionCalculation {
 

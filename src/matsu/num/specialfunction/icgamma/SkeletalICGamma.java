@@ -26,7 +26,6 @@ package matsu.num.specialfunction.icgamma;
  * </p>
  * 
  * @author Matsuura Y.
- * @version 20.0
  */
 abstract class SkeletalICGamma implements IncompleteGammaFunction {
 

@@ -14,7 +14,6 @@ package matsu.num.specialfunction.bessel.bessel;
  * 2から100次まで.
  * 
  * @author Matsuura Y.
- * @version 18.9
  */
 abstract class BesselHigherImplY extends SkeletalBessel {
 

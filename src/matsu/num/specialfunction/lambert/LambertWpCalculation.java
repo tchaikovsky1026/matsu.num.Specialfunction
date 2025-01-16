@@ -13,7 +13,6 @@ package matsu.num.specialfunction.lambert;
  * Lambert-W関数の主枝 (Wp) の計算を実行する.
  * 
  * @author Matsuura Y.
- * @version 19.6
  */
 public interface LambertWpCalculation {
 

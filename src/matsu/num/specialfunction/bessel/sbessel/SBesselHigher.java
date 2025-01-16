@@ -14,7 +14,6 @@ package matsu.num.specialfunction.bessel.sbessel;
  * 前進漸化式による第2種変形Besselの計算が実装されている.
  * 
  * @author Matsuura Y.
- * @version 18.9
  */
 abstract class SBesselHigher extends SkeletalSBessel {
 

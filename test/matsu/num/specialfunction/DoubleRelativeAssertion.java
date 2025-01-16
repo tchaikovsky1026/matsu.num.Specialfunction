@@ -18,7 +18,6 @@ import org.junit.Ignore;
  * テストにおけるdouble値のアサーションを助けるユーティリティ.
  * 
  * @author Matsuura Y.
- * @version 18.1
  */
 @Ignore
 public final class DoubleRelativeAssertion {
