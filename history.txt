@@ -1,98 +1,41 @@
-23.0.0:
-Semantic versioning.
+23:
+23.0.0: Semantic versioning.
+
+22:
+22.1: javaファイルへのヘッダの追加(未記載分). クラスファイルのバージョンを削除.
+22.0: ライブラリ依存を解消.
+
+21:
+21.1: 誤差関数に関わるバグの修正. テスト全体の強化.
+21.0: (Git: ファイル追跡の見直し)
+
+20:
+20.1: (メインソースに変更なし)
+20.0: 公開インターフェースをシールし,外部で実装できないようにする.
+
+19:
+19.9: ハードコーディングされた係数を高度化 (ErrorFunction, GammaFunction, BesselFunctionファミリー).
+19.8: (メインソースに変更なし)
+19.7: 安定版としてのリリース.
+19.6: リファクタリング(クラス構造の改良とテスト強化).
+19.5: 機能追加(ErrorFunctionにerfi).
+19.4: LambertFunctionまわりのリファクタリングと安定性向上.
+19.3: ErrorFunctionまわりのリファクタリング. Javadocの整備.
+19.2: GammaFunctionまわりのリファクタリング.
+19.1: 連分数まわりのリファクタリング.
+19.0: Bessel関数のファミリーを独立したパッケージに変更, リファクタリング. 不要なクラスの削除.
+
+18:
+18.9: Besselのリファクタリングとパッケージ構造の変更 (内部準備:NaiveなBesselの実装)
+18.8: 機能追加(ModifiedSphericalBesselFunctionの実現). リファクタリング(MBessel,I(x)の安定性向上).
+18.7: 機能追加(SpericalBesselFunctionの実現)
+18.6: ModifiedBesselの高度化(0次,1次変形Besselの提供をMinimax近似により最適化されたものに変更). バグ修正(変形Bessel関数)(18.6.1)
+18.5: ModifiedBesselのリファクタリング(高次のIを共通化, 0次と1次の連分数計算の高度化). 連分数の生成に関わる,体構造と有理数構造の整備.
+18.4: ModifiedBesselのリファクタリング, 階乗計算の最適化.
+18.3: 機能追加(ModifiedBesselFunctionにスケーリングを加える). 安定性の向上(ModifiedBesselFunction).
+18.2: 機能追加(ModifiedBesselFunction関数の計算の実現). BesselFunctionのリファクタリング. (18.2b)
+18.1: 機能追加(パラメータ検証メソッドを実装,lgammaStirling).
+18.0: MITライセンスによるOSS化を行う.
 
 --------------------------
-22.1:
-javaファイルへのヘッダの追加(未記載分)
-クラスファイルのバージョンを削除.
-
-22.0:
-ライブラリ依存を解消.
-
---------------------------
-21.1:
-誤差関数に関わるバグの修正.
-テスト全体の強化.
-
-21.0:
-(Git: ファイル追跡の見直し)
-
---------------------------
-20.1:
-(メインソースに変更なし)
-
-20.0:
-公開インターフェースをシールし,外部で実装できないようにする.
-
---------------------------
-19.9:
-ハードコーディングされた係数を高度化
-(ErrorFunction, GammaFunction, BesselFunctionファミリー).
-
-19.8:
-(メインソースに変更なし)
-
-19.7:
-安定版としてのリリース.
-
-19.6:
-リファクタリング(クラス構造の改良とテスト強化).
-
-19.5:
-機能追加(ErrorFunctionにerfi).
-
-19.4:
-LambertFunctionまわりのリファクタリングと安定性向上.
-
-19.3:
-ErrorFunctionまわりのリファクタリング.
-Javadocの整備.
-
-19.2:
-GammaFunctionまわりのリファクタリング.
-
-19.1:
-連分数まわりのリファクタリング
-
-19.0:
-Bessel関数のファミリーを独立したパッケージに変更, リファクタリング.
-不要なクラスの削除.
-
---------------------------
-18.9:
-Besselのリファクタリングとパッケージ構造の変更
-(内部準備:NaiveなBesselの実装)
-
-18.8:
-機能追加(ModifiedSphericalBesselFunctionの実現)
-リファクタリング(MBessel,I(x)の安定性向上)
-
-18.7:
-機能追加(SpericalBesselFunctionの実現)
-
-18.6:
-ModifiedBesselの高度化(0次,1次変形Besselの提供をMinimax近似により最適化されたものに変更)
-18.6.1:バグ修正(変形Bessel関数)
-
-18.5:
-ModifiedBesselのリファクタリング(高次のIを共通化, 0次と1次の連分数計算の高度化)
-連分数の生成に関わる,体構造と有理数構造の整備.
-
-18.4:
-ModifiedBesselのリファクタリング, 階乗計算の最適化.
-
-18.3:
-機能追加(ModifiedBesselFunctionにスケーリングを加える)
-安定性の向上(ModifiedBesselFunction).
-
-18.2b:
-機能追加(ModifiedBesselFunction関数の計算の実現).
-BesselFunctionのリファクタリング.
-
-18.1:
-機能追加(パラメータ検証メソッドを実装,lgammaStirling).
-
-18.0:
-MITライセンスによるOSS化を行う.
-
 version　18よりhistoryの記録を開始する.
