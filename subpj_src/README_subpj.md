@@ -13,5 +13,5 @@ subpj　(ソースフォルダ `subpj_src`) は,
 今のバージョンではおそらく次が使用されている.
 (ただし, このドキュメントが十分に整備されていないかもしれない.)
 
-- `matsu.num.Approximation`
-- `matsu.num.MathType`
+- `matsu.num.Approximation`: バージョン 24 系
+- `matsu.num.MathType`: バージョン 4 系
