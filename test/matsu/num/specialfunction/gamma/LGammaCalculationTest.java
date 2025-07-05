@@ -6,6 +6,8 @@
  */
 package matsu.num.specialfunction.gamma;
 
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -13,11 +15,15 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 import matsu.num.specialfunction.DoubleRelativeAssertion;
+import matsu.num.specialfunction.speedutil.SpeedTestExecutor;
 
 /**
  * {@link LGammaCalculation} クラスのテスト.
  */
+@RunWith(Enclosed.class)
 final class LGammaCalculationTest {
+
+    public static final Class<?> TEST_CLASS = LGammaCalculation.class;
 
     private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
             new DoubleRelativeAssertion(1E-14);
@@ -350,6 +356,33 @@ final class LGammaCalculationTest {
                 DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                         dataPair[2],
                         L_GAMMA.lbeta(dataPair[0], dataPair[1]));
+            }
+        }
+    }
+
+    @Ignore
+    public static class 計算時間評価 {
+
+        private double d = 0d;
+
+        @Test
+        public void test_lgammaStirlingResidualの実行_large() {
+            {
+                var executor = new SpeedTestExecutor(
+                        TEST_CLASS, "lgammmaLargeStirlingResidual: [6.5 : 15.5]", 300_000_000,
+                        () -> {
+                            d += L_GAMMA.lgammaStirlingResidual(6.5);
+                            d += L_GAMMA.lgammaStirlingResidual(7.5);
+                            d += L_GAMMA.lgammaStirlingResidual(8.5);
+                            d += L_GAMMA.lgammaStirlingResidual(9.5);
+                            d += L_GAMMA.lgammaStirlingResidual(10.5);
+                            d += L_GAMMA.lgammaStirlingResidual(11.5);
+                            d += L_GAMMA.lgammaStirlingResidual(12.5);
+                            d += L_GAMMA.lgammaStirlingResidual(13.5);
+                            d += L_GAMMA.lgammaStirlingResidual(14.5);
+                            d += L_GAMMA.lgammaStirlingResidual(15.5);
+                        });
+                executor.execute();
             }
         }
     }
