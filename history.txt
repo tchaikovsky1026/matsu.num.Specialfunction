@@ -1,3 +1,6 @@
+develop:
+リファクタリング(sealed修飾の削除).
+
 23:
 23.0.0: Semantic versioning.
 
