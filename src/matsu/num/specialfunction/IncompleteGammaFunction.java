@@ -68,12 +68,23 @@ public interface IncompleteGammaFunction {
 
     /**
      * パラメータ <i>a</i> の下限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
+     * 
      */
+    @Deprecated
     public static final double LOWER_LIMIT_OF_PARAMETER_A = 1E-2;
 
     /**
      * パラメータ <i>a</i> の上限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final double UPPER_LIMIT_OF_PARAMETER_A = 1E28;
 
     /**
@@ -132,15 +143,14 @@ public interface IncompleteGammaFunction {
     public abstract double rigammaOdds(double x);
 
     /**
-     * <p>
      * 指定したパラメータ <i>a</i> がサポートされているかを判定する.
-     * </p>
      * 
      * @param a パラメータ <i>a</i>
      * @return パラメータが適合する場合はtrue
      */
     public static boolean acceptsParameter(double a) {
-        return ICGammaFactory.acceptsParameter(a);
+        return LOWER_LIMIT_OF_PARAMETER_A <= a
+                && a <= UPPER_LIMIT_OF_PARAMETER_A;
     }
 
     /**

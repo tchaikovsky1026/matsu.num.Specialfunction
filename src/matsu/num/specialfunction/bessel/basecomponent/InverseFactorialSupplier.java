@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.27
+ * 2025.7.5
  */
 package matsu.num.specialfunction.bessel.basecomponent;
 
@@ -22,6 +22,7 @@ public final class InverseFactorialSupplier {
     /**
      * 次数の下限を表す定数.
      */
+    @SuppressWarnings("deprecation")
     private static final int LOWER_LIMIT_OF_ORDER = Math.min(
             BesselFunction.LOWER_LIMIT_OF_ORDER,
             ModifiedBesselFunction.LOWER_LIMIT_OF_ORDER);
@@ -29,6 +30,7 @@ public final class InverseFactorialSupplier {
     /**
      * 次数の上限を表す定数.
      */
+    @SuppressWarnings("deprecation")
     private static final int UPPER_LIMIT_OF_ORDER = Math.max(
             BesselFunction.UPPER_LIMIT_OF_ORDER,
             ModifiedBesselFunction.UPPER_LIMIT_OF_ORDER);
@@ -38,7 +40,9 @@ public final class InverseFactorialSupplier {
     static {
         INV_FACTORIALS = new double[UPPER_LIMIT_OF_ORDER + 1];
         INV_FACTORIALS[0] = 1;
-        for (int j = 1; j <= ModifiedBesselFunction.UPPER_LIMIT_OF_ORDER; j++) {
+        @SuppressWarnings("deprecation")
+        int nMax = ModifiedBesselFunction.UPPER_LIMIT_OF_ORDER;
+        for (int j = 1; j <= nMax; j++) {
             INV_FACTORIALS[j] = INV_FACTORIALS[j - 1] / j;
         }
     }

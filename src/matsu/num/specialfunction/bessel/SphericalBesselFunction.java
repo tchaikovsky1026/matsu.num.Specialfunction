@@ -39,14 +39,25 @@ import matsu.num.specialfunction.bessel.sbessel.SBesselFunctionFactory;
  *          Wikipedia: Bessel function#Spherical Bessel functions</a>
  */
 public interface SphericalBesselFunction {
+
     /**
      * 次数 <i>n</i> の下限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final int LOWER_LIMIT_OF_ORDER = 0;
 
     /**
      * 次数 <i>n</i> の上限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final int UPPER_LIMIT_OF_ORDER = 100;
 
     /**
@@ -94,7 +105,8 @@ public interface SphericalBesselFunction {
      * @return パラメータが適合する場合はtrue
      */
     public static boolean acceptsParameter(int order) {
-        return SBesselFunctionFactory.acceptsParameter(order);
+        return LOWER_LIMIT_OF_ORDER <= order
+                && order <= UPPER_LIMIT_OF_ORDER;
     }
 
     /**

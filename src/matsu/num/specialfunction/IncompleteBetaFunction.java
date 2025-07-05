@@ -65,12 +65,22 @@ public interface IncompleteBetaFunction {
 
     /**
      * パラメータ <i>a</i>, <i>b</i> の下限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final double LOWER_LIMIT_OF_PARAMETER_AB = 1E-2;
 
     /**
      * パラメータ <i>a</i>, <i>b</i> の上限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final double UPPER_LIMIT_OF_PARAMETER_AB = 1E14;
 
     /**
@@ -149,16 +159,15 @@ public interface IncompleteBetaFunction {
     public abstract double ribetaOdds(double oddsX);
 
     /**
-     * <p>
      * 指定したパラメータ (<i>a</i>, <i>b</i>) がサポートされているかを判定する.
-     * </p>
      * 
      * @param a パラメータ <i>a</i>
      * @param b パラメータ <i>b</i>
      * @return パラメータが適合する場合はtrue
      */
     public static boolean acceptsParameter(double a, double b) {
-        return ICBetaFactory.acceptsParameter(a, b);
+        return LOWER_LIMIT_OF_PARAMETER_AB <= a && a <= UPPER_LIMIT_OF_PARAMETER_AB
+                && LOWER_LIMIT_OF_PARAMETER_AB <= b && b <= UPPER_LIMIT_OF_PARAMETER_AB;
     }
 
     /**
