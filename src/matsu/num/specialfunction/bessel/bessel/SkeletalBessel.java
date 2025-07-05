@@ -5,9 +5,11 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2025.7.5
  */
 package matsu.num.specialfunction.bessel.bessel;
+
+import matsu.num.specialfunction.bessel.BesselFunction;
 
 /**
  * Bessel関数の骨格実装. <br>
