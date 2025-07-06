@@ -44,7 +44,7 @@ public final class InverseDoubleFactorialSupplier {
             INV_FACTORIALS[j] = INV_FACTORIALS[j - 1] / (2 * j + 1);
         }
         if (INV_FACTORIALS[UPPER_LIMIT_OF_ORDER] == 0d) {
-            throw new AssertionError("二重階乗がアンダーフロー");
+            throw new AssertionError("Underflow: InverseDoubleFactorial");
         }
     }
 
@@ -63,7 +63,7 @@ public final class InverseDoubleFactorialSupplier {
         if (!(LOWER_LIMIT_OF_ORDER <= order
                 && order <= UPPER_LIMIT_OF_ORDER)) {
             throw new AssertionError(
-                    String.format("サポート外である: order = %s", order));
+                    "not supported: order = %s".formatted(order));
         }
 
         return INV_FACTORIALS[order];

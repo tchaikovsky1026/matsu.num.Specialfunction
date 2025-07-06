@@ -48,14 +48,12 @@ abstract class SkeletalBessel implements BesselFunction {
      * <p>
      * 概ね, 次のような表現であろう.
      * ただし, バージョン間の互換性は担保されていない. <br>
-     * {@code Bessel(%order)}
+     * {@code BesselFunction(order = %order)}
      * </p>
-     * 
-     * @return 文字列表現
      */
     @Override
     public String toString() {
-        return String.format(
-                "Bessel(%s)", this.order());
+        return "BesselFunction(order = %s)"
+                .formatted(this.order());
     }
 }

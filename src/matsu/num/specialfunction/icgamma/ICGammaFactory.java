@@ -35,7 +35,7 @@ public final class ICGammaFactory {
     public static IncompleteGammaFunction instanceOf(double a) {
         if (!IncompleteGammaFunction.acceptsParameter(a)) {
             throw new IllegalArgumentException(
-                    String.format("パラメータがサポート外である: a = %s", a));
+                    "Illegal parameter: a = %s".formatted(a));
         }
 
         if (a <= K_THRESHOLD_SECOND) {

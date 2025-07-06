@@ -43,7 +43,7 @@ public final class BesselFunctionFactory {
     public static BesselFunction instanceOf(int order) {
         if (!acceptsParameter(order)) {
             throw new IllegalArgumentException(
-                    String.format("次数がサポート外である: order = %s", order));
+                    "Illegal parameter: order = %s".formatted(order));
         }
 
         switch (order) {

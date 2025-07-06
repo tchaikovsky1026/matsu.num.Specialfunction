@@ -48,14 +48,12 @@ abstract class SkeletalSBessel implements SphericalBesselFunction {
      * <p>
      * 概ね, 次のような表現であろう.
      * ただし, バージョン間の互換性は担保されていない. <br>
-     * {@code SphericalBessel(%order)}
+     * {@code SphericalBesselFunction(order = %order)}
      * </p>
-     * 
-     * @return 文字列表現
      */
     @Override
     public String toString() {
         return String.format(
-                "SphericalBessel(%s)", this.order());
+                "SphericalBesselFunction(order = %s)", this.order());
     }
 }

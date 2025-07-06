@@ -109,14 +109,12 @@ abstract class SkeletalICBeta implements IncompleteBetaFunction {
      * <p>
      * 概ね, 次のような表現であろう.
      * ただし, バージョン間の互換性は担保されていない. <br>
-     * {@code ICBeta(%a,%b)}
+     * {@code IncompleteBetaFunction(a = %a, b = %b)}
      * </p>
-     * 
-     * @return IncompleteBetaFunction向け文字列表現
      */
     @Override
     public String toString() {
-        return String.format(
-                "ICBeta(%s, %s)", this.a(), this.b());
+        return "IncompleteBetaFunction(a = %s, b = %s)"
+                .formatted(this.a(), this.b());
     }
 }

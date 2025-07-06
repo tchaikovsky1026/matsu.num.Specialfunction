@@ -50,14 +50,12 @@ abstract class SkeletalModifiedBessel implements ModifiedBesselFunction {
      * <p>
      * 文字列表現は頑強でなく, 将来のバージョンで変更されるかもしれない. <br>
      * おそらく次のようである. <br>
-     * {@code ModifiedBessel(order)}
+     * {@code ModifiedBesselFunction(order = %order)}
      * </p>
-     * 
-     * @return 文字列表現
      */
     @Override
     public String toString() {
-        return String.format(
-                "ModifiedBessel(%s)", this.order());
+        return "ModifiedBesselFunction(order = %s)"
+                .formatted(this.order());
     }
 }

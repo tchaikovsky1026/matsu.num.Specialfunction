@@ -6,7 +6,6 @@
  */
 package matsu.num.specialfunction.icbeta;
 
-import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -129,16 +128,6 @@ final class ICBetaAtLowParamTest {
         @Theory
         public void test_1検証_betaR(IncompleteBetaFunction icbeta) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(1d, icbeta.ribetaR(1d));
-        }
-    }
-
-    public static class toString表示 {
-        @Test
-        public void test_toString() {
-            System.out.println(TEST_CLASS.getName());
-            System.out.println(new ICBetaAtLowParam(1, 15));
-            System.out.println();
-
         }
     }
 }
