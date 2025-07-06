@@ -12,14 +12,12 @@ package matsu.num.specialfunction.bessel;
 import matsu.num.specialfunction.bessel.modbessel.ModifiedBesselFunctionFactory;
 
 /**
- * <p>
- * 変形Bessel関数
+ * 変形 Bessel 関数
  * (<i>I<sub>n</sub></i>(<i>x</i>), <i>K<sub>n</sub></i>(<i>x</i>))
  * の計算
  * (おおよそ倍精度). <br>
  * 0 &le; <i>x</i>
  * を扱う.
- * </p>
  * 
  * <p>
  * <i>I<sub>n</sub></i>(<i>x</i>), <i>K<sub>n</sub></i>(<i>x</i>)
@@ -72,14 +70,14 @@ public interface ModifiedBesselFunction {
     public static final int UPPER_LIMIT_OF_ORDER = 100;
 
     /**
-     * このインスタンスの扱う変形Bessel関数の次数 (<i>n</i>) を返す.
+     * このインスタンスの扱う変形 Bessel 関数の次数 (<i>n</i>) を返す.
      *
      * @return 次数 <i>n</i>
      */
     public abstract int order();
 
     /**
-     * 第1種変形Bessel関数 <i>I<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第1種変形 Bessel 関数 <i>I<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -93,7 +91,7 @@ public interface ModifiedBesselFunction {
     public abstract double besselI(double x);
 
     /**
-     * 第2種変形Bessel関数 <i>K<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第2種変形 Bessel 関数 <i>K<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -108,7 +106,7 @@ public interface ModifiedBesselFunction {
     public abstract double besselK(double x);
 
     /**
-     * スケーリングした第1種変形Bessel関数
+     * スケーリングした第1種変形 Bessel 関数
      * <i>I<sub>n</sub></i>(<i>x</i>) exp(-<i>x</i>)
      * の値を返す.
      *
@@ -124,7 +122,7 @@ public interface ModifiedBesselFunction {
     public abstract double besselIc(double x);
 
     /**
-     * スケーリングした第2種変形Bessel関数
+     * スケーリングした第2種変形 Bessel 関数
      * <i>K<sub>n</sub></i>(<i>x</i>) exp(<i>x</i>)
      * の値を返す.
      *
@@ -141,9 +139,7 @@ public interface ModifiedBesselFunction {
     public abstract double besselKc(double x);
 
     /**
-     * <p>
      * 指定したパラメータ (次数) がサポートされているかを判定する.
-     * </p>
      * 
      * @param order 次数 <i>n</i>
      * @return パラメータが適合する場合はtrue
@@ -154,9 +150,7 @@ public interface ModifiedBesselFunction {
     }
 
     /**
-     * <p>
-     * 指定した次数の変形Bessel関数計算インスタンスを返す.
-     * </p>
+     * 指定した次数の変形 Bessel 関数計算インスタンスを返す.
      * 
      * <p>
      * パラメータの正当性は {@link #acceptsParameter(int)} により検証され,
@@ -164,7 +158,7 @@ public interface ModifiedBesselFunction {
      * </p>
      *
      * @param order <i>n</i>, 次数
-     * @return <i>n</i> 次の変形Bessel関数を計算するインスタンス
+     * @return <i>n</i> 次の変形 Bessel 関数を計算するインスタンス
      * @throws IllegalArgumentException 次数がサポート外の場合
      */
     public static ModifiedBesselFunction instanceOf(int order) {

@@ -89,7 +89,7 @@ public final class GammaFunction {
 
     /**
      * 与えられた <i>x</i> に対する
-     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似
+     * log<sub>e</sub>&Gamma;(<i>x</i>) の Stirling 近似
      * <i>S</i>(<i>x</i>) =
      * (<i>x</i> - 1/2) log<sub>e</sub>(<i>x</i>)
      * - <i>x</i>
@@ -111,10 +111,10 @@ public final class GammaFunction {
 
     /**
      * 与えられた <i>x</i> に対する
-     * log<sub>e</sub>&Gamma;(<i>x</i>) のStirling近似残差:
+     * log<sub>e</sub>&Gamma;(<i>x</i>) の Stirling 近似残差:
      * log<sub>e</sub>&Gamma;(<i>x</i>) - <i>S</i>(<i>x</i>)
      * の値を返す. <br>
-     * (<i>S</i>(<i>x</i>) は log<sub>e</sub>&Gamma;(<i>x</i>) の Stirling近似)
+     * (<i>S</i>(<i>x</i>) は log<sub>e</sub>&Gamma;(<i>x</i>) の Stirling 近似)
      * 
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN</li>
