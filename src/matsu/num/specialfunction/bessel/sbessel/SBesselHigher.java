@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.sbessel;
 
@@ -16,8 +16,6 @@ package matsu.num.specialfunction.bessel.sbessel;
  * @author Matsuura Y.
  */
 abstract class SBesselHigher extends SkeletalSBessel {
-
-    protected final int order;
 
     protected final SBessel0 sbessel0;
     protected final SBessel1 sbessel1;
@@ -30,16 +28,10 @@ abstract class SBesselHigher extends SkeletalSBessel {
      * @param sbessel0 0次球ベッセル
      * @param sbessel1 1次球ベッセル
      */
-    protected SBesselHigher(int order, SBessel0 sbessel0, SBessel1 sbessel1) {
-        super();
-        this.order = order;
+    SBesselHigher(int order, SBessel0 sbessel0, SBessel1 sbessel1) {
+        super(order);
         this.sbessel0 = sbessel0;
         this.sbessel1 = sbessel1;
-    }
-
-    @Override
-    public final int order() {
-        return this.order;
     }
 
     @Override

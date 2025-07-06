@@ -5,12 +5,12 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.sbessel;
 
 /**
- * 0次球Bessel関数の最低限の実装.
+ * 0次球Bessel関数.
  * 
  * @author Matsuura Y.
  */
@@ -19,12 +19,7 @@ abstract class SBessel0 extends SkeletalSBessel {
     /**
      * 唯一のコンストラクタ.
      */
-    protected SBessel0() {
-        super();
-    }
-
-    @Override
-    public final int order() {
-        return 0;
+    SBessel0() {
+        super(0);
     }
 }
