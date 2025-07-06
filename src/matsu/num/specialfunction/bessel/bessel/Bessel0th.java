@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.bessel;
 
@@ -20,14 +20,6 @@ abstract class Bessel0th extends SkeletalBessel {
      * 唯一のコンストラクタ.
      */
     Bessel0th() {
-        super();
-    }
-
-    /**
-     * @return 0
-     */
-    @Override
-    public final int order() {
-        return 0;
+        super(0);
     }
 }

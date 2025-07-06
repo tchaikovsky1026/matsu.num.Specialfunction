@@ -30,15 +30,8 @@ final class SkeletalMSBesselTest {
 
     private static final class SkeletalMSBesselImpl extends SkeletalMSBessel {
 
-        private final int order;
-
         SkeletalMSBesselImpl(int order) {
-            this.order = order;
-        }
-
-        @Override
-        public int order() {
-            return this.order;
+            super(order);
         }
 
         @Override

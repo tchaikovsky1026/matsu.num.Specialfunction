@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.bessel;
 
@@ -17,11 +17,6 @@ package matsu.num.specialfunction.bessel.bessel;
  */
 abstract class BesselHigherImplY extends SkeletalBessel {
 
-    /**
-     * このBessel関数の次数.
-     */
-    protected final int order;
-
     protected final Bessel0th bessel0;
     protected final Bessel1st bessel1;
 
@@ -29,20 +24,14 @@ abstract class BesselHigherImplY extends SkeletalBessel {
      * 与えた次数のBessel関数を生成する. <br>
      * 次数は2以上100以下でなければならない.
      * 
-     * @param n 次数
+     * @param order 次数
      * @param bessel0 0次Bessel
      * @param bessel1 1次Bessel
      */
-    BesselHigherImplY(int n, Bessel0th bessel0, Bessel1st bessel1) {
-        super();
-        this.order = n;
+    BesselHigherImplY(int order, Bessel0th bessel0, Bessel1st bessel1) {
+        super(order);
         this.bessel0 = bessel0;
         this.bessel1 = bessel1;
-    }
-
-    @Override
-    public final int order() {
-        return this.order;
     }
 
     @Override

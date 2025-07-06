@@ -5,12 +5,12 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.modsbessel;
 
 /**
- * 1次変形球Bessel関数の最低限の実装.
+ * 1次変形球Bessel関数を扱う.
  * 
  * @author Matsuura Y.
  */
@@ -19,12 +19,7 @@ abstract class MSBessel1 extends SkeletalMSBessel {
     /**
      * 唯一のコンストラクタ.
      */
-    protected MSBessel1() {
-        super();
-    }
-
-    @Override
-    public final int order() {
-        return 1;
+    MSBessel1() {
+        super(1);
     }
 }

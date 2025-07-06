@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.12.31
+ * 2025.7.6
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -27,8 +27,6 @@ import matsu.num.specialfunction.common.Exponentiation;
 final class ICGammaAtHighParam extends SkeletalICGamma {
 
     private static final double HALF_LN2PI = 0.5 * Math.log(2 * Math.PI);
-
-    private final double a;
     private final double sqrtA;
 
     /*
@@ -62,9 +60,8 @@ final class ICGammaAtHighParam extends SkeletalICGamma {
      * @param a パラメータ
      */
     ICGammaAtHighParam(double a) {
-        super();
+        super(a);
 
-        this.a = a;
         this.sqrtA = Exponentiation.sqrt(a);
         this.xLowerThreshold = a - this.sqrtA;
         this.xUpperThreshold = a + this.sqrtA;
@@ -73,12 +70,7 @@ final class ICGammaAtHighParam extends SkeletalICGamma {
     }
 
     @Override
-    public double a() {
-        return this.a;
-    }
-
-    @Override
-    protected double oddsValue(double x) {
+    double oddsValue(double x) {
         final double thisA = this.a;
         if (x < this.xLowerThreshold) {
             double lcp = ICGContinuedFractionFactor.factorLCP(x, thisA) * coeffToLCP(x);

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.12.31
+ * 2025.7.6
  */
 package matsu.num.specialfunction.icbeta;
 
@@ -24,8 +24,6 @@ import matsu.num.specialfunction.common.Exponentiation;
  */
 final class ICBetaAtLowParam extends SkeletalICBeta {
 
-    private final double a;
-    private final double b;
     private final double lnBetaAB;
     private final double oddsThreshold;
 
@@ -36,10 +34,8 @@ final class ICBetaAtLowParam extends SkeletalICBeta {
      * @param b
      */
     ICBetaAtLowParam(double a, double b) {
-        super();
+        super(a, b);
 
-        this.a = a;
-        this.b = b;
         this.lnBetaAB = GammaFunction.lbeta(a, b);
 
         final double coeff = (ICBetaFactory.AB_THRESHOLD_FIRST - 3) / ICBetaFactory.AB_THRESHOLD_FIRST;
@@ -50,17 +46,7 @@ final class ICBetaAtLowParam extends SkeletalICBeta {
     }
 
     @Override
-    public final double a() {
-        return this.a;
-    }
-
-    @Override
-    public final double b() {
-        return this.b;
-    }
-
-    @Override
-    protected final double oddsValue(double oddsX) {
+    final double oddsValue(double oddsX) {
 
         final double x = 1 / (1 + 1 / oddsX);
         final double y = 1 / (1 + oddsX);

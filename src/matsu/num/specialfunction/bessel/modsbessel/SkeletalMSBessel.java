@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2025.7.5
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.modsbessel;
 
@@ -20,10 +20,26 @@ import matsu.num.specialfunction.bessel.ModifiedSphericalBesselFunction;
 abstract class SkeletalMSBessel implements ModifiedSphericalBesselFunction {
 
     /**
-     * 唯一のコンストラクタ.
+     * この変形球Bessel関数が扱う次数.
      */
-    protected SkeletalMSBessel() {
+    final int order;
+
+    /**
+     * 唯一のコンストラクタ.
+     * 
+     * <p>
+     * 引数のバリデーションは行われていない.
+     * </p>
+     */
+    SkeletalMSBessel(int order) {
         super();
+
+        this.order = order;
+    }
+
+    @Override
+    public final int order() {
+        return this.order;
     }
 
     /**
