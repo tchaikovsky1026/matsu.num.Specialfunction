@@ -46,7 +46,10 @@ public final class GammaFunction {
 
     /**
      * Euler-Mascheroni 定数.
+     * 
+     * @deprecated この公開定数はバージョン 24 以降に削除される.
      */
+    @Deprecated(forRemoval = true)
     public static final double EULER_MASCHERONI_GAMMA = 0.5772156649015329;
 
     private GammaFunction() {
