@@ -7,5 +7,9 @@
 
 /**
  * 整数型の分数 (有理数) と連分数関数を扱うパッケージ.
+ * 
+ * <p>
+ * このパッケージは, 公開されたAPIから依存されていない.
+ * </p>
  */
 package matsu.num.specialfunction.fraction;

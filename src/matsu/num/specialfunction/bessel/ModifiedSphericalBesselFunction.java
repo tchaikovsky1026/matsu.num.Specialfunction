@@ -5,21 +5,19 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2025.7.5
  */
 package matsu.num.specialfunction.bessel;
 
 import matsu.num.specialfunction.bessel.modsbessel.MSBesselFunctionFactory;
 
 /**
- * <p>
- * 変形球Bessel関数
+ * 変形球 Bessel 関数
  * (<i>i<sub>n</sub></i>(<i>x</i>), <i>k<sub>n</sub></i>(<i>x</i>))
  * の計算
  * (おおよそ倍精度). <br>
  * 0 &le; <i>x</i>
  * を扱う.
- * </p>
  * 
  * <p>
  * <i>i<sub>n</sub></i>(<i>x</i>), <i>k<sub>n</sub></i>(<i>x</i>)
@@ -39,15 +37,10 @@ import matsu.num.specialfunction.bessel.modsbessel.MSBesselFunctionFactory;
  * である.
  * </p>
  * 
- * <p>
- * <i>
- * <u>
- * このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
- * 外部で実装することは不可.
- * </u>
- * </i>
- * </p>
- *
+ * @implSpec
+ *               このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
+ *               モジュール外で継承・実装してはいけない.
+ * 
  * @author Matsuura Y.
  * @see <a href=
  *          "https://ja.wikipedia.org/wiki/%E3%83%99%E3%83%83%E3%82%BB%E3%83%AB%E9%96%A2%E6%95%B0#%E5%A4%89%E5%BD%A2%E7%90%83%E3%83%99%E3%83%83%E3%82%BB%E3%83%AB%E9%96%A2%E6%95%B0"
@@ -55,16 +48,26 @@ import matsu.num.specialfunction.bessel.modsbessel.MSBesselFunctionFactory;
  *          "_brank">
  *          Wikipedia: ベッセル関数#変形球ベッセル関数</a>
  */
-public sealed interface ModifiedSphericalBesselFunction permits matsu.num.specialfunction.bessel.modsbessel.ModifiedSphericalBesselFunction {
+public interface ModifiedSphericalBesselFunction {
 
     /**
      * 次数 <i>n</i> の下限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final int LOWER_LIMIT_OF_ORDER = 0;
 
     /**
      * 次数 <i>n</i> の上限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final int UPPER_LIMIT_OF_ORDER = 100;
 
     /**
@@ -75,7 +78,7 @@ public sealed interface ModifiedSphericalBesselFunction permits matsu.num.specia
     public abstract int order();
 
     /**
-     * 第1種変形球Bessel関数 <i>i<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第1種変形球 Bessel 関数 <i>i<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -89,7 +92,7 @@ public sealed interface ModifiedSphericalBesselFunction permits matsu.num.specia
     public abstract double sbesselI(double x);
 
     /**
-     * 第2種変形球Bessel関数 <i>k<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第2種変形球 Bessel 関数 <i>k<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -104,7 +107,7 @@ public sealed interface ModifiedSphericalBesselFunction permits matsu.num.specia
     public abstract double sbesselK(double x);
 
     /**
-     * スケーリングした第1種変形球Bessel関数
+     * スケーリングした第1種変形球 Bessel 関数
      * <i>i<sub>n</sub></i>(<i>x</i>) exp(-<i>x</i>)
      * の値を返す.
      *
@@ -120,7 +123,7 @@ public sealed interface ModifiedSphericalBesselFunction permits matsu.num.specia
     public abstract double sbesselIc(double x);
 
     /**
-     * スケーリングした第2種変形球Bessel関数
+     * スケーリングした第2種変形球 Bessel 関数
      * <i>k<sub>n</sub></i>(<i>x</i>) exp(<i>x</i>)
      * の値を返す.
      *
@@ -137,21 +140,18 @@ public sealed interface ModifiedSphericalBesselFunction permits matsu.num.specia
     public abstract double sbesselKc(double x);
 
     /**
-     * <p>
      * 指定したパラメータ (次数) がサポートされているかを判定する.
-     * </p>
      * 
      * @param order 次数 <i>n</i>
      * @return パラメータが適合する場合はtrue
      */
     public static boolean acceptsParameter(int order) {
-        return MSBesselFunctionFactory.acceptsParameter(order);
+        return LOWER_LIMIT_OF_ORDER <= order
+                && order <= UPPER_LIMIT_OF_ORDER;
     }
 
     /**
-     * <p>
-     * 指定した次数の変形球Bessel関数計算インスタンスを返す.
-     * </p>
+     * 指定した次数の変形球 Bessel 関数計算インスタンスを返す.
      * 
      * <p>
      * パラメータの正当性は {@link #acceptsParameter(int)} により検証され,

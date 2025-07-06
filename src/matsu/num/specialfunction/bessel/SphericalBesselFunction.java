@@ -5,21 +5,19 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2025.7.5
  */
 package matsu.num.specialfunction.bessel;
 
 import matsu.num.specialfunction.bessel.sbessel.SBesselFunctionFactory;
 
 /**
- * <p>
- * 球Bessel関数
+ * 球 Bessel 関数
  * (<i>j<sub>n</sub></i>(<i>x</i>), <i>y<sub>n</sub></i>(<i>x</i>))
  * の計算
  * (おおよそ倍精度). <br>
  * 0 &le; <i>x</i>
  * を扱う.
- * </p>
  * 
  * <p>
  * サポートされている次数は
@@ -27,15 +25,10 @@ import matsu.num.specialfunction.bessel.sbessel.SBesselFunctionFactory;
  * である.
  * </p>
  * 
- * <p>
- * <i>
- * <u>
- * このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
- * 外部で実装することは不可.
- * </u>
- * </i>
- * </p>
- *
+ * @implSpec
+ *               このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
+ *               モジュール外で継承・実装してはいけない.
+ * 
  * @author Matsuura Y.
  * @see <a href=
  *          "https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn,_yn"
@@ -43,26 +36,37 @@ import matsu.num.specialfunction.bessel.sbessel.SBesselFunctionFactory;
  *          "_brank">
  *          Wikipedia: Bessel function#Spherical Bessel functions</a>
  */
-public sealed interface SphericalBesselFunction permits matsu.num.specialfunction.bessel.sbessel.SphericalBesselFunction {
+public interface SphericalBesselFunction {
+
     /**
      * 次数 <i>n</i> の下限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final int LOWER_LIMIT_OF_ORDER = 0;
 
     /**
      * 次数 <i>n</i> の上限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final int UPPER_LIMIT_OF_ORDER = 100;
 
     /**
-     * このインスタンスの扱う球Bessel関数の次数 (<i>n</i>) を返す.
+     * このインスタンスの扱う球 Bessel 関数の次数 (<i>n</i>) を返す.
      *
      * @return 次数 <i>n</i>
      */
     public abstract int order();
 
     /**
-     * 第1種球Bessel関数 <i>j<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第1種球 Bessel 関数 <i>j<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -76,7 +80,7 @@ public sealed interface SphericalBesselFunction permits matsu.num.specialfunctio
     public abstract double sbesselJ(double x);
 
     /**
-     * 第2種球Bessel関数 <i>y<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第2種球 Bessel 関数 <i>y<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -91,21 +95,18 @@ public sealed interface SphericalBesselFunction permits matsu.num.specialfunctio
     public abstract double sbesselY(double x);
 
     /**
-     * <p>
      * 指定したパラメータ (次数) がサポートされているかを判定する.
-     * </p>
      * 
      * @param order 次数 <i>n</i>
      * @return パラメータが適合する場合はtrue
      */
     public static boolean acceptsParameter(int order) {
-        return SBesselFunctionFactory.acceptsParameter(order);
+        return LOWER_LIMIT_OF_ORDER <= order
+                && order <= UPPER_LIMIT_OF_ORDER;
     }
 
     /**
-     * <p>
-     * 指定した次数の球Bessel関数計算インスタンスを返す.
-     * </p>
+     * 指定した次数の球 Bessel 関数計算インスタンスを返す.
      * 
      * <p>
      * パラメータの正当性は {@link #acceptsParameter(int)} により検証され,
@@ -113,7 +114,7 @@ public sealed interface SphericalBesselFunction permits matsu.num.specialfunctio
      * </p>
      *
      * @param order <i>n</i>, 次数
-     * @return <i>n</i> 次の球Bessel関数を計算するインスタンス
+     * @return <i>n</i> 次の球 Bessel 関数を計算するインスタンス
      * @throws IllegalArgumentException 次数がサポート外の場合
      */
     public static SphericalBesselFunction instanceOf(int order) {

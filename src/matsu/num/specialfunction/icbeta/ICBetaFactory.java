@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.17
+ * 2025.7.5
  */
 package matsu.num.specialfunction.icbeta;
 
@@ -28,20 +28,6 @@ public final class ICBetaFactory {
     static final double AB_THRESHOLD_SECOND = 40000;
 
     /**
-     * <p>
-     * 指定したパラメータ (<i>a</i>, <i>b</i>) がサポートされているかを判定する.
-     * </p>
-     * 
-     * @param a パラメータ <i>a</i>
-     * @param b パラメータ <i>b</i>
-     * @return パラメータが適合する場合はtrue
-     */
-    public static boolean acceptsParameter(double a, double b) {
-        return LOWER_LIMIT_OF_PARAMETER_AB <= a && a <= UPPER_LIMIT_OF_PARAMETER_AB
-                && LOWER_LIMIT_OF_PARAMETER_AB <= b && b <= UPPER_LIMIT_OF_PARAMETER_AB;
-    }
-
-    /**
      * 指定したパラメータの不完全ベータ関数計算インスタンスを返す. <br>
      * パラメータ <i>a</i>,<i>b</i> は, {@code 1.0E-2 <= a <= 1.0E+14} でなければならない.
      *
@@ -51,7 +37,7 @@ public final class ICBetaFactory {
      * @throws IllegalArgumentException パラメータが範囲外の場合
      */
     public static IncompleteBetaFunction instanceOf(double a, double b) {
-        if (!acceptsParameter(a, b)) {
+        if (!IncompleteBetaFunction.acceptsParameter(a, b)) {
             throw new IllegalArgumentException(
                     String.format(
                             "パラメータ不正:(a,b)=(%s,%s)", a, b));

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.6.17
+ * 2025.7.5
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -26,19 +26,6 @@ public final class ICGammaFactory {
     }
 
     /**
-     * <p>
-     * 指定したパラメータ <i>a</i> がサポートされているかを判定する.
-     * </p>
-     * 
-     * @param a パラメータ <i>a</i>
-     * @return パラメータが適合する場合はtrue
-     */
-    public static boolean acceptsParameter(double a) {
-        return IncompleteGammaFunction.LOWER_LIMIT_OF_PARAMETER_A <= a
-                && a <= IncompleteGammaFunction.UPPER_LIMIT_OF_PARAMETER_A;
-    }
-
-    /**
      * 指定したパラメータの不完全ガンマ関数計算インスタンスを返す.
      *
      * @param a パラメータa
@@ -46,7 +33,7 @@ public final class ICGammaFactory {
      * @throws IllegalArgumentException パラメータが不正の場合
      */
     public static IncompleteGammaFunction instanceOf(double a) {
-        if (!acceptsParameter(a)) {
+        if (!IncompleteGammaFunction.acceptsParameter(a)) {
             throw new IllegalArgumentException(
                     String.format("パラメータがサポート外である: a = %s", a));
         }

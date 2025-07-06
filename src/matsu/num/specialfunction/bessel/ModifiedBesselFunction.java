@@ -5,21 +5,19 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2025.7.5
  */
 package matsu.num.specialfunction.bessel;
 
 import matsu.num.specialfunction.bessel.modbessel.ModifiedBesselFunctionFactory;
 
 /**
- * <p>
- * 変形Bessel関数
+ * 変形 Bessel 関数
  * (<i>I<sub>n</sub></i>(<i>x</i>), <i>K<sub>n</sub></i>(<i>x</i>))
  * の計算
  * (おおよそ倍精度). <br>
  * 0 &le; <i>x</i>
  * を扱う.
- * </p>
  * 
  * <p>
  * <i>I<sub>n</sub></i>(<i>x</i>), <i>K<sub>n</sub></i>(<i>x</i>)
@@ -39,14 +37,9 @@ import matsu.num.specialfunction.bessel.modbessel.ModifiedBesselFunctionFactory;
  * である.
  * </p>
  * 
- * <p>
- * <i>
- * <u>
- * このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
- * 外部で実装することは不可.
- * </u>
- * </i>
- * </p>
+ * @implSpec
+ *               このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
+ *               モジュール外で継承・実装してはいけない.
  * 
  * @author Matsuura Y.
  * @see <a href=
@@ -54,27 +47,37 @@ import matsu.num.specialfunction.bessel.modbessel.ModifiedBesselFunctionFactory;
  *          target= "_brank">
  *          Wikipedia: Bessel function#Modified Bessel functions</a>
  */
-public sealed interface ModifiedBesselFunction permits matsu.num.specialfunction.bessel.modbessel.ModifiedBesselFunction {
+public interface ModifiedBesselFunction {
 
     /**
      * 次数 <i>n</i> の下限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final int LOWER_LIMIT_OF_ORDER = 0;
 
     /**
      * 次数 <i>n</i> の上限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final int UPPER_LIMIT_OF_ORDER = 100;
 
     /**
-     * このインスタンスの扱う変形Bessel関数の次数 (<i>n</i>) を返す.
+     * このインスタンスの扱う変形 Bessel 関数の次数 (<i>n</i>) を返す.
      *
      * @return 次数 <i>n</i>
      */
     public abstract int order();
 
     /**
-     * 第1種変形Bessel関数 <i>I<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第1種変形 Bessel 関数 <i>I<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -88,7 +91,7 @@ public sealed interface ModifiedBesselFunction permits matsu.num.specialfunction
     public abstract double besselI(double x);
 
     /**
-     * 第2種変形Bessel関数 <i>K<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第2種変形 Bessel 関数 <i>K<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -103,7 +106,7 @@ public sealed interface ModifiedBesselFunction permits matsu.num.specialfunction
     public abstract double besselK(double x);
 
     /**
-     * スケーリングした第1種変形Bessel関数
+     * スケーリングした第1種変形 Bessel 関数
      * <i>I<sub>n</sub></i>(<i>x</i>) exp(-<i>x</i>)
      * の値を返す.
      *
@@ -119,7 +122,7 @@ public sealed interface ModifiedBesselFunction permits matsu.num.specialfunction
     public abstract double besselIc(double x);
 
     /**
-     * スケーリングした第2種変形Bessel関数
+     * スケーリングした第2種変形 Bessel 関数
      * <i>K<sub>n</sub></i>(<i>x</i>) exp(<i>x</i>)
      * の値を返す.
      *
@@ -136,21 +139,18 @@ public sealed interface ModifiedBesselFunction permits matsu.num.specialfunction
     public abstract double besselKc(double x);
 
     /**
-     * <p>
      * 指定したパラメータ (次数) がサポートされているかを判定する.
-     * </p>
      * 
      * @param order 次数 <i>n</i>
      * @return パラメータが適合する場合はtrue
      */
     public static boolean acceptsParameter(int order) {
-        return ModifiedBesselFunctionFactory.acceptsParameter(order);
+        return LOWER_LIMIT_OF_ORDER <= order
+                && order <= UPPER_LIMIT_OF_ORDER;
     }
 
     /**
-     * <p>
-     * 指定した次数の変形Bessel関数計算インスタンスを返す.
-     * </p>
+     * 指定した次数の変形 Bessel 関数計算インスタンスを返す.
      * 
      * <p>
      * パラメータの正当性は {@link #acceptsParameter(int)} により検証され,
@@ -158,7 +158,7 @@ public sealed interface ModifiedBesselFunction permits matsu.num.specialfunction
      * </p>
      *
      * @param order <i>n</i>, 次数
-     * @return <i>n</i> 次の変形Bessel関数を計算するインスタンス
+     * @return <i>n</i> 次の変形 Bessel 関数を計算するインスタンス
      * @throws IllegalArgumentException 次数がサポート外の場合
      */
     public static ModifiedBesselFunction instanceOf(int order) {

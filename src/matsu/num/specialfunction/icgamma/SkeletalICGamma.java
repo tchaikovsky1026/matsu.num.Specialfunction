@@ -5,9 +5,11 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2025.7.5
  */
 package matsu.num.specialfunction.icgamma;
+
+import matsu.num.specialfunction.IncompleteGammaFunction;
 
 /**
  * {@linkplain IncompleteGammaFunction} の骨格実装.

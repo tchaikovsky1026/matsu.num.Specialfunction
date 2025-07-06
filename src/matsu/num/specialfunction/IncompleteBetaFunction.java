@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.10.23
+ * 2025.7.5
  */
 package matsu.num.specialfunction;
 
@@ -51,31 +51,36 @@ import matsu.num.specialfunction.icbeta.ICBetaFactory;
  * {@code 1E-2 <= b <= 1E+14}
  * </p>
  * 
- * <p>
- * <i>
- * <u>
- * このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
- * 外部で実装することは不可.
- * </u>
- * </i>
- * </p>
- *
+ * @implSpec
+ *               このインターフェースは実装を隠ぺいして型を公開するためのものである. <br>
+ *               モジュール外で継承・実装してはいけない.
+ * 
  * @author Matsuura Y.
  * @see <a href=
  *          "https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function"
  *          target= "_brank">
  *          Wikipedia: Beta function#Incomplete beta function</a>
  */
-public sealed interface IncompleteBetaFunction permits matsu.num.specialfunction.icbeta.IncompleteBetaFunction{
+public interface IncompleteBetaFunction {
 
     /**
      * パラメータ <i>a</i>, <i>b</i> の下限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final double LOWER_LIMIT_OF_PARAMETER_AB = 1E-2;
 
     /**
      * パラメータ <i>a</i>, <i>b</i> の上限を表す定数.
+     * 
+     * @deprecated
+     *                 モジュール外部で直接この定数に依存すべきではない. <br>
+     *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
+    @Deprecated
     public static final double UPPER_LIMIT_OF_PARAMETER_AB = 1E14;
 
     /**
@@ -154,16 +159,15 @@ public sealed interface IncompleteBetaFunction permits matsu.num.specialfunction
     public abstract double ribetaOdds(double oddsX);
 
     /**
-     * <p>
      * 指定したパラメータ (<i>a</i>, <i>b</i>) がサポートされているかを判定する.
-     * </p>
      * 
      * @param a パラメータ <i>a</i>
      * @param b パラメータ <i>b</i>
      * @return パラメータが適合する場合はtrue
      */
     public static boolean acceptsParameter(double a, double b) {
-        return ICBetaFactory.acceptsParameter(a, b);
+        return LOWER_LIMIT_OF_PARAMETER_AB <= a && a <= UPPER_LIMIT_OF_PARAMETER_AB
+                && LOWER_LIMIT_OF_PARAMETER_AB <= b && b <= UPPER_LIMIT_OF_PARAMETER_AB;
     }
 
     /**
