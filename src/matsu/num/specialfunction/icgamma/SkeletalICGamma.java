@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2025.7.5
+ * 2025.7.6
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -32,10 +32,26 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
 abstract class SkeletalICGamma implements IncompleteGammaFunction {
 
     /**
-     * 骨格実装を構築する唯一のコンストラクタ.
+     * パラメータa
      */
-    protected SkeletalICGamma() {
+    final double a;
+
+    /**
+     * 骨格実装を構築する唯一のコンストラクタ.
+     * 
+     * <p>
+     * 引数のバリデーションは行われていない.
+     * </p>
+     */
+    SkeletalICGamma(double a) {
         super();
+
+        this.a = a;
+    }
+
+    @Override
+    public final double a() {
+        return this.a;
     }
 
     @Override
@@ -68,7 +84,7 @@ abstract class SkeletalICGamma implements IncompleteGammaFunction {
      * @param x x, 0以上であることが保証された実数 (あるいは +inf)
      * @return オッズ(P(x) / Q(x))
      */
-    protected abstract double oddsValue(double x);
+    abstract double oddsValue(double x);
 
     /**
      * {@linkplain IncompleteGammaFunction}向けの文字列表現を提供する.
