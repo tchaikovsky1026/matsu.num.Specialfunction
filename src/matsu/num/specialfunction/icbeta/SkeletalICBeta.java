@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2025.7.5
+ * 2025.7.6
  */
 package matsu.num.specialfunction.icbeta;
 
@@ -32,10 +32,36 @@ import matsu.num.specialfunction.IncompleteBetaFunction;
 abstract class SkeletalICBeta implements IncompleteBetaFunction {
 
     /**
-     * 骨格実装を構築する唯一のコンストラクタ.
+     * パラメータa
      */
-    protected SkeletalICBeta() {
+    final double a;
+
+    /**
+     * パラメータb
+     */
+    final double b;
+
+    /**
+     * 骨格実装を構築する唯一のコンストラクタ.
+     * 
+     * <p>
+     * 引数のバリデーションは行われていない.
+     * </p>
+     */
+    SkeletalICBeta(double a, double b) {
         super();
+        this.a = a;
+        this.b = b;
+    }
+
+    @Override
+    public final double a() {
+        return this.a;
+    }
+
+    @Override
+    public final double b() {
+        return this.b;
     }
 
     @Override
@@ -75,7 +101,7 @@ abstract class SkeletalICBeta implements IncompleteBetaFunction {
      * @return オッズ I(a, b, o/(1+o)) / I(b,a,1/(1+o)) =
      *             I(a, b, x) / (1 - I(a, b, x))
      */
-    protected abstract double oddsValue(double oddsX);
+    abstract double oddsValue(double oddsX);
 
     /**
      * {@linkplain IncompleteBetaFunction}向けの文字列表現を提供する.
