@@ -12,14 +12,12 @@ package matsu.num.specialfunction.bessel;
 import matsu.num.specialfunction.bessel.bessel.BesselFunctionFactory;
 
 /**
- * <p>
- * Bessel関数
+ * Bessel 関数
  * (<i>J<sub>n</sub></i>(<i>x</i>), <i>Y<sub>n</sub></i>(<i>x</i>))
  * の計算
  * (おおよそ倍精度). <br>
  * 0 &le; <i>x</i>
  * を扱う.
- * </p>
  * 
  * <p>
  * サポートされている次数は
@@ -59,14 +57,14 @@ public interface BesselFunction {
     public static final int UPPER_LIMIT_OF_ORDER = 100;
 
     /**
-     * このインスタンスの扱うBessel関数の次数 (<i>n</i>) を返す.
+     * このインスタンスの扱う Bessel 関数の次数 (<i>n</i>) を返す.
      *
      * @return 次数 <i>n</i>
      */
     public abstract int order();
 
     /**
-     * 第1種Bessel関数 <i>J<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第1種 Bessel 関数 <i>J<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -80,7 +78,7 @@ public interface BesselFunction {
     public abstract double besselJ(double x);
 
     /**
-     * 第2種Bessel関数 <i>Y<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第2種 Bessel 関数 <i>Y<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -95,9 +93,7 @@ public interface BesselFunction {
     public abstract double besselY(double x);
 
     /**
-     * <p>
      * 指定したパラメータ (次数) がサポートされているかを判定する.
-     * </p>
      * 
      * @param order 次数 <i>n</i>
      * @return パラメータが適合する場合はtrue
@@ -108,9 +104,7 @@ public interface BesselFunction {
     }
 
     /**
-     * <p>
-     * 指定した次数のBessel関数計算インスタンスを返す.
-     * </p>
+     * 指定した次数の Bessel 関数計算インスタンスを返す.
      * 
      * <p>
      * パラメータの正当性は {@link #acceptsParameter(int)} により検証され,
@@ -118,7 +112,7 @@ public interface BesselFunction {
      * </p>
      *
      * @param order <i>n</i>, 次数
-     * @return <i>n</i> 次のBessel関数を計算するインスタンス
+     * @return <i>n</i> 次の Bessel 関数を計算するインスタンス
      * @throws IllegalArgumentException 次数がサポート外の場合
      */
     public static BesselFunction instanceOf(int order) {

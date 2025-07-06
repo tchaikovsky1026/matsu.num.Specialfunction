@@ -13,13 +13,13 @@ import matsu.num.specialfunction.lambert.LambertWmCalculation;
 import matsu.num.specialfunction.lambert.LambertWpCalculation;
 
 /**
- * Lambertの<i>W</i>-関数の計算(おおよそ倍精度).
+ * Lambert の <i>W</i>-関数の計算(おおよそ倍精度).
  * 
  * <p>
- * Lambertの<i>W</i>-関数は初等関数の逆関数であり,
+ * Lambert の <i>W</i>-関数は初等関数の逆関数であり,
  * <i>W</i>(<i>z</i>) =
  * arg<sub><i>w</i></sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
- * により定義される (e: Napier数). <br>
+ * により定義される (e: Napier 数). <br>
  * 
  * <i>w</i> e<sup><i>w</i></sup> = <i>z</i> を満たす実数 <i>w</i> が存在するのは,
  * <i>z</i> &ge; -1/e の場合である. <br>
@@ -56,7 +56,7 @@ public final class LambertFunction {
     }
 
     /**
-     * 与えられた <i>z</i> に対するLambert関数の主枝
+     * 与えられた <i>z</i> に対する Lambert 関数の主枝
      * <i>W</i><sub>0</sub>(<i>z</i>) =
      * arg<sub><i>w</i> &ge; -1</sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
      * の値を計算する.
@@ -74,7 +74,7 @@ public final class LambertFunction {
     }
 
     /**
-     * 与えられた <i>z</i> に対するLambert関数の分枝
+     * 与えられた <i>z</i> に対する Lambert 関数の分枝
      * <i>W</i><sub>-1</sub>(<i>z</i>) =
      * arg<sub><i>w</i> &le; -1</sub> [<i>w</i> e<sup><i>w</i></sup> = <i>z</i>]
      * の値を計算する.

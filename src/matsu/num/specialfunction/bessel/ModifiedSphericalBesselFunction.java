@@ -12,14 +12,12 @@ package matsu.num.specialfunction.bessel;
 import matsu.num.specialfunction.bessel.modsbessel.MSBesselFunctionFactory;
 
 /**
- * <p>
- * 変形球Bessel関数
+ * 変形球 Bessel 関数
  * (<i>i<sub>n</sub></i>(<i>x</i>), <i>k<sub>n</sub></i>(<i>x</i>))
  * の計算
  * (おおよそ倍精度). <br>
  * 0 &le; <i>x</i>
  * を扱う.
- * </p>
  * 
  * <p>
  * <i>i<sub>n</sub></i>(<i>x</i>), <i>k<sub>n</sub></i>(<i>x</i>)
@@ -80,7 +78,7 @@ public interface ModifiedSphericalBesselFunction {
     public abstract int order();
 
     /**
-     * 第1種変形球Bessel関数 <i>i<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第1種変形球 Bessel 関数 <i>i<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -94,7 +92,7 @@ public interface ModifiedSphericalBesselFunction {
     public abstract double sbesselI(double x);
 
     /**
-     * 第2種変形球Bessel関数 <i>k<sub>n</sub></i>(<i>x</i>) の値を返す.
+     * 第2種変形球 Bessel 関数 <i>k<sub>n</sub></i>(<i>x</i>) の値を返す.
      *
      * <ul>
      * <li><i>x</i> &lt; 0 &rarr; NaN
@@ -109,7 +107,7 @@ public interface ModifiedSphericalBesselFunction {
     public abstract double sbesselK(double x);
 
     /**
-     * スケーリングした第1種変形球Bessel関数
+     * スケーリングした第1種変形球 Bessel 関数
      * <i>i<sub>n</sub></i>(<i>x</i>) exp(-<i>x</i>)
      * の値を返す.
      *
@@ -125,7 +123,7 @@ public interface ModifiedSphericalBesselFunction {
     public abstract double sbesselIc(double x);
 
     /**
-     * スケーリングした第2種変形球Bessel関数
+     * スケーリングした第2種変形球 Bessel 関数
      * <i>k<sub>n</sub></i>(<i>x</i>) exp(<i>x</i>)
      * の値を返す.
      *
@@ -142,9 +140,7 @@ public interface ModifiedSphericalBesselFunction {
     public abstract double sbesselKc(double x);
 
     /**
-     * <p>
      * 指定したパラメータ (次数) がサポートされているかを判定する.
-     * </p>
      * 
      * @param order 次数 <i>n</i>
      * @return パラメータが適合する場合はtrue
@@ -155,9 +151,7 @@ public interface ModifiedSphericalBesselFunction {
     }
 
     /**
-     * <p>
-     * 指定した次数の変形球Bessel関数計算インスタンスを返す.
-     * </p>
+     * 指定した次数の変形球 Bessel 関数計算インスタンスを返す.
      * 
      * <p>
      * パラメータの正当性は {@link #acceptsParameter(int)} により検証され,
