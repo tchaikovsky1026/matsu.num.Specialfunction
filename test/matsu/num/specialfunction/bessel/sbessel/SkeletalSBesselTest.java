@@ -36,13 +36,12 @@ final class SkeletalSBesselTest {
 
         @Override
         public double sbesselJ(double x) {
-            throw new UnsupportedOperationException("呼んではいけない");
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public double sbesselY(double x) {
-            throw new UnsupportedOperationException("呼んではいけない");
+            throw new UnsupportedOperationException();
         }
     }
-
 }

@@ -40,10 +40,12 @@ public final class InverseFactorialSupplier {
     static {
         INV_FACTORIALS = new double[UPPER_LIMIT_OF_ORDER + 1];
         INV_FACTORIALS[0] = 1;
-        @SuppressWarnings("deprecation")
-        int nMax = ModifiedBesselFunction.UPPER_LIMIT_OF_ORDER;
-        for (int j = 1; j <= nMax; j++) {
+        for (int j = 1; j <= UPPER_LIMIT_OF_ORDER; j++) {
             INV_FACTORIALS[j] = INV_FACTORIALS[j - 1] / j;
+        }
+
+        if (INV_FACTORIALS[UPPER_LIMIT_OF_ORDER] == 0d) {
+            throw new AssertionError("Underflow: InverseDoubleFactorial");
         }
     }
 
@@ -62,7 +64,7 @@ public final class InverseFactorialSupplier {
         if (!(LOWER_LIMIT_OF_ORDER <= order
                 && order <= UPPER_LIMIT_OF_ORDER)) {
             throw new AssertionError(
-                    String.format("次数がサポート外である: order = %s", order));
+                    "not supported: order = %s".formatted(order));
         }
 
         return INV_FACTORIALS[order];

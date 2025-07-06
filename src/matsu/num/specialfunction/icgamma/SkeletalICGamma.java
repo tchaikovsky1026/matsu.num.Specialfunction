@@ -92,14 +92,12 @@ abstract class SkeletalICGamma implements IncompleteGammaFunction {
      * <p>
      * 概ね, 次のような表現であろう.
      * ただし, バージョン間の互換性は担保されていない. <br>
-     * {@code ICGamma(%a)}
+     * {@code IncompleteGammaFunction(a = %a)}
      * </p>
-     * 
-     * @return IncompleteGammaFunction向け文字列表現
      */
     @Override
     public String toString() {
-        return String.format(
-                "ICGamma(%s)", this.a());
+        return "IncompleteGammaFunction(a = %s)"
+                .formatted(this.a());
     }
 }
