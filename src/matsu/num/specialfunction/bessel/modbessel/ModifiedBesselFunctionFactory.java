@@ -33,7 +33,7 @@ public final class ModifiedBesselFunctionFactory {
     public static ModifiedBesselFunction instanceOf(int order) {
         if (!acceptsParameter(order)) {
             throw new IllegalArgumentException(
-                    String.format("次数がサポート外である: order = %s", order));
+                    "Illegal parameter: order = %s".formatted(order));
         }
 
         switch (order) {

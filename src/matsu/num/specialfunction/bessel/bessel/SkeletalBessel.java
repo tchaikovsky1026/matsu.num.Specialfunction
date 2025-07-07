@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2025.7.5
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.bessel;
 
@@ -19,8 +19,27 @@ import matsu.num.specialfunction.bessel.BesselFunction;
  */
 abstract class SkeletalBessel implements BesselFunction {
 
-    protected SkeletalBessel() {
+    /**
+     * このBessel関数の次数.
+     */
+    final int order;
+
+    /**
+     * 唯一のコンストラクタ
+     * 
+     * <p>
+     * 引数のバリデーションは行われていない.
+     * </p>
+     */
+    SkeletalBessel(int order) {
         super();
+
+        this.order = order;
+    }
+
+    @Override
+    public final int order() {
+        return this.order;
     }
 
     /**
@@ -29,14 +48,12 @@ abstract class SkeletalBessel implements BesselFunction {
      * <p>
      * 概ね, 次のような表現であろう.
      * ただし, バージョン間の互換性は担保されていない. <br>
-     * {@code Bessel(%order)}
+     * {@code BesselFunction(order = %order)}
      * </p>
-     * 
-     * @return 文字列表現
      */
     @Override
     public String toString() {
-        return String.format(
-                "Bessel(%s)", this.order());
+        return "BesselFunction(order = %s)"
+                .formatted(this.order());
     }
 }

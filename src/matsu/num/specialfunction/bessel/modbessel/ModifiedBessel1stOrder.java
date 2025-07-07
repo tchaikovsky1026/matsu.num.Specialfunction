@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.7.22
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.modbessel;
 
@@ -17,11 +17,6 @@ package matsu.num.specialfunction.bessel.modbessel;
 abstract class ModifiedBessel1stOrder extends SkeletalModifiedBessel {
 
     ModifiedBessel1stOrder() {
-        super();
-    }
-
-    @Override
-    public final int order() {
-        return 1;
+        super(1);
     }
 }

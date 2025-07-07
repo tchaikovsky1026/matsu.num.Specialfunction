@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.12.31
+ * 2025.7.6
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -27,7 +27,6 @@ final class ICGammaAtMiddleParam extends SkeletalICGamma {
 
     private static final double HALF_LN2PI = 0.5 * Math.log(2 * Math.PI);
 
-    private final double a;
     private final double sqrtA;
 
     /*
@@ -59,9 +58,8 @@ final class ICGammaAtMiddleParam extends SkeletalICGamma {
      * @param a パラメータ
      */
     ICGammaAtMiddleParam(double a) {
-        super();
+        super(a);
 
-        this.a = a;
         this.sqrtA = Exponentiation.sqrt(a);
         this.xLowerThreshold = a - this.sqrtA;
         this.xUpperThreshold = a + this.sqrtA;
@@ -70,12 +68,7 @@ final class ICGammaAtMiddleParam extends SkeletalICGamma {
     }
 
     @Override
-    public double a() {
-        return a;
-    }
-
-    @Override
-    protected double oddsValue(double x) {
+    double oddsValue(double x) {
         final double thisA = this.a;
 
         if (x < this.xLowerThreshold) {

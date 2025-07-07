@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.12.31
+ * 2025.7.6
  */
 package matsu.num.specialfunction.icbeta;
 
@@ -26,9 +26,6 @@ import matsu.num.specialfunction.common.Exponentiation;
 final class ICBetaAtMiddleParam extends SkeletalICBeta {
 
     private static final double HALF_LN2PI = 0.9189385332046727417804d;
-
-    private final double a;
-    private final double b;
 
     private final double xLowerThreshold;
     private final double xUpperThreshold;
@@ -61,10 +58,8 @@ final class ICBetaAtMiddleParam extends SkeletalICBeta {
      * @param b
      */
     ICBetaAtMiddleParam(double a, double b) {
-        super();
+        super(a, b);
 
-        this.a = a;
-        this.b = b;
         this.combinedAB = a + b;
         this.muX = a / this.combinedAB;
         this.muY = b / this.combinedAB;
@@ -77,17 +72,7 @@ final class ICBetaAtMiddleParam extends SkeletalICBeta {
     }
 
     @Override
-    public final double a() {
-        return this.a;
-    }
-
-    @Override
-    public final double b() {
-        return this.b;
-    }
-
-    @Override
-    protected final double oddsValue(double oddsX) {
+    final double oddsValue(double oddsX) {
 
         double x = 1 / (1 + 1 / oddsX);
         double y = 1 / (1 + oddsX);

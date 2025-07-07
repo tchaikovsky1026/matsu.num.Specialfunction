@@ -30,26 +30,18 @@ final class SkeletalSBesselTest {
 
     private static final class SkeletalSBesselImpl extends SkeletalSBessel {
 
-        private final int order;
-
         SkeletalSBesselImpl(int order) {
-            this.order = order;
-        }
-
-        @Override
-        public int order() {
-            return this.order;
+            super(order);
         }
 
         @Override
         public double sbesselJ(double x) {
-            throw new UnsupportedOperationException("呼んではいけない");
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public double sbesselY(double x) {
-            throw new UnsupportedOperationException("呼んではいけない");
+            throw new UnsupportedOperationException();
         }
     }
-
 }

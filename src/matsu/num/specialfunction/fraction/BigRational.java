@@ -163,7 +163,7 @@ public final class BigRational
 
     private BigRational times_kernel(BigInteger otherNume, BigInteger otherDenomi) {
         if (otherDenomi.equals(BigInteger.ZERO)) {
-            throw new ArithmeticException("ゼロ除算");
+            throw new ArithmeticException("zero divide");
         }
 
         //otherDenomiは負の可能性がある
@@ -221,7 +221,7 @@ public final class BigRational
      */
     public static BigRational of(BigInteger numerator, BigInteger denominator) {
         if (denominator.equals(BigInteger.ZERO)) {
-            throw new ArithmeticException("分母が0である");
+            throw new ArithmeticException("denominator is zero");
         }
         BigInteger gcd = numerator.gcd(denominator);
         if (denominator.compareTo(BigInteger.ZERO) < 0) {

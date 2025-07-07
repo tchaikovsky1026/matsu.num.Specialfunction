@@ -39,8 +39,7 @@ public final class ICBetaFactory {
     public static IncompleteBetaFunction instanceOf(double a, double b) {
         if (!IncompleteBetaFunction.acceptsParameter(a, b)) {
             throw new IllegalArgumentException(
-                    String.format(
-                            "パラメータ不正:(a,b)=(%s,%s)", a, b));
+                    "Illegal parameter: a = %s, b = %s".formatted(a, b));
         }
         double minAB = Math.min(a, b);
         if (minAB <= AB_THRESHOLD_FIRST) {

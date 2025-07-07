@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.12.31
+ * 2025.7.6
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -31,7 +31,6 @@ final class ICGammaAtLowParam extends SkeletalICGamma {
      */
     private static final double X_THRESHOLD_MAX = 7;
 
-    private final double a;
     private final double logGammaAp1;
 
     //計算方法を切り替える閾値
@@ -41,20 +40,14 @@ final class ICGammaAtLowParam extends SkeletalICGamma {
      * @param a パラメータ
      */
     ICGammaAtLowParam(double a) {
-        super();
+        super(a);
 
-        this.a = a;
         this.logGammaAp1 = GammaFunction.lgamma(a + 1);
         this.xThreshold = Math.max(a, X_THRESHOLD_MAX);
     }
 
     @Override
-    public double a() {
-        return this.a;
-    }
-
-    @Override
-    protected double oddsValue(double x) {
+    double oddsValue(double x) {
         final double thisA = this.a;
         if (x < this.xThreshold) {
             double lcp = ICGContinuedFractionFactor.factorLCP(x, thisA) * coeffToLCP(x);

@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2024.12.31
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.modsbessel;
 
@@ -25,8 +25,6 @@ abstract class MSBesselHigherImplK extends SkeletalMSBessel {
      */
     private static final double BOUNDARY_X_SELECTING_RAW_OR_SCALING_FOR_BESSEL_K = 2d;
 
-    protected final int order;
-
     protected final MSBessel0 msbessel0;
     protected final MSBessel1 msbessel1;
 
@@ -40,15 +38,9 @@ abstract class MSBesselHigherImplK extends SkeletalMSBessel {
      * @param msbessel1 1次MSBessel
      */
     MSBesselHigherImplK(int order, MSBessel0 msbessel0, MSBessel1 msbessel1) {
-        super();
-        this.order = order;
+        super(order);
         this.msbessel0 = msbessel0;
         this.msbessel1 = msbessel1;
-    }
-
-    @Override
-    public final int order() {
-        return this.order;
     }
 
     @Override

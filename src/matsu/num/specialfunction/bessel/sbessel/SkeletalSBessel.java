@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2025.7.5
+ * 2025.7.6
  */
 package matsu.num.specialfunction.bessel.sbessel;
 
@@ -20,10 +20,26 @@ import matsu.num.specialfunction.bessel.SphericalBesselFunction;
 abstract class SkeletalSBessel implements SphericalBesselFunction {
 
     /**
-     * 唯一のコンストラクタ.
+     * この球Bessel関数の次数.
      */
-    protected SkeletalSBessel() {
+    final int order;
+
+    /**
+     * 唯一のコンストラクタ.
+     * 
+     * <p>
+     * 引数のバリデーションは行われていない.
+     * </p>
+     */
+    SkeletalSBessel(int order) {
         super();
+
+        this.order = order;
+    }
+
+    @Override
+    public final int order() {
+        return this.order;
     }
 
     /**
@@ -32,14 +48,12 @@ abstract class SkeletalSBessel implements SphericalBesselFunction {
      * <p>
      * 概ね, 次のような表現であろう.
      * ただし, バージョン間の互換性は担保されていない. <br>
-     * {@code SphericalBessel(%order)}
+     * {@code SphericalBesselFunction(order = %order)}
      * </p>
-     * 
-     * @return 文字列表現
      */
     @Override
     public String toString() {
         return String.format(
-                "SphericalBessel(%s)", this.order());
+                "SphericalBesselFunction(order = %s)", this.order());
     }
 }

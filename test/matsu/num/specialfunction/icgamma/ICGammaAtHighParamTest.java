@@ -6,7 +6,6 @@
  */
 package matsu.num.specialfunction.icgamma;
 
-import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -88,16 +87,6 @@ final class ICGammaAtHighParamTest {
         public void test_正の無限大検証_Q(IncompleteGammaFunction icgamma) {
             DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
                     0d, icgamma.rigammaQ(Double.POSITIVE_INFINITY));
-        }
-    }
-
-    public static class toString表示 {
-
-        @Test
-        public void test_toSTring() {
-            System.out.println(TEST_CLASS.getName());
-            System.out.println(new ICGammaAtHighParam(50000));
-            System.out.println();
         }
     }
 }
