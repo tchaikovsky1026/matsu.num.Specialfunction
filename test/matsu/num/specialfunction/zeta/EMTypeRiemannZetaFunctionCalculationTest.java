@@ -19,11 +19,11 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 /**
- * {@link EMTypeZetaFunctionCalculation} のテスト.
+ * {@link EMTypeRiemannZetaFunctionCalculation} のテスト.
  */
-final class EMTypeZetaFunctionCalculationTest {
+final class EMTypeRiemannZetaFunctionCalculationTest {
 
-    private static final EMTypeZetaFunctionCalculation ZETA_FUNC = new EMTypeZetaFunctionCalculation();
+    private static final EMTypeRiemannZetaFunctionCalculation ZETA_FUNC = new EMTypeRiemannZetaFunctionCalculation();
 
     @RunWith(Theories.class)
     public static class zetam1の値のテスト {

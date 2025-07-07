@@ -11,7 +11,7 @@
 package matsu.num.specialfunction.zeta;
 
 /**
- * EM方式のゼータ関数の計算.
+ * EM方式の Riemann ゼータ関数の計算.
  * 
  * <p>
  * この計算器は, Euler-Maclaurin (EM) の公式を使用してゼータ関数を計算する.
@@ -19,7 +19,7 @@ package matsu.num.specialfunction.zeta;
  * 
  * @author Matsuura Y.
  */
-public final class EMTypeZetaFunctionCalculation {
+public final class EMTypeRiemannZetaFunctionCalculation {
 
     /**
      * 偶数indexのBernoulli数. <br>
@@ -48,7 +48,7 @@ public final class EMTypeZetaFunctionCalculation {
     /**
      * 唯一のコンストラクタ
      */
-    public EMTypeZetaFunctionCalculation() {
+    public EMTypeRiemannZetaFunctionCalculation() {
         super();
     }
 

@@ -10,13 +10,13 @@
  */
 package matsu.num.specialfunction;
 
-import matsu.num.specialfunction.zeta.EMTypeZetaFunctionCalculation;
+import matsu.num.specialfunction.zeta.EMTypeRiemannZetaFunctionCalculation;
 
 /**
- * ゼータ関数の計算 (およそ倍精度).
+ * Riemann ゼータ関数の計算 (およそ倍精度).
  * 
  * <p>
- * ゼータ関数は次式で定義される1変数関数である. <br>
+ * Riemann ゼータ関数は次式で定義される1変数関数である. <br>
  * <i>&zeta;</i>(<i>s</i>) =
  * &Sigma;<sub><i>n</i> &ge; 1</sub>
  * 1 / (<i>n</i><sup><i>s</i></sup>) <br>
@@ -26,11 +26,11 @@ import matsu.num.specialfunction.zeta.EMTypeZetaFunctionCalculation;
  * 
  * @author Matsuura Y.
  */
-public final class ZetaFunction {
+public final class RiemannZetaFunction {
 
-    private static final EMTypeZetaFunctionCalculation ZETA = new EMTypeZetaFunctionCalculation();
+    private static final EMTypeRiemannZetaFunctionCalculation ZETA = new EMTypeRiemannZetaFunctionCalculation();
 
-    private ZetaFunction() {
+    private RiemannZetaFunction() {
         // インスタンス化不可
         throw new AssertionError();
     }
