@@ -89,7 +89,7 @@ public final class DoubleComplexNumber extends MathField<DoubleComplexNumber> {
         try {
             return DoubleComplexNumber.of(real, imaginary);
         } catch (IllegalArgumentException iae) {
-            throw new ArithmeticException("演算結果が表現できない");
+            throw new ArithmeticException("invalid clac result");
         }
     }
 
@@ -199,7 +199,7 @@ public final class DoubleComplexNumber extends MathField<DoubleComplexNumber> {
     public static DoubleComplexNumber of(double real, double imaginary) {
 
         if (!(Double.isFinite(real) && Double.isFinite(imaginary))) {
-            throw new IllegalArgumentException("引数が不正");
+            throw new IllegalArgumentException("invalid args");
         }
         return new DoubleComplexNumber(real, imaginary);
     }

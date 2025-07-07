@@ -168,7 +168,7 @@ public final class ContinuedFractionFunction<ET extends MathField<ET>> {
 
         List<ET> list = new ArrayList<>(cfCoeff);
         if (list.stream().anyMatch(Objects::isNull)) {
-            throw new NullPointerException("リストにnullが含まれる");
+            throw new NullPointerException("include null");
         }
 
         return new ContinuedFractionFunction<ET>(
@@ -199,7 +199,7 @@ public final class ContinuedFractionFunction<ET extends MathField<ET>> {
         CFCalculator(int size,
                 IntFunction<ET> ratioSupplier, ConstantSupplier<ET> constantSupplier) {
             if (size < 0) {
-                throw new IllegalArgumentException("サイズが負である");
+                throw new IllegalArgumentException("negative size");
             }
             this.size = size;
             this.ratioSupplier = Objects.requireNonNull(ratioSupplier);
@@ -208,7 +208,7 @@ public final class ContinuedFractionFunction<ET extends MathField<ET>> {
             try {
                 this.cfCoeff = calcCoeffOfContinuedFraction();
             } catch (ArithmeticException nfe) {
-                throw new IllegalArgumentException("連分数展開が破綻する");
+                throw new IllegalArgumentException("break down: Continued fraction expansion");
             }
         }
 

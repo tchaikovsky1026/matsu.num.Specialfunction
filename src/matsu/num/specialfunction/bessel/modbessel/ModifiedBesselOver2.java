@@ -77,9 +77,8 @@ final class ModifiedBesselOver2 extends ModifiedBesselHigherOrder {
      */
     ModifiedBesselOver2(int order, ModifiedBessel0thOrder mbessel0, ModifiedBessel1stOrder mbessel1) {
         super(order, mbessel0, mbessel1);
-        if (!(order >= 2)) {
-            throw new AssertionError("次数が2以上でない");
-        }
+
+        assert order >= 2;
 
         this.upperN_byBackRecursion =
                 this.calcUpperN_byBackRecursion();
