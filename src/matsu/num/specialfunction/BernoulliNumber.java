@@ -13,6 +13,16 @@ package matsu.num.specialfunction;
 /**
  * Bernoulli 数の計算 (およそ倍精度).
  * 
+ * <p>
+ * Bernoulli 数 <i>B</i><sub><i>k</i></sub> は,
+ * <i>k</i> &ge; 0 について定義され,
+ * <i>k</i> が3以上の奇数の場合は
+ * <i>B</i><sub><i>k</i></sub> = 0
+ * となる. <br>
+ * <i>B</i><sub><i>k</i></sub> は有理数であるが,
+ * このクラスでは倍精度浮動小数点数として扱う.
+ * </p>
+ * 
  * @author Matsuura Y.
  */
 public final class BernoulliNumber {
