@@ -1,7 +1,7 @@
 # matsu.num.Specialfunction
 matsu.num.Specialfunction は Java 言語向けの数値計算における, 特殊関数に関するライブラリである.
 
-現在のリリースバージョンは 23.3.0 であり, Java 17 に準拠する.
+現在のリリースバージョンは 23.4.0 であり, Java 17 に準拠する.
 このバージョンにおいて, 次の特殊関数がサポートされている.
 
 - Bessel関数のファミリー
@@ -15,6 +15,7 @@ matsu.num.Specialfunction は Java 言語向けの数値計算における, 特�
 - 不完全ガンマ関数
 - 不完全ベータ関数
 - Riemann ゼータ関数
+- Bernoulli 数
 
 ## History
 更新履歴は history.txt を参照のこと.
