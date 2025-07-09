@@ -10,6 +10,8 @@
  */
 package matsu.num.specialfunction;
 
+import matsu.num.specialfunction.legendre.LegendreFunctionImpl;
+
 /**
  * Legendre (陪)関数の計算
  * (およそ倍精度).
@@ -98,5 +100,22 @@ public interface LegendreFunction {
                 && degreeL <= UPPER_LIMIT_OF_DEGREE_L
                 && 0 <= orderM
                 && orderM <= degreeL;
+    }
+
+    /**
+     * 与えられた次数と階数を持つ Legendre 関数インスタンスを返す.
+     * 
+     * <p>
+     * パラメータの正当性は {@link #acceptsParameter(int, int)} により検証され,
+     * 不適の場合は例外がスローされる.
+     * </p>
+     * 
+     * @param degreeL 次数 <i>&ell;</i>
+     * @param orderM 階数 <i>m</i>
+     * @return (<i>&ell;</i>, <i>m</i>) の Legendre 関数を計算するインスタンス
+     * @throws IllegalArgumentException 次数, 階数がサポート外の場合
+     */
+    public static LegendreFunction instanceOf(int degreeL, int orderM) {
+        return LegendreFunctionImpl.instanceOf(degreeL, orderM);
     }
 }
