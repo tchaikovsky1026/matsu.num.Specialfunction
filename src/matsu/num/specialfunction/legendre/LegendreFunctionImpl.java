@@ -13,7 +13,7 @@ package matsu.num.specialfunction.legendre;
 import matsu.num.specialfunction.LegendreFunction;
 
 /**
- * 
+ * {@link LegendreFunction} の実装を扱う.
  * 
  * @author Matsuura Y.
  */
