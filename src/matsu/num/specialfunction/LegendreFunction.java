@@ -13,17 +13,29 @@ package matsu.num.specialfunction;
 import matsu.num.specialfunction.legendre.LegendreFunctionImpl;
 
 /**
- * Legendre (陪)関数の計算
+ * Legendre (陪)関数 (Ferrers 型) の計算
  * (およそ倍精度).
  * 
  * <p>
- * Legendre (陪)関数
+ * Ferrers 型の Legendre 陪関数
  * <i>P</i><sub><i>&ell;</i></sub><sup><i>m</i></sup> (<i>x</i>)
  * は, 非負整数の次数 <i>&ell;</i> と,
  * 0 以上 <i>&ell;</i> 以下の階数 <i>m</i> をパラメータに持つ 1 変数関数
  * である. <br>
  * 通常, |<i>x</i>| &le; 1 で扱い, このインターフェースでもその定義域を採用する. <br>
- * Legendre 多項式は, <i>m</i> = 0 とすることで計算できる.
+ * Legendre 多項式
+ * <i>P</i><sub><i>&ell;</i></sub> (<i>x</i>)
+ * は, <i>m</i> = 0 とすることで計算できる.
+ * </p>
+ * 
+ * <p>
+ * Legendre 陪関数には, Ferrers 型と Hobson 型があり,
+ * このインターフェースでは Ferrers 型を扱っている. <br>
+ * Ferrers 型は次の式により定義される. <br>
+ * <i>P</i><sub><i>&ell;</i></sub><sup><i>m</i></sup> (<i>x</i>)
+ * = (1 - <i>x</i><sup>2</sup>)<sup><i>m</i> / 2</sup>
+ * (d/d<i>x</i>)<sup><i>m</i></sup>
+ * <i>P</i><sub><i>&ell;</i></sub> (<i>x</i>)
  * </p>
  * 
  * <p>
