@@ -32,7 +32,6 @@ final class StaticLaguerreFunctionTest {
     public static final Class<?> TEST_CLASS = StaticLaguerreFunction.class;
 
     /* 値の生成コード(https://keisan.casio.jp/calculator) */
-    /* 符号が逆転する場合がある */
     /* ------------------------------------ */
     // for(x = 0; x <= 100; x = x + 5){
     //     println(x, laguerreL(n,k,x));
