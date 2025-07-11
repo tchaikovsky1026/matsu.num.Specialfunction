@@ -10,6 +10,8 @@
  */
 package matsu.num.specialfunction;
 
+import matsu.num.specialfunction.hermite.HermiteFunctionImpl;
+
 /**
  * Hermite 関数 (多項式) の計算
  * (およそ倍精度).
@@ -109,6 +111,6 @@ public interface HermiteFunction {
      * @throws IllegalArgumentException 次数がサポート外の場合
      */
     public static HermiteFunction instanceOf(int degreeN) {
-        throw new AssertionError("TODO");
+        return HermiteFunctionImpl.instanceOf(degreeN);
     }
 }
