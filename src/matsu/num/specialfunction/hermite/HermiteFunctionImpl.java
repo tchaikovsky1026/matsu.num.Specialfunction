@@ -19,6 +19,8 @@ import matsu.num.specialfunction.HermiteFunction;
  */
 public final class HermiteFunctionImpl extends SkeletalHermiteFunction {
 
+    private static final StaticHermiteFunction staticHermiteFunction = new StaticHermiteFunction();
+
     /**
      * 唯一の非公開コンストラクタ.
      * 
@@ -32,7 +34,11 @@ public final class HermiteFunctionImpl extends SkeletalHermiteFunction {
 
     @Override
     public double hermiteH(double x) {
-        throw new AssertionError("TODO");
+        if (!(x >= 0d)) {
+            return Double.NaN;
+        }
+
+        return staticHermiteFunction.hermiteH(degreeN, x);
     }
 
     /**
