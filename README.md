@@ -16,6 +16,9 @@ matsu.num.Specialfunction は Java 言語向けの数値計算における, 特�
 - 不完全ベータ関数
 - Riemann ゼータ関数
 - Bernoulli 数
+- Legendre 多項式, 陪関数
+- Laguerre 多項式, 陪多項式
+- Hermite 多項式
 
 ## History
 更新履歴は history.txt を参照のこと.
