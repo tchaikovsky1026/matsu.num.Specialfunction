@@ -4,10 +4,6 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-
-/*
- * 2025.7.7
- */
 package matsu.num.specialfunction.zeta;
 
 import static org.hamcrest.MatcherAssert.*;
