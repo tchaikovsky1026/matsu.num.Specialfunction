@@ -6,9 +6,11 @@
  */
 
 /*
- * 2025.7.10
+ * 2025.7.11
  */
 package matsu.num.specialfunction;
+
+import matsu.num.specialfunction.laguerre.LaguerreFunctionImpl;
 
 /**
  * Laguerre 関数 (陪多項式) の計算
@@ -133,5 +135,22 @@ public interface LaguerreFunction {
                 && degreeN <= UPPER_LIMIT_OF_DEGREE_N
                 && LOWER_LIMIT_OF_ORDER_K <= orderK
                 && orderK <= UPPER_LIMIT_OF_ORDER_K;
+    }
+
+    /**
+     * 与えられた次数と階数を持つ Laguerre 関数インスタンスを返す.
+     * 
+     * <p>
+     * パラメータの正当性は {@link LaguerreFunction#acceptsParameter(int, int)} により検証され,
+     * 不適の場合は例外がスローされる.
+     * </p>
+     * 
+     * @param degreeN 次数 <i>n</i>
+     * @param orderK 階数 <i>k</i>
+     * @return (<i>n</i>, <i>k</i>) の Laguerre 関数を計算するインスタンス
+     * @throws IllegalArgumentException 次数, 階数がサポート外の場合
+     */
+    public static LaguerreFunction instanceOf(int degreeN, int orderK) {
+        return LaguerreFunctionImpl.instanceOf(degreeN, orderK);
     }
 }
