@@ -35,7 +35,7 @@ import matsu.num.specialfunction.legendre.LegendreFunctionImpl;
  * <i>P</i><sub><i>&ell;</i></sub><sup><i>m</i></sup> (<i>x</i>)
  * = (1 - <i>x</i><sup>2</sup>)<sup><i>m</i> / 2</sup>
  * (d/d<i>x</i>)<sup><i>m</i></sup>
- * <i>P</i><sub><i>&ell;</i></sub> (<i>x</i>)
+ * [<i>P</i><sub><i>&ell;</i></sub> (<i>x</i>)]
  * </p>
  * 
  * <p>
@@ -49,6 +49,15 @@ import matsu.num.specialfunction.legendre.LegendreFunctionImpl;
  *               モジュール外で継承・実装してはいけない.
  * 
  * @author Matsuura Y.
+ * @see
+ *          <a href= "https://en.wikipedia.org/wiki/Legendre_polynomials"
+ *          target= "_brank">
+ *          Wikipedia: Legendre polynomials</a>
+ *          <br>
+ *          <a href=
+ *          "https://en.wikipedia.org/wiki/Associated_Legendre_polynomials"
+ *          target= "_brank">
+ *          Wikipedia: Associated Legendre polynomials</a>
  */
 public interface LegendreFunction {
 

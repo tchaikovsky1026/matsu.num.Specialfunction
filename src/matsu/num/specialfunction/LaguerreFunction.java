@@ -37,7 +37,7 @@ import matsu.num.specialfunction.laguerre.LaguerreFunctionImpl;
  * <i>L</i><sub><i>n</i></sub><sup><i>k</i></sup> (<i>x</i>)
  * = (-1)<sup><i>k</i></sup>
  * (d/d<i>x</i>)<sup><i>k</i></sup>
- * <i>L</i><sub><i>n</i>+<i>k</i></sub> (<i>x</i>)
+ * [<i>L</i><sub><i>n</i>+<i>k</i></sub> (<i>x</i>)]
  * </p>
  * 
  * <p>
@@ -52,6 +52,9 @@ import matsu.num.specialfunction.laguerre.LaguerreFunctionImpl;
  *               モジュール外で継承・実装してはいけない.
  * 
  * @author Matsuura Y.
+ * @see <a href="https://en.wikipedia.org/wiki/Laguerre_polynomials" target=
+ *          "_brank">
+ *          Wikipedia: Laguerre polynomials</a>
  */
 public interface LaguerreFunction {
 
