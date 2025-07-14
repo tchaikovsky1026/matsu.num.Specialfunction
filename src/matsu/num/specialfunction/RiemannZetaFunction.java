@@ -19,12 +19,15 @@ import matsu.num.specialfunction.zeta.EMTypeRiemannZetaFunctionCalculation;
  * Riemann ゼータ関数は次式で定義される1変数関数である. <br>
  * <i>&zeta;</i>(<i>s</i>) =
  * &Sigma;<sub><i>n</i> &ge; 1</sub>
- * 1 / (<i>n</i><sup><i>s</i></sup>) <br>
+ * (1 / <i>n</i><sup><i>s</i></sup>) <br>
  * <i>s</i> &gt; 1
  * を扱う.
  * </p>
  * 
  * @author Matsuura Y.
+ * @see <a href="https://en.wikipedia.org/wiki/Riemann_zeta_function" target=
+ *          "_brank">
+ *          Wikipedia: Riemann zeta function</a>
  */
 public final class RiemannZetaFunction {
 

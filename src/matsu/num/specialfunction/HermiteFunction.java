@@ -27,7 +27,7 @@ import matsu.num.specialfunction.hermite.HermiteFunctionImpl;
  * <p>
  * Hermite 多項式は次の式により定義される. <br>
  * <i>H</i><sub><i>n</i></sub> (<i>x</i>)
- * = (-1)<sup><i>k</i></sup> exp(<i>x</i><sup>2</sup>)
+ * = (-1)<sup><i>n</i></sup> exp(<i>x</i><sup>2</sup>)
  * (d/d<i>x</i>)<sup><i>n</i></sup>
  * [exp(-<i>x</i><sup>2</sup>)]
  * </p>
@@ -43,6 +43,9 @@ import matsu.num.specialfunction.hermite.HermiteFunctionImpl;
  *               モジュール外で継承・実装してはいけない.
  * 
  * @author Matsuura Y.
+ * @see <a href="https://en.wikipedia.org/wiki/Hermite_polynomials" target=
+ *          "_brank">
+ *          Wikipedia: Hermite polynomials</a>
  */
 public interface HermiteFunction {
 

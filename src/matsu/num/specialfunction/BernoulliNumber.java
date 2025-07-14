@@ -24,6 +24,9 @@ package matsu.num.specialfunction;
  * </p>
  * 
  * @author Matsuura Y.
+ * @see <a href="https://en.wikipedia.org/wiki/Bernoulli_number" target=
+ *          "_brank">
+ *          Wikipedia: Bernoulli number</a>
  */
 public final class BernoulliNumber {
 
