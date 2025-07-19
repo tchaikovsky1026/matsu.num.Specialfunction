@@ -6,13 +6,17 @@
  */
 package matsu.num.specialfunction.icgamma;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
+import java.util.function.DoubleFunction;
+
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import matsu.num.specialfunction.DoubleRelativeAssertion;
 import matsu.num.specialfunction.IncompleteGammaFunction;
 
 /**
@@ -23,37 +27,19 @@ final class ICGammaAtHighParamTest {
 
     public static final Class<?> TEST_CLASS = ICGammaAtHighParam.class;
 
-    private static final DoubleRelativeAssertion DOUBLE_RELATIVE_ASSERTION =
-            new DoubleRelativeAssertion(1E-6);
+    private static final DoubleFunction<IncompleteGammaFunction> IC_GAMMA_GETTER =
+            a -> new ICGammaAtMiddleParam(a);
 
-    @RunWith(Theories.class)
-    public static class A_50000のオッズ値のテスト {
+    public static class A_50000のオッズ値のテスト extends IcgammaAt50000{
 
-        private static final IncompleteGammaFunction IC_GAMMA =
-                new ICGammaAtHighParam(50000);
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
 
-        @DataPoints
-        public static double[][] dataPairs = {
-                { 4.9105572809000100E+04, 0.00002877914982021 },
-                { 4.9329179606750100E+04, 0.00129922048514770 },
-                { 4.9552786404500000E+04, 0.02302642083196370 },
-                { 4.9776393202250000E+04, 0.18857227426484500 },
-                { 5.0000000000000000E+04, 1.00238166521038000 },
-                { 5.0223606797750000E+04, 5.30300631662694000 },
-                { 5.0447213595500000E+04, 42.49519530662480000 },
-                { 5.0670820393249900E+04, 711.63832668614000000 },
-                { 5.0894427190999900E+04, 28762.90666680780000000 },
-
-                { 0d, 0d },
-                { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY },
-                { Double.NaN, Double.NaN }
-        };
-
-        @Theory
-        public void test_検証(double[] dataPair) {
-            DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
-                    dataPair[1],
-                    IC_GAMMA.rigammaOdds(dataPair[0]));
+        @Override
+        double acceptableRelativeError() {
+            return 1E-5;
         }
     }
 
@@ -67,26 +53,22 @@ final class ICGammaAtHighParamTest {
 
         @Theory
         public void test_0検証_P(IncompleteGammaFunction icgamma) {
-            DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
-                    0d, icgamma.rigammaP(0d));
+            assertThat(icgamma.rigammaP(0d), is(0d));
         }
 
         @Theory
         public void test_正の無限大検証_P(IncompleteGammaFunction icgamma) {
-            DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
-                    1d, icgamma.rigammaP(Double.POSITIVE_INFINITY));
+            assertThat(icgamma.rigammaP(Double.POSITIVE_INFINITY), is(1d));
         }
 
         @Theory
         public void test_0検証_Q(IncompleteGammaFunction icgamma) {
-            DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
-                    1d, icgamma.rigammaQ(0d));
+            assertThat(icgamma.rigammaQ(0d), is(1d));
         }
 
         @Theory
         public void test_正の無限大検証_Q(IncompleteGammaFunction icgamma) {
-            DOUBLE_RELATIVE_ASSERTION.compareAndAssert(
-                    0d, icgamma.rigammaQ(Double.POSITIVE_INFINITY));
+            assertThat(icgamma.rigammaQ(Double.POSITIVE_INFINITY), is(0d));
         }
     }
 }
