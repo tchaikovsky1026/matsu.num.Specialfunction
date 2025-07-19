@@ -43,6 +43,45 @@ final class ICGammaAtMiddleParamTest {
         }
     }
 
+    public static class A_100のオッズ値のテスト extends IcgammaAt100 {
+
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
+
+        @Override
+        double acceptableRelativeError() {
+            return 1E-11;
+        }
+    }
+
+    public static class A_1000のオッズ値のテスト extends IcgammaAt1000 {
+
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
+
+        @Override
+        double acceptableRelativeError() {
+            return 1E-11;
+        }
+    }
+
+    public static class A_10000のオッズ値のテスト extends IcgammaAt10000 {
+
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
+
+        @Override
+        double acceptableRelativeError() {
+            return 1E-9;
+        }
+    }
+
     public static class A_20000のオッズ値のテスト extends IcgammaAt20000 {
 
         @Override
