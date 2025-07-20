@@ -39,7 +39,7 @@ final class ICGammaAtLowParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-11;
+            return 1E-12;
         }
 
     }
