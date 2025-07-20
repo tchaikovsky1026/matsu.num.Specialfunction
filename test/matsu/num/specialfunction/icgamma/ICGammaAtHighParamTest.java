@@ -30,7 +30,20 @@ final class ICGammaAtHighParamTest {
     private static final DoubleFunction<IncompleteGammaFunction> IC_GAMMA_GETTER =
             a -> new ICGammaAtMiddleParam(a);
 
-    public static class A_50000のオッズ値のテスト extends IcgammaAt50000{
+    public static class A_50000のオッズ値のテスト extends IcgammaAt50000 {
+
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
+
+        @Override
+        double acceptableRelativeError() {
+            return 1E-5;
+        }
+    }
+
+    public static class A_100000のオッズ値のテスト extends IcgammaAt100000 {
 
         @Override
         DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
