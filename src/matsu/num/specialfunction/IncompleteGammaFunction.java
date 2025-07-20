@@ -86,7 +86,7 @@ public interface IncompleteGammaFunction {
      *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
     @Deprecated
-    public static final double UPPER_LIMIT_OF_PARAMETER_A = 1E28;
+    public static final double UPPER_LIMIT_OF_PARAMETER_A = 1E14;
 
     /**
      * このインスタンスが扱うパラメータ <i>a</i> の値を返す.
