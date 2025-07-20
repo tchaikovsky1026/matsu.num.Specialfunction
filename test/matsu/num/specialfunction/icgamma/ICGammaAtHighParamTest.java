@@ -23,6 +23,7 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
  * {@link ICGammaAtHighParam} クラスのテスト.
  */
 @RunWith(Enclosed.class)
+@Deprecated
 final class ICGammaAtHighParamTest {
 
     public static final Class<?> TEST_CLASS = ICGammaAtHighParam.class;

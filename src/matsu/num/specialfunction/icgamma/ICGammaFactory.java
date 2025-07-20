@@ -19,7 +19,7 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
 public final class ICGammaFactory {
 
     static final double K_THRESHOLD_SECOND = 11;
-    static final double K_THRESHOLD_THIRD = 40000;
+    static final double K_THRESHOLD_THIRD = 1000;
 
     private ICGammaFactory() {
         throw new AssertionError();
@@ -44,7 +44,7 @@ public final class ICGammaFactory {
         if (a <= K_THRESHOLD_THIRD) {
             return new ICGammaAtMiddleParam(a);
         }
-        return new ICGammaAtHighParam(a);
+        return new TemmeTypeICGamma(a);
     }
 
 }

@@ -12,7 +12,8 @@ package matsu.num.specialfunction;
 import matsu.num.specialfunction.icgamma.ICGammaFactory;
 
 /**
- * 不完全ガンマ関数の計算(およそ倍精度未満). <br>
+ * 不完全ガンマ関数の計算
+ * (およそ単精度から倍精度). <br>
  * 正則化不完全ガンマ関数の計算として提供する.
  * 
  * <p>
