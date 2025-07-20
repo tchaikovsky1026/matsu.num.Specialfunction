@@ -1,3 +1,6 @@
+develop:
+不完全ガンマ関数の精度向上.
+
 23:
 23.5.0: Legendre 関数, Laguerre (陪)多項式, Hermite 多項式の計算機能の追加.
 23.4.0: Bernoulli 数の計算機能の追加.
