@@ -39,7 +39,7 @@ final class ICGammaAtMiddleParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-11;
+            return 1E-13;
         }
     }
 
@@ -52,7 +52,7 @@ final class ICGammaAtMiddleParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-11;
+            return 1E-13;
         }
     }
 
@@ -65,7 +65,7 @@ final class ICGammaAtMiddleParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-11;
+            return 1E-12;
         }
     }
 
@@ -78,7 +78,7 @@ final class ICGammaAtMiddleParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-9;
+            return 1E-12;
         }
     }
 
@@ -91,7 +91,7 @@ final class ICGammaAtMiddleParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-9;
+            return 1E-11;
         }
     }
 

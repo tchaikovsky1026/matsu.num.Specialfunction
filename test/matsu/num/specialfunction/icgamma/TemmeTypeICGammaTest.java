@@ -1,9 +1,10 @@
 /*
- * Copyright © 2024 Matsuura Y.
+ * Copyright © 2025 Matsuura Y.
  * 
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+
 package matsu.num.specialfunction.icgamma;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -20,15 +21,54 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.IncompleteGammaFunction;
 
 /**
- * {@link ICGammaAtHighParam} クラスのテスト.
+ * {@link TemmeTypeICGamma} クラスのテスト.
  */
 @RunWith(Enclosed.class)
-final class ICGammaAtHighParamTest {
+final class TemmeTypeICGammaTest {
 
-    public static final Class<?> TEST_CLASS = ICGammaAtHighParam.class;
+    public static final Class<?> TEST_CLASS = ICGammaAtMiddleParam.class;
 
     private static final DoubleFunction<IncompleteGammaFunction> IC_GAMMA_GETTER =
-            a -> new ICGammaAtMiddleParam(a);
+            a -> new TemmeTypeICGamma(a);
+
+    public static class A_1000のオッズ値のテスト extends IcgammaAt1000 {
+
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
+
+        @Override
+        double acceptableRelativeError() {
+            return 1E-13;
+        }
+    }
+
+    public static class A_10000のオッズ値のテスト extends IcgammaAt10000 {
+
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
+
+        @Override
+        double acceptableRelativeError() {
+            return 1E-13;
+        }
+    }
+
+    public static class A_20000のオッズ値のテスト extends IcgammaAt20000 {
+
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
+
+        @Override
+        double acceptableRelativeError() {
+            return 1E-13;
+        }
+    }
 
     public static class A_50000のオッズ値のテスト extends IcgammaAt50000 {
 
@@ -39,7 +79,7 @@ final class ICGammaAtHighParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-5;
+            return 1E-13;
         }
     }
 
@@ -52,7 +92,7 @@ final class ICGammaAtHighParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-5;
+            return 1E-11;
         }
     }
 
@@ -61,7 +101,7 @@ final class ICGammaAtHighParamTest {
 
         @DataPoints
         public static final IncompleteGammaFunction[] icGammas = {
-                new ICGammaAtHighParam(50000)
+                new TemmeTypeICGamma(50000)
         };
 
         @Theory
@@ -83,5 +123,9 @@ final class ICGammaAtHighParamTest {
         public void test_正の無限大検証_Q(IncompleteGammaFunction icgamma) {
             assertThat(icgamma.rigammaQ(Double.POSITIVE_INFINITY), is(0d));
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(IC_GAMMA_GETTER.apply(10000).rigammaOdds(0));
     }
 }
