@@ -53,7 +53,7 @@ final class ICGammaAtLowParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-11;
+            return 1E-13;
         }
     }
 
@@ -66,7 +66,7 @@ final class ICGammaAtLowParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-11;
+            return 1E-13;
         }
     }
 
@@ -79,7 +79,7 @@ final class ICGammaAtLowParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-11;
+            return 1E-13;
         }
     }
 
