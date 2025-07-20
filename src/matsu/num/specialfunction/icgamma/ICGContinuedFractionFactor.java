@@ -17,11 +17,11 @@ package matsu.num.specialfunction.icgamma;
 final class ICGContinuedFractionFactor {
 
     private static final int MIN_ROOP_FOR_F = 10;
-    private static final int MAX_ROOP_FOR_F = 70;
+    private static final int MAX_ROOP_FOR_F = 100;
     private static final int CHECK_INTERVAL_FOR_F = 10;
 
     private static final double EPSILON_A_FOR_FACTOR_F = 1E-30;
-    private static final double EPSILON_R_FOR_FACTOR_F = 1E-12;
+    private static final double EPSILON_R_FOR_FACTOR_F = 1E-14;
 
     private ICGContinuedFractionFactor() {
         //インスタンス化不可
