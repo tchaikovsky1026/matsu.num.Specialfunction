@@ -29,7 +29,7 @@ final class ICGammaAtLowParam extends SkeletalICGamma {
      * xの値によって2種の計算方法を用いる.
      * その閾値はaによって決まり, aと7の大きいほうの値を用いる.
      */
-    private static final double X_THRESHOLD_MAX = 7;
+    private static final double X_THRESHOLD_MAX = 4;
 
     private final double logGammaAp1;
 

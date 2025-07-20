@@ -1,9 +1,10 @@
 /*
- * Copyright © 2024 Matsuura Y.
+ * Copyright © 2025 Matsuura Y.
  * 
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+
 package matsu.num.specialfunction.icgamma;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -20,41 +21,15 @@ import org.junit.runner.RunWith;
 import matsu.num.specialfunction.IncompleteGammaFunction;
 
 /**
- * {@link ICGammaAtMiddleParam} クラスのテスト.
+ * {@link TemmeTypeICGamma} クラスのテスト.
  */
 @RunWith(Enclosed.class)
-final class ICGammaAtMiddleParamTest {
+final class TemmeTypeICGammaTest {
 
     public static final Class<?> TEST_CLASS = ICGammaAtMiddleParam.class;
 
     private static final DoubleFunction<IncompleteGammaFunction> IC_GAMMA_GETTER =
-            a -> new ICGammaAtMiddleParam(a);
-
-    public static class A_20のオッズ値のテスト extends IcgammaAt20 {
-
-        @Override
-        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
-            return IC_GAMMA_GETTER;
-        }
-
-        @Override
-        double acceptableRelativeError() {
-            return 1E-13;
-        }
-    }
-
-    public static class A_100のオッズ値のテスト extends IcgammaAt100 {
-
-        @Override
-        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
-            return IC_GAMMA_GETTER;
-        }
-
-        @Override
-        double acceptableRelativeError() {
-            return 1E-13;
-        }
-    }
+            a -> new TemmeTypeICGamma(a);
 
     public static class A_1000のオッズ値のテスト extends IcgammaAt1000 {
 
@@ -65,7 +40,7 @@ final class ICGammaAtMiddleParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-12;
+            return 1E-13;
         }
     }
 
@@ -78,11 +53,37 @@ final class ICGammaAtMiddleParamTest {
 
         @Override
         double acceptableRelativeError() {
-            return 1E-12;
+            return 1E-13;
         }
     }
 
     public static class A_20000のオッズ値のテスト extends IcgammaAt20000 {
+
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
+
+        @Override
+        double acceptableRelativeError() {
+            return 1E-13;
+        }
+    }
+
+    public static class A_50000のオッズ値のテスト extends IcgammaAt50000 {
+
+        @Override
+        DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
+            return IC_GAMMA_GETTER;
+        }
+
+        @Override
+        double acceptableRelativeError() {
+            return 1E-13;
+        }
+    }
+
+    public static class A_100000のオッズ値のテスト extends IcgammaAt100000 {
 
         @Override
         DoubleFunction<IncompleteGammaFunction> icgammaGetter() {
@@ -100,7 +101,7 @@ final class ICGammaAtMiddleParamTest {
 
         @DataPoints
         public static final IncompleteGammaFunction[] icGammas = {
-                new ICGammaAtMiddleParam(20)
+                new TemmeTypeICGamma(50000)
         };
 
         @Theory
@@ -122,5 +123,9 @@ final class ICGammaAtMiddleParamTest {
         public void test_正の無限大検証_Q(IncompleteGammaFunction icgamma) {
             assertThat(icgamma.rigammaQ(Double.POSITIVE_INFINITY), is(0d));
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(IC_GAMMA_GETTER.apply(10000).rigammaOdds(0));
     }
 }

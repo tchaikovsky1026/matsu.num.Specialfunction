@@ -12,7 +12,8 @@ package matsu.num.specialfunction;
 import matsu.num.specialfunction.icgamma.ICGammaFactory;
 
 /**
- * 不完全ガンマ関数の計算(およそ倍精度未満). <br>
+ * 不完全ガンマ関数の計算
+ * (およそ単精度から倍精度). <br>
  * 正則化不完全ガンマ関数の計算として提供する.
  * 
  * <p>
@@ -85,7 +86,7 @@ public interface IncompleteGammaFunction {
      *                 パラメータの正当性は static メソッドにより検証されるべきである.
      */
     @Deprecated
-    public static final double UPPER_LIMIT_OF_PARAMETER_A = 1E28;
+    public static final double UPPER_LIMIT_OF_PARAMETER_A = 1E14;
 
     /**
      * このインスタンスが扱うパラメータ <i>a</i> の値を返す.

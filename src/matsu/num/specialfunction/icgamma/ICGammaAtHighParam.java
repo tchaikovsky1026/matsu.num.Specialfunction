@@ -23,7 +23,9 @@ import matsu.num.specialfunction.common.Exponentiation;
  * </p>
  *
  * @author Matsuura Y.
+ * @deprecated このクラスはプロダクトコード内で使用されていない.
  */
+@Deprecated
 final class ICGammaAtHighParam extends SkeletalICGamma {
 
     private static final double HALF_LN2PI = 0.5 * Math.log(2 * Math.PI);
