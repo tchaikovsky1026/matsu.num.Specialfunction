@@ -222,12 +222,31 @@ final class CFracBasedIcgammaCalculator {
             return Exponentiation.exp(thisA * log1p_m(t) + residualLogFactor);
         }
 
+        /**
+         * log(1+t) - t の値を返す. <br>
+         * tが0に近いときでも相対精度が維持される.
+         * 
+         * @param t t
+         * @return log(1+t) - t
+         */
         private static double log1p_m(double t) {
-            double log1pt = Exponentiation.log1p(t);
+            if (!(Math.abs(t) <= 0.1)) {
 
-            return log1pt == Double.POSITIVE_INFINITY
-                    ? Double.NEGATIVE_INFINITY
-                    : log1pt - t;
+                double log1pt = Exponentiation.log1p(t);
+
+                return log1pt == Double.POSITIVE_INFINITY
+                        ? Double.NEGATIVE_INFINITY
+                        : log1pt - t;
+            }
+
+            int maxN = 17;
+            double v = 0d;
+            for (int n = maxN; n >= 2; n--) {
+                v *= -t;
+                v += -1d / n;
+            }
+
+            return v * (t * t);
         }
     }
 }
