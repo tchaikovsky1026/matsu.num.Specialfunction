@@ -5,12 +5,11 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2025.7.6
+ * 2025.7.23
  */
 package matsu.num.specialfunction.icgamma;
 
 import matsu.num.specialfunction.ErrorFuction;
-import matsu.num.specialfunction.GammaFunction;
 import matsu.num.specialfunction.common.Exponentiation;
 
 /**
@@ -28,7 +27,6 @@ import matsu.num.specialfunction.common.Exponentiation;
 @Deprecated
 final class ICGammaAtHighParam extends SkeletalICGamma {
 
-    private static final double HALF_LN2PI = 0.5 * Math.log(2 * Math.PI);
     private final double sqrtA;
 
     /*
@@ -39,22 +37,7 @@ final class ICGammaAtHighParam extends SkeletalICGamma {
     private final double xLowerThreshold;
     private final double xUpperThreshold;
 
-    /*
-     * x^a e^{-x}/(aΓ(a))を計算するとき,
-     * 直接的計算では対数でa log(a)のオーダーの値が生じるが, 計算結果はa程度になる.
-     * これはすなわち, 丸め誤差が怖いことになる.
-     * したがって, スターリング近似により或る程度式変形をしておいて, xを代入して計算するようにする.
-     * 
-     * log(x^a e^{-x}/(aΓ(a))) = alog(x) - x - log(a) - logΓ(a)
-     * = alog(x/a) - (x - a) - (1/2)log(a) - (1/2)log(2π) - f(a)
-     * f(a)はlogΓ(a)のスターリング近似の残差であり,
-     * f(a) = logΓ(a) - (a - 1/2)log(a) + a - (1/2)log(2π)
-     * である.
-     */
-    /**
-     * residualLogFactor = - (1/2)log(a) - (1/2)log(2π) - f(a)
-     */
-    private final double residualLogFactor;
+    private final CFracBasedIcgammaCalculator fractionCoefficient;
 
     /**
      * 40000以上1E28以下でない場合, アサーションエラー.
@@ -67,19 +50,18 @@ final class ICGammaAtHighParam extends SkeletalICGamma {
         this.sqrtA = Exponentiation.sqrt(a);
         this.xLowerThreshold = a - this.sqrtA;
         this.xUpperThreshold = a + this.sqrtA;
-        this.residualLogFactor = -0.5 * Exponentiation.log(a) - HALF_LN2PI
-                - GammaFunction.lgammaStirlingResidual(a);
+
+        this.fractionCoefficient = CFracBasedIcgammaCalculator.of(a);
     }
 
     @Override
     double oddsValue(double x) {
-        final double thisA = this.a;
         if (x < this.xLowerThreshold) {
-            double lcp = ICGContinuedFractionFactor.factorLCP(x, thisA) * coeffToLCP(x);
+            double lcp = this.fractionCoefficient.calcP(x);
             return lcp / (1 - lcp);
         }
         if (x > this.xUpperThreshold) {
-            double ucp = ICGContinuedFractionFactor.factorUCP(x, thisA) * coeffToLCP(x) * (thisA / x);
+            double ucp = this.fractionCoefficient.calcQ(x);
             return (1 - ucp) / ucp;
         }
         double lcp = aproxLCPByNDist(x);
@@ -102,17 +84,5 @@ final class ICGammaAtHighParam extends SkeletalICGamma {
         double corr = (N0 + z2 * N2 + z4 * (N4 + z2 * N6)) * invSqrtK;
 
         return corr + 0.5 * ErrorFuction.erfc(-z * invSqrt2);
-    }
-
-    /**
-     * x^a e^{-x}/(aΓ(a))を計算する.
-     */
-    private double coeffToLCP(double x) {
-        final double thisA = this.a;
-        final double logFactor = thisA * Exponentiation.log(x / thisA);
-        if (logFactor == Double.POSITIVE_INFINITY) {
-            return 0;
-        }
-        return Exponentiation.exp(logFactor - (x - thisA) + this.residualLogFactor);
     }
 }
