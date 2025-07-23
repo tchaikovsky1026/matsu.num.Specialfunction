@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2025.7.5
+ * 2025.7.24
  */
 package matsu.num.specialfunction.icgamma;
 
@@ -18,8 +18,7 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
  */
 public final class ICGammaFactory {
 
-    static final double K_THRESHOLD_SECOND = 11;
-    static final double K_THRESHOLD_THIRD = 1000;
+    static final double A_THRESHOLD = 1000;
 
     private ICGammaFactory() {
         throw new AssertionError();
@@ -38,13 +37,9 @@ public final class ICGammaFactory {
                     "Illegal parameter: a = %s".formatted(a));
         }
 
-        if (a <= K_THRESHOLD_SECOND) {
-            return new ICGammaAtLowParam(a);
-        }
-        if (a <= K_THRESHOLD_THIRD) {
-            return new ICGammaAtMiddleParam(a);
+        if (a <= A_THRESHOLD) {
+            return new WithShiftingICGamma(a);
         }
         return new TemmeTypeICGamma(a);
     }
-
 }

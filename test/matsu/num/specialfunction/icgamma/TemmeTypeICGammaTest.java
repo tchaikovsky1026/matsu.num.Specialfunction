@@ -26,7 +26,7 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
 @RunWith(Enclosed.class)
 final class TemmeTypeICGammaTest {
 
-    public static final Class<?> TEST_CLASS = ICGammaAtMiddleParam.class;
+    public static final Class<?> TEST_CLASS = TemmeTypeICGamma.class;
 
     private static final DoubleFunction<IncompleteGammaFunction> IC_GAMMA_GETTER =
             a -> new TemmeTypeICGamma(a);
