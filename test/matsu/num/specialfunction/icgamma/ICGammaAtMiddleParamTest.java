@@ -22,6 +22,7 @@ import matsu.num.specialfunction.IncompleteGammaFunction;
 /**
  * {@link ICGammaAtMiddleParam} クラスのテスト.
  */
+@Deprecated
 @RunWith(Enclosed.class)
 final class ICGammaAtMiddleParamTest {
 

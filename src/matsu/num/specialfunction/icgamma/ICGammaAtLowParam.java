@@ -19,7 +19,9 @@ package matsu.num.specialfunction.icgamma;
  * </p>
  * 
  * @author Matsuura Y.
+ * @deprecated このクラスはプロダクトコード内で使用されていない.
  */
+@Deprecated
 final class ICGammaAtLowParam extends SkeletalICGamma {
 
     /*
