@@ -6,12 +6,11 @@
  */
 
 /*
- * 2025.7.23
+ * 2025.7.24
  */
 package matsu.num.specialfunction.icgamma;
 
 import java.util.function.DoubleFunction;
-import java.util.function.DoubleUnaryOperator;
 
 import matsu.num.specialfunction.GammaFunction;
 import matsu.num.specialfunction.IncompleteGammaFunction;
@@ -35,7 +34,7 @@ final class CFracBasedIcgammaCalculator {
      * x^a e^{-x}/(Γ(a+1)) の値を返す. <br>
      * 必ず有限の値が返る.
      */
-    private final DoubleUnaryOperator coeffToLCPCalc;
+    private final CoefficientCalculator coeffToLCPCalc;
 
     /**
      * 唯一の非公開コンストラクタ.
@@ -49,7 +48,7 @@ final class CFracBasedIcgammaCalculator {
      *            {@literal a -> (x -> (x^a e^(-x)/(Γ(a+1))))}
      */
     private CFracBasedIcgammaCalculator(double a,
-            DoubleFunction<? extends DoubleUnaryOperator> coeffToLCPCalcCreator) {
+            DoubleFunction<? extends CoefficientCalculator> coeffToLCPCalcCreator) {
         super();
         this.a = a;
 
@@ -93,7 +92,7 @@ final class CFracBasedIcgammaCalculator {
             out *= x / (a + n);
             out += 1;
         }
-        return out * this.coeffToLCPCalc.applyAsDouble(x);
+        return this.coeffToLCPCalc.calc(x, out);
     }
 
     /**
@@ -134,7 +133,7 @@ final class CFracBasedIcgammaCalculator {
             out *= (a - n) * invX;
             out += 1;
         }
-        return out * this.coeffToLCPCalc.applyAsDouble(x) * (a / x);
+        return this.coeffToLCPCalc.calc(x, out * (a / x));
     }
 
     /**
@@ -147,21 +146,32 @@ final class CFracBasedIcgammaCalculator {
      */
     static CFracBasedIcgammaCalculator of(double a) {
         return a < 20
-                ? new CFracBasedIcgammaCalculator(a, CoefficientImplLowParam::new)
-                : new CFracBasedIcgammaCalculator(a, CoefficientImplHighParam::new);
+                ? new CFracBasedIcgammaCalculator(a, CoefficientCalculatorLowParam::new)
+                : new CFracBasedIcgammaCalculator(a, CoefficientCalculatorHighParam::new);
+    }
+
+    private static interface CoefficientCalculator {
+
+        /**
+         * (x^a e^(-x)/(Γ(a+1)) を計算し, multiを乗算した値を返す.
+         * 
+         * @param x x
+         * @param multi multi
+         * @return multi * (x^a e^(-x)/(Γ(a+1))
+         */
+        abstract double calc(double x, double multi);
     }
 
     /**
-     * a が小さいときに使える
-     * {@literal (x -> (x^a e^(-x)/(Γ(a+1))))}
+     * a が小さいときに使える.
      */
-    private static final class CoefficientImplLowParam implements DoubleUnaryOperator {
+    private static final class CoefficientCalculatorLowParam implements CoefficientCalculator {
 
         private final double a;
 
         private final double logGammaAp1;
 
-        CoefficientImplLowParam(double a) {
+        CoefficientCalculatorLowParam(double a) {
             super();
 
             this.a = a;
@@ -169,20 +179,25 @@ final class CFracBasedIcgammaCalculator {
         }
 
         @Override
-        public double applyAsDouble(double x) {
+        public double calc(double x, double multi) {
             final double logFactor = this.a * Exponentiation.log(x);
             if (logFactor == Double.POSITIVE_INFINITY) {
                 return 0;
             }
-            return Exponentiation.exp(a * Exponentiation.log(x) - x - this.logGammaAp1);
+
+            double logOut = a * Exponentiation.log(x) - x - this.logGammaAp1;
+
+            // out < 1E-200の場合は, アンダーフローのフォロー
+            return logOut < -460
+                    ? Exponentiation.exp(logOut + Exponentiation.log(multi))
+                    : multi * Exponentiation.exp(logOut);
         }
     }
 
     /**
-     * a が大きいときに使える
-     * {@literal (x -> (x^a e^(-x)/(Γ(a+1))))}
+     * a が大きいときに使える.
      */
-    private static final class CoefficientImplHighParam implements DoubleUnaryOperator {
+    private static final class CoefficientCalculatorHighParam implements CoefficientCalculator {
 
         private static final double HALF_LN2PI = 0.5 * Math.log(2 * Math.PI);
 
@@ -205,7 +220,7 @@ final class CFracBasedIcgammaCalculator {
          */
         private final double residualLogFactor;
 
-        CoefficientImplHighParam(double a) {
+        CoefficientCalculatorHighParam(double a) {
             super();
 
             this.a = a;
@@ -214,12 +229,17 @@ final class CFracBasedIcgammaCalculator {
         }
 
         @Override
-        public double applyAsDouble(double x) {
+        public double calc(double x, double multi) {
             final double thisA = this.a;
 
             final double t = (x - thisA) / thisA;
 
-            return Exponentiation.exp(thisA * log1p_m(t) + residualLogFactor);
+            double logOut = thisA * log1p_m(t) + residualLogFactor;
+
+            // out < 1E-200の場合は, アンダーフローのフォロー
+            return logOut < -460
+                    ? Exponentiation.exp(logOut + Exponentiation.log(multi))
+                    : multi * Exponentiation.exp(logOut);
         }
 
         /**
