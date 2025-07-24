@@ -5,7 +5,7 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2025.7.5
+ * 2025.7.24
  */
 package matsu.num.specialfunction;
 
@@ -13,7 +13,8 @@ import matsu.num.specialfunction.icgamma.ICGammaFactory;
 
 /**
  * 不完全ガンマ関数の計算
- * (およそ単精度から倍精度). <br>
+ * (およそ単精度から倍精度
+ * (10<sup>-12</sup>&ndash;10<sup>-14</sup>)). <br>
  * 正則化不完全ガンマ関数の計算として提供する.
  * 
  * <p>

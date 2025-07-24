@@ -29,7 +29,7 @@ final class ICGammaAtHighParamTest {
     public static final Class<?> TEST_CLASS = ICGammaAtHighParam.class;
 
     private static final DoubleFunction<IncompleteGammaFunction> IC_GAMMA_GETTER =
-            a -> new ICGammaAtMiddleParam(a);
+            a -> new ICGammaAtHighParam(a);
 
     public static class A_50000のオッズ値のテスト extends IcgammaAt50000 {
 

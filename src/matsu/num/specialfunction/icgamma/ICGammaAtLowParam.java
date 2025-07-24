@@ -5,12 +5,9 @@
  * http://opensource.org/licenses/mit-license.php
  */
 /*
- * 2025.7.6
+ * 2025.7.23
  */
 package matsu.num.specialfunction.icgamma;
-
-import matsu.num.specialfunction.GammaFunction;
-import matsu.num.specialfunction.common.Exponentiation;
 
 /**
  * 不完全ガンマ関数の計算の実装(およそ倍精度未満). <br>
@@ -22,7 +19,9 @@ import matsu.num.specialfunction.common.Exponentiation;
  * </p>
  * 
  * @author Matsuura Y.
+ * @deprecated このクラスはプロダクトコード内で使用されていない.
  */
+@Deprecated
 final class ICGammaAtLowParam extends SkeletalICGamma {
 
     /*
@@ -31,10 +30,10 @@ final class ICGammaAtLowParam extends SkeletalICGamma {
      */
     private static final double X_THRESHOLD_MAX = 4;
 
-    private final double logGammaAp1;
-
     //計算方法を切り替える閾値
     private final double xThreshold;
+
+    private final CFracBasedIcgammaCalculator fractionCoefficient;
 
     /**
      * @param a パラメータ
@@ -42,30 +41,18 @@ final class ICGammaAtLowParam extends SkeletalICGamma {
     ICGammaAtLowParam(double a) {
         super(a);
 
-        this.logGammaAp1 = GammaFunction.lgamma(a + 1);
         this.xThreshold = Math.max(a, X_THRESHOLD_MAX);
+
+        this.fractionCoefficient = CFracBasedIcgammaCalculator.of(a);
     }
 
     @Override
     double oddsValue(double x) {
-        final double thisA = this.a;
         if (x < this.xThreshold) {
-            double lcp = ICGContinuedFractionFactor.factorLCP(x, thisA) * coeffToLCP(x);
+            double lcp = this.fractionCoefficient.calcP(x);
             return lcp / (1 - lcp);
         }
-        double ucp = ICGContinuedFractionFactor.factorUCP(x, thisA) * this.coeffToLCP(x) * (thisA / x);
+        double ucp = this.fractionCoefficient.calcQ(x);
         return (1 - ucp) / ucp;
     }
-
-    /**
-     * x^a e^{-x}/(Γ(a+1))
-     */
-    private double coeffToLCP(double x) {
-        final double logFactor = this.a * Exponentiation.log(x);
-        if (logFactor == Double.POSITIVE_INFINITY) {
-            return 0;
-        }
-        return Exponentiation.exp(this.a * Exponentiation.log(x) - x - this.logGammaAp1);
-    }
-
 }
