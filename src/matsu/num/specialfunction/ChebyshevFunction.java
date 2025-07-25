@@ -10,6 +10,8 @@
  */
 package matsu.num.specialfunction;
 
+import matsu.num.specialfunction.chebyshev.ChebyshevFunctionImpl;
+
 /**
  * Chebyshev 関数 (多項式) の計算
  * (およそ倍精度).
@@ -114,6 +116,6 @@ public interface ChebyshevFunction {
      * @throws IllegalArgumentException 次数がサポート外の場合
      */
     public static ChebyshevFunction instanceOf(int degreeN) {
-        throw new AssertionError("TODO");
+        return ChebyshevFunctionImpl.instanceOf(degreeN);
     }
 }
