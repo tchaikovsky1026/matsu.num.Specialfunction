@@ -53,7 +53,7 @@ final class StaticHermiteFunction {
          * H(n,x)は漸化式により計算する.
          * H(0,x) = 1,
          * H(1,x) = 2x,
-         * H(n,x) * n = 2xH(n-1,x) - 2(n-1)H(n-2,x)
+         * H(n,x) = 2xH(n-1,x) - 2(n-1)H(n-2,x)
          * 
          * 途中でオーバーフローした場合は+infを返す.
          */
