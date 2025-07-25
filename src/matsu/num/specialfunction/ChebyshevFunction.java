@@ -17,7 +17,21 @@ import matsu.num.specialfunction.chebyshev.ChebyshevFunctionImpl;
  * (およそ倍精度).
  * 
  * <p>
- * <i>ここに Chebyshev 多項式の説明を入れる.</i>
+ * 第1種 Chebyshev 多項式
+ * <i>T</i><sub><i>n</i></sub> (<i>x</i>),
+ * 第2種 Chebyshev 多項式
+ * <i>U</i><sub><i>n</i></sub> (<i>x</i>)
+ * は, 非負整数の次数 <i>n</i> をパラメータに持つ 1 変数関数
+ * である. <br>
+ * 通常, |<i>x</i>| &le; 1 で扱い, このインターフェースでもその定義域を採用する.
+ * </p>
+ * 
+ * <p>
+ * 第1種 Chebyshev 多項式, 第2種 Chebyshev 多項式は次の式により定義される. <br>
+ * <i>T</i><sub><i>n</i></sub>(cos <i>&theta;</i>)
+ * = cos (<i>n&theta;</i>) <br>
+ * <i>U</i><sub><i>n</i></sub>(cos <i>&theta;</i>) sin <i>&theta;</i>
+ * = sin ((<i>n</i>+1)<i>&theta;</i>)
  * </p>
  * 
  * <p>
@@ -33,7 +47,7 @@ import matsu.num.specialfunction.chebyshev.ChebyshevFunctionImpl;
  * @author Matsuura Y.
  * @see <a href="https://en.wikipedia.org/wiki/Chebyshev_polynomials" target=
  *          "_brank">
- *          Wikipedia: Hermite polynomials</a>
+ *          Wikipedia: Chebyshev polynomials</a>
  */
 public interface ChebyshevFunction {
 
