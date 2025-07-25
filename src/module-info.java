@@ -22,7 +22,7 @@
  * </p>
  * 
  * @author Matsuura Y.
- * @version 23.7.0
+ * @version 23.8.0
  */
 module matsu.num.Specialfunction {
     exports matsu.num.specialfunction;
