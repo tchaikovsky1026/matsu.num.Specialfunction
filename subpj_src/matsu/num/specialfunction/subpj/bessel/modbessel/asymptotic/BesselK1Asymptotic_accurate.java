@@ -8,6 +8,7 @@ package matsu.num.specialfunction.subpj.bessel.modbessel.asymptotic;
 
 import matsu.num.approximation.FiniteClosedInterval;
 import matsu.num.approximation.PseudoRealNumber;
+import matsu.num.approximation.PseudoRealNumber.TypeProvider;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 import matsu.num.specialfunction.subpj.EachApproxExecutor;
 import matsu.num.specialfunction.subpj.FiniteClosedIntervalFactory;
@@ -32,7 +33,7 @@ import matsu.num.specialfunction.subpj.RawCoeffCalculableFunction;
  */
 final class BesselK1Asymptotic_accurate extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
 
-    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
+    private static final PseudoRealNumber.TypeProvider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
@@ -64,7 +65,7 @@ final class BesselK1Asymptotic_accurate extends RawCoeffCalculableFunction<Doubl
     }
 
     @Override
-    public PseudoRealNumber.Provider<DoubleDoubleFloatElement> elementProvider() {
+    public TypeProvider<DoubleDoubleFloatElement> elementTypeProvider() {
         return PROVIDER;
     }
 

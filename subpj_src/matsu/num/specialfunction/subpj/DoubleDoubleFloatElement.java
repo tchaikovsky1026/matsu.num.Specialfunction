@@ -20,7 +20,7 @@ import matsu.num.specialfunction.fraction.BigRational;
  */
 public final class DoubleDoubleFloatElement extends PseudoRealNumber<DoubleDoubleFloatElement> {
 
-    private static final PseudoRealNumber.Provider<
+    private static final PseudoRealNumber.TypeProvider<
             DoubleDoubleFloatElement> PROVIDER = new Provider();
 
     private static final DoubleDoubleFloatElement ZERO =
@@ -60,7 +60,7 @@ public final class DoubleDoubleFloatElement extends PseudoRealNumber<DoubleDoubl
     }
 
     @Override
-    protected PseudoRealNumber.Provider<DoubleDoubleFloatElement> provider() {
+    protected TypeProvider<DoubleDoubleFloatElement> typeProvider() {
         return PROVIDER;
     }
 
@@ -145,7 +145,7 @@ public final class DoubleDoubleFloatElement extends PseudoRealNumber<DoubleDoubl
      * 
      * @return プロバイダ
      */
-    public static PseudoRealNumber.Provider<DoubleDoubleFloatElement> elementProvider() {
+    public static PseudoRealNumber.TypeProvider<DoubleDoubleFloatElement> elementProvider() {
         return PROVIDER;
     }
 
@@ -194,13 +194,14 @@ public final class DoubleDoubleFloatElement extends PseudoRealNumber<DoubleDoubl
     /**
      * プロバイダの実装.
      */
-    private static final class Provider implements PseudoRealNumber.Provider<DoubleDoubleFloatElement> {
+    private static final class Provider
+            extends PseudoRealNumber.TypeProvider<DoubleDoubleFloatElement> {
 
         /**
          * 唯一のコンストラクタ.
          */
         Provider() {
-            super();
+            super(DoubleDoubleFloatElement.class);
         }
 
         @Override
@@ -216,11 +217,6 @@ public final class DoubleDoubleFloatElement extends PseudoRealNumber<DoubleDoubl
         @Override
         public DoubleDoubleFloatElement one() {
             return ONE;
-        }
-
-        @Override
-        public DoubleDoubleFloatElement[] createArray(int length) {
-            return new DoubleDoubleFloatElement[length];
         }
     }
 }

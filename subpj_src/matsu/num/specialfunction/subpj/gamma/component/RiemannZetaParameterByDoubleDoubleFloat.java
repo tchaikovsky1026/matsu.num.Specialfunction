@@ -18,7 +18,7 @@ import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
  */
 public final class RiemannZetaParameterByDoubleDoubleFloat {
 
-    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
+    private static final PseudoRealNumber.TypeProvider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
 
     /**
