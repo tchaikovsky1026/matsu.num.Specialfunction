@@ -8,6 +8,7 @@ package matsu.num.specialfunction.subpj.gamma.trigamma;
 
 import matsu.num.approximation.FiniteClosedInterval;
 import matsu.num.approximation.PseudoRealNumber;
+import matsu.num.approximation.PseudoRealNumber.TypeProvider;
 import matsu.num.specialfunction.subpj.DoubleDoubleFloatElement;
 import matsu.num.specialfunction.subpj.EachApproxExecutor;
 import matsu.num.specialfunction.subpj.FiniteClosedIntervalFactory;
@@ -36,7 +37,7 @@ import matsu.num.specialfunction.subpj.gamma.component.EvenBernoulliByDoubleDoub
 final class TrigammaRes_AsymptoticForLarge_accuracy
         extends RawCoeffCalculableFunction<DoubleDoubleFloatElement> {
 
-    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
+    private static final PseudoRealNumber.TypeProvider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
     private static final FiniteClosedIntervalFactory<DoubleDoubleFloatElement> INTERVAL_FACTORY =
             new FiniteClosedIntervalFactory<>(PROVIDER);
@@ -73,7 +74,7 @@ final class TrigammaRes_AsymptoticForLarge_accuracy
     }
 
     @Override
-    public PseudoRealNumber.Provider<DoubleDoubleFloatElement> elementProvider() {
+    public TypeProvider<DoubleDoubleFloatElement> elementTypeProvider() {
         return PROVIDER;
     }
 

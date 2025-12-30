@@ -19,14 +19,14 @@ import matsu.num.approximation.PseudoRealNumber;
  */
 public final class FiniteClosedIntervalFactory<T extends PseudoRealNumber<T>> {
 
-    private final PseudoRealNumber.Provider<T> provider;
+    private final PseudoRealNumber.TypeProvider<T> provider;
 
     /**
      * 唯一のコンストラクタ.
      * 
      * @param provider Tのプロバイダ
      */
-    public FiniteClosedIntervalFactory(PseudoRealNumber.Provider<T> provider) {
+    public FiniteClosedIntervalFactory(PseudoRealNumber.TypeProvider<T> provider) {
         this.provider = Objects.requireNonNull(provider);
     }
 
@@ -44,5 +44,4 @@ public final class FiniteClosedIntervalFactory<T extends PseudoRealNumber<T>> {
                 this.provider.fromDoubleValue(x1),
                 this.provider.fromDoubleValue(x2));
     }
-
 }

@@ -23,7 +23,7 @@ import matsu.num.specialfunction.subpj.gamma.component.EvenBernoulliByDoubleDoub
  */
 final class LGammaResidual {
 
-    private static final PseudoRealNumber.Provider<DoubleDoubleFloatElement> PROVIDER =
+    private static final PseudoRealNumber.TypeProvider<DoubleDoubleFloatElement> PROVIDER =
             DoubleDoubleFloatElement.elementProvider();
 
     private static final DoubleDoubleFloatElement X_MIN =
