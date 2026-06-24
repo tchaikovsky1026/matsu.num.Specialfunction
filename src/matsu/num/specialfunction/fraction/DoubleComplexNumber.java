@@ -4,8 +4,9 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+
 /*
- * 2024.10.22
+ * 2026.6.24
  */
 package matsu.num.specialfunction.fraction;
 
@@ -27,8 +28,13 @@ package matsu.num.specialfunction.fraction;
  */
 public final class DoubleComplexNumber extends MathField<DoubleComplexNumber> {
 
+    /** 0 を表す. */
     public static final DoubleComplexNumber ZERO = new DoubleComplexNumber(0, 0);
+
+    /** 1 を表す. */
     public static final DoubleComplexNumber ONE = new DoubleComplexNumber(1, 0);
+
+    /** i を表す. */
     public static final DoubleComplexNumber I = new DoubleComplexNumber(0, 1);
 
     private final double real;

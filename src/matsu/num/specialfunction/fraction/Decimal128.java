@@ -4,8 +4,9 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+
 /*
- * 2024.10.22
+ * 2026.6.24
  */
 package matsu.num.specialfunction.fraction;
 
@@ -28,6 +29,12 @@ public final class Decimal128
 
     private final BigDecimal value;
 
+    /**
+     * 唯一のコンストラクタ.
+     * 
+     * @param value 値
+     * @throws NullPointerException 引数がnull
+     */
     public Decimal128(BigDecimal value) {
         super();
         this.value = Objects.requireNonNull(value);

@@ -4,8 +4,9 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+
 /*
- * 2024.10.22
+ * 2026.6.24
  */
 package matsu.num.specialfunction.fraction;
 
@@ -156,6 +157,11 @@ public final class ComplexNumber<ET extends RealMathField<ET>> extends MathField
         return new ComplexNumber<>(real.negated(), imaginary.negated(), this.realConstantSupplier);
     }
 
+    /**
+     * {@link ComplexNumber} のプロバイダ.
+     * 
+     * @param <ET> 実部と虚部を表現する実数型を表現する
+     */
     public static final class Provider<ET extends RealMathField<ET>> {
 
         private final MathField.ConstantSupplier<ET> realConstantSupplier;

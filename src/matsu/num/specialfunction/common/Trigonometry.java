@@ -4,8 +4,9 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+
 /*
- * 2024.12.31
+ * 2026.6.24
  */
 package matsu.num.specialfunction.common;
 
@@ -20,10 +21,22 @@ public final class Trigonometry {
         throw new AssertionError();
     }
 
+    /**
+     * cos(x) を計算する.
+     * 
+     * @param x
+     * @return cos(x)
+     */
     public static double cos(double x) {
         return Math.cos(x);
     }
 
+    /**
+     * sin(x) を計算する.
+     * 
+     * @param x
+     * @return sin(x)
+     */
     public static double sin(double x) {
         return Math.sin(x);
     }

@@ -4,8 +4,9 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+
 /*
- * 2024.12.31
+ * 2026.6.24
  */
 package matsu.num.specialfunction.common;
 
@@ -20,22 +21,42 @@ public final class Exponentiation {
         throw new AssertionError();
     }
 
+    /**
+     * @param x
+     * @return exp(x)
+     */
     public static double exp(double x) {
         return Math.exp(x);
     }
 
+    /**
+     * @param x
+     * @return expm1(x)
+     */
     public static double expm1(double x) {
         return Math.expm1(x);
     }
 
+    /**
+     * @param x
+     * @return log(x)
+     */
     public static double log(double x) {
         return Math.log(x);
     }
 
+    /**
+     * @param x
+     * @return log1p(x)
+     */
     public static double log1p(double x) {
         return Math.log1p(x);
     }
 
+    /**
+     * @param x
+     * @return sqrt(x)
+     */
     public static double sqrt(double x) {
         return Math.sqrt(x);
     }
